@@ -32,6 +32,7 @@
       min-height: 100vh;
     }
     a { color: inherit; text-decoration: none; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
     .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
     .hero { padding: 34px 0 48px; }
     .nav { display:flex; gap:14px; align-items:center; justify-content:space-between; margin-bottom: 28px; }
@@ -57,7 +58,9 @@
     .section { padding: 10px 0 34px; }
     .section h2 { font-size: 30px; margin: 0 0 14px; }
     .section .sub { color: var(--muted); line-height: 1.75; max-width: 68ch; margin-bottom: 22px; }
-    .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-3, .grid-2 { display:grid; gap: 18px; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .card { padding: 24px; }
     .card h3 { margin: 0 0 10px; font-size: 22px; }
     .card p { margin: 0; color: var(--muted); line-height: 1.75; }
@@ -68,13 +71,18 @@
     .step span { color: var(--muted); line-height: 1.65; }
     .step::after { content:'→'; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color: rgba(200,220,255,.45); font-size: 24px; }
     .step:last-child::after { display:none; }
+    .compare { padding: 24px; }
+    .compare table { width: 100%; border-collapse: collapse; }
+    .compare th, .compare td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .compare th { color: #dff5ff; font-size: 15px; }
+    .muted { color: var(--muted); }
     .footer { padding: 8px 0 48px; color: var(--muted); }
     .preview { overflow:hidden; }
     .preview img { display:block; width:100%; height:auto; }
     @media (max-width: 920px) {
-      .hero-grid, .grid-3, .flow { grid-template-columns: 1fr; }
+      .hero-grid, .grid-3, .grid-2, .flow { grid-template-columns: 1fr; }
       .step::after { display:none; }
-      .intro, .stat-card, .card, .step { padding: 22px; }
+      .intro, .stat-card, .card, .step, .compare { padding: 22px; }
     }
   </style>
 </head>
@@ -98,8 +106,8 @@
           and a maintenance/audit split for markdown and wiki knowledge bases.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/tag/v1.0.1">Download v1.0.1</a>
-          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/vault-profile-template.md">Configure a vault profile</a>
+          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
+          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/examples/example-vault-profile-generic.md">See generic profile example</a>
         </div>
         <div class="chip-row">
           <span class="chip">project</span>
@@ -125,6 +133,39 @@
   </div>
 
   <div class="shell section">
+    <h2>30-second outcome</h2>
+    <p class="sub">This project is for vaults that have drifted into a mix of notes, replay logs, and unstable structure. The kit pulls them back toward durable retrieval.</p>
+    <div class="panel compare">
+      <table>
+        <thead>
+          <tr>
+            <th>Typical drifting vault</th>
+            <th>Target state with this kit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="muted">Root pages accumulate temporary execution history.</td>
+            <td class="muted">Root pages return to navigation, stable boundaries, and topic entrypoints.</td>
+          </tr>
+          <tr>
+            <td class="muted"><code>ops</code> pages become chronological logs.</td>
+            <td class="muted"><code>ops</code> pages become reusable symptom / root cause / fix / boundary references.</td>
+          </tr>
+          <tr>
+            <td class="muted"><code>log.md</code> turns into task replay.</td>
+            <td class="muted"><code>log.md</code> stays milestone-only.</td>
+          </tr>
+          <tr>
+            <td class="muted">Content exists without stable entrypoints.</td>
+            <td class="muted">Pages are discoverable from root pages or the reader entrypoint.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="shell section">
     <h2>What’s inside</h2>
     <p class="sub">The kit is designed for people who want a vault that stays navigable and durable over time instead of turning into a long pile of project notes.</p>
     <div class="grid-3">
@@ -139,6 +180,21 @@
       <article class="panel card">
         <h3>knowledge-base-audit</h3>
         <p>Checks metadata, dead links, orphan pages, boundary drift, navigation coverage, and noise regression.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="shell section">
+    <h2>Who this is for</h2>
+    <p class="sub">This repository works best when the user accepts a small amount of structure in exchange for a much cleaner long-term vault.</p>
+    <div class="grid-2">
+      <article class="panel card">
+        <h3>Good fit</h3>
+        <p>Teams and individuals already using markdown or wiki vaults, who want durable retrieval, role clarity, and a repeatable maintenance plus audit loop.</p>
+      </article>
+      <article class="panel card">
+        <h3>Not a good fit</h3>
+        <p>People who want a pure log-first system, do not want to configure a profile, or reject the fixed page-role model entirely.</p>
       </article>
     </div>
   </div>

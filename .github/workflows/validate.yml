@@ -1,0 +1,70 @@
+name: Validate repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate skill bundle structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path('.')
+          skill_dirs = sorted((root / 'skills').iterdir())
+          assert skill_dirs, 'No skills found under skills/'
+          required = [
+              Path('SKILL.md'),
+              Path('references'),
+              Path('agents/openai.yaml'),
+          ]
+          for skill_dir in skill_dirs:
+              if not skill_dir.is_dir():
+                  continue
+              missing = [str(p) for p in required if not (skill_dir / p).exists()]
+              if missing:
+                  raise SystemExit(f'{skill_dir}: missing {missing}')
+          print('Skill bundle structure validated.')
+          PY
+
+      - name: Validate relative links
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          root = Path('.')
+          files = [*root.rglob('*.md'), *root.rglob('*.html')]
+          pattern = re.compile(r'\[[^\]]*\]\(([^)]+)\)|href="([^"]+)"|src="([^"]+)"')
+          missing = []
+          for file in files:
+              text = file.read_text(encoding='utf-8', errors='ignore')
+              for match in pattern.finditer(text):
+                  target = next(group for group in match.groups() if group)
+                  if target.startswith(('http://', 'https://', 'mailto:', '#', 'data:')):
+                      continue
+                  target = target.split('#', 1)[0]
+                  if not target:
+                      continue
+                  resolved = (file.parent / target).resolve()
+                  try:
+                      resolved.relative_to(root.resolve())
+                  except ValueError:
+                      pass
+                  if not resolved.exists():
+                      missing.append((str(file), target))
+          if missing:
+              for file, target in missing:
+                  print(f'Missing link target: {file} -> {target}')
+              raise SystemExit(1)
+          print('Relative link validation passed.')
+          PY
