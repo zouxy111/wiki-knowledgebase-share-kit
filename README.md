@@ -22,6 +22,13 @@
 
 ---
 
+## 开发者
+
+- 邹星宇
+- 杨琦
+
+---
+
 ![Share kit preview](./docs/assets/social-preview.png)
 
 ## 30 秒看懂这套 kit

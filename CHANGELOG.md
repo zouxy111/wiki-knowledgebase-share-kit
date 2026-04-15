@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Generic example vault profile without personal local paths at `examples/example-vault-profile-generic.md`.
 - Basic GitHub Actions validation workflow for skill bundle structure and relative links.
+- Developer list updated to `邹星宇` and `杨琦` in the main repository surfaces.
 
 ### Changed
 - Improved Chinese and English README files with a 30-second overview, platform status, and clearer audience fit guidance.

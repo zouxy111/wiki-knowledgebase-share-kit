@@ -21,6 +21,13 @@ A reusable skill-and-docs kit for keeping markdown/wiki vaults structured, durab
 
 ---
 
+## Developers
+
+- 邹星宇
+- 杨琦
+
+---
+
 ![Share kit preview](./docs/assets/social-preview.png)
 
 ## 30-second overview
