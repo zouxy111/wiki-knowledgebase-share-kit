@@ -3,6 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Repo](https://img.shields.io/badge/GitHub-zouxy111%2Fwiki--knowledgebase--share--kit-black?logo=github)](https://github.com/zouxy111/wiki-knowledgebase-share-kit)
+[![Validate](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml/badge.svg)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml)
 
 > 一套可分享的 markdown/wiki 知识库维护方法包。  
 > 目标：把“知识库优先、页面角色清晰、噪音不过度回流”的维护方式，抽成可安装 skill + 可阅读文档。
@@ -13,6 +14,7 @@
 - [`START-HERE.md`](./START-HERE.md)：第一次拿到仓库时的最短上手路径
 - [`COVER-CN.md`](./COVER-CN.md)：中文封面说明
 - [`templates/vault-profile-template.md`](./templates/vault-profile-template.md)：配置自己的 vault profile
+- [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
 - [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
 - [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
@@ -20,9 +22,30 @@
 
 ---
 
+## 开发者
 
+- 邹星宇
+- 杨琦
+
+---
 
 ![Share kit preview](./docs/assets/social-preview.png)
+
+## 30 秒看懂这套 kit
+
+| 你现在的 vault 可能是 | 用完这套 kit 后希望变成 |
+|---|---|
+| 根页堆了很多执行过程和临时记录 | 根页只保留导航、稳定边界、专题入口 |
+| `ops` 页越写越像按天流水账 | `ops` 页沉淀成“现象 / 根因 / 处理法 / 边界” |
+| `log.md` 变成任务回放 | `log.md` 只保留 milestone 级变化 |
+| 有内容页，但没有稳定入口 | 页面必须被 root page / reader entry 收录 |
+| 审计时不知道先看结构还是正文 | 先看 metadata、导航、死链、边界漂移、噪音回流 |
+
+一句话说：
+
+> 这不是“帮你多记日志”的包，而是“把知识库重新写得像知识库”的包。
+
+---
 
 ## 这套分享包解决什么问题
 
@@ -54,6 +77,36 @@
 
 ---
 
+## 适合谁 / 不适合谁
+
+### 适合
+- 已经在维护 Obsidian / markdown / wiki vault 的个人或团队
+- 想把“任务过程”和“长期知识”拆开的使用者
+- 接受固定页面角色模型：`project / knowledge / ops / task / overview`
+- 希望把“写入维护”和“结构审计”拆成两条明确工作流的人
+
+### 不太适合
+- 完全不想配置 profile 的人
+- 希望 vault 继续以流水日志为主的人
+- 不接受固定页面角色模型的人
+- 只想记录原始过程，不在意知识沉淀和导航治理的人
+
+---
+
+## 支持平台状态
+
+| 平台 | 状态 | 说明 |
+|---|---|---|
+| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 `SKILL.md`、`references/`、`agents/openai.yaml` |
+| Claude 风格 skills 目录 | 可用 | 直接复制三个 skill 目录即可 |
+| 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配调用方式与 skill 发现机制 |
+
+如果你不确定平台兼容性，先看：
+- `START-HERE.md`
+- `docs/usage-sop.md`
+
+---
+
 ## 包内结构
 
 ```text
@@ -65,6 +118,7 @@ wiki-knowledgebase-share-kit/
   docs/
   templates/
   examples/
+    example-vault-profile-generic.md
   skills/
     knowledge-base-kit-guide/
     knowledge-base-maintenance/
@@ -81,7 +135,7 @@ wiki-knowledgebase-share-kit/
 `vault profile` 模板。使用前先填写它，再把 skill 指向你的 profile。
 
 ### `examples/`
-当前真实 vault 的案例化示例，用来展示“这套模板如何落到一个具体知识库上”。
+既包含真实案例，也包含**不带个人路径的通用示例**，方便公开仓库读者直接参考。
 
 ---
 
@@ -107,7 +161,8 @@ wiki-knowledgebase-share-kit/
 1. 先读 `docs/customization-guide.md`
 2. 复制 `templates/vault-profile-template.md`
 3. 填写自己的 vault root、areas、root pages、frontmatter 规则
-4. 根据需要微调 checklist
+4. 参考 `examples/example-vault-profile-generic.md`
+5. 根据需要微调 checklist
 
 ### 第一次上手时
 - 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
@@ -158,9 +213,9 @@ wiki-knowledgebase-share-kit/
 - `docs/usage-sop.md`
 
 如果想看一个完整落地示例，再读：
+- `examples/example-vault-profile-generic.md`
 - `examples/example-vault-profile.md`
 - `examples/case-study-current-vault.md`
-
 
 ---
 
@@ -172,6 +227,7 @@ wiki-knowledgebase-share-kit/
 - `CHANGELOG.md`
 - `README.en.md`
 - `.gitignore`
+- `.github/workflows/validate.yml`
 
 如果你要直接开源，保留这些文件即可。
 
