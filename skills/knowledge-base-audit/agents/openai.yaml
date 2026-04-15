@@ -1,0 +1,6 @@
+interface:
+  display_name: "Knowledge Base 审计"
+  short_description: "检查 markdown/wiki 知识库的结构健康度，并抓出噪音回流"
+  default_prompt: "Use $knowledge-base-audit to inspect the user's markdown/wiki knowledge base. Read the vault profile first, then check metadata completeness, dead links, orphan pages, root page coverage, page-boundary drift, noise regression, and stray markdown files at the vault root; report findings or fix them if requested."
+policy:
+  allow_implicit_invocation: true

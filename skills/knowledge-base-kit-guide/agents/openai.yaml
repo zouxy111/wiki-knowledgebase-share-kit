@@ -1,0 +1,6 @@
+interface:
+  display_name: "Knowledge Base 使用说明"
+  short_description: "教用户安装、配置并开始使用这套 wiki/markdown 知识库 skills"
+  default_prompt: "Use $knowledge-base-kit-guide to explain how to install, configure, and start using this knowledge-base share kit. Identify whether the user is at the install, profile-setup, or day-to-day usage stage, then point them to the right files and the right next skill."
+policy:
+  allow_implicit_invocation: true

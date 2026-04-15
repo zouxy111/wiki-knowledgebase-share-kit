@@ -1,0 +1,6 @@
+interface:
+  display_name: "Knowledge Base 回写"
+  short_description: "按知识库优先口径把结论写入 markdown/wiki vault，并拦住过程噪音"
+  default_prompt: "Use $knowledge-base-maintenance to integrate this task or chat into the user's markdown knowledge base. Read the vault profile first, then apply the fixed page-role model, filter process noise, update the right page, and sync the target page, relevant root page, reader entrypoint, and milestone log."
+policy:
+  allow_implicit_invocation: true
