@@ -16,9 +16,13 @@
 - [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
 - [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
+- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：浏览开源落地页
 
 ---
 
+
+
+![Share kit preview](./docs/assets/social-preview.png)
 
 ## 这套分享包解决什么问题
 

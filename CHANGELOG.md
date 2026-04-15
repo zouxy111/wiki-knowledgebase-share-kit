@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-04-16
+### Added
+- GitHub Pages landing page at `docs/index.html`.
+- Social/share preview asset at `docs/assets/social-preview.png`.
+
+### Changed
+- Polished Chinese and English README files with release badges, bilingual navigation, and quick links.
+- Prepared the repository for a patch release with a downloadable packaged asset.
+
 ## [1.0.0] - 2026-04-16
 ### Added
 - Initial open-source release of the wiki knowledge-base share kit.

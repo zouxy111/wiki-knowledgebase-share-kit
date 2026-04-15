@@ -15,8 +15,12 @@ A reusable skill-and-docs kit for keeping markdown/wiki vaults structured, durab
 - [`docs/customization-guide.md`](./docs/customization-guide.md): adapt the kit to your own vault
 - [`docs/example-prompts.md`](./docs/example-prompts.md): copy-ready prompts
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases): download published versions
+- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/): browse the landing page
 
 ---
+
+![Share kit preview](./docs/assets/social-preview.png)
+
 ## What this project does
 Many markdown or Obsidian-style vaults eventually drift into a mix of task logs, navigation notes, and unstable process history. This kit separates that problem into two repeatable workflows:
 
