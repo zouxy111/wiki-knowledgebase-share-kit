@@ -1,7 +1,22 @@
 # Wiki Knowledge Base Share Kit
 
+[![Release](https://img.shields.io/github/v/release/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Repo](https://img.shields.io/badge/GitHub-zouxy111%2Fwiki--knowledgebase--share--kit-black?logo=github)](https://github.com/zouxy111/wiki-knowledgebase-share-kit)
+
 A reusable skill-and-docs kit for keeping markdown/wiki vaults structured, durable, and knowledge-base-first.
 
+**Language / 语言**: [`English README`](./README.en.md) · [`中文 README`](./README.md)
+
+## Quick links
+- [`START-HERE.md`](./START-HERE.md): shortest onboarding path
+- [`COVER-CN.md`](./COVER-CN.md): Chinese cover page for forwarding the project
+- [`templates/vault-profile-template.md`](./templates/vault-profile-template.md): configure your own vault profile
+- [`docs/customization-guide.md`](./docs/customization-guide.md): adapt the kit to your own vault
+- [`docs/example-prompts.md`](./docs/example-prompts.md): copy-ready prompts
+- [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases): download published versions
+
+---
 ## What this project does
 Many markdown or Obsidian-style vaults eventually drift into a mix of task logs, navigation notes, and unstable process history. This kit separates that problem into two repeatable workflows:
 

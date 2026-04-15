@@ -1,9 +1,24 @@
 # Wiki Knowledge Base Share Kit
 
+[![Release](https://img.shields.io/github/v/release/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Repo](https://img.shields.io/badge/GitHub-zouxy111%2Fwiki--knowledgebase--share--kit-black?logo=github)](https://github.com/zouxy111/wiki-knowledgebase-share-kit)
+
 > 一套可分享的 markdown/wiki 知识库维护方法包。  
 > 目标：把“知识库优先、页面角色清晰、噪音不过度回流”的维护方式，抽成可安装 skill + 可阅读文档。
 
+**语言 / Language**：[`中文 README`](./README.md) · [`English README`](./README.en.md)
+
+## 快速入口
+- [`START-HERE.md`](./START-HERE.md)：第一次拿到仓库时的最短上手路径
+- [`COVER-CN.md`](./COVER-CN.md)：中文封面说明
+- [`templates/vault-profile-template.md`](./templates/vault-profile-template.md)：配置自己的 vault profile
+- [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
+- [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
+- [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
+
 ---
+
 
 ## 这套分享包解决什么问题
 
