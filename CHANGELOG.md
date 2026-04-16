@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Added a new `knowledge-base-ingest` skill for splitting long markdown sources or books into reusable knowledge-base pages.
 - Added a test-driven ingest case study for long-form professional markdown sources at `examples/case-study-pathology-ingest-iteration.md`.
+- Expanded the ingest case study to frame `knowledge-base-ingest` as a lightweight harness / regression baseline for structure evolution.
 - Added a deterministic heading-based splitter at `skills/knowledge-base-ingest/scripts/split_markdown.py`.
 - Added glossary extraction and related-link suggestion scripts for `knowledge-base-ingest`.
 - Generic example vault profile without personal local paths at `examples/example-vault-profile-generic.md`.
@@ -14,7 +15,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Improved Chinese and English README files with a 30-second overview, platform status, clearer audience fit guidance, and test-driven ingest case-study links.
-- Updated example prompts, usage SOP, and the GitHub Pages landing page to emphasize baseline import, regression checks, and iterative knowledge-architecture refinement.
+- Updated example prompts, usage SOP, and the GitHub Pages landing page to emphasize baseline import, lightweight harness framing, regression checks, and iterative knowledge-architecture refinement.
 
 ## [1.0.1] - 2026-04-16
 ### Added

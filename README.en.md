@@ -50,6 +50,7 @@ Many markdown or Obsidian-style vaults eventually drift into a mix of task logs,
 
 1. **Ingest** — split long markdown sources or books, generate TOC / glossary candidates / related-link suggestions, and import them as reusable knowledge-base pages
    - The first import is treated as a **testable baseline**, then refined through testing, regression checks, and version comparison
+   - The ingest loop can also be treated as a lightweight harness for structure evolution
 2. **Maintenance** — integrate durable conclusions into a vault
 3. **Audit** — inspect vault structure, metadata, navigation coverage, and noise regression
 
@@ -87,7 +88,7 @@ But leaves these pieces configurable through a vault profile:
 ## Case studies
 
 - [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md): what should be abstracted from a real vault before sharing it
-- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md): how a long-form professional markdown source is imported, tested, refactored, and stabilized as a knowledge-base structure
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md): how a long-form professional markdown source is imported, tested, compared, refactored, and stabilized with a lightweight harness mindset
 
 ## Platform status
 

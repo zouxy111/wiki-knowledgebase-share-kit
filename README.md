@@ -60,6 +60,7 @@
 
 1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
    - 第一版导入只作为**可测试基线**，后续应根据测试结果继续优化拆分粒度、页面角色和链接架构
+   - 整个 ingest 回路可以当作一个轻量 harness / 回归底座来用
 2. **Maintenance**：把任务结果或结论沉淀进知识库
 3. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
@@ -97,7 +98,7 @@
 ## 使用案例
 
 - [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md)：从当前 vault 抽象出可分享的固定规则
-- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：展示如何把长篇专业 Markdown 先导入成可测试基线，再通过测试、回归和版本对比持续优化知识库结构
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：展示如何把长篇专业 Markdown 先导入成可测试基线，再以轻量 harness 的方式通过测试、回归和版本对比持续优化知识库结构
 
 ---
 
@@ -178,7 +179,7 @@ wiki-knowledgebase-share-kit/
 - 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
 
 ### 日常使用
-- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及测试驱动的结构迭代）
+- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及轻量 harness 风格的结构迭代）
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
 - 要做结构审计时：用 `knowledge-base-audit`
 - 大改之后：先 ingest / maintenance，再 audit

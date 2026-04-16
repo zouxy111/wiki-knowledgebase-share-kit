@@ -16,6 +16,7 @@
 - 把长文档重组为 overview + chapter + topic 页面群
 - 避免把整本书直接作为一个超长页面写回 wiki
 - 把第一次导入视为可测试基线，再根据测试、回归和版本对比持续优化结构
+- 作为轻量 harness / 回归底座，持续沉淀结构版本差异与回归结果
 
 ### `knowledge-base-maintenance`
 用于：
@@ -73,10 +74,11 @@
 4. 建立 parent-child / prev-next / related links
 5. 同步 overview / root page / reader entry / milestone log
 6. 产出 TOC / glossary candidates / related-link suggestions
-7. 基于测试结果比较不同拆分方案的可用性与维护成本
-8. 调整页面角色、链接架构和章节粒度
-9. 对入口页、来源链和关键导航做回归检查
-10. 汇报版本差异、结构决策和最终稳定形态
+7. 为这一轮保留最小 harness 产物：ingestion map / manifest / toc / 候选术语 / related suggestions / regression checklist
+8. 基于测试结果比较不同拆分方案的可用性与维护成本
+9. 调整页面角色、链接架构和章节粒度
+10. 对入口页、来源链和关键导航做回归检查
+11. 汇报版本差异、结构决策和最终稳定形态
 
 ---
 
@@ -156,4 +158,4 @@
 - 链接架构优化
 - 入口页与来源链的回归检查
 
-因此 `knowledge-base-ingest` 更像一个“测试驱动的结构整理回路”，而不是一次性导入脚本。
+因此 `knowledge-base-ingest` 更像一个“测试驱动的结构整理回路”或“轻量 harness / 回归底座”，而不是一次性导入脚本。
