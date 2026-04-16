@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- Added a new `knowledge-base-ingest` skill for splitting long markdown sources or books into reusable knowledge-base pages.
+- Added a deterministic heading-based splitter at `skills/knowledge-base-ingest/scripts/split_markdown.py`.
 - Generic example vault profile without personal local paths at `examples/example-vault-profile-generic.md`.
 - Basic GitHub Actions validation workflow for skill bundle structure and relative links.
 - Developer list updated to `邹星宇` and `杨琦` in the main repository surfaces.

@@ -22,12 +22,14 @@
 
 ## 这个包里有什么
 
-### 3 个 skills
+### 4 个 skills
 1. `knowledge-base-kit-guide`
    - 安装说明 / 配置说明 / 技能分流
-2. `knowledge-base-maintenance`
+2. `knowledge-base-ingest`
+   - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库
+3. `knowledge-base-maintenance`
    - 把任务结果沉淀进知识库
-3. `knowledge-base-audit`
+4. `knowledge-base-audit`
    - 审计知识库结构、导航、元数据和噪音回流
 
 ### 1 个配置模板
@@ -53,7 +55,7 @@
 1. 看 `START-HERE.md`
 2. 复制 `templates/vault-profile-template.md`
 3. 填你的 vault 路径、areas、root pages、frontmatter 规则
-4. 把 3 个 skills 复制到你的 skills 目录
+4. 把 4 个 skills 复制到你的 skills 目录
 5. 第一次先用 `knowledge-base-kit-guide`
 
 ### 如果你想先了解方法论
@@ -111,6 +113,13 @@
 先读 vault profile，再过滤过程噪音，按页面角色归类，并同步目标页、root page、reader entry 和 milestone log。
 ```
 
+### 想导入一本 markdown 书或长文档时可以说
+
+```text
+用 $knowledge-base-ingest 把这本 markdown 书导入我的知识库。
+先读 vault profile，再按章节/主题拆分，建立导航和 related links，并同步 overview、reader entry 和 milestone log。
+```
+
 ### 想做结构体检时可以说
 
 ```text
@@ -126,7 +135,7 @@
 
 ```text
 这是一个可复用的 wiki/markdown 知识库维护包。
-先看《中文封面说明页.md》或 START-HERE.md，再复制 3 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
+先看《中文封面说明页.md》或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
 ```
 
 ---

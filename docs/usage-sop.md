@@ -1,6 +1,6 @@
 # Usage SOP
 
-## 三个 skill 的职责分工
+## 四个 skill 的职责分工
 
 ### `knowledge-base-kit-guide`
 用于：
@@ -8,6 +8,13 @@
 - 教用户怎么填写 `vault profile`
 - 判断当前该先用 maintenance 还是 audit
 - 给第一次接触这套 kit 的人做分流说明
+
+### `knowledge-base-ingest`
+用于：
+- 把长 markdown 文档、书稿、教程或大章节导入知识库
+- 先按章节/主题拆分，再建立 parent-child / prev-next / related links
+- 把长文档重组为 overview + chapter + topic 页面群
+- 避免把整本书直接作为一个超长页面写回 wiki
 
 ### `knowledge-base-maintenance`
 用于：
@@ -28,25 +35,42 @@
 
 ## 标准工作流
 
-### 场景 A：任务完成后沉淀知识
+### 场景 A：导入长文档 / 书籍
+1. 先用 `knowledge-base-ingest`
+2. 如果导入规模较大，再用 `knowledge-base-audit` 做复检
+
+也就是：**先拆并写，再审**。
+
+### 场景 B：任务完成后沉淀知识
 1. 先用 `knowledge-base-maintenance`
 2. 如果改动较大，再用 `knowledge-base-audit` 做复检
 
 也就是：**先写，再审**。
 
-### 场景 B：怀疑知识库已经乱了
+### 场景 C：怀疑知识库已经乱了
 1. 先用 `knowledge-base-audit`
 2. 根据问题清单，再用 `knowledge-base-maintenance` 去修
 
 也就是：**先查，再写**。
 
-### 场景 C：周期巡检
+### 场景 D：周期巡检
 定期只跑 `knowledge-base-audit`，看有没有：
 - 入口丢失
 - 页面边界漂移
 - 根页堆流水
 - `ops` 页退化成日志
 - `log.md` 变任务回放
+
+---
+
+## Ingest 的默认回路
+
+1. 先读 vault profile 和 source markdown
+2. 先做 ingestion map
+3. 先拆分，再决定落页
+4. 建立 parent-child / prev-next / related links
+5. 同步 overview / root page / reader entry / milestone log
+6. 汇报导入结构和压缩策略
 
 ---
 
