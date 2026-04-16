@@ -1,0 +1,6 @@
+interface:
+  display_name: "知识库总控"
+  short_description: "一键式总控技能，自动检测环境并智能路由到对应 skills，实现零门槛上手"
+  default_prompt: "Use $knowledge-base-orchestrator to help me organize my markdown knowledge base. Auto-detect environment, deploy if needed, and route to the right skill based on my intent."
+policy:
+  allow_implicit_invocation: true
