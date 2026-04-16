@@ -22,16 +22,20 @@ description: This skill should be used when the user asks to import a long markd
 执行前先读取：
 - `references/vault-profile-contract.md`
 - `references/ingestion-checklist.md`
+- `references/ingest-iteration-loop.md`
+- `references/ingest-evaluation-rubric.md`
 - `references/chunking-strategy.md`
 - `references/glossary-strategy.md`
 - `references/linking-strategy.md`
 - `../../templates/vault-profile-template.md`
+- `../../templates/ingest-iteration-log-template.md`
 
 默认需要这些输入：
 - source markdown 文件路径，或用户直接提供的大段 markdown
 - vault profile
 - source title / source type（book, handbook, notes, tutorial, spec）
 - 是否允许较多保留原文（默认否，默认以总结重组为主）
+- 如果已有历史版本：当前 stable baseline 或上一轮 iteration log
 
 如果缺少 profile，不要猜测 root pages 或页面目录。
 
@@ -40,11 +44,14 @@ description: This skill should be used when the user asks to import a long markd
 - **先分块，再写入。** 不要把长文档整页导入知识库。
 - **先做 ingestion map，再动目标文件。** 先确定 part / chapter / section / topic 的落点。
 - **默认采用 overview / chapter / topic 三层结构。** 除非源材料本身有更适合的层级。
+- **先认定 stable baseline。** 如果不是第一次导入，本轮要明确“当前稳定版本”是什么。
 - **优先知识库口径，而不是原文镜像口径。**
 - **保留 source lineage。** 每个导入页面都应能看出来自哪本书、哪一章、哪一节。
 - **链接优先级高于排版复刻。**
 - **默认少引原文，多做结构化总结。** 除非用户明确要求归档型导入，或明确拥有相应内容权利。
 - **不要制造死链或孤立页。**
+- **每轮优先只改一类结构问题。** 避免一次同时大改拆分、角色和导航，导致无法归因。
+- **候选结构需要通过回归检查后才能晋升。**
 - **每次实质导入至少同步：** 目标页群、对应 root page、reader entrypoint、milestone log。
 
 ## Recommended workflow
@@ -63,6 +70,11 @@ description: This skill should be used when the user asks to import a long markd
 - topic pages / concept pages / runbook pages（按内容类型抽出）
 - glossary page（如适用）
 - 哪些内容不入库，只保留简短索引或摘要
+
+如果已有历史版本：
+- 先明确当前 stable baseline
+- 说明本轮 candidate 主要准备优化什么
+- 优先只改一类结构问题
 
 ### 3. Split and extract structure artifacts
 如果文档过长，先运行：
@@ -114,7 +126,24 @@ description: This skill should be used when the user asks to import a long markd
 
 如果某一页只是孤零零的摘录页，不应视为完成导入。
 
-### 8. Sync navigation surfaces
+### 8. Compare candidate structure to the stable baseline
+如果当前不是第一次导入，而是在迭代已有结构：
+- 用 `references/ingest-evaluation-rubric.md` 的口径比较 baseline 和 candidate
+- 重点看拆分适配度、页面角色、导航覆盖、related links 是否真的更好
+- 只在 candidate 明显更利于检索、维护和回查时，才考虑晋升
+
+### 9. Run regression checks and record the round
+至少检查：
+- overview / root page / reader entrypoint 是否仍可达
+- source lineage 是否仍完整
+- 有没有新增 dead links / orphan pages
+- milestone log 是否同步
+
+如果这一轮是正式结构迭代：
+- 用 `../../templates/ingest-iteration-log-template.md` 记录 baseline / candidate / regression / decision
+- 决策为 promote / rework / drop 之一
+
+### 10. Sync navigation surfaces
 至少同步：
 - source overview page
 - 对应 root page
@@ -126,7 +155,7 @@ description: This skill should be used when the user asks to import a long markd
 - governance / maintainer overview
 - related topic hubs
 
-### 9. Validate before finishing
+### 11. Validate before finishing
 检查：
 - 有没有单页过长
 - 有没有只拆分但没建立链接
@@ -140,10 +169,15 @@ description: This skill should be used when the user asks to import a long markd
 
 汇报时至少说明：
 - source 被拆成了哪些页面组
+- 当前 stable baseline 是什么（如果存在）
+- 本轮 candidate 主要改了什么
 - page-role 是如何判定的
 - 建了哪些关键链接
 - 哪些原文被压缩 / 总结 / 改写
 - 是否抽取了 toc / glossary candidates / related links 建议
+- 是否做了 baseline vs candidate 的结构比较
+- 是否通过回归检查
+- 本轮最终决定是 promote / rework / drop
 - 是否同步了 root page / reader entrypoint / milestone log
 - 是否仍有待二次整理的大章节
 
@@ -157,6 +191,9 @@ description: This skill should be used when the user asks to import a long markd
 ### references/
 - `references/vault-profile-contract.md`：导入前需要哪些 profile 信息
 - `references/ingestion-checklist.md`：固定导入回路和验收清单
+- `references/ingest-iteration-loop.md`：如何把 ingest 当作稳定基线和候选结构的迭代回路
+- `references/ingest-evaluation-rubric.md`：如何判断候选结构是否值得晋升
 - `references/chunking-strategy.md`：如何决定 chapter / section / topic 的拆分粒度
 - `references/glossary-strategy.md`：术语页与 glossary candidates 的处理方式
 - `references/linking-strategy.md`：如何从 related links 建议落到真实 wiki 链接模型
+- `../../templates/ingest-iteration-log-template.md`：记录每轮 baseline / candidate / regression / decision
