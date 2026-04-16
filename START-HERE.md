@@ -1,124 +1,281 @@
-# START HERE
+# START HERE — 5 分钟快速上手
 
-> 这是给“第一次拿到这套分享包的人”看的最短使用说明。  
-> 如果你只是想把这套东西发给别人，请直接把整个目录发出去；对方先看这份文件即可。
-
----
-
-## 你拿到的是什么
-
-这是一个可直接复用的 **wiki / markdown 知识库维护包**，里面有 4 个 skill：
-
-1. `knowledge-base-kit-guide`
-   - 负责安装说明、profile 配置说明、技能分流
-2. `knowledge-base-ingest`
-   - 负责把长 markdown / 书稿 / 教程拆分、链接并导入知识库
-3. `knowledge-base-maintenance`
-   - 负责把任务结果沉淀进知识库
-4. `knowledge-base-audit`
-   - 负责检查知识库结构、导航、元数据和噪音回流
+> **完全新手？** 这份文档会带你从零开始，5 分钟内跑通第一个示例。
 
 ---
 
-## 最短上手步骤
+## ⚠️ 开始前的准备（必读）
 
-### 第 1 步：把 4 个 skill 复制到你的 skills 目录
-复制这 4 个目录：
-- `skills/knowledge-base-kit-guide`
-- `skills/knowledge-base-ingest`
-- `skills/knowledge-base-maintenance`
-- `skills/knowledge-base-audit`
+### 你需要先安装这些工具
 
-常见目标目录：
-- `~/.codex/skills`
-- `~/.claude/skills`
-- 其他支持 `SKILL.md` 目录结构的平台
+这套工具需要配合 AI 助手使用，目前支持：
 
-### 第 2 步：填写你的 vault profile
-复制：
-- `templates/vault-profile-template.md`
+| AI 平台 | 是否支持 | 安装位置 |
+|---------|---------|---------|
+| **Codex** | ✅ 推荐 | `~/.codex/skills/` |
+| **Claude Code** | ✅ 推荐 | `~/.claude/skills/` |
+| **ChatGPT（支持 SKILL.md 的版本）** | ✅ 可用 | 按平台文档配置 |
+| **其他平台** | ⚠️ 需自行适配 | - |
 
-填写你自己的：
-- vault 路径
-- `pages/` 目录
-- `index.md`
-- `log.md`
-- root pages
-- area 列表
-- frontmatter 规则
-- 哪些 markdown 文件允许留在 vault 根目录
+**如果你还没有安装 Codex 或 Claude Code**：
+1. Codex 安装：[https://codex.ai](https://codex.ai)（示例链接，请替换为真实链接）
+2. Claude Code 安装：[https://claude.ai/code](https://claude.ai/code)（示例链接，请替换为真实链接）
 
-### 第 3 步：第一次上手先用 guide skill
-直接对 agent 说：
-
-```text
-Use $knowledge-base-kit-guide to help me set up this knowledge-base share kit.
-I want to configure my vault profile and understand which skill to use first.
-```
-
-### 第 4 步：开始日常使用
-- 要导入长文档/书籍：用 `knowledge-base-ingest`
-- 要写入知识库：用 `knowledge-base-maintenance`
-- 要检查结构健康：用 `knowledge-base-audit`
+**如果你不想安装 AI 工具**：
+- 你仍然可以手动使用这套方法，参考 [`docs/usage-sop.md`](./docs/usage-sop.md) 里的 checklist
 
 ---
 
-## 中文直接可用口令
+## 📚 第一步：理解核心概念（2 分钟）
 
-### 安装 / 上手说明
-```text
-用 $knowledge-base-kit-guide 帮我开始配置这套知识库维护包，先告诉我应该填哪些 profile 信息，以及我现在下一步该做什么。
+在开始之前，先快速了解 3 个核心概念：
+
+### 1. 什么是 Skill？
+**Skill = 给 AI 安装的”插件”**，让 AI 知道怎么帮你整理笔记。
+
+本项目提供 4 个 skills：
+- 📖 `knowledge-base-kit-guide` — 使用指南（新手先用这个）
+- 📥 `knowledge-base-ingest` — 导入长文档/书籍
+- ✍️ `knowledge-base-maintenance` — 整理笔记到知识库
+- 🔍 `knowledge-base-audit` — 检查知识库健康度
+
+### 2. 什么是 Vault？
+**Vault = 你的笔记文件夹**
+- Obsidian 用户：就是你的 Obsidian vault
+- 普通用户：就是你存放 `.md` 文件的文件夹
+
+### 3. 什么是 Vault Profile？
+**Vault Profile = 你的知识库”说明书”**，告诉工具：
+- 你的笔记放在哪里（路径）
+- 有哪些分类（areas）
+- 导航页面是哪些（root pages）
+
+**👉 更多概念解释，请看：[`GLOSSARY.md`](./GLOSSARY.md)**
+
+---
+
+## 🚀 第二步：安装 Skills（1 分钟）
+
+## 🚀 第二步：安装 Skills（1 分钟）
+
+### 方法 1：使用 Codex 或 Claude Code
+
+1. **复制 4 个 skill 文件夹**到你的 skills 目录：
+
+```bash
+# 如果你用 Codex
+cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
+cp -r skills/knowledge-base-ingest ~/.codex/skills/
+cp -r skills/knowledge-base-maintenance ~/.codex/skills/
+cp -r skills/knowledge-base-audit ~/.codex/skills/
+
+# 如果你用 Claude Code
+cp -r skills/knowledge-base-kit-guide ~/.claude/skills/
+cp -r skills/knowledge-base-ingest ~/.claude/skills/
+cp -r skills/knowledge-base-maintenance ~/.claude/skills/
+cp -r skills/knowledge-base-audit ~/.claude/skills/
 ```
 
-### 回写维护
-```text
-用 $knowledge-base-maintenance 把这次任务结果沉淀进我的知识库。
-先读取 vault profile，再按 project / knowledge / ops / task / overview 角色模型归类，过滤过程噪音，并同步目标页、root page、reader entry 和 milestone log。
+2. **验证安装**：
+   - 打开 Codex/Claude Code
+   - 输入：`list skills` 或 `show available skills`
+   - 应该能看到 4 个新 skills
+
+### 方法 2：手动使用（不安装 AI 工具）
+
+如果你不想用 AI 工具，可以：
+1. 阅读 [`docs/usage-sop.md`](./docs/usage-sop.md) 里的 checklist
+2. 手动按照规则整理笔记
+
+---
+
+## ⚙️ 第三步：配置你的 Vault Profile（2 分钟）
+
+1. **复制模板**：
+```bash
+cp templates/vault-profile-template.md my-vault-profile.md
 ```
 
-### 结构审计
+2. **填写最小配置**（只需填这 5 项）：
+
+打开 `my-vault-profile.md`，填写：
+
+```yaml
+## 1. Vault identity
+
+- Vault name: 我的笔记本                    # 随便起个名字
+- Vault root path: /Users/yourname/Documents/my-notes  # 你的笔记文件夹路径
+- Primary markdown page directory: /Users/yourname/Documents/my-notes/pages  # 笔记存放目录
+- Reader entrypoint file: /Users/yourname/Documents/my-notes/index.md  # 导航首页
+- Milestone log file: /Users/yourname/Documents/my-notes/log.md  # 日志文件
+```
+
+**💡 不知道怎么填？** 看这个完整示例：[`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)
+
+---
+
+## ✅ 第四步：验证安装（30 秒）
+
+在 Codex/Claude Code 里输入：
+
+```text
+Use $knowledge-base-kit-guide to help me verify my setup.
+My vault profile is at: ./my-vault-profile.md
+```
+
+AI 会检查你的配置是否正确，并告诉你下一步该做什么。
+
+---
+
+## 🎯 第五步：第一次使用（1 分钟）
+
+### 场景 A：整理一段笔记到知识库
+
+```text
+Use $knowledge-base-maintenance to organize this content into my knowledge base.
+Read my vault profile at ./my-vault-profile.md first.
+
+Content to organize:
+[粘贴你的笔记内容]
+```
+
+### 场景 B：检查知识库健康度
+
+```text
+Use $knowledge-base-audit to check my knowledge base.
+Read my vault profile at ./my-vault-profile.md first.
+```
+
+### 场景 C：导入一本 markdown 书
+
+```text
+Use $knowledge-base-ingest to import this markdown book.
+Read my vault profile at ./my-vault-profile.md first.
+Source file: ./my-book.md
+```
+
+---
+
+## 🆘 遇到问题？
+
+### 问题 1：提示 "skill not found"
+**原因**：skills 没有正确安装到目标目录
+
+**解决**：
+1. 检查路径是否正确：`ls ~/.codex/skills/` 或 `ls ~/.claude/skills/`
+2. 确认 4 个文件夹都复制过去了
+3. 重启 Codex/Claude Code
+
+### 问题 2：提示 "vault profile not found"
+**原因**：profile 文件路径不对
+
+**解决**：
+1. 确认 `my-vault-profile.md` 在当前目录
+2. 使用绝对路径：`/full/path/to/my-vault-profile.md`
+
+### 问题 3：不知道该填什么
+**解决**：
+1. 先看 [`GLOSSARY.md`](./GLOSSARY.md) 理解概念
+2. 参考 [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)
+3. 在 [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues) 提问
+
+---
+
+## 📖 下一步学习
+
+安装完成后，建议按顺序阅读：
+
+1. **[`GLOSSARY.md`](./GLOSSARY.md)** — 理解 5 种页面角色（project/knowledge/ops/task/overview）
+2. **[`docs/example-prompts.md`](./docs/example-prompts.md)** — 更多使用示例
+3. **[`docs/customization-guide.md`](./docs/customization-guide.md)** — 进阶定制
+4. **[`examples/`](./examples/)** — 真实场景示例
+
+---
+
+## 💬 中文快速命令（复制即用）
+
+## 💬 中文快速命令（复制即用）
+
+### 第一次使用（验证安装）
+```text
+用 $knowledge-base-kit-guide 帮我验证安装。
+我的 vault profile 在：./my-vault-profile.md
+```
+
+### 整理笔记到知识库
+```text
+用 $knowledge-base-maintenance 把这段内容整理进我的知识库。
+先读取 vault profile：./my-vault-profile.md
+
+要整理的内容：
+[粘贴你的笔记]
+```
+
+### 检查知识库健康度
 ```text
 用 $knowledge-base-audit 审计我的知识库。
-先读取 vault profile，再检查 metadata、死链、孤立页、root page coverage、page-boundary drift、noise regression，以及根目录 stray markdown files。
+先读 vault profile：./my-vault-profile.md
+检查死链、孤立页、metadata、页面边界漂移、噪音回流。
+```
+
+### 导入长文档/书籍
+```text
+用 $knowledge-base-ingest 把这本 markdown 书导入我的知识库。
+先读 vault profile：./my-vault-profile.md
+源文件：./my-book.md
 ```
 
 ---
 
-## 如果对方完全不懂这套东西
+## 🎓 完整学习路径
 
-就让对方按这个顺序读：
-1. `START-HERE.md`
-2. `README.md`
-3. `docs/customization-guide.md`
-4. `templates/vault-profile-template.md`
-5. 再开始用 `knowledge-base-kit-guide`
+如果你想深入了解这套方法：
 
----
+### 新手路径（1 小时）
+1. ✅ 读完本文档（5 分钟）
+2. 📖 阅读 [`GLOSSARY.md`](./GLOSSARY.md)（10 分钟）
+3. 📝 填写 vault profile（15 分钟）
+4. 🧪 跑一次 audit 验证（5 分钟）
+5. ✍️ 整理一段笔记试试（15 分钟）
+6. 📚 看完 [`docs/example-prompts.md`](./docs/example-prompts.md)（10 分钟）
 
-## 这套方法最重要的固定原则
-
-- 知识库优先，不把一次性任务过程直接写进主叙事
-- 页面角色固定为：`project / knowledge / ops / task / overview`
-- 根页只做导航和稳定总览
-- `ops` 页默认写成：现象 / 根因 / 处理法 / 边界
-- `log.md` 只写里程碑，不写任务回放
-
----
-
-## 一句话理解
-
-> 这是一个把“知识库维护”和“知识库审计”拆开，并且要求先配 profile、再稳定使用的通用分享包。
-
+### 进阶路径（3 小时）
+1. 📖 阅读 [`docs/customization-guide.md`](./docs/customization-guide.md)
+2. 📖 阅读 [`docs/usage-sop.md`](./docs/usage-sop.md)
+3. 🔍 研究 [`examples/`](./examples/) 里的真实案例
+4. ⚙️ 定制自己的 areas 和 root pages
+5. 🔧 调整 frontmatter 规则
 
 ---
 
-## 如果你要直接发布到 GitHub
+## 📌 核心原则（记住这 5 条）
 
-这个目录已经补齐了基础开源文件：
-- `LICENSE`
-- `CONTRIBUTING.md`
-- `CHANGELOG.md`
-- `README.en.md`
-- `.gitignore`
+1. **知识库优先**：只保留长期有用的内容，过滤掉临时过程
+2. **页面角色清晰**：每个页面必须是 project/knowledge/ops/task/overview 之一
+3. **导航必须完整**：每个页面都要能从首页找到
+4. **里程碑日志**：log.md 只记录重要变化，不记录流水账
+5. **定期审计**：每月至少跑一次 audit，检查结构健康度
 
-也就是说，它不只是“可转发包”，也可以直接作为 GitHub 开源仓库初始化。
+---
+
+## 🤝 需要帮助？
+
+- 💬 [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues) — 提问和反馈
+- 📖 [完整文档](./README.md) — 查看详细说明
+- 📧 联系开发者：邹星宇、杨琦
+
+---
+
+## ✨ 快速对照：我该用哪个 skill？
+
+| 你想做什么 | 用哪个 skill |
+|-----------|-------------|
+| 第一次安装，不知道怎么开始 | `knowledge-base-kit-guide` |
+| 把一段笔记整理进知识库 | `knowledge-base-maintenance` |
+| 导入一本 markdown 书 | `knowledge-base-ingest` |
+| 检查知识库有没有死链、孤立页 | `knowledge-base-audit` |
+| 不知道该用哪个 | `knowledge-base-kit-guide` |
+
+---
+
+**🎉 恭喜！你已经完成了快速上手。现在可以开始整理你的笔记了！**

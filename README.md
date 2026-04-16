@@ -5,21 +5,40 @@
 [![Repo](https://img.shields.io/badge/GitHub-zouxy111%2Fwiki--knowledgebase--share--kit-black?logo=github)](https://github.com/zouxy111/wiki-knowledgebase-share-kit)
 [![Validate](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml/badge.svg)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml)
 
-> 一套可分享的 markdown/wiki 知识库维护方法包。  
-> 目标：把“知识库优先、页面角色清晰、噪音不过度回流”的维护方式，抽成可安装 skill + 可阅读文档。
+## 这是什么？
+
+**你的 Obsidian / Markdown 笔记是不是越写越乱？**
+
+- 任务记录、知识沉淀、临时想法全混在一起
+- 想找一个知识点，翻半天找不到
+- 根目录堆满了临时文件，不知道哪些该留哪些该删
+- 写了很多内容，但没有清晰的导航入口
+
+**这个工具帮你把笔记整理成真正的知识库。**
+
+它提供一套可复用的方法和工具，让你的 markdown/wiki 笔记：
+- ✅ 按固定角色分类（项目文档、知识沉淀、操作手册、任务清单、总览页）
+- ✅ 自动过滤掉临时过程，只保留长期有用的内容
+- ✅ 定期检查死链、孤立页面、导航缺失等结构问题
+- ✅ 把长文档（书籍、教程）拆分成可检索的知识页面
+
+> **新手请先看：** [`START-HERE.md`](./START-HERE.md) — 5 分钟快速上手指南
 
 **语言 / Language**：[`中文 README`](./README.md) · [`English README`](./README.en.md)
 
-## 快速入口
-- [`START-HERE.md`](./START-HERE.md)：第一次拿到仓库时的最短上手路径
-- [`COVER-CN.md`](./COVER-CN.md)：中文封面说明
-- [`templates/vault-profile-template.md`](./templates/vault-profile-template.md)：配置自己的 vault profile
-- [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
-- [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
-- [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
-- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：测试驱动的长文档导入案例
+## 📖 新手导航（按顺序阅读）
+
+1. **[`START-HERE.md`](./START-HERE.md)** ← 从这里开始！5 分钟快速上手
+2. **[`GLOSSARY.md`](./GLOSSARY.md)** — 核心概念解释（什么是 project/knowledge/ops/task/overview？）
+3. **[`templates/vault-profile-template.md`](./templates/vault-profile-template.md)** — 配置你的知识库（带详细示例）
+4. **[`docs/example-prompts.md`](./docs/example-prompts.md)** — 可直接复制的使用命令
+
+## 🔗 其他资源
+- [`examples/`](./examples/) — 真实场景示例
+  - [`case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md) — 测试驱动的长文档导入案例
+- [`docs/customization-guide.md`](./docs/customization-guide.md) — 进阶定制指南
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
-- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：浏览开源落地页
+- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：在线文档
 
 ---
 
