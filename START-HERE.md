@@ -33,7 +33,7 @@
 ### 1. 什么是 Skill？
 **Skill = 给 AI 安装的”插件”**，让 AI 知道怎么帮你整理笔记。
 
-本项目提供 4 个 skills：
+本项目提供 8 个 skills：
 - 📖 `knowledge-base-kit-guide` — 使用指南（新手先用这个）
 - 📥 `knowledge-base-ingest` — 导入长文档/书籍
 - ✍️ `knowledge-base-maintenance` — 整理笔记到知识库
@@ -60,7 +60,7 @@
 
 ### 方法 1：使用 Codex 或 Claude Code
 
-1. **复制 4 个 skill 文件夹**到你的 skills 目录：
+1. **复制 8 个 skill 文件夹**到你的 skills 目录：
 
 ```bash
 # 如果你用 Codex
@@ -68,18 +68,26 @@ cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
 cp -r skills/knowledge-base-ingest ~/.codex/skills/
 cp -r skills/knowledge-base-maintenance ~/.codex/skills/
 cp -r skills/knowledge-base-audit ~/.codex/skills/
+cp -r skills/knowledge-base-orchestrator ~/.codex/skills/
+cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
+cp -r skills/knowledge-base-working-profile ~/.codex/skills/
+cp -r skills/work-journal ~/.codex/skills/
 
 # 如果你用 Claude Code
 cp -r skills/knowledge-base-kit-guide ~/.claude/skills/
 cp -r skills/knowledge-base-ingest ~/.claude/skills/
 cp -r skills/knowledge-base-maintenance ~/.claude/skills/
 cp -r skills/knowledge-base-audit ~/.claude/skills/
+cp -r skills/knowledge-base-orchestrator ~/.claude/skills/
+cp -r skills/knowledge-base-team-coordination ~/.claude/skills/
+cp -r skills/knowledge-base-working-profile ~/.claude/skills/
+cp -r skills/work-journal ~/.claude/skills/
 ```
 
 2. **验证安装**：
    - 打开 Codex/Claude Code
    - 输入：`list skills` 或 `show available skills`
-   - 应该能看到 4 个新 skills
+   - 应该能看到 8 个新 skills
 
 ### 方法 2：手动使用（不安装 AI 工具）
 
@@ -163,7 +171,7 @@ Source file: ./my-book.md
 
 **解决**：
 1. 检查路径是否正确：`ls ~/.codex/skills/` 或 `ls ~/.claude/skills/`
-2. 确认 4 个文件夹都复制过去了
+2. 确认 8 个文件夹都复制过去了
 3. 重启 Codex/Claude Code
 
 ### 问题 2：提示 "vault profile not found"

@@ -95,7 +95,7 @@ But leaves these pieces configurable through a vault profile:
 | Platform | Status | Notes |
 |---|---|---|
 | Codex / ChatGPT Codex-style skill directories | Recommended | Repository includes `SKILL.md`, `references/`, and `agents/openai.yaml` |
-| Claude-style skill directories | Works | Copy the four skill folders directly |
+| Claude-style skill directories | Works | Copy the eight skill folders directly |
 | Other platforms supporting `SKILL.md` bundles | Maybe | Invocation and discovery may need adaptation |
 
 ## Repository layout
@@ -120,7 +120,15 @@ wiki-knowledgebase-share-kit/
 1. Read `/START-HERE.md`
 2. Copy `templates/vault-profile-template.md` and fill it for your own vault
 3. Review `examples/example-vault-profile-generic.md`
-4. Install the four skill directories into your AI platform's `skills/` folder
+4. Install the eight skill directories into your AI platform's `skills/` folder
+   - `knowledge-base-kit-guide`
+   - `knowledge-base-ingest`
+   - `knowledge-base-maintenance`
+   - `knowledge-base-audit`
+   - `knowledge-base-orchestrator`
+   - `knowledge-base-team-coordination`
+   - `knowledge-base-working-profile`
+   - `work-journal`
 5. Start with `knowledge-base-kit-guide`
 6. Review `examples/case-study-pathology-ingest-iteration.md` for a test-driven ingest example
 

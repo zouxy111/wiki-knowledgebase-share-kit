@@ -125,8 +125,8 @@
 
 | 平台 | 状态 | 说明 |
 |---|---|---|
-| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 `SKILL.md`、`references/`、`agents/openai.yaml` |
-| Claude 风格 skills 目录 | 可用 | 直接复制四个 skill 目录即可 |
+| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 8 个 skills，每个都有 `SKILL.md`、`references/`、`agents/openai.yaml` |
+| Claude 风格 skills 目录 | 可用 | 直接复制八个 skill 目录即可 |
 | 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配调用方式与 skill 发现机制 |
 
 如果你不确定平台兼容性，先看：
@@ -151,6 +151,10 @@ wiki-knowledgebase-share-kit/
     knowledge-base-ingest/
     knowledge-base-maintenance/
     knowledge-base-audit/
+    knowledge-base-orchestrator/
+    knowledge-base-team-coordination/
+    knowledge-base-working-profile/
+    work-journal/
 ```
 
 ### `skills/`
@@ -169,12 +173,16 @@ wiki-knowledgebase-share-kit/
 
 ## 推荐安装方式
 
-把以下四个目录复制到你的 skills 目录：
+把以下八个目录复制到你的 skills 目录：
 
 - `skills/knowledge-base-kit-guide`
 - `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
 - `skills/knowledge-base-audit`
+- `skills/knowledge-base-orchestrator`
+- `skills/knowledge-base-team-coordination`
+- `skills/knowledge-base-working-profile`
+- `skills/work-journal`
 
 常见位置示例：
 - `~/.codex/skills`

@@ -402,6 +402,9 @@ Orchestrator：
       ├─ knowledge-base-ingest（导入长文档）
       ├─ knowledge-base-maintenance（整理笔记）
       ├─ knowledge-base-audit（健康检查）
+      ├─ knowledge-base-team-coordination（团队协调）
+      ├─ knowledge-base-working-profile（协作画像）
+      ├─ work-journal（工作记录）
       └─ knowledge-base-kit-guide（使用指南）
   ↓
 【执行任务 Execute Task】
@@ -431,6 +434,15 @@ Orchestrator：
   │
   ├─ "检查" / "审计" / "健康" / "audit" / "check"
   │   → 调用 knowledge-base-audit
+  │
+  ├─ "团队" / "协调" / "多人" / "team" / "coordination"
+  │   → 调用 knowledge-base-team-coordination
+  │
+  ├─ "协作画像" / "working profile" / "协作习惯"
+  │   → 调用 knowledge-base-working-profile
+  │
+  ├─ "工作记录" / "日报" / "journal" / "work log"
+  │   → 调用 work-journal
   │
   ├─ "帮助" / "指南" / "怎么用" / "help" / "guide"
   │   → 调用 knowledge-base-kit-guide
