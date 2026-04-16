@@ -17,6 +17,7 @@
 - [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
 - [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
 - [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
+- [`templates/working-profile-page-template.md`](./templates/working-profile-page-template.md)：working profile 页面模板
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：测试驱动的长文档导入案例
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
 - [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：浏览开源落地页
@@ -56,13 +57,14 @@
 - `index.md`、导航入口和里程碑日志不同步
 - 审计时不知道该检查结构、边界还是噪音回流
 
-这套 kit 把这些问题抽成两类能力：
+这套 kit 把这些问题抽成四类能力：
 
 1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
    - 第一版导入只作为**可测试基线**，后续应根据测试结果继续优化拆分粒度、页面角色和链接架构
    - 整个 ingest 回路可以当作一个轻量 harness / 回归底座来用
 2. **Maintenance**：把任务结果或结论沉淀进知识库
-3. **Audit**：检查知识库结构、导航、元数据和噪音回流
+3. **Working Profile**：把持续沟通中反复出现的偏好、决策习惯和协作边界沉淀成 working profile
+4. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
 同时保留固定页面角色模型：
 - `project`
@@ -85,15 +87,36 @@
 
 ### 适合
 - 已经在维护 Obsidian / markdown / wiki vault 的个人或团队
-- 想把“任务过程”和“长期知识”拆开的使用者
+- 想把"任务过程"和"长期知识"拆开的使用者
 - 接受固定页面角色模型：`project / knowledge / ops / task / overview`
-- 希望把“写入维护”和“结构审计”拆成两条明确工作流的人
+- 希望把"写入维护"和"结构审计"拆成两条明确工作流的人
+- 想把这份包直接分享给其他维护者的人（见下方"交付边界"）
 
 ### 不太适合
 - 完全不想配置 profile 的人
 - 希望 vault 继续以流水日志为主的人
 - 不接受固定页面角色模型的人
 - 只想记录原始过程，不在意知识沉淀和导航治理的人
+
+## 交付边界
+
+### 这份包已包含
+- 可安装 skill（5 个）
+- 安装与配置说明
+- vault profile 模板
+- 示例 profile
+- 使用口令示例
+
+### 这份包不包含
+- 自动生成 profile 的脚本
+- 针对某个平台的专用 installer
+- 针对某个业务领域的 area/root page 预设
+
+### 分享时的最短指引
+```text
+这是一个可复用的 wiki/markdown 知识库维护包。
+先看 START-HERE.md，再复制 5 个 skills，填好 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
+```
 
 ## 使用案例
 
@@ -106,8 +129,8 @@
 
 | 平台 | 状态 | 说明 |
 |---|---|---|
-| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 `SKILL.md`、`references/`、`agents/openai.yaml` |
-| Claude 风格 skills 目录 | 可用 | 直接复制四个 skill 目录即可 |
+| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 5 个 skill 的 `SKILL.md`、`references/`、`agents/openai.yaml` |
+| Claude 风格 skills 目录 | 可用 | 直接复制五个 skill 目录即可 |
 | 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配调用方式与 skill 发现机制 |
 
 如果你不确定平台兼容性，先看：
@@ -132,6 +155,7 @@ wiki-knowledgebase-share-kit/
     knowledge-base-kit-guide/
     knowledge-base-ingest/
     knowledge-base-maintenance/
+    knowledge-base-working-profile/
     knowledge-base-audit/
 ```
 
@@ -151,11 +175,12 @@ wiki-knowledgebase-share-kit/
 
 ## 推荐安装方式
 
-把以下四个目录复制到你的 skills 目录：
+把以下五个目录复制到你的 skills 目录：
 
 - `skills/knowledge-base-kit-guide`
 - `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
+- `skills/knowledge-base-working-profile`
 - `skills/knowledge-base-audit`
 
 常见位置示例：
@@ -181,6 +206,7 @@ wiki-knowledgebase-share-kit/
 ### 日常使用
 - 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及轻量 harness 风格的结构迭代）
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
+- 要沉淀长期协作画像时：用 `knowledge-base-working-profile`
 - 要做结构审计时：用 `knowledge-base-audit`
 - 大改之后：先 ingest / maintenance，再 audit
 
@@ -222,6 +248,7 @@ wiki-knowledgebase-share-kit/
 - `START-HERE.md`
 - `docs/customization-guide.md`
 - `templates/vault-profile-template.md`
+- `templates/working-profile-page-template.md`
 - `docs/usage-sop.md`
 
 如果想看一个完整落地示例，再读：

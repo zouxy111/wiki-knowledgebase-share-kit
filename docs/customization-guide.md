@@ -101,6 +101,16 @@ root page 是你的知识库主线入口。
 
 ---
 
+## 第 4.5 步：如果你要沉淀 working profile
+
+如果你准备使用 `knowledge-base-working-profile`，建议在 profile 中额外写清：
+- working profile page
+- 该页面是否 `maintainer-only` 还是 `reader-visible`
+- inferred 项采用多严格的确认阈值
+- 哪些内容类型永远不写入长期画像
+
+这一步的作用不是“多收集个人信息”，而是防止长期画像写错地方、写错可见范围、或写进不该保存的内容。
+
 ## 第 5 步：尽量不要改的核心原则
 
 如果你希望这套方法真的有效，尽量不要改掉：

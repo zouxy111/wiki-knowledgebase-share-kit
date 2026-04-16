@@ -1,16 +1,18 @@
 ---
 name: knowledge-base-kit-guide
-description: This skill should be used when the user asks to "how do I use this wiki skill kit", "set up a markdown knowledge base workflow", "install the knowledge base skills", "which skill should I use first", "怎么用这套 skills", "怎么开始配置这套知识库维护包", "先用 maintenance 还是 audit", or "怎么填写 vault profile". It explains how to install, configure, and start using the knowledge-base share kit before day-to-day maintenance or audit work begins.
+description: This skill should be used when the user asks to "how do I use this wiki skill kit", "set up a markdown knowledge base workflow", "install the knowledge base skills", "which skill should I use first", "怎么用这套 skills", "怎么开始配置这套知识库维护包", "先用 ingest、maintenance 还是 audit", or "怎么填写 vault profile". It explains how to install, configure, and start using the knowledge-base share kit before day-to-day ingest, maintenance, working-profile, or audit work begins.
 ---
 
 # Knowledge Base Kit Guide
 
-这个 skill 不直接维护知识库，也不直接做审计。
+这个 skill 不直接导入长文档，不直接维护知识库，也不直接做审计。
 
 它的职责是：
 - 教用户如何安装这套 share kit
 - 教用户如何填写 `vault profile`
+- 教用户什么时候该用 `knowledge-base-ingest`
 - 教用户什么时候该用 `knowledge-base-maintenance`
+- 教用户什么时候该用 `knowledge-base-working-profile`
 - 教用户什么时候该用 `knowledge-base-audit`
 - 帮用户判断当前卡在哪个配置步骤
 
@@ -18,7 +20,7 @@ description: This skill should be used when the user asks to "how do I use this 
 - 用户第一次拿到这套 share kit，不知道从哪开始
 - 用户问“怎么安装这些 skills”
 - 用户问“怎么填写 vault profile”
-- 用户问“先用 maintenance 还是 audit”
+- 用户问“先用 ingest、maintenance 还是 audit”
 - 用户问“为什么这套模板还不能直接跑”
 
 ## What this skill should do
@@ -35,8 +37,8 @@ description: This skill should be used when the user asks to "how do I use this 
 1. 读 `README.md`
 2. 读 `docs/customization-guide.md`
 3. 复制并填写 `templates/vault-profile-template.md`
-4. 再安装 `knowledge-base-maintenance` 和 `knowledge-base-audit`
-5. 最后进入日常 maintenance / audit 工作流
+4. 再安装 `knowledge-base-kit-guide`、`knowledge-base-ingest`、`knowledge-base-maintenance`、`knowledge-base-working-profile` 和 `knowledge-base-audit`
+5. 最后进入日常 ingest / maintenance / working-profile / audit 工作流
 
 ### 3. Explain the fixed model vs customizable parts
 明确告诉用户：
@@ -44,7 +46,9 @@ description: This skill should be used when the user asks to "how do I use this 
 - 可自定义的是 vault 路径、area、root pages、命名规则、frontmatter 规则
 
 ### 4. Explain skill responsibilities
+- `knowledge-base-ingest`：把长文档/书稿拆分、链接并导入知识库，再通过测试与回归继续优化结构
 - `knowledge-base-maintenance`：把任务结果沉淀进知识库
+- `knowledge-base-working-profile`：把长期协作画像沉淀成 working profile
 - `knowledge-base-audit`：检查结构、导航、元数据和噪音回流
 - 本 skill：负责安装、上手、配置和分流说明
 

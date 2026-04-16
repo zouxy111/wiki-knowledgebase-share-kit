@@ -126,3 +126,16 @@ updated: "2026-04-16"
 2. 导航问题
 3. 治理漂移
 4. 噪音回流
+
+---
+
+## 11. Working profile settings
+
+- Working profile page: `/path/to/your-vault/pages/workspace-working-profile.md`
+- Working profile visibility: `maintainer-only`
+- Confirmation threshold for inferred items: `medium`
+- Never-store categories:
+  - secrets / tokens / credentials
+  - precise home address or highly sensitive contact data
+  - third-party private data
+  - medical or legal sensitive details unless explicitly needed

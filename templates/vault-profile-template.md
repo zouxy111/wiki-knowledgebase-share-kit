@@ -133,3 +133,22 @@ updated: "2026-04-15"
 4. 噪音回流
 
 如需调整，可写在这里。
+
+---
+
+## 11. Working profile settings (optional but recommended)
+
+如果你希望从持续沟通中沉淀 working profile，建议补充：
+
+- Working profile page:
+- Working profile visibility: `maintainer-only` / `reader-visible`
+- Confirmation threshold for inferred items: `strict` / `medium` / `light`
+- Never-store categories（可直接列明你不希望写入长期画像的内容类型）:
+  -
+  -
+
+这部分会被 `knowledge-base-working-profile` 用来决定：
+- working profile 写到哪里
+- 哪些条目只能 maintainer 可见
+- inferred 项需要多严格才可保留
+- 哪些内容必须永远排除

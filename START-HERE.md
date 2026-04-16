@@ -7,7 +7,7 @@
 
 ## 你拿到的是什么
 
-这是一个可直接复用的 **wiki / markdown 知识库维护包**，里面有 4 个 skill：
+这是一个可直接复用的 **wiki / markdown 知识库维护包**，里面有 5 个 skill：
 
 1. `knowledge-base-kit-guide`
    - 负责安装说明、profile 配置说明、技能分流
@@ -15,18 +15,21 @@
    - 负责把长 markdown / 书稿 / 教程拆分、链接并导入知识库
 3. `knowledge-base-maintenance`
    - 负责把任务结果沉淀进知识库
-4. `knowledge-base-audit`
+4. `knowledge-base-working-profile`
+   - 负责把持续沟通中的稳定偏好、决策习惯和协作边界沉淀成 working profile
+5. `knowledge-base-audit`
    - 负责检查知识库结构、导航、元数据和噪音回流
 
 ---
 
 ## 最短上手步骤
 
-### 第 1 步：把 4 个 skill 复制到你的 skills 目录
-复制这 4 个目录：
+### 第 1 步：把 5 个 skill 复制到你的 skills 目录
+复制这 5 个目录：
 - `skills/knowledge-base-kit-guide`
 - `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
+- `skills/knowledge-base-working-profile`
 - `skills/knowledge-base-audit`
 
 常见目标目录：
@@ -59,6 +62,7 @@ I want to configure my vault profile and understand which skill to use first.
 ### 第 4 步：开始日常使用
 - 要导入长文档/书籍：用 `knowledge-base-ingest`
 - 要写入知识库：用 `knowledge-base-maintenance`
+- 要沉淀 working profile：用 `knowledge-base-working-profile`
 - 要检查结构健康：用 `knowledge-base-audit`
 
 ---
@@ -122,3 +126,9 @@ I want to configure my vault profile and understand which skill to use first.
 - `.gitignore`
 
 也就是说，它不只是“可转发包”，也可以直接作为 GitHub 开源仓库初始化。
+
+### Working profile 沉淀
+```text
+用 $knowledge-base-working-profile 从我们的持续沟通里更新我的 working profile。
+先读取 vault profile，再只保留对未来协作有用的稳定信号，区分 confirmed / repeated / inferred，过滤敏感个人信息，并按 visibility 规则同步到目标画像页。
+```

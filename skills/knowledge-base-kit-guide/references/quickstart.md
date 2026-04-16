@@ -7,11 +7,16 @@
 3. 复制 `templates/vault-profile-template.md`
 4. 填好你自己的 vault 路径、areas、root pages、frontmatter 规则
 5. 安装：
+   - `skills/knowledge-base-kit-guide`
+   - `skills/knowledge-base-ingest`
    - `skills/knowledge-base-maintenance`
+   - `skills/knowledge-base-working-profile`
    - `skills/knowledge-base-audit`
 6. 第一次落地时：
-   - 先用 maintenance 沉淀一个小结果
-   - 再用 audit 看结构是否健康
+   - 如有长文档/书籍导入需求，先用 ingest 建一个可测试基线
+   - 再用 maintenance 沉淀一个小结果
+   - 如有长期协作需要，再用 working-profile 建一个轻量画像页
+   - 最后用 audit 看结构是否健康
 
 ## 如果用户只想先看懂
 推荐顺序：

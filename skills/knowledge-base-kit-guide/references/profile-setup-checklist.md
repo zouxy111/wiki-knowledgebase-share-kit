@@ -18,6 +18,8 @@
 - 是否启用 knowledge-base-first mode
 - 是否启用 milestone-only log
 - 是否启用 `ops` 四段式写法
+- working profile page（如果你要沉淀长期协作画像）
+- working profile visibility 与 never-store categories
 
 ## 常见卡点
 

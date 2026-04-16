@@ -25,37 +25,51 @@ Use $knowledge-base-maintenance to integrate this task into my markdown knowledg
 Read my vault profile first. Keep only durable conclusions or reusable troubleshooting knowledge, choose the right page role, and sync the target page, relevant root page, reader entrypoint, and milestone log.
 ```
 
-## 3. 我怀疑 wiki 结构已经乱了
+## 3. 从持续沟通中更新 working profile
+
+```text
+Use $knowledge-base-working-profile to update my working profile from our recent interactions.
+Read my vault profile first, keep only collaboration-relevant stable signals, separate confirmed / repeated / inferred items, filter sensitive personal data, and sync the target profile page according to its visibility rules.
+```
+
+## 4. 我怀疑 wiki 结构已经乱了
 
 ```text
 Use $knowledge-base-audit to inspect my knowledge base.
 Read the vault profile first, then report dead links, orphan pages, missing entrypoints, metadata issues, page-boundary drift, noise regression, and stray markdown files at the vault root.
 ```
 
-## 4. 先审计，再修
+## 5. 先审计，再修
 
 ```text
 Use $knowledge-base-audit first to inspect my vault and list findings by priority.
 Then use $knowledge-base-maintenance to fix the high-priority issues while preserving the page-role model.
 ```
 
-## 5. 中文首次上手
+## 6. 中文首次上手
 
 ```text
 用 $knowledge-base-kit-guide 帮我开始用这套知识库维护包。
 我还没有配 vault profile，请先告诉我最少要补哪些信息，再告诉我下一步应该调用哪个 skill。
 ```
 
-## 6. 中文写入知识库
+## 7. 中文写入知识库
 
 ```text
 用 $knowledge-base-maintenance 把这次结果沉淀进我的知识库。
 先读 vault profile，再过滤过程噪音，按页面角色归类，并同步目标页、root page、reader entry 和 milestone log。
 ```
 
-## 7. 中文结构体检
+## 8. 中文结构体检
 
 ```text
 用 $knowledge-base-audit 审计我的知识库。
 先读 vault profile，再检查死链、孤立页、metadata、页面边界漂移、噪音回流，以及根目录 stray markdown 文件。
+```
+
+## 9. 中文沉淀 working profile
+
+```text
+用 $knowledge-base-working-profile 从我们的持续沟通里更新我的 working profile。
+先读 vault profile，再只保留对未来协作有用的稳定信号，区分 confirmed / repeated / inferred，过滤敏感个人信息，并按 visibility 规则同步到目标画像页。
 ```

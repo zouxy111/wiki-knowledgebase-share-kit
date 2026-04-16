@@ -22,18 +22,21 @@
 
 ## 这个包里有什么
 
-### 4 个 skills
+### 5 个 skills
 1. `knowledge-base-kit-guide`
    - 安装说明 / 配置说明 / 技能分流
 2. `knowledge-base-ingest`
    - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库
 3. `knowledge-base-maintenance`
    - 把任务结果沉淀进知识库
-4. `knowledge-base-audit`
+4. `knowledge-base-working-profile`
+   - 把持续沟通中的稳定偏好、决策习惯和协作边界沉淀成 working profile
+5. `knowledge-base-audit`
    - 审计知识库结构、导航、元数据和噪音回流
 
-### 1 个配置模板
+### 2 个模板
 - `templates/vault-profile-template.md`
+- `templates/working-profile-page-template.md`
 
 ### 1 套说明文档
 - `README.md`
@@ -55,7 +58,7 @@
 1. 看 `START-HERE.md`
 2. 复制 `templates/vault-profile-template.md`
 3. 填你的 vault 路径、areas、root pages、frontmatter 规则
-4. 把 4 个 skills 复制到你的 skills 目录
+4. 把 5 个 skills 复制到你的 skills 目录
 5. 第一次先用 `knowledge-base-kit-guide`
 
 ### 如果你想先了解方法论
@@ -120,6 +123,13 @@
 先读 vault profile，再按章节/主题拆分，建立导航和 related links，并同步 overview、reader entry 和 milestone log。
 ```
 
+### 想沉淀长期协作画像时可以说
+
+```text
+用 $knowledge-base-working-profile 从我们的持续沟通里更新我的 working profile。
+先读 vault profile，再只保留对未来协作有用的稳定信号，区分 confirmed / repeated / inferred，过滤敏感个人信息，并按 visibility 规则同步到目标画像页。
+```
+
 ### 想做结构体检时可以说
 
 ```text
@@ -135,7 +145,7 @@
 
 ```text
 这是一个可复用的 wiki/markdown 知识库维护包。
-先看《中文封面说明页.md》或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
+先看《中文封面说明页.md》或 START-HERE.md，再复制 5 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
 ```
 
 ---

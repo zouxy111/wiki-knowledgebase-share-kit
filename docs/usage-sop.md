@@ -1,12 +1,12 @@
 # Usage SOP
 
-## 四个 skill 的职责分工
+## 五个 skill 的职责分工
 
 ### `knowledge-base-kit-guide`
 用于：
 - 教用户怎么安装这套分享包
 - 教用户怎么填写 `vault profile`
-- 判断当前该先用 maintenance 还是 audit
+- 判断当前该先用 ingest / maintenance / working-profile / audit 中的哪一个
 - 给第一次接触这套 kit 的人做分流说明
 
 ### `knowledge-base-ingest`
@@ -24,6 +24,13 @@
 - 把聊天结论写进合适页面
 - 收敛根页、知识页、运维页的写法边界
 - 把噪音挡在知识库外面
+
+### `knowledge-base-working-profile`
+用于：
+- 从持续沟通中提炼稳定的协作画像
+- 沉淀偏好、决策习惯、协作边界和反模式
+- 区分 confirmed / repeated / inferred，而不是把一次表达写死
+- 过滤敏感个人信息，避免把 working profile 做成隐私档案
 
 ### `knowledge-base-audit`
 用于：
@@ -63,6 +70,13 @@
 - 根页堆流水
 - `ops` 页退化成日志
 - `log.md` 变任务回放
+
+### 场景 E：持续协作时沉淀 working profile
+1. 先用 `knowledge-base-working-profile` 提炼本轮稳定信号
+2. 把一次性情绪、敏感细节和弱推断挡在长期画像外
+3. 只在需要公开可见时再同步 reader-facing 入口
+
+也就是：**先提炼，再分级，再决定可见范围**。
 
 ---
 
@@ -138,6 +152,14 @@
 - 是否同步了入口和日志
 - 哪些内容被判为噪音
 
+### working-profile
+至少说明：
+- 更新了哪些画像条目
+- 哪些属于 confirmed / repeated / inferred
+- 哪些内容因敏感或证据不足被过滤
+- 是否记录了 change note
+- 是否同步了对应入口页
+
 ### audit
 至少说明：
 - audit summary
@@ -159,3 +181,29 @@
 - 入口页与来源链的回归检查
 
 因此 `knowledge-base-ingest` 更像一个“测试驱动的结构整理回路”或“轻量 harness / 回归底座”，而不是一次性导入脚本。
+
+---
+
+## Working Profile 的默认回路
+
+1. 先读 vault profile 和当前 working profile 页面
+2. 收集本轮可作为证据的互动信号
+3. 先跑敏感信息过滤
+4. 抽取 stable facts / preferences / heuristics / boundaries / anti-patterns / provisional signals
+5. 标注 confirmed / repeated / inferred
+6. 更新 working profile 页面并补 change notes
+7. 按 visibility 规则决定是否同步 maintainer / reader 入口
+8. 检查是否误把一次性表达写成长期标签
+
+---
+
+## 什么时候不该用 working profile
+
+如果内容只是：
+- 一次性情绪
+- 与未来协作无关的私人细节
+- 高敏感个人信息
+- 未经确认的强推断
+- 对第三方的私人评价
+
+默认不应写进 working profile。
