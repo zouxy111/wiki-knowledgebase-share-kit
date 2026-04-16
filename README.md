@@ -17,6 +17,7 @@
 - [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
 - [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
 - [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：测试驱动的长文档导入案例
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
 - [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：浏览开源落地页
 
@@ -58,6 +59,7 @@
 这套 kit 把这些问题抽成两类能力：
 
 1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
+   - 第一版导入只作为**可测试基线**，后续应根据测试结果继续优化拆分粒度、页面角色和链接架构
 2. **Maintenance**：把任务结果或结论沉淀进知识库
 3. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
@@ -91,6 +93,11 @@
 - 希望 vault 继续以流水日志为主的人
 - 不接受固定页面角色模型的人
 - 只想记录原始过程，不在意知识沉淀和导航治理的人
+
+## 使用案例
+
+- [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md)：从当前 vault 抽象出可分享的固定规则
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：展示如何把长篇专业 Markdown 先导入成可测试基线，再通过测试、回归和版本对比持续优化知识库结构
 
 ---
 
@@ -171,7 +178,7 @@ wiki-knowledgebase-share-kit/
 - 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
 
 ### 日常使用
-- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议）
+- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及测试驱动的结构迭代）
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
 - 要做结构审计时：用 `knowledge-base-audit`
 - 大改之后：先 ingest / maintenance，再 audit
@@ -220,6 +227,7 @@ wiki-knowledgebase-share-kit/
 - `examples/example-vault-profile-generic.md`
 - `examples/example-vault-profile.md`
 - `examples/case-study-current-vault.md`
+- `examples/case-study-pathology-ingest-iteration.md`
 
 ---
 
