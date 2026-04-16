@@ -1,281 +1,200 @@
-# START HERE — 5 分钟快速上手
+# START HERE
 
-> **完全新手？** 这份文档会带你从零开始，5 分钟内跑通第一个示例。
-
----
-
-## ⚠️ 开始前的准备（必读）
-
-### 你需要先安装这些工具
-
-这套工具需要配合 AI 助手使用，目前支持：
-
-| AI 平台 | 是否支持 | 安装位置 |
-|---------|---------|---------|
-| **Codex** | ✅ 推荐 | `~/.codex/skills/` |
-| **Claude Code** | ✅ 推荐 | `~/.claude/skills/` |
-| **ChatGPT（支持 SKILL.md 的版本）** | ✅ 可用 | 按平台文档配置 |
-| **其他平台** | ⚠️ 需自行适配 | - |
-
-**如果你还没有安装 Codex 或 Claude Code**：
-1. Codex 安装：[https://codex.ai](https://codex.ai)（示例链接，请替换为真实链接）
-2. Claude Code 安装：[https://claude.ai/code](https://claude.ai/code)（示例链接，请替换为真实链接）
-
-**如果你不想安装 AI 工具**：
-- 你仍然可以手动使用这套方法，参考 [`docs/usage-sop.md`](./docs/usage-sop.md) 里的 checklist
+> 这是给“第一次拿到这套分享包的人”看的最短使用说明。  
+> 如果你只是想把整个目录发给别人，请让对方先看这份文件。
 
 ---
 
-## 📚 第一步：理解核心概念（2 分钟）
+## 你拿到的是什么
 
-在开始之前，先快速了解 3 个核心概念：
+这是一个可直接复用的 **wiki / markdown 知识库导入 + 维护 + 审计 + 多人协同协调包**，里面有 **5 个 skill**：
 
-### 1. 什么是 Skill？
-**Skill = 给 AI 安装的”插件”**，让 AI 知道怎么帮你整理笔记。
-
-本项目提供 4 个 skills：
-- 📖 `knowledge-base-kit-guide` — 使用指南（新手先用这个）
-- 📥 `knowledge-base-ingest` — 导入长文档/书籍
-- ✍️ `knowledge-base-maintenance` — 整理笔记到知识库
-- 🔍 `knowledge-base-audit` — 检查知识库健康度
-
-### 2. 什么是 Vault？
-**Vault = 你的笔记文件夹**
-- Obsidian 用户：就是你的 Obsidian vault
-- 普通用户：就是你存放 `.md` 文件的文件夹
-
-### 3. 什么是 Vault Profile？
-**Vault Profile = 你的知识库”说明书”**，告诉工具：
-- 你的笔记放在哪里（路径）
-- 有哪些分类（areas）
-- 导航页面是哪些（root pages）
-
-**👉 更多概念解释，请看：[`GLOSSARY.md`](./GLOSSARY.md)**
+1. `knowledge-base-kit-guide`
+   - 安装说明、profile 配置说明、技能分流
+2. `knowledge-base-ingest`
+   - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库；先落 baseline，再比较 candidate，再决定是否晋升
+3. `knowledge-base-maintenance`
+   - 把任务结果沉淀进知识库
+4. `knowledge-base-audit`
+   - 检查知识库结构、导航、元数据和噪音回流
+5. `knowledge-base-team-coordination`
+   - 负责 2 人及以上项目的 intake、角色化问卷、目标对齐、任务派发、跟进重排、决策蒸馏，以及可选知识库同步
 
 ---
 
-## 🚀 第二步：安装 Skills（1 分钟）
+## 先判断你要走哪条路
 
-## 🚀 第二步：安装 Skills（1 分钟）
+### A. 你要导入长文档 / 书籍 / 教程进知识库
+你需要：
+- `templates/vault-profile-template.md`
+- `templates/ingest-iteration-log-template.md`
+- `knowledge-base-kit-guide`
+- `knowledge-base-ingest`
+- `docs/ingest-evaluation-rubric.md`
 
-### 方法 1：使用 Codex 或 Claude Code
+### B. 你要维护一个 markdown/wiki 知识库
+你需要：
+- `templates/vault-profile-template.md`
+- `knowledge-base-kit-guide`
+- `knowledge-base-maintenance`
+- `knowledge-base-audit`
 
-1. **复制 4 个 skill 文件夹**到你的 skills 目录：
+### C. 你要跑一个 2 人及以上的共享项目目录协同
+你需要：
+- `templates/team-project-workspace/`
+- `templates/member-capability-profile-template.md`（如需复用成员画像）
+- `knowledge-base-kit-guide` 或 `knowledge-base-team-coordination`
+- 推荐运行平台：**OpenClaw / Hermes**
 
-```bash
-# 如果你用 Codex
-cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
-cp -r skills/knowledge-base-ingest ~/.codex/skills/
-cp -r skills/knowledge-base-maintenance ~/.codex/skills/
-cp -r skills/knowledge-base-audit ~/.codex/skills/
-
-# 如果你用 Claude Code
-cp -r skills/knowledge-base-kit-guide ~/.claude/skills/
-cp -r skills/knowledge-base-ingest ~/.claude/skills/
-cp -r skills/knowledge-base-maintenance ~/.claude/skills/
-cp -r skills/knowledge-base-audit ~/.claude/skills/
-```
-
-2. **验证安装**：
-   - 打开 Codex/Claude Code
-   - 输入：`list skills` 或 `show available skills`
-   - 应该能看到 4 个新 skills
-
-### 方法 2：手动使用（不安装 AI 工具）
-
-如果你不想用 AI 工具，可以：
-1. 阅读 [`docs/usage-sop.md`](./docs/usage-sop.md) 里的 checklist
-2. 手动按照规则整理笔记
+### D. 你要同时做多人协同 + 知识库沉淀
+你需要：
+- 上面两套都准备
+- 但仍只使用**一套知识库治理模型**：沿用现有 `project / knowledge / ops / task / overview`
 
 ---
 
-## ⚙️ 第三步：配置你的 Vault Profile（2 分钟）
+## 第 1 步：把 5 个 skill 复制到你的 skills 目录
+复制这 5 个目录：
+- `skills/knowledge-base-kit-guide`
+- `skills/knowledge-base-ingest`
+- `skills/knowledge-base-maintenance`
+- `skills/knowledge-base-audit`
+- `skills/knowledge-base-team-coordination`
 
-1. **复制模板**：
-```bash
-cp templates/vault-profile-template.md my-vault-profile.md
-```
+如果你**不确定平台是否支持 skill**，先不要硬装。请先读：
+- `README.md`
+- `docs/reuse-from-zero.md`
 
-2. **填写最小配置**（只需填这 5 项）：
-
-打开 `my-vault-profile.md`，填写：
-
-```yaml
-## 1. Vault identity
-
-- Vault name: 我的笔记本                    # 随便起个名字
-- Vault root path: /Users/yourname/Documents/my-notes  # 你的笔记文件夹路径
-- Primary markdown page directory: /Users/yourname/Documents/my-notes/pages  # 笔记存放目录
-- Reader entrypoint file: /Users/yourname/Documents/my-notes/index.md  # 导航首页
-- Milestone log file: /Users/yourname/Documents/my-notes/log.md  # 日志文件
-```
-
-**💡 不知道怎么填？** 看这个完整示例：[`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)
+如果平台不支持 skill，也仍然可以手工复用这套方法。
 
 ---
 
-## ✅ 第四步：验证安装（30 秒）
+## 第 2 步：准备你的输入模板
 
-在 Codex/Claude Code 里输入：
+### 如果你是知识库 / ingest 场景
+复制：
+- `templates/vault-profile-template.md`
 
+建议保存成一个稳定、明确、能被 agent 读取的文件，例如：
+- `<vault-root>/vault-profile.md`
+- 或 `<workspace-root>/my-vault-profile.md`
+
+### 如果你是多人协同场景
+复制：
+- `templates/team-project-workspace/`
+
+然后至少补这几个内容：
+- `project-brief.md`
+- `team-roster.md`
+- `members/<member-id>/member-context.md`
+- `shared-materials/`
+
+如果你已经有长期成员画像，再额外复制：
+- `templates/member-capability-profile-template.md`
+
+把每位成员的画像保存到稳定路径，并在 `team-roster.md` 里填写 `canonical profile path`。
+
+---
+
+## 第 3 步：记住两条底线
+
+### 知识库底线
+- 页面角色固定为：`project / knowledge / ops / task / overview`
+- 根页只做导航和稳定总览
+- `ops` 页默认写成：**现象 / 根因 / 处理法 / 边界**
+- `log.md` 只写 milestone，不写任务回放
+
+### 协作底线
+- 多人协同默认由**单协调 AI**驱动
+- `team-project/` 是多人协同的唯一事实源
+- 问卷、alignment、assignment、decision 都先 `draft`，后 `approved`
+- 个人 wiki / 个人 agent 是推荐工作模式，但不是团队事实源
+
+---
+
+## 第 4 步：第一次调用时要怎么说
+
+### 4A. 第一次装完，但不知道该先做什么
 ```text
-Use $knowledge-base-kit-guide to help me verify my setup.
-My vault profile is at: ./my-vault-profile.md
+Use $knowledge-base-kit-guide.
+Read this repository and help me choose the right path: ingest, maintenance, audit, or team coordination.
+I will provide either a vault profile path or a shared project directory path.
 ```
 
-AI 会检查你的配置是否正确，并告诉你下一步该做什么。
-
----
-
-## 🎯 第五步：第一次使用（1 分钟）
-
-### 场景 A：整理一段笔记到知识库
-
+### 4B. 要导入一本 markdown 书 / 长文档
 ```text
-Use $knowledge-base-maintenance to organize this content into my knowledge base.
-Read my vault profile at ./my-vault-profile.md first.
-
-Content to organize:
-[粘贴你的笔记内容]
+Use $knowledge-base-ingest.
+Read my vault profile first.
+Treat the first import as a stable baseline, create a candidate structure only for the current iteration goal, and use the ingest rubric before promoting changes.
 ```
 
-### 场景 B：检查知识库健康度
-
+### 4C. 要维护知识库
 ```text
-Use $knowledge-base-audit to check my knowledge base.
-Read my vault profile at ./my-vault-profile.md first.
+Use $knowledge-base-maintenance.
+Read my vault profile first and write only durable knowledge back into the vault.
 ```
 
-### 场景 C：导入一本 markdown 书
-
+### 4D. 要做结构审计
 ```text
-Use $knowledge-base-ingest to import this markdown book.
-Read my vault profile at ./my-vault-profile.md first.
-Source file: ./my-book.md
+Use $knowledge-base-audit.
+Read my vault profile first and inspect metadata, navigation, dead links, orphan pages, boundary drift, and noise regression.
 ```
 
----
-
-## 🆘 遇到问题？
-
-### 问题 1：提示 "skill not found"
-**原因**：skills 没有正确安装到目标目录
-
-**解决**：
-1. 检查路径是否正确：`ls ~/.codex/skills/` 或 `ls ~/.claude/skills/`
-2. 确认 4 个文件夹都复制过去了
-3. 重启 Codex/Claude Code
-
-### 问题 2：提示 "vault profile not found"
-**原因**：profile 文件路径不对
-
-**解决**：
-1. 确认 `my-vault-profile.md` 在当前目录
-2. 使用绝对路径：`/full/path/to/my-vault-profile.md`
-
-### 问题 3：不知道该填什么
-**解决**：
-1. 先看 [`GLOSSARY.md`](./GLOSSARY.md) 理解概念
-2. 参考 [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)
-3. 在 [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues) 提问
-
----
-
-## 📖 下一步学习
-
-安装完成后，建议按顺序阅读：
-
-1. **[`GLOSSARY.md`](./GLOSSARY.md)** — 理解 5 种页面角色（project/knowledge/ops/task/overview）
-2. **[`docs/example-prompts.md`](./docs/example-prompts.md)** — 更多使用示例
-3. **[`docs/customization-guide.md`](./docs/customization-guide.md)** — 进阶定制
-4. **[`examples/`](./examples/)** — 真实场景示例
-
----
-
-## 💬 中文快速命令（复制即用）
-
-## 💬 中文快速命令（复制即用）
-
-### 第一次使用（验证安装）
+### 4E. 要跑多人协同
 ```text
-用 $knowledge-base-kit-guide 帮我验证安装。
-我的 vault profile 在：./my-vault-profile.md
-```
-
-### 整理笔记到知识库
-```text
-用 $knowledge-base-maintenance 把这段内容整理进我的知识库。
-先读取 vault profile：./my-vault-profile.md
-
-要整理的内容：
-[粘贴你的笔记]
-```
-
-### 检查知识库健康度
-```text
-用 $knowledge-base-audit 审计我的知识库。
-先读 vault profile：./my-vault-profile.md
-检查死链、孤立页、metadata、页面边界漂移、噪音回流。
-```
-
-### 导入长文档/书籍
-```text
-用 $knowledge-base-ingest 把这本 markdown 书导入我的知识库。
-先读 vault profile：./my-vault-profile.md
-源文件：./my-book.md
+Use $knowledge-base-team-coordination.
+Read the shared project directory first.
+If canonical member profiles exist, use them before drafting questionnaires.
+Members may prepare drafts in their own wiki with OpenClaw, Hermes, or another agent, but only markdown synced back into the shared project directory is formal input.
 ```
 
 ---
 
-## 🎓 完整学习路径
+## 第 5 步：推荐阅读顺序
 
-如果你想深入了解这套方法：
+### 如果你是知识库 / ingest 场景
+1. `README.md`
+2. `docs/customization-guide.md`
+3. `templates/vault-profile-template.md`
+4. `docs/usage-sop.md`
+5. `docs/ingest-evaluation-rubric.md`
+6. `templates/ingest-iteration-log-template.md`
 
-### 新手路径（1 小时）
-1. ✅ 读完本文档（5 分钟）
-2. 📖 阅读 [`GLOSSARY.md`](./GLOSSARY.md)（10 分钟）
-3. 📝 填写 vault profile（15 分钟）
-4. 🧪 跑一次 audit 验证（5 分钟）
-5. ✍️ 整理一段笔记试试（15 分钟）
-6. 📚 看完 [`docs/example-prompts.md`](./docs/example-prompts.md)（10 分钟）
+### 如果你是多人协同场景
+1. `README.md`
+2. `docs/collaboration-integration-patterns.md`
+3. `docs/team-coordination-workflow.md`
+4. `templates/team-project-workspace/README.md`
+5. `docs/usage-sop.md`
 
-### 进阶路径（3 小时）
-1. 📖 阅读 [`docs/customization-guide.md`](./docs/customization-guide.md)
-2. 📖 阅读 [`docs/usage-sop.md`](./docs/usage-sop.md)
-3. 🔍 研究 [`examples/`](./examples/) 里的真实案例
-4. ⚙️ 定制自己的 areas 和 root pages
-5. 🔧 调整 frontmatter 规则
-
----
-
-## 📌 核心原则（记住这 5 条）
-
-1. **知识库优先**：只保留长期有用的内容，过滤掉临时过程
-2. **页面角色清晰**：每个页面必须是 project/knowledge/ops/task/overview 之一
-3. **导航必须完整**：每个页面都要能从首页找到
-4. **里程碑日志**：log.md 只记录重要变化，不记录流水账
-5. **定期审计**：每月至少跑一次 audit，检查结构健康度
+### 如果你想先看例子
+- `examples/example-vault-profile-generic.md`
+- `examples/case-study-pathology-ingest-iteration.md`
+- `examples/team-project-generic/README.md`
+- `examples/team-project-qc/README.md`
 
 ---
 
-## 🤝 需要帮助？
+## 第 6 步：第一次使用最常见的坑
 
-- 💬 [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues) — 提问和反馈
-- 📖 [完整文档](./README.md) — 查看详细说明
-- 📧 联系开发者：邹星宇、杨琦
+### 坑 1：没有给绝对路径
+第一次调用时，最好显式给：
+- vault profile 的**绝对路径**
+- 或 shared project directory 的**绝对路径**
+
+### 坑 2：把 team-project 当成个人草稿区
+不是。个人 wiki / 个人 agent 可以并行工作，但正式输入必须同步回共享项目目录。
+
+### 坑 3：把 ingest 当成一次性动作
+不是。长文档导入默认是：
+- 先落 baseline
+- 再做 candidate
+- 再跑 regression
+- 最后再决定是否 promote
 
 ---
 
-## ✨ 快速对照：我该用哪个 skill？
+## 你只记住一句话也行
 
-| 你想做什么 | 用哪个 skill |
-|-----------|-------------|
-| 第一次安装，不知道怎么开始 | `knowledge-base-kit-guide` |
-| 把一段笔记整理进知识库 | `knowledge-base-maintenance` |
-| 导入一本 markdown 书 | `knowledge-base-ingest` |
-| 检查知识库有没有死链、孤立页 | `knowledge-base-audit` |
-| 不知道该用哪个 | `knowledge-base-kit-guide` |
-
----
-
-**🎉 恭喜！你已经完成了快速上手。现在可以开始整理你的笔记了！**
+- **知识库场景**：先配 profile，再用 guide 分流，再跑 ingest / maintenance / audit
+- **多人协同场景**：先建 `team-project/`，再用 coordinator 做问卷、对齐、派单和蒸馏

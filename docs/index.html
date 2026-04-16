@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wiki Knowledge Base Share Kit</title>
-  <meta name="description" content="Reusable skills and docs for maintaining markdown/wiki knowledge bases with a knowledge-base-first workflow." />
+  <meta name="description" content="Reusable skills and docs for markdown/wiki ingest, maintenance, audit, and multi-person project coordination." />
   <style>
     :root {
       --bg: #07111f;
@@ -15,7 +15,6 @@
       --muted: #b8c2db;
       --accent: #8ce8d2;
       --accent-2: #83b7ff;
-      --accent-3: #8d6dff;
       --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
       --radius: 24px;
     }
@@ -32,57 +31,46 @@
       min-height: 100vh;
     }
     a { color: inherit; text-decoration: none; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    code { color: #dff5ff; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
     .hero { padding: 34px 0 48px; }
-    .nav { display:flex; gap:14px; align-items:center; justify-content:space-between; margin-bottom: 28px; }
+    .nav { display:flex; gap:14px; align-items:center; justify-content:space-between; margin-bottom: 28px; flex-wrap: wrap; }
     .brand { font-weight: 700; letter-spacing: .03em; color: #dff5ff; }
     .nav-links { display:flex; gap:12px; flex-wrap:wrap; }
     .pill { border: 1px solid var(--line); padding: 10px 14px; border-radius: 999px; color: var(--muted); background: rgba(255,255,255,.03); }
-    .hero-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap: 22px; align-items: stretch; }
+    .hero-grid { display:grid; grid-template-columns: 1.2fr .8fr; gap: 22px; align-items: stretch; }
     .panel { background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(8px); }
-    .intro { padding: 36px; }
+    .intro, .card, .step, .compare, .stat-card { padding: 28px; }
     .eyebrow { display:inline-block; margin-bottom:18px; padding:10px 14px; border-radius:999px; background: rgba(140,232,210,.1); color: var(--accent); border: 1px solid rgba(140,232,210,.25); }
-    h1 { font-size: clamp(40px, 6vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: -.04em; }
-    .lede { font-size: 19px; line-height: 1.7; color: var(--muted); max-width: 62ch; }
+    h1 { font-size: clamp(38px, 6vw, 68px); line-height: .95; margin: 0 0 18px; letter-spacing: -.04em; }
+    .lede { font-size: 19px; line-height: 1.7; color: var(--muted); max-width: 68ch; }
     .cta-row { display:flex; gap:14px; flex-wrap:wrap; margin-top: 24px; }
     .btn { padding: 14px 18px; border-radius: 16px; border:1px solid var(--line); font-weight: 700; }
     .btn.primary { background: linear-gradient(135deg, rgba(131,183,255,.22), rgba(140,232,210,.20)); }
     .btn.secondary { color: var(--muted); }
-    .stat-card { padding: 28px; display:flex; flex-direction:column; justify-content:space-between; }
     .kicker { color: var(--accent-2); font-size: 13px; text-transform: uppercase; letter-spacing: .16em; }
     .metric { font-size: 72px; font-weight: 800; margin: 10px 0 0; letter-spacing: -.04em; }
-    .stat-copy { color: var(--muted); line-height: 1.7; }
-    .chip-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 24px; }
-    .chip { padding: 9px 13px; border-radius: 999px; background: rgba(255,255,255,.04); border:1px solid var(--line); color: #dce8ff; }
+    .stat-copy, .sub, .card p, .step span, .compare td { color: var(--muted); line-height: 1.75; }
     .section { padding: 10px 0 34px; }
     .section h2 { font-size: 30px; margin: 0 0 14px; }
-    .section .sub { color: var(--muted); line-height: 1.75; max-width: 68ch; margin-bottom: 22px; }
-    .grid-3, .grid-2 { display:grid; gap: 18px; }
+    .grid-5, .grid-3 { display:grid; gap: 18px; }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .card { padding: 24px; }
     .card h3 { margin: 0 0 10px; font-size: 22px; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.75; }
-    .flow { display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .step { padding: 20px; position:relative; }
+    .flow { display:grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .step { position:relative; }
     .step small { color: var(--accent); letter-spacing: .12em; text-transform: uppercase; }
     .step strong { display:block; margin: 10px 0 8px; font-size: 20px; }
-    .step span { color: var(--muted); line-height: 1.65; }
     .step::after { content:'→'; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color: rgba(200,220,255,.45); font-size: 24px; }
     .step:last-child::after { display:none; }
-    .compare { padding: 24px; }
     .compare table { width: 100%; border-collapse: collapse; }
     .compare th, .compare td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-    .compare th { color: #dff5ff; font-size: 15px; }
-    .muted { color: var(--muted); }
-    .footer { padding: 8px 0 48px; color: var(--muted); }
     .preview { overflow:hidden; }
     .preview img { display:block; width:100%; height:auto; }
-    @media (max-width: 920px) {
-      .hero-grid, .grid-3, .grid-2, .flow { grid-template-columns: 1fr; }
+    .footer { padding: 8px 0 48px; color: var(--muted); }
+    @media (max-width: 980px) {
+      .hero-grid, .grid-5, .grid-3, .flow { grid-template-columns: 1fr; }
       .step::after { display:none; }
-      .intro, .stat-card, .card, .step, .compare { padding: 22px; }
     }
   </style>
 </head>
@@ -94,39 +82,36 @@
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub</a>
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases">Releases</a>
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Start Here</a>
+        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/ingest-evaluation-rubric.md">Ingest Rubric</a>
+        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/team-coordination-workflow.md">Team Coordination</a>
+        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/collaboration-integration-patterns.md">Collaboration Patterns</a>
       </div>
     </div>
 
     <div class="hero-grid">
       <section class="panel intro">
-        <div class="eyebrow">Knowledge-base-first workflow kit</div>
-        <h1>Keep your markdown vault useful, not noisy.</h1>
+        <div class="eyebrow">Knowledge-base-first + ingest loop + team coordination</div>
+        <h1>Keep your markdown vault useful — and your team projects aligned.</h1>
         <p class="lede">
-          A reusable open-source kit with 4 installable skills, profile-driven configuration,
-          and an ingest / maintenance / audit split for markdown and wiki knowledge bases. The ingest loop is test-driven and can be used like a lightweight harness: start with a baseline, then refine structure through regression and comparison.
+          A reusable open-source kit with 5 installable skills, profile-driven configuration,
+          a baseline-vs-candidate ingest loop, and a shared-project workflow that fits OpenClaw,
+          Hermes, NAS/cloud sync, and personal-wiki-plus-agent collaboration patterns.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
-          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/examples/example-vault-profile-generic.md">See generic profile example</a>
-        </div>
-        <div class="chip-row">
-          <span class="chip">project</span>
-          <span class="chip">knowledge</span>
-          <span class="chip">ops</span>
-          <span class="chip">task</span>
-          <span class="chip">overview</span>
+          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases">Download latest release</a>
+          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/reuse-from-zero.md">Zero-context guide</a>
         </div>
       </section>
 
       <aside class="panel stat-card">
         <div>
           <div class="kicker">Core package</div>
-          <div class="metric">4</div>
-          <p class="stat-copy">Guide, ingest, maintenance, and audit skills designed to work together while staying reusable across vaults.</p>
+          <div class="metric">5</div>
+          <p class="stat-copy">Guide, ingest, maintenance, audit, and team-coordination skills designed to stay reusable across vaults and shared project folders.</p>
         </div>
         <div>
           <div class="kicker">Method constraints</div>
-          <p class="stat-copy">Noise filtering, stable page roles, milestone-only logs, and profile-based configuration instead of hardcoded local structure.</p>
+          <p class="stat-copy">Stable page roles, ingest promotion by rubric, OpenClaw / Hermes as recommended collaboration runtimes, shared project directory as source of truth, and draft → approved gating for tasks and decisions.</p>
         </div>
       </aside>
     </div>
@@ -134,31 +119,35 @@
 
   <div class="shell section">
     <h2>30-second outcome</h2>
-    <p class="sub">This project is for vaults that have drifted into a mix of notes, replay logs, and unstable structure. The kit pulls them back toward durable retrieval.</p>
+    <p class="sub">This project is for vaults and markdown-based collaborations that have drifted into logs, unstable structure, and inconsistent coordination. The kit pulls them back toward durable retrieval and reusable workflows.</p>
     <div class="panel compare">
       <table>
         <thead>
           <tr>
-            <th>Typical drifting vault</th>
+            <th>Typical drifting state</th>
             <th>Target state with this kit</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="muted">Root pages accumulate temporary execution history.</td>
-            <td class="muted">Root pages return to navigation, stable boundaries, and topic entrypoints.</td>
+            <td>Root pages accumulate temporary execution history.</td>
+            <td>Root pages return to navigation, stable boundaries, and topic entrypoints.</td>
           </tr>
           <tr>
-            <td class="muted"><code>ops</code> pages become chronological logs.</td>
-            <td class="muted"><code>ops</code> pages become reusable symptom / root cause / fix / boundary references.</td>
+            <td><code>ops</code> pages become chronological logs.</td>
+            <td><code>ops</code> pages become reusable symptom / root-cause / fix / boundary references.</td>
           </tr>
           <tr>
-            <td class="muted"><code>log.md</code> turns into task replay.</td>
-            <td class="muted"><code>log.md</code> stays milestone-only.</td>
+            <td>Long-form ingest gets rewritten ad hoc.</td>
+            <td>Imports start as a baseline, compare candidates with a rubric, and only promote post-regression winners.</td>
           </tr>
           <tr>
-            <td class="muted">Content exists without stable entrypoints.</td>
-            <td class="muted">Pages are discoverable from root pages or the reader entrypoint.</td>
+            <td>Multi-person work lives only in chat.</td>
+            <td>Shared project directories hold questionnaires, alignment, assignments, follow-up, and decision distillation.</td>
+          </tr>
+          <tr>
+            <td>Everyone works privately with no stable convergence point.</td>
+            <td>Personal wiki + personal agent are allowed, but synced markdown in the shared project directory becomes the formal input.</td>
           </tr>
         </tbody>
       </table>
@@ -167,95 +156,69 @@
 
   <div class="shell section">
     <h2>What’s inside</h2>
-    <p class="sub">The kit is designed for people who want a vault that stays navigable and durable over time instead of turning into a long pile of project notes.</p>
-    <div class="grid-3">
+    <p class="sub">The kit now covers both durable knowledge-base work and multi-person project coordination without turning either workflow into an unstructured prompt pile.</p>
+    <div class="grid-5">
       <article class="panel card">
-        <h3>knowledge-base-kit-guide</h3>
-        <p>Explains installation, profile setup, and which skill to use first when the user is new to the kit.</p>
+        <h3>Guide</h3>
+        <p>Installation, template setup, first-run routing, and deciding whether the user should start with ingest, maintenance, audit, or team coordination.</p>
       </article>
       <article class="panel card">
-        <h3>knowledge-base-ingest</h3>
-        <p>Splits long markdown sources or books into reusable pages, builds navigation links, and generates TOC, glossary, and related-link suggestions. The first import is a baseline for later refinement, not the final structure.</p>
+        <h3>Ingest</h3>
+        <p>Split long markdown sources into reusable page groups, produce TOC / glossary / related-link artifacts, and compare candidate structures against a stable baseline.</p>
       </article>
       <article class="panel card">
-        <h3>knowledge-base-maintenance</h3>
-        <p>Writes durable conclusions into the right page role, filters process noise, and syncs content plus navigation surfaces.</p>
+        <h3>Maintenance</h3>
+        <p>Write durable conclusions into the right page role, filter process noise, and sync content plus navigation surfaces.</p>
       </article>
       <article class="panel card">
-        <h3>knowledge-base-audit</h3>
-        <p>Checks metadata, dead links, orphan pages, boundary drift, navigation coverage, and noise regression.</p>
-      </article>
-    </div>
-  </div>
-
-  <div class="shell section">
-    <h2>Who this is for</h2>
-    <p class="sub">This repository works best when the user accepts a small amount of structure in exchange for a much cleaner long-term vault.</p>
-    <div class="grid-2">
-      <article class="panel card">
-        <h3>Good fit</h3>
-        <p>Teams and individuals already using markdown or wiki vaults, who want durable retrieval, role clarity, and a repeatable maintenance plus audit loop.</p>
+        <h3>Audit</h3>
+        <p>Check metadata, dead links, orphan pages, boundary drift, navigation coverage, and noise regression.</p>
       </article>
       <article class="panel card">
-        <h3>Not a good fit</h3>
-        <p>People who want a pure log-first system, do not want to configure a profile, or reject the fixed page-role model entirely.</p>
+        <h3>Team coordination</h3>
+        <p>Run intake, questionnaires, alignment, assignment, follow-up, and decision distillation for 2+ people, with optional vault sync for approved stable outcomes.</p>
       </article>
     </div>
   </div>
 
   <div class="shell section">
     <h2>How it flows</h2>
-    <p class="sub">The workflow is intentionally simple: configure once, then run maintenance and audit as separate loops.</p>
     <div class="flow">
-      <article class="panel step"><small>01</small><strong>Install</strong><span>Copy the four skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
-      <article class="panel step"><small>02</small><strong>Profile</strong><span>Fill the vault profile template with your vault root, root pages, areas, and metadata rules.</span></article>
-      <article class="panel step"><small>03</small><strong>Ingest / Maintain</strong><span>Use ingest for long-form sources as a testable baseline, then run it like a lightweight harness: compare versions, refine split strategy, adjust page roles, and improve link architecture before locking in durable structure.</span></article>
-      <article class="panel step"><small>04</small><strong>Audit</strong><span>Run audit after bigger changes or on a schedule to catch drift, dead links, and noise regression.</span></article>
+      <article class="panel step"><small>01</small><strong>Install</strong><span>Copy the five skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
+      <article class="panel step"><small>02</small><strong>Profile / Workspace</strong><span>Fill a vault profile for knowledge-base work, or prepare a shared project directory for team coordination.</span></article>
+      <article class="panel step"><small>03</small><strong>Ingest</strong><span>Start with a stable baseline, create a candidate structure for one improvement goal, and evaluate it with a shared rubric.</span></article>
+      <article class="panel step"><small>04</small><strong>Maintain / Coordinate</strong><span>Write durable conclusions into the vault, or drive multi-person questionnaires, alignment, assignments, and follow-up from the shared directory.</span></article>
+      <article class="panel step"><small>05</small><strong>Audit / Promote</strong><span>Run regression checks, inspect drift, and only promote changes or decisions once they meet the required standards.</span></article>
     </div>
   </div>
 
   <div class="shell section">
-    <h2>Test-driven ingest example</h2>
-    <p class="sub">A good long-form ingest is not a one-shot import. The initial structure should be treated as a baseline, then improved through testing, regression checks, version comparison, and lightweight harness-style iteration.</p>
+    <h2>Recommended collaboration setup</h2>
     <div class="grid-3">
       <article class="panel card">
-        <h3>Baseline first</h3>
-        <p>Import the source into an overview/chapter/topic structure with lineage, TOC, glossary candidates, related-link suggestions, and other baseline artifacts.</p>
+        <h3>OpenClaw / Hermes</h3>
+        <p>Recommended runtimes for the coordination workflow. Compatibility comes from the shared-project-directory contract plus the skills / prompts model, not from a private API.</p>
       </article>
       <article class="panel card">
-        <h3>Test and compare</h3>
-        <p>Use real retrieval and navigation feedback to compare split strategies, page roles, maintenance cost, and version-to-version structure diffs.</p>
+        <h3>NAS / cloud drive or shared wiki</h3>
+        <p>Keep <code>team-project/</code> either as its own synced folder or as a subtree inside a shared wiki / shared knowledge base. The directory remains the formal fact source in both modes.</p>
       </article>
       <article class="panel card">
-        <h3>Refactor safely</h3>
-        <p>Run regression checks on entry pages, lineage, and key links after each revision so the knowledge base gets cleaner instead of noisier.</p>
+        <h3>Personal wiki + synced facts</h3>
+        <p>Each member can draft in their own wiki or private workspace with their own agent. Only markdown synced back into the shared project directory enters the official coordination loop.</p>
       </article>
     </div>
   </div>
 
   <div class="shell section">
-    <h2>Project preview</h2>
-    <p class="sub">A ready-to-forward preview image is included for release pages, social posts, or repository announcements.</p>
-    <div class="panel preview"><img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" /></div>
-  </div>
-
-  <div class="shell section">
-    <h2>Developers</h2>
-    <p class="sub">Core developers of this repository and share kit.</p>
-    <div class="grid-2">
-      <article class="panel card">
-        <h3>邹星宇</h3>
-        <p>Repository co-developer.</p>
-      </article>
-      <article class="panel card">
-        <h3>杨琦</h3>
-        <p>Repository co-developer.</p>
-      </article>
+    <h2>Preview</h2>
+    <div class="panel preview">
+      <img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" />
     </div>
   </div>
 
   <div class="shell footer">
-    Open source under MIT · GitHub repo: <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">zouxy111/wiki-knowledgebase-share-kit</a>
+    Read more in <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/README.md">README.md</a>, <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/ingest-evaluation-rubric.md">docs/ingest-evaluation-rubric.md</a>, and <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/team-coordination-workflow.md">docs/team-coordination-workflow.md</a>.
   </div>
 </body>
 </html>

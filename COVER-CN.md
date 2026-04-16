@@ -1,50 +1,101 @@
 # 中文封面说明页
 
-> 这是一套可以直接复用的 **wiki / markdown 知识库维护包**。  
+> 这是一套可以直接复用的 **wiki / markdown 知识库导入 + 维护 + 审计 + 多人协同协调包**。  
 > 如果你收到这个包，但还不知道里面是什么、该先看哪里、该怎么开始，就先看这一页。
 
 ---
 
 ## 这套包是干什么的
 
-它的目标是把一个容易越写越乱的 markdown / wiki 知识库，收敛成：
+它现在同时解决三类问题：
+
+### A. 长文档导入
+把书稿、教程、规范这类长篇 Markdown，收敛成：
+- **overview / chapter / topic** 的可导航结构
+- **先落 baseline，再比较 candidate，再决定是否 promote** 的迭代回路
+- **术语候选、related links、source lineage** 都可持续维护
+
+### B. 知识库维护
+把一个容易越写越乱的 markdown / wiki 知识库，收敛成：
 - **知识库优先**，而不是任务流水优先
 - **页面职责清晰**，而不是所有东西都堆在一起
 - **可持续维护**，而不是每次靠临时发挥
 
-它特别适合这些场景：
-- 你有自己的 Obsidian / markdown wiki
-- 你想把任务结果沉淀成长期可检索的知识
-- 你想定期检查知识库有没有死链、孤立页、导航漂移、噪音回流
-- 你不想让 wiki 退化成项目日志集合
+### C. 多人协同协调
+把一个 2 人及以上项目，收敛成：
+- **共享项目目录为唯一事实源**
+- **按成员能力生成差异化问卷**
+- **先对齐，再派单，再跟进，再蒸馏**
+- **稳定决策和成员画像可以复用，必要时可同步回知识库**
 
 ---
 
 ## 这个包里有什么
 
-### 4 个 skills
+### 5 个 skills
 1. `knowledge-base-kit-guide`
    - 安装说明 / 配置说明 / 技能分流
 2. `knowledge-base-ingest`
-   - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库
+   - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库，并通过 rubric 决定 candidate 是否晋升
 3. `knowledge-base-maintenance`
    - 把任务结果沉淀进知识库
 4. `knowledge-base-audit`
    - 审计知识库结构、导航、元数据和噪音回流
+5. `knowledge-base-team-coordination`
+   - 多人项目 intake、问卷派发、目标对齐、任务分配、跟进重排、决策蒸馏，以及可选知识库同步
 
-### 1 个配置模板
+### 模板
 - `templates/vault-profile-template.md`
+- `templates/ingest-iteration-log-template.md`
+- `templates/team-project-workspace/`
+- `templates/member-capability-profile-template.md`
 
-### 1 套说明文档
+### 说明文档
 - `README.md`
 - `START-HERE.md`
+- `GLOSSARY.md`
+- `docs/ingest-evaluation-rubric.md`
+- `docs/collaboration-integration-patterns.md`
+- `docs/team-coordination-workflow.md`
 - `docs/customization-guide.md`
 - `docs/usage-sop.md`
 - `docs/example-prompts.md`
 
-### 1 套示例
-- `examples/example-vault-profile.md`
+### 示例
+- `examples/example-vault-profile-generic.md`
 - `examples/case-study-current-vault.md`
+- `examples/case-study-pathology-ingest-iteration.md`
+- `examples/team-project-generic/`
+- `examples/team-project-qc/`
+
+---
+
+## 主推接入平台与推荐协作模式
+
+### 主推平台
+本仓库主推：
+- **OpenClaw**
+- **Hermes**
+
+这里说的“主推”，不是因为 repo 依赖它们的私有 API，而是因为它们很适合承接：
+- shared project directory 工作流
+- skills / prompts 驱动的协作流程
+- 每位成员用自己的 agent 协助整理问卷、回应和进展
+
+### 推荐协作模式
+推荐这样理解多人协同：
+- **共享项目目录**：团队事实源
+- **每个人自己的 wiki / 私有资料区**：个人工作面
+- **每个人自己的 OpenClaw / Hermes / 其他 agent**：个人协作助手
+- **可选知识库同步**：只同步稳定、已批准的内容
+
+### 两种推荐同步拓扑
+- **模式 1：team-project 独立放在 NAS / 网盘同步目录**
+- **模式 2：team-project 直接嵌进共享 wiki / 共享知识库子目录**
+
+无论选哪种拓扑，底线都一样：
+- shared project directory 才是 coordinator 的唯一事实源
+- 个人 wiki / 个人 agent 只是辅助工作面
 
 ---
 
@@ -53,93 +104,43 @@
 ### 如果你想最快上手
 按这个顺序：
 1. 看 `START-HERE.md`
-2. 复制 `templates/vault-profile-template.md`
-3. 填你的 vault 路径、areas、root pages、frontmatter 规则
-4. 把 4 个 skills 复制到你的 skills 目录
-5. 第一次先用 `knowledge-base-kit-guide`
+2. 看 `README.md`
+3. 如果是知识库场景，复制 `templates/vault-profile-template.md`
+4. 如果是 ingest 场景，再看 `docs/ingest-evaluation-rubric.md`
+5. 如果是多人协同场景，复制 `templates/team-project-workspace/`
+6. 把 5 个 skills 复制到你的 skills 目录
+7. 第一次先用 `knowledge-base-kit-guide`
 
-### 如果你想先了解方法论
+### 如果你想先了解协作模式
 按这个顺序：
 1. 看 `README.md`
-2. 看 `docs/customization-guide.md`
-3. 看 `docs/usage-sop.md`
-4. 再看示例文件
+2. 看 `docs/collaboration-integration-patterns.md`
+3. 看 `docs/team-coordination-workflow.md`
+4. 看 `docs/usage-sop.md`
+5. 再看示例文件
 
 ---
 
 ## 这套方法最重要的固定原则
 
-这套包不是“万能 wiki 包”，它有明确的方法论边界：
-
 - 页面角色固定为：`project / knowledge / ops / task / overview`
 - 根页只做导航和稳定总览
 - `ops` 页默认写成：**现象 / 根因 / 处理法 / 边界**
 - `log.md` 只写里程碑，不写任务回放
-- 默认不把一次性过程噪音直接写进知识库
-
-也就是说：
-> 它不是帮你多记日志，而是帮你把知识库写得更像知识库。
-
----
-
-## 这套包最适合谁
-
-适合：
-- 自己长期维护 markdown/wiki 知识库的人
-- 想把知识沉淀和任务过程分开的个人或团队
-- 已经在用支持 `SKILL.md` 结构的平台的人
-- 想把“维护”和“审计”拆成两条明确工作流的人
-
-不太适合：
-- 完全不想配置 profile 的人
-- 不接受固定页面角色模型的人
-- 只想记录原始过程、不关心知识沉淀的人
+- ingest 默认遵循：**先 baseline，再 candidate，再 regression，再 promote**
+- 多人协同默认由**单协调 AI**驱动
+- `team-project/` 是多人协同的唯一事实源
+- 问卷、alignment、assignment、decision 都先 draft，后 approved
+- 个人 wiki / 个人 agent 是推荐工作模式，但不是团队事实源
 
 ---
 
-## 你可以直接怎么用
-
-### 第一次上手可以直接对 agent 说
+## 一句转发文案
 
 ```text
-用 $knowledge-base-kit-guide 帮我开始用这套知识库维护包。
-我还没有配 vault profile，请先告诉我最少要补哪些信息，再告诉我下一步应该调用哪个 skill。
+这是一个可复用的 wiki/markdown 知识库导入 + 维护 + 审计 + 多人协同分享包。
+先看 START-HERE.md，再复制 5 个 skills。
+如果你是知识库场景，先填 vault-profile-template.md；
+如果你是多人协同场景，先复制 team-project-workspace 模板。
+这套协作模式主推在 OpenClaw / Hermes 上运行，也适合把共享项目目录放到 NAS、网盘或共享 wiki 下同步。
 ```
-
-### 想写入知识库时可以说
-
-```text
-用 $knowledge-base-maintenance 把这次结果沉淀进我的知识库。
-先读 vault profile，再过滤过程噪音，按页面角色归类，并同步目标页、root page、reader entry 和 milestone log。
-```
-
-### 想导入一本 markdown 书或长文档时可以说
-
-```text
-用 $knowledge-base-ingest 把这本 markdown 书导入我的知识库。
-先读 vault profile，再按章节/主题拆分，建立导航和 related links，并同步 overview、reader entry 和 milestone log。
-```
-
-### 想做结构体检时可以说
-
-```text
-用 $knowledge-base-audit 审计我的知识库。
-先读 vault profile，再检查死链、孤立页、metadata、页面边界漂移、噪音回流，以及根目录 stray markdown 文件。
-```
-
----
-
-## 如果你是转发给别人
-
-你可以直接附这句话：
-
-```text
-这是一个可复用的 wiki/markdown 知识库维护包。
-先看 COVER-CN.md 或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
-```
-
----
-
-## 一句话总结
-
-> 这是一个把“知识库维护”和“知识库审计”拆开，并要求先配 profile、再稳定使用的通用分享包。
