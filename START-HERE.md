@@ -56,8 +56,6 @@
 
 ## 🚀 第二步：安装 Skills（1 分钟）
 
-## 🚀 第二步：安装 Skills（1 分钟）
-
 ### 方法 1：使用 Codex 或 Claude Code
 
 1. **复制 4 个 skill 文件夹**到你的 skills 目录：
@@ -191,8 +189,6 @@ Source file: ./my-book.md
 4. **[`examples/`](./examples/)** — 真实场景示例
 
 ---
-
-## 💬 中文快速命令（复制即用）
 
 ## 💬 中文快速命令（复制即用）
 

@@ -45,9 +45,11 @@ jobs:
           root = Path('.')
           files = [*root.rglob('*.md'), *root.rglob('*.html')]
           pattern = re.compile(r'\[[^\]]*\]\(([^)]+)\)|href="([^"]+)"|src="([^"]+)"')
+          code_block_re = re.compile(r'```[^\n]*\n.*?```', re.DOTALL)
           missing = []
           for file in files:
               text = file.read_text(encoding='utf-8', errors='ignore')
+              text = code_block_re.sub('', text)
               for match in pattern.finditer(text):
                   target = next(group for group in match.groups() if group)
                   if target.startswith(('http://', 'https://', 'mailto:', '#', 'data:')):
