@@ -12,7 +12,7 @@
 ### `knowledge-base-ingest`
 用于：
 - 把长 markdown 文档、书稿、教程或大章节导入知识库
-- 先按章节/主题拆分，再建立 parent-child / prev-next / related links
+- 先按章节/主题拆分，再建立 parent-child / prev-next / related links，并生成 TOC / glossary candidates / related-link suggestions
 - 把长文档重组为 overview + chapter + topic 页面群
 - 避免把整本书直接作为一个超长页面写回 wiki
 
@@ -70,7 +70,8 @@
 3. 先拆分，再决定落页
 4. 建立 parent-child / prev-next / related links
 5. 同步 overview / root page / reader entry / milestone log
-6. 汇报导入结构和压缩策略
+6. 产出 TOC / glossary candidates / related-link suggestions
+7. 汇报导入结构和压缩策略
 
 ---
 

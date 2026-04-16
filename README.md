@@ -57,7 +57,7 @@
 
 这套 kit 把这些问题抽成两类能力：
 
-1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分并导入知识库
+1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
 2. **Maintenance**：把任务结果或结论沉淀进知识库
 3. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
@@ -171,7 +171,7 @@ wiki-knowledgebase-share-kit/
 - 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
 
 ### 日常使用
-- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`
+- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议）
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
 - 要做结构审计时：用 `knowledge-base-audit`
 - 大改之后：先 ingest / maintenance，再 audit

@@ -47,7 +47,7 @@ In one sentence:
 ## What this project does
 Many markdown or Obsidian-style vaults eventually drift into a mix of task logs, navigation notes, and unstable process history. This kit separates that problem into two repeatable workflows:
 
-1. **Ingest** — split long markdown sources or books into reusable knowledge-base pages
+1. **Ingest** — split long markdown sources or books, generate TOC / glossary candidates / related-link suggestions, and import them as reusable knowledge-base pages
 2. **Maintenance** — integrate durable conclusions into a vault
 3. **Audit** — inspect vault structure, metadata, navigation coverage, and noise regression
 
