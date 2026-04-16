@@ -157,6 +157,13 @@ wiki-knowledgebase-share-kit/
 ### `skills/`
 可直接复制到本地 AI 平台的 `skills/` 目录里使用。
 
+**包含 5 个 skills**:
+- `knowledge-base-kit-guide` — 安装和配置指南
+- `knowledge-base-ingest` — 长文档导入
+- `knowledge-base-maintenance` — 知识库维护
+- `knowledge-base-audit` — 知识库审计
+- `work-journal` — 工作记录与总结（可选）
+
 ### `docs/`
 平台无关的说明文档。即使不安装 skill，也可以按这里的方法手工维护知识库。
 
@@ -170,12 +177,16 @@ wiki-knowledgebase-share-kit/
 
 ## 推荐安装方式
 
-把以下四个目录复制到你的 skills 目录：
+把以下目录复制到你的 skills 目录：
 
+**核心 skills（必装）**:
 - `skills/knowledge-base-kit-guide`
 - `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
 - `skills/knowledge-base-audit`
+
+**可选 skills**:
+- `skills/work-journal` — 每日工作记录、会议纪要、临时想法
 
 常见位置示例：
 - `~/.codex/skills`
@@ -230,6 +241,45 @@ wiki-knowledgebase-share-kit/
 - 命名规则
 - frontmatter 规则
 - 允许存在于 vault 根目录的 canonical markdown 文件
+
+---
+
+## 工作记录功能（可选）
+
+**`work-journal` skill** 提供每日工作记录功能：
+
+### 功能特点
+
+- **每日记录**：按日期创建工作记录，支持时间戳格式
+- **会议录音处理**：支持语音转录，自动提取要点
+- **临时想法保存**：快速记录灵感，标记是否可沉淀
+- **项目关联**：自动建立项目软连接和知识页链接
+- **人名管理**：维护人名对照表，自动生成 Wiki 链接
+- **周期沉淀**：每周自动提取知识点到知识库
+
+### 目录结构
+
+```text
+journals/
+├── 2026-04/                    # 按月归档
+│   ├── 2026-04-17.md          # 每日记录
+│   └── ...
+├── people-table.md             # 人名对照表
+├── project-索引.md             # 项目索引
+└── project-X-timeline.md       # 项目时间线
+```
+
+### 使用示例
+
+```text
+用 $work-journal 记录今天的会议：
+- 09:00 项目A启动会，参会人张三、李四
+- 会议录音路径: ~/sources/meetings/xxx.mp3
+
+用 $work-journal 生成本月工作总结
+```
+
+详见 `skills/work-journal/SKILL.md` 和 `templates/journal-profile-template.md`
 
 ---
 

@@ -270,7 +270,37 @@ Source file: ./my-book.md
 | 把一段笔记整理进知识库 | `knowledge-base-maintenance` |
 | 导入一本 markdown 书 | `knowledge-base-ingest` |
 | 检查知识库有没有死链、孤立页 | `knowledge-base-audit` |
+| 记录今天的会议或工作 | `work-journal` |
 | 不知道该用哪个 | `knowledge-base-kit-guide` |
+
+---
+
+## 📝 工作记录命令（可选功能）
+
+### 记录会议
+```text
+用 $work-journal 记录今天的会议：
+- 时间: 09:00 - 10:30
+- 项目: 项目A启动会
+- 参会人: 张三、李四
+- 会议录音: ~/sources/meetings/2026-04-17.mp3
+```
+
+### 保存临时想法
+```text
+用 $work-journal 记录一个想法：
+"能否用 TPM 的 OEE 概念衡量实验室设备利用率？"
+```
+
+### 生成工作总结
+```text
+用 $work-journal 生成本月工作总结，时间范围 2026-04-01 ~ 2026-04-30
+```
+
+### 周期沉淀
+```text
+用 $work-journal 执行本周沉淀
+```
 
 ---
 
