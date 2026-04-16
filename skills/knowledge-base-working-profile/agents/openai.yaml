@@ -1,0 +1,6 @@
+interface:
+  display_name: "Working Profile 沉淀"
+  short_description: "从持续沟通中提炼稳定偏好、决策习惯和协作边界，写入 working profile"
+  default_prompt: "Use $knowledge-base-working-profile to update my working profile from our recent interactions. Read my vault profile first, keep only collaboration-relevant stable signals, separate confirmed from inferred items, refuse sensitive data, and sync the target profile page according to its visibility rules."
+policy:
+  allow_implicit_invocation: true
