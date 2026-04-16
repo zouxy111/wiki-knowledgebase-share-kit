@@ -12,6 +12,10 @@ description: This skill should be used when the user asks to "how do I use this 
 - 教用户如何填写 `vault profile`
 - 教用户什么时候该用 `knowledge-base-maintenance`
 - 教用户什么时候该用 `knowledge-base-audit`
+- 教用户什么时候该用 `knowledge-base-orchestrator`
+- 教用户什么时候该用 `knowledge-base-team-coordination`
+- 教用户什么时候该用 `knowledge-base-working-profile`
+- 教用户什么时候该用 `work-journal`
 - 帮用户判断当前卡在哪个配置步骤
 
 ## When to use
@@ -35,8 +39,16 @@ description: This skill should be used when the user asks to "how do I use this 
 1. 读 `README.md`
 2. 读 `docs/customization-guide.md`
 3. 复制并填写 `templates/vault-profile-template.md`
-4. 再安装 `knowledge-base-maintenance` 和 `knowledge-base-audit`
-5. 最后进入日常 maintenance / audit 工作流
+4. 安装所有 8 个 skills：
+   - `knowledge-base-kit-guide`（本 skill，使用指南）
+   - `knowledge-base-orchestrator`（总控/一键式）
+   - `knowledge-base-ingest`（长文档导入）
+   - `knowledge-base-maintenance`（知识库维护）
+   - `knowledge-base-audit`（结构审计）
+   - `knowledge-base-team-coordination`（团队协调）
+   - `knowledge-base-working-profile`（协作画像）
+   - `work-journal`（工作记录）
+5. 最后进入日常使用工作流
 
 ### 3. Explain the fixed model vs customizable parts
 明确告诉用户：
@@ -44,9 +56,14 @@ description: This skill should be used when the user asks to "how do I use this 
 - 可自定义的是 vault 路径、area、root pages、命名规则、frontmatter 规则
 
 ### 4. Explain skill responsibilities
+- `knowledge-base-kit-guide`（本 skill）：安装、上手、配置和分流说明
+- `knowledge-base-orchestrator`：一键式总控，自动检测环境并智能路由
+- `knowledge-base-ingest`：长文档拆分、导入、生成目录和术语
 - `knowledge-base-maintenance`：把任务结果沉淀进知识库
 - `knowledge-base-audit`：检查结构、导航、元数据和噪音回流
-- 本 skill：负责安装、上手、配置和分流说明
+- `knowledge-base-team-coordination`：多人项目协调、问卷派单、决策沉淀
+- `knowledge-base-working-profile`：从交互中提取稳定协作画像
+- `work-journal`：每日工作记录、会议纪要、周报生成
 
 ### 5. Detect missing setup prerequisites
 如果用户还没准备这些内容，就优先提示补齐：

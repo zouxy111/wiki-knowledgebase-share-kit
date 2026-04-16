@@ -59,3 +59,73 @@ Then use $knowledge-base-maintenance to fix the high-priority issues while prese
 用 $knowledge-base-audit 审计我的知识库。
 先读 vault profile，再检查死链、孤立页、metadata、页面边界漂移、噪音回流，以及根目录 stray markdown 文件。
 ```
+
+## 8. 一键配置环境（新手推荐）
+
+```text
+Use $knowledge-base-orchestrator to help me set up my knowledge base from scratch.
+Auto-detect my environment, install Obsidian if needed, create the vault structure, and generate a vault profile.
+```
+
+或中文：
+
+```text
+用 $knowledge-base-orchestrator 帮我从零配置知识库。
+自动检测环境，安装 Obsidian，创建文件夹结构，生成 vault profile。
+```
+
+## 9. 团队协调
+
+```text
+Use $knowledge-base-team-coordination to set up a shared project for our team.
+Generate questionnaires for each member, align everyone before assignment, and track approval status.
+```
+
+或中文：
+
+```text
+用 $knowledge-base-team-coordination 帮我们团队协调一个共享项目。
+生成每人对应的问卷，在对齐后再派单，跟踪审批状态。
+```
+
+## 10. 协作画像
+
+```text
+Use $knowledge-base-working-profile to distill my collaboration preferences from our recent interactions.
+Extract stable signals like decision heuristics, boundaries, and anti-patterns, but keep confirmed and inferred items separate.
+```
+
+或中文：
+
+```text
+用 $knowledge-base-working-profile 从最近的交互中整理我的协作画像。
+提取稳定的决策习惯、边界和反模式，但要把确认项和推断项分开。
+```
+
+## 11. 工作记录/日报
+
+```text
+Use $work-journal to create today's work log.
+Include timestamps, project associations, meeting notes, and temporary ideas.
+```
+
+或中文：
+
+```text
+用 $work-journal 帮我写今天的工作记录。
+包含时间戳、项目关联、会议纪要和临时想法。
+```
+
+## 12. 周报生成
+
+```text
+Use $work-journal to distill a weekly summary from my journal entries this week.
+Highlight key achievements, decisions made, and knowledge worth keeping in the knowledge base.
+```
+
+或中文：
+
+```text
+用 $work-journal 帮我生成本周的周报。
+突出关键成果、做出的决策，以及值得沉淀到知识库的知识。
+```
