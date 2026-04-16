@@ -12,9 +12,11 @@
 ### `knowledge-base-ingest`
 用于：
 - 把长 markdown 文档、书稿、教程或大章节导入知识库
-- 先按章节/主题拆分，再建立 parent-child / prev-next / related links
+- 先按章节/主题拆分，再建立 parent-child / prev-next / related links，并生成 TOC / glossary candidates / related-link suggestions
 - 把长文档重组为 overview + chapter + topic 页面群
 - 避免把整本书直接作为一个超长页面写回 wiki
+- 把第一次导入视为可测试基线，再根据测试、回归和版本对比持续优化结构
+- 作为轻量 harness / 回归底座，持续沉淀结构版本差异与回归结果
 
 ### `knowledge-base-maintenance`
 用于：
@@ -36,10 +38,11 @@
 ## 标准工作流
 
 ### 场景 A：导入长文档 / 书籍
-1. 先用 `knowledge-base-ingest`
-2. 如果导入规模较大，再用 `knowledge-base-audit` 做复检
+1. 先用 `knowledge-base-ingest` 做第一版导入基线
+2. 根据测试结果继续优化拆分粒度、页面角色和链接结构
+3. 如果导入规模较大，再用 `knowledge-base-audit` 做复检
 
-也就是：**先拆并写，再审**。
+也就是：**先落基线，再迭代，再审**。
 
 ### 场景 B：任务完成后沉淀知识
 1. 先用 `knowledge-base-maintenance`
@@ -66,11 +69,16 @@
 ## Ingest 的默认回路
 
 1. 先读 vault profile 和 source markdown
-2. 先做 ingestion map
+2. 先做 ingestion map，并定义第一版导入基线
 3. 先拆分，再决定落页
 4. 建立 parent-child / prev-next / related links
 5. 同步 overview / root page / reader entry / milestone log
-6. 汇报导入结构和压缩策略
+6. 产出 TOC / glossary candidates / related-link suggestions
+7. 为这一轮保留最小 harness 产物：ingestion map / manifest / toc / 候选术语 / related suggestions / regression checklist
+8. 基于测试结果比较不同拆分方案的可用性与维护成本
+9. 调整页面角色、链接架构和章节粒度
+10. 对入口页、来源链和关键导航做回归检查
+11. 汇报版本差异、结构决策和最终稳定形态
 
 ---
 
@@ -137,3 +145,17 @@
 - 影响页面
 - 建议修复顺序
 - 是否存在 root-level stray files
+
+---
+
+## 为什么 ingest 不是一次性动作
+
+长篇知识源的第一次导入，通常只能得到一个**可测试版本**，而不是最终版本。
+
+真正稳定的知识库结构，往往要经过：
+- 拆分粒度调整
+- 页面角色重构
+- 链接架构优化
+- 入口页与来源链的回归检查
+
+因此 `knowledge-base-ingest` 更像一个“测试驱动的结构整理回路”或“轻量 harness / 回归底座”，而不是一次性导入脚本。

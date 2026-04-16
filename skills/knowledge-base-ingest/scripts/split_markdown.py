@@ -17,6 +17,7 @@ class Heading:
     line_index: int
     level: int
     title: str
+    breadcrumb: List[str]
 
 
 @dataclass
@@ -28,6 +29,7 @@ class Chunk:
     start_line: int
     end_line: int
     word_count: int
+    breadcrumb: List[str]
 
 
 def slugify(text: str) -> str:
@@ -39,10 +41,18 @@ def slugify(text: str) -> str:
 
 def find_headings(lines: List[str]) -> List[Heading]:
     headings: List[Heading] = []
+    stack: List[tuple[int, str]] = []
     for idx, line in enumerate(lines):
         m = HEADING_RE.match(line)
-        if m:
-            headings.append(Heading(idx, len(m.group(1)), m.group(2).strip()))
+        if not m:
+            continue
+        level = len(m.group(1))
+        title = m.group(2).strip()
+        while stack and stack[-1][0] >= level:
+            stack.pop()
+        breadcrumb = [item[1] for item in stack] + [title]
+        stack.append((level, title))
+        headings.append(Heading(idx, level, title, breadcrumb))
     return headings
 
 
@@ -68,7 +78,7 @@ def split_range(lines: List[str], headings: List[Heading], level: int, start: in
     if not scoped:
         title = f'part-{start + 1}'
         chunk_lines = lines[start:end]
-        return [Chunk(title, level, slugify(title), chunk_lines, start + 1, end, count_words(chunk_lines))]
+        return [Chunk(title, level, slugify(title), chunk_lines, start + 1, end, count_words(chunk_lines), [title])]
 
     chunks: List[Chunk] = []
     for i, heading in enumerate(scoped):
@@ -95,15 +105,25 @@ def split_range(lines: List[str], headings: List[Heading], level: int, start: in
                 start_line=section_start + 1,
                 end_line=section_end,
                 word_count=word_count,
+                breadcrumb=heading.breadcrumb,
             )
         )
     return chunks
 
 
-def write_chunks(chunks: List[Chunk], output_dir: Path, prefix: str) -> None:
+def unique_filename(output_dir: Path, idx: int, prefix: str, slug: str) -> str:
+    candidate = f'{idx:03d}-{prefix}{slug}.md'
+    counter = 2
+    while (output_dir / candidate).exists():
+        candidate = f'{idx:03d}-{prefix}{slug}-{counter}.md'
+        counter += 1
+    return candidate
+
+
+def write_chunks(chunks: List[Chunk], output_dir: Path, prefix: str) -> list[dict]:
     manifest = []
     for idx, chunk in enumerate(chunks, start=1):
-        filename = f'{idx:03d}-{prefix}{chunk.slug}.md'
+        filename = unique_filename(output_dir, idx, prefix, chunk.slug)
         path = output_dir / filename
         path.write_text(''.join(chunk.lines), encoding='utf-8')
         manifest.append(
@@ -112,12 +132,21 @@ def write_chunks(chunks: List[Chunk], output_dir: Path, prefix: str) -> None:
                 'file': filename,
                 'title': chunk.title,
                 'level': chunk.level,
+                'breadcrumb': chunk.breadcrumb,
                 'start_line': chunk.start_line,
                 'end_line': chunk.end_line,
                 'word_count': chunk.word_count,
             }
         )
-    (output_dir / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+    return manifest
+
+
+def write_toc(manifest: list[dict], output_dir: Path) -> None:
+    lines = ['# Extracted Table of Contents', '']
+    for item in manifest:
+        indent = '  ' * max(0, len(item['breadcrumb']) - 1)
+        lines.append(f"{indent}- [{item['title']}]({item['file']})")
+    (output_dir / 'toc.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
 
 def main() -> int:
@@ -147,7 +176,9 @@ def main() -> int:
         if ''.join(preamble).strip():
             (output_dir / '000-preamble.md').write_text(''.join(preamble), encoding='utf-8')
 
-    write_chunks(chunks, output_dir, args.prefix)
+    manifest = write_chunks(chunks, output_dir, args.prefix)
+    (output_dir / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+    write_toc(manifest, output_dir)
     print(json.dumps({'source': str(source), 'effective_level': level, 'chunks': len(chunks), 'output_dir': str(output_dir)}, ensure_ascii=False))
     return 0
 

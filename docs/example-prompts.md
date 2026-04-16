@@ -1,10 +1,14 @@
 # Example Prompts
 
-## 0. 导入一本 markdown 书到知识库
+## 0. 以轻量 harness 方式导入一本 markdown 书到知识库
 
 ```text
-Use $knowledge-base-ingest to import this markdown book into my knowledge base.
-Read my vault profile first, split the source into reusable chapter/topic pages, create navigation and related links, preserve source lineage, and sync the necessary entrypoints.
+Use $knowledge-base-ingest to import this long Markdown document into my knowledge base.
+Read my vault profile first.
+Create a minimal workable overview/chapter/topic structure with source lineage, toc, glossary candidates, and related-link suggestions.
+Treat the first import as a testable baseline rather than the final structure.
+Use a lightweight harness mindset: keep versioned structure outputs, compare split strategies across iterations, refine page roles, improve link architecture, and run regression-style checks on navigation, lineage, and entry pages after each iteration.
+Sync the stabilized structure back to the required entry pages.
 ```
 
 ## 1. 第一次安装后，不知道怎么开始
