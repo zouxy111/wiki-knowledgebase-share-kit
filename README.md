@@ -140,7 +140,6 @@
 ```text
 wiki-knowledgebase-share-kit/
   COVER-CN.md
-  中文封面说明页.md
   START-HERE.md
   README.md
   docs/
@@ -236,12 +235,12 @@ wiki-knowledgebase-share-kit/
 ## 先读哪几个文件
 
 最短路径：
-- `COVER-CN.md`
-- `中文封面说明页.md`
-- `START-HERE.md`
-- `docs/customization-guide.md`
-- `templates/vault-profile-template.md`
-- `docs/usage-sop.md`
+- `START-HERE.md` — 5 分钟快速上手
+- `GLOSSARY.md` — 核心概念解释
+- `COVER-CN.md` — 中文封面说明（可选）
+- `docs/customization-guide.md` — 进阶定制
+- `templates/vault-profile-template.md` — 配置模板
+- `docs/usage-sop.md` — 使用规范
 
 如果想看一个完整落地示例，再读：
 - `examples/example-vault-profile-generic.md`

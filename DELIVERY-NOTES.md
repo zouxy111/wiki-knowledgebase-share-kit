@@ -24,6 +24,7 @@
 - vault profile 模板
 - 示例 profile
 - 使用口令示例
+- 核心概念术语表（GLOSSARY.md）
 
 它不包含：
 - 自动生成 profile 的脚本
@@ -39,8 +40,8 @@
 ## 建议转发方式
 
 优先让对方先看：
-- `COVER-CN.md`
-- `中文封面说明页.md`
-- `START-HERE.md`
+- `START-HERE.md` — 5 分钟快速上手
+- `GLOSSARY.md` — 核心概念解释
+- `COVER-CN.md` — 中文封面说明（可选）
 
 如果只想附一句话，就用交付包里的中文封面页末尾那段转发文案。

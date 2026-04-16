@@ -135,7 +135,7 @@
 
 ```text
 这是一个可复用的 wiki/markdown 知识库维护包。
-先看《中文封面说明页.md》或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
+先看 COVER-CN.md 或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
 ```
 
 ---
