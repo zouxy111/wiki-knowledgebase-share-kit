@@ -16,7 +16,9 @@ A reusable skill-and-docs kit for keeping markdown/wiki vaults structured, durab
 - [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md): generic profile example without personal paths
 - [`docs/customization-guide.md`](./docs/customization-guide.md): adapt the kit to your own vault
 - [`docs/example-prompts.md`](./docs/example-prompts.md): copy-ready prompts
+- [`docs/ingest-evaluation-rubric.md`](./docs/ingest-evaluation-rubric.md): decide whether a candidate structure deserves promotion
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md): test-driven ingest case study
+- [`templates/ingest-iteration-log-template.md`](./templates/ingest-iteration-log-template.md): baseline / candidate / regression log template
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases): download published versions
 - [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/): browse the landing page
 
@@ -51,6 +53,7 @@ Many markdown or Obsidian-style vaults eventually drift into a mix of task logs,
 1. **Ingest** — split long markdown sources or books, generate TOC / glossary candidates / related-link suggestions, and import them as reusable knowledge-base pages
    - The first import is treated as a **testable baseline**, then refined through testing, regression checks, and version comparison
    - The ingest loop can also be treated as a lightweight harness for structure evolution
+   - Candidate structures should pass a shared rubric and regression check before replacing the stable baseline
 2. **Maintenance** — integrate durable conclusions into a vault
 3. **Audit** — inspect vault structure, metadata, navigation coverage, and noise regression
 
@@ -89,6 +92,8 @@ But leaves these pieces configurable through a vault profile:
 
 - [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md): what should be abstracted from a real vault before sharing it
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md): how a long-form professional markdown source is imported, tested, compared, refactored, and stabilized with a lightweight harness mindset
+- [`docs/ingest-evaluation-rubric.md`](./docs/ingest-evaluation-rubric.md): how to score candidate structures against the stable baseline
+- [`templates/ingest-iteration-log-template.md`](./templates/ingest-iteration-log-template.md): how to log each ingest iteration
 
 ## Platform status
 
@@ -123,6 +128,7 @@ wiki-knowledgebase-share-kit/
 4. Install the four skill directories into your AI platform's `skills/` folder
 5. Start with `knowledge-base-kit-guide`
 6. Review `examples/case-study-pathology-ingest-iteration.md` for a test-driven ingest example
+7. Use `docs/ingest-evaluation-rubric.md` when iterating on an existing ingest structure
 
 ## Principles
 - knowledge-base-first, not process-log-first

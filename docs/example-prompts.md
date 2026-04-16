@@ -7,7 +7,7 @@ Use $knowledge-base-ingest to import this long Markdown document into my knowled
 Read my vault profile first.
 Create a minimal workable overview/chapter/topic structure with source lineage, toc, glossary candidates, and related-link suggestions.
 Treat the first import as a testable baseline rather than the final structure.
-Use a lightweight harness mindset: keep versioned structure outputs, compare split strategies across iterations, refine page roles, improve link architecture, and run regression-style checks on navigation, lineage, and entry pages after each iteration.
+Use a lightweight harness mindset: keep versioned structure outputs, compare candidate structures against the stable baseline with an ingest rubric, refine page roles, improve link architecture, and run regression-style checks on navigation, lineage, and entry pages after each iteration.
 Sync the stabilized structure back to the required entry pages.
 ```
 

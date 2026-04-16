@@ -17,7 +17,9 @@
 - [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
 - [`docs/customization-guide.md`](./docs/customization-guide.md)：如何改造成自己的知识库体系
 - [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
+- [`docs/ingest-evaluation-rubric.md`](./docs/ingest-evaluation-rubric.md)：判断候选结构是否值得晋升的评估口径
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：测试驱动的长文档导入案例
+- [`templates/ingest-iteration-log-template.md`](./templates/ingest-iteration-log-template.md)：记录 baseline / candidate / regression / decision
 - [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
 - [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：浏览开源落地页
 
@@ -61,6 +63,7 @@
 1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
    - 第一版导入只作为**可测试基线**，后续应根据测试结果继续优化拆分粒度、页面角色和链接架构
    - 整个 ingest 回路可以当作一个轻量 harness / 回归底座来用
+   - 候选结构应通过统一 rubric 和回归检查后，再晋升为新的稳定基线
 2. **Maintenance**：把任务结果或结论沉淀进知识库
 3. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
@@ -99,6 +102,8 @@
 
 - [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md)：从当前 vault 抽象出可分享的固定规则
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：展示如何把长篇专业 Markdown 先导入成可测试基线，再以轻量 harness 的方式通过测试、回归和版本对比持续优化知识库结构
+- [`docs/ingest-evaluation-rubric.md`](./docs/ingest-evaluation-rubric.md)：如何评估 candidate structure 是否优于 baseline
+- [`templates/ingest-iteration-log-template.md`](./templates/ingest-iteration-log-template.md)：如何记录每一轮结构迭代
 
 ---
 
@@ -180,6 +185,7 @@ wiki-knowledgebase-share-kit/
 
 ### 日常使用
 - 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及轻量 harness 风格的结构迭代）
+- 如果要连续迭代导入结构：配合 `docs/ingest-evaluation-rubric.md` 和 `templates/ingest-iteration-log-template.md`
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
 - 要做结构审计时：用 `knowledge-base-audit`
 - 大改之后：先 ingest / maintenance，再 audit
@@ -222,7 +228,9 @@ wiki-knowledgebase-share-kit/
 - `START-HERE.md`
 - `docs/customization-guide.md`
 - `templates/vault-profile-template.md`
+- `templates/ingest-iteration-log-template.md`
 - `docs/usage-sop.md`
+- `docs/ingest-evaluation-rubric.md`
 
 如果想看一个完整落地示例，再读：
 - `examples/example-vault-profile-generic.md`

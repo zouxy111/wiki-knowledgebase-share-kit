@@ -17,6 +17,7 @@
 - 避免把整本书直接作为一个超长页面写回 wiki
 - 把第一次导入视为可测试基线，再根据测试、回归和版本对比持续优化结构
 - 作为轻量 harness / 回归底座，持续沉淀结构版本差异与回归结果
+- 用统一的 ingest rubric 决定候选结构是否值得晋升
 
 ### `knowledge-base-maintenance`
 用于：
@@ -75,10 +76,11 @@
 5. 同步 overview / root page / reader entry / milestone log
 6. 产出 TOC / glossary candidates / related-link suggestions
 7. 为这一轮保留最小 harness 产物：ingestion map / manifest / toc / 候选术语 / related suggestions / regression checklist
-8. 基于测试结果比较不同拆分方案的可用性与维护成本
+8. 用 ingest rubric 比较 baseline 与 candidate 的结构质量
 9. 调整页面角色、链接架构和章节粒度
 10. 对入口页、来源链和关键导航做回归检查
-11. 汇报版本差异、结构决策和最终稳定形态
+11. 只有在候选结构更优且无关键回归时，才晋升为新的 baseline
+12. 汇报版本差异、结构决策和最终稳定形态
 
 ---
 
@@ -159,3 +161,24 @@
 - 入口页与来源链的回归检查
 
 因此 `knowledge-base-ingest` 更像一个“测试驱动的结构整理回路”或“轻量 harness / 回归底座”，而不是一次性导入脚本。
+
+---
+
+## 候选结构的晋升规则
+
+建议把每一轮 ingest 的结果分成两类：
+
+- **stable baseline**：当前已经确认可用的稳定结构
+- **candidate structure**：本轮准备晋升的新结构
+
+推荐规则：
+
+1. candidate 总体分数高于 baseline
+2. 没有关键回归
+3. 至少在拆分适配度、页面角色清晰度、导航覆盖度中有明确提升
+
+如果没有满足这些条件，就继续打磨 candidate，而不是急着替换 baseline。
+
+可以配合使用：
+- `docs/ingest-evaluation-rubric.md`
+- `templates/ingest-iteration-log-template.md`

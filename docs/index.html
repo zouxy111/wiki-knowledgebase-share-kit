@@ -103,7 +103,7 @@
         <h1>Keep your markdown vault useful, not noisy.</h1>
         <p class="lede">
           A reusable open-source kit with 4 installable skills, profile-driven configuration,
-          and an ingest / maintenance / audit split for markdown and wiki knowledge bases. The ingest loop is test-driven and can be used like a lightweight harness: start with a baseline, then refine structure through regression and comparison.
+          and an ingest / maintenance / audit split for markdown and wiki knowledge bases. The ingest loop is test-driven and can be used like a lightweight harness: start with a baseline, compare candidate structures, and promote only the versions that survive regression checks.
         </p>
         <div class="cta-row">
           <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
@@ -209,14 +209,14 @@
     <div class="flow">
       <article class="panel step"><small>01</small><strong>Install</strong><span>Copy the four skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
       <article class="panel step"><small>02</small><strong>Profile</strong><span>Fill the vault profile template with your vault root, root pages, areas, and metadata rules.</span></article>
-      <article class="panel step"><small>03</small><strong>Ingest / Maintain</strong><span>Use ingest for long-form sources as a testable baseline, then run it like a lightweight harness: compare versions, refine split strategy, adjust page roles, and improve link architecture before locking in durable structure.</span></article>
+      <article class="panel step"><small>03</small><strong>Ingest / Maintain</strong><span>Use ingest for long-form sources as a testable baseline, then compare candidate structures against that baseline, refine split strategy, adjust page roles, and only promote changes that improve structure without introducing regressions.</span></article>
       <article class="panel step"><small>04</small><strong>Audit</strong><span>Run audit after bigger changes or on a schedule to catch drift, dead links, and noise regression.</span></article>
     </div>
   </div>
 
   <div class="shell section">
     <h2>Test-driven ingest example</h2>
-    <p class="sub">A good long-form ingest is not a one-shot import. The initial structure should be treated as a baseline, then improved through testing, regression checks, version comparison, and lightweight harness-style iteration.</p>
+    <p class="sub">A good long-form ingest is not a one-shot import. The initial structure should be treated as a baseline, then improved through testing, regression checks, version comparison, and a clear candidate-promotion rule.</p>
     <div class="grid-3">
       <article class="panel card">
         <h3>Baseline first</h3>
@@ -224,7 +224,7 @@
       </article>
       <article class="panel card">
         <h3>Test and compare</h3>
-        <p>Use real retrieval and navigation feedback to compare split strategies, page roles, maintenance cost, and version-to-version structure diffs.</p>
+        <p>Use real retrieval and navigation feedback plus a shared rubric to compare split strategies, page roles, maintenance cost, and version-to-version structure diffs.</p>
       </article>
       <article class="panel card">
         <h3>Refactor safely</h3>
