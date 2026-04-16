@@ -9,13 +9,23 @@ All notable changes to this project will be documented in this file.
 - Expanded the ingest case study to frame `knowledge-base-ingest` as a lightweight harness / regression baseline for structure evolution.
 - Added a deterministic heading-based splitter at `skills/knowledge-base-ingest/scripts/split_markdown.py`.
 - Added glossary extraction and related-link suggestion scripts for `knowledge-base-ingest`.
+- Added `docs/ingest-evaluation-rubric.md` and `templates/ingest-iteration-log-template.md` for candidate-vs-baseline ingest evaluation.
+- Added ingest references for a baseline/candidate iteration loop and a promotion rubric.
+- Fourth skill: `knowledge-base-team-coordination` for multi-person shared-project coordination.
+- Team project workspace template under `templates/team-project-workspace/`.
+- Reusable member capability profile template under `templates/member-capability-profile-template.md`.
+- Team coordination guide at `docs/team-coordination-workflow.md`.
+- Generic 2-person example and QC 3-person example under `examples/`.
 - Generic example vault profile without personal local paths at `examples/example-vault-profile-generic.md`.
 - Basic GitHub Actions validation workflow for skill bundle structure and relative links.
 - Developer list updated to `邹星宇` and `杨琦` in the main repository surfaces.
 
 ### Changed
 - Improved Chinese and English README files with a 30-second overview, platform status, clearer audience fit guidance, and test-driven ingest case-study links.
-- Updated example prompts, usage SOP, and the GitHub Pages landing page to emphasize baseline import, lightweight harness framing, regression checks, and iterative knowledge-architecture refinement.
+- Updated `knowledge-base-ingest`, example prompts, usage SOP, and the GitHub Pages landing page to emphasize baseline import, candidate promotion rules, regression checks, and iterative knowledge-architecture refinement.
+- Expanded onboarding docs, README files, prompts, and landing page from a 3-skill kit to a 4-skill kit.
+- Updated guide / maintenance / audit boundaries so outsiders can distinguish vault maintenance from team coordination.
+- Extended the vault profile template so the same profile can be reused for optional vault sync from the coordination workflow.
 
 ## [1.0.1] - 2026-04-16
 ### Added

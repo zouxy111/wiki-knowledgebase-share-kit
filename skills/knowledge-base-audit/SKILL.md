@@ -16,6 +16,8 @@ description: This skill should be used when the user asks to "audit a wiki vault
 - noise regression
 - root-level stray markdown files
 
+> 如果用户要的是**共享项目目录的问卷派发、alignment、assignment、follow-up 或 decision distill**，不要用本 skill；应改用 `knowledge-base-team-coordination`。
+
 ## When to use
 - 用户要做 wiki/知识库结构审计
 - 用户担心 dead links、orphan pages、frontmatter 缺失、导航漂移
@@ -34,12 +36,20 @@ description: This skill should be used when the user asks to "audit a wiki vault
 ## Required input
 在执行审计前，先读取 **vault profile**。
 
+profile 可以通过以下任一方式提供：
+- 一个明确的**绝对文件路径**
+- 一个附带的 markdown 文件
+- 用户直接粘贴的 profile 内容
+
+如果用户只说“read my vault profile”，但没有给路径或文件，不要假定 agent 能自己定位到它。
+
 先读：
 - `references/vault-profile-contract.md`
 - `references/audit-checklist.md`
 - `../../templates/vault-profile-template.md`
 
 没有 profile 时，不要凭空假定哪些文件算 root pages，哪些 markdown 文件允许留在 vault 根目录。
+建议优先让用户把 profile 保存成稳定文件，例如 `<vault-root>/vault-profile.md`。
 
 ## Fixed page-role model
 这套技能默认检查以下页面角色模型：

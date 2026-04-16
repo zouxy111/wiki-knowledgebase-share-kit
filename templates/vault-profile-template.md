@@ -1,7 +1,8 @@
 # Vault Profile Template
 
-> **用途**：告诉工具你的知识库结构，让它知道怎么帮你整理笔记。  
-> **用法**：复制本模板，填写你自己的信息，保存为 `my-vault-profile.md`。
+> **用途**：给 `knowledge-base-maintenance`、`knowledge-base-audit`，以及 `knowledge-base-team-coordination` 的**可选知识库同步**提供唯一配置入口。  
+> **用法**：复制本模板，填写你自己的信息，再让 skill 先读取这个 profile。  
+> **建议**：把填写后的文件保存成一个**稳定且可显式引用的路径**，例如 `<vault-root>/vault-profile.md`。
 
 ---
 
@@ -110,7 +111,18 @@
 
 ## 6. Frontmatter contract（文件头部元数据规则）
 
-每个笔记文件开头必须包含这些信息：
+每个笔记文件开头最少应包含这些信息：
+- `title`
+- `type`
+- `area`
+- `tags`
+- `updated`
+
+可选字段：
+- `status`
+- `owner`
+- `created`
+- `aliases`
 
 ### 最少字段（必填）
 ```yaml
@@ -157,13 +169,13 @@ updated: "2026-04-17"
 
 - **Root pages（导航页）**：统一以 `project-` 开头
   - 示例：`project-learning-overview.md`
-  
+
 - **Ops pages（操作手册）**：用 `-ops` / `-runbook` / `-troubleshooting` 结尾
   - 示例：`redis-ops.md`、`deployment-runbook.md`
-  
+
 - **Task pages（任务清单）**：用 `-tasks` / `-todo` 结尾
   - 示例：`q2-tasks.md`、`weekly-todo.md`
-  
+
 - **Overview pages（总览页）**：用 `-overview` / `-index` 结尾
   - 示例：`workspace-overview.md`
 
@@ -179,13 +191,13 @@ updated: "2026-04-17"
 
 - **Knowledge-base-first mode**（知识库优先模式）: `yes`
   - 💡 只保留长期有用的内容，过滤掉临时过程
-  
+
 - **Milestone-only log**（里程碑日志模式）: `yes`
   - 💡 log.md 只记录重要变化，不记录流水账
-  
+
 - **`ops` page four-part pattern**（ops 页四段式结构）: `yes`
   - 💡 ops 页统一写成：现象 / 根因 / 处理法 / 边界
-  
+
 - **Root pages should avoid long process narration**（根页避免长流水）: `yes`
   - 💡 导航页只做导航，不堆积执行细节
 
@@ -212,6 +224,20 @@ updated: "2026-04-17"
 2. **导航问题**（缺少入口、root page 覆盖不全）
 3. **治理漂移**（页面角色混乱、边界不清）
 4. **噪音回流**（临时内容混入知识库）
+
+如需调整，可写在这里。
+
+---
+
+## 11. Optional team-coordination sync notes
+
+如果你计划把多人协同的稳定结果同步回知识库，可在这里补充：
+- 允许同步哪些类型的稳定决策：
+- 人物画像增量更适合写入哪些 area / root pages：
+- 是否要求只有 `approved` 才能同步（推荐：yes）：
+- 是否要求 decision register 中带上链接回原项目目录：
+
+如果你不需要多人协同同步，可以留空。
 
 ---
 

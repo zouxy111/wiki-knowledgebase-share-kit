@@ -11,6 +11,8 @@ description: This skill should be used when the user asks to "maintain a markdow
 - 优先保留：稳定知识、长期边界、复用方法、可复用排障结论
 - 默认拒绝：一次性过程、长流水、低价值路径噪音、原始运行时镜像
 
+> 如果用户要的是**2 人及以上项目的问卷派发、目标对齐、任务分配或决策蒸馏**，不要用本 skill；应改用 `knowledge-base-team-coordination`。
+
 ## When to use
 - 用户要把“这次任务/聊天/排查结果”沉淀进知识库
 - 用户要更新现有页面、导航或里程碑日志，而不是只在聊天里口头总结
@@ -19,6 +21,13 @@ description: This skill should be used when the user asks to "maintain a markdow
 
 ## Required input
 在执行维护前，先读取 **vault profile**。
+
+profile 可以通过以下任一方式提供：
+- 一个明确的**绝对文件路径**
+- 一个附带的 markdown 文件
+- 用户直接粘贴的 profile 内容
+
+如果用户只是说“read my vault profile”，但没有给路径或文件，不要假设你能自动找到它。
 
 默认需要以下输入：
 - vault root
@@ -37,6 +46,7 @@ description: This skill should be used when the user asks to "maintain a markdow
 - `../../templates/vault-profile-template.md`
 
 如果用户没有提供 profile，就先要求最小配置，再继续执行，不要凭空猜测路径或 root pages。
+建议优先让用户把 profile 保存成稳定文件，例如 `<vault-root>/vault-profile.md`。
 
 ## Fixed page-role model
 这套技能固定保留以下角色模型：
