@@ -16,6 +16,10 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install linting tools
+        run: |
+          pip install flake8 black
+
       - name: Validate skill bundle structure
         run: |
           python - <<'PY'
@@ -85,3 +89,20 @@ jobs:
               raise SystemExit(1)
           print('Relative link validation passed.')
           PY
+
+      - name: Run Black (format check)
+        run: |
+          black --check skills/ || echo "::warning::Python files are not properly formatted. Run 'black skills/' to fix."
+
+      - name: Run Flake8 (linting)
+        run: |
+          flake8 --max-line-length=120 --ignore=E501,W503 skills/ || echo "::warning::Linting issues found. See output for details."
+
+      - name: Run tests
+        run: |
+          if [ -d "tests" ]; then
+            pip install pytest
+            pytest tests/ -v
+          else
+            echo "No tests directory found. Consider adding tests/ for Python script validation."
+          fi

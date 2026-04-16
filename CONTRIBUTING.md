@@ -45,3 +45,7 @@ When filing an issue, please include:
 - what you expected to happen
 - what actually happened
 - whether the problem is in the reusable template, the example profile, or your own vault profile
+
+**File an issue**: [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
+
+**Start a discussion**: [GitHub Discussions](https://github.com/zouxy111/wiki-knowledgebase-share-kit/discussions) (if enabled)

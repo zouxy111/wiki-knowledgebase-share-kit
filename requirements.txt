@@ -1,0 +1,7 @@
+# Runtime dependencies
+# This project uses only Python 3.11+ standard library. No external packages required.
+
+# Development dependencies (optional)
+# pytest>=7.0
+# black>=23.0
+# flake8>=6.0
