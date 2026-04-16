@@ -1,0 +1,6 @@
+interface:
+  display_name: "Knowledge Base 多人协同"
+  short_description: "读取共享项目目录，按成员能力发问卷、做对齐派单，并蒸馏决策"
+  default_prompt: "Use $knowledge-base-team-coordination to run a shared project workflow for 2+ people. Read the shared project directory first, use canonical member profiles when available, generate role-aware questionnaire drafts, align responses, draft assignments and a shared task board, and only treat approved tasks or decisions as later facts or sync targets."
+policy:
+  allow_implicit_invocation: true
