@@ -47,8 +47,9 @@ In one sentence:
 ## What this project does
 Many markdown or Obsidian-style vaults eventually drift into a mix of task logs, navigation notes, and unstable process history. This kit separates that problem into two repeatable workflows:
 
-1. **Maintenance** — integrate durable conclusions into a vault
-2. **Audit** — inspect vault structure, metadata, navigation coverage, and noise regression
+1. **Ingest** — split long markdown sources or books into reusable knowledge-base pages
+2. **Maintenance** — integrate durable conclusions into a vault
+3. **Audit** — inspect vault structure, metadata, navigation coverage, and noise regression
 
 The kit keeps a fixed page-role model:
 - `project`
@@ -86,7 +87,7 @@ But leaves these pieces configurable through a vault profile:
 | Platform | Status | Notes |
 |---|---|---|
 | Codex / ChatGPT Codex-style skill directories | Recommended | Repository includes `SKILL.md`, `references/`, and `agents/openai.yaml` |
-| Claude-style skill directories | Works | Copy the three skill folders directly |
+| Claude-style skill directories | Works | Copy the four skill folders directly |
 | Other platforms supporting `SKILL.md` bundles | Maybe | Invocation and discovery may need adaptation |
 
 ## Repository layout
@@ -102,6 +103,7 @@ wiki-knowledgebase-share-kit/
     example-vault-profile-generic.md
   skills/
     knowledge-base-kit-guide/
+    knowledge-base-ingest/
     knowledge-base-maintenance/
     knowledge-base-audit/
 ```
@@ -110,7 +112,7 @@ wiki-knowledgebase-share-kit/
 1. Read `/START-HERE.md`
 2. Copy `templates/vault-profile-template.md` and fill it for your own vault
 3. Review `examples/example-vault-profile-generic.md`
-4. Install the three skill directories into your AI platform's `skills/` folder
+4. Install the four skill directories into your AI platform's `skills/` folder
 5. Start with `knowledge-base-kit-guide`
 
 ## Principles

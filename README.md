@@ -57,8 +57,9 @@
 
 这套 kit 把这些问题抽成两类能力：
 
-1. **Maintenance**：把任务结果或结论沉淀进知识库
-2. **Audit**：检查知识库结构、导航、元数据和噪音回流
+1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分并导入知识库
+2. **Maintenance**：把任务结果或结论沉淀进知识库
+3. **Audit**：检查知识库结构、导航、元数据和噪音回流
 
 同时保留固定页面角色模型：
 - `project`
@@ -98,7 +99,7 @@
 | 平台 | 状态 | 说明 |
 |---|---|---|
 | Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 `SKILL.md`、`references/`、`agents/openai.yaml` |
-| Claude 风格 skills 目录 | 可用 | 直接复制三个 skill 目录即可 |
+| Claude 风格 skills 目录 | 可用 | 直接复制四个 skill 目录即可 |
 | 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配调用方式与 skill 发现机制 |
 
 如果你不确定平台兼容性，先看：
@@ -121,6 +122,7 @@ wiki-knowledgebase-share-kit/
     example-vault-profile-generic.md
   skills/
     knowledge-base-kit-guide/
+    knowledge-base-ingest/
     knowledge-base-maintenance/
     knowledge-base-audit/
 ```
@@ -141,9 +143,10 @@ wiki-knowledgebase-share-kit/
 
 ## 推荐安装方式
 
-把以下三个目录复制到你的 skills 目录：
+把以下四个目录复制到你的 skills 目录：
 
 - `skills/knowledge-base-kit-guide`
+- `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
 - `skills/knowledge-base-audit`
 
@@ -168,9 +171,10 @@ wiki-knowledgebase-share-kit/
 - 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
 
 ### 日常使用
+- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`
 - 要沉淀任务结果时：用 `knowledge-base-maintenance`
 - 要做结构审计时：用 `knowledge-base-audit`
-- 大改之后：先 maintenance，再 audit
+- 大改之后：先 ingest / maintenance，再 audit
 
 ---
 

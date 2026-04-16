@@ -13,7 +13,7 @@
 
 ```text
 这是一个可复用的 wiki/markdown 知识库维护包。
-先看 START-HERE.md，再复制 3 个 skills，填好 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
+先看 START-HERE.md，再复制 4 个 skills，填好 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
 ```
 
 ## 这份包的交付边界

@@ -1,5 +1,12 @@
 # Example Prompts
 
+## 0. 导入一本 markdown 书到知识库
+
+```text
+Use $knowledge-base-ingest to import this markdown book into my knowledge base.
+Read my vault profile first, split the source into reusable chapter/topic pages, create navigation and related links, preserve source lineage, and sync the necessary entrypoints.
+```
+
 ## 1. 第一次安装后，不知道怎么开始
 
 ```text
