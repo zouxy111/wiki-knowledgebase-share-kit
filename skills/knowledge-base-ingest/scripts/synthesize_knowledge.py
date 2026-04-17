@@ -33,6 +33,10 @@ def write_text(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
 
 
+def yaml_quote(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
+
+
 def normalize_list(value) -> list[str]:
     if isinstance(value, str):
         value = [value]
@@ -83,7 +87,65 @@ def dedupe(items: list[str]) -> list[str]:
     return result
 
 
-def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
+def frontmatter_block(meta: dict) -> str:
+    lines = ["---"]
+    for key, value in meta.items():
+        if value is None:
+            continue
+        if isinstance(value, bool):
+            rendered = "true" if value else "false"
+        elif isinstance(value, list):
+            rendered = "[" + ", ".join(yaml_quote(str(item)) for item in value) + "]"
+        else:
+            rendered = yaml_quote(str(value))
+        lines.append(f"{key}: {rendered}")
+    lines.append("---")
+    return "\n".join(lines)
+
+
+def build_page_frontmatter(
+    *,
+    title: str,
+    page_type: str,
+    area: str,
+    tags: list[str],
+    status: str,
+    source_title: str,
+    source_path: str,
+    source_hash: str,
+    generated_at: str,
+    run_name: str,
+    candidate_kind: str,
+    owner: str | None = None,
+) -> str:
+    return frontmatter_block(
+        {
+            "title": title,
+            "type": page_type,
+            "area": area,
+            "tags": tags,
+            "status": status,
+            "owner": owner,
+            "candidate": True,
+            "candidate_kind": candidate_kind,
+            "candidate_run": run_name,
+            "source_title": source_title,
+            "source_path": source_path,
+            "source_hash": source_hash,
+            "generated_at": generated_at,
+            "updated": generated_at[:10],
+        }
+    )
+
+
+def build_synthesis(
+    run_dir: Path,
+    out_dir: Path,
+    *,
+    default_area: str = "__SET_ME__",
+    owner: str | None = None,
+    status: str = "draft",
+) -> dict:
     plan = read_json(run_dir / "batch-plan.json")
     batches = plan["batches"]
     notes = load_completed_notes(run_dir, batches)
@@ -129,6 +191,7 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
 
     source_title = plan["source_title"]
     source_slug = slugify(source_title)
+    generated_at = now_iso()
     candidate_pages_dir = out_dir / "candidate-pages"
     candidate_pages_dir.mkdir(parents=True, exist_ok=True)
 
@@ -143,18 +206,49 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
     }
 
     link_map: dict[str, dict] = {}
+    area_needs_confirmation = default_area == "__SET_ME__"
+    base_tags = dedupe(["candidate", "ingest", source_slug])[:3]
 
     chapter_list = list(chapter_rows.keys())
+    overview_frontmatter = build_page_frontmatter(
+        title=source_title,
+        page_type="overview",
+        area=default_area,
+        tags=base_tags + ["overview"],
+        status=status,
+        source_title=source_title,
+        source_path=plan["source"],
+        source_hash=plan.get("source_hash", ""),
+        generated_at=generated_at,
+        run_name=run_dir.name,
+        candidate_kind="overview",
+        owner=owner,
+    )
     overview_candidate_lines = [
+        overview_frontmatter,
+        "",
         f"# {source_title} — candidate overview page",
         "",
-        f"- Generated at: {now_iso()}",
+        f"- Generated at: {generated_at}",
         f"- Source path: `{plan['source']}`",
         f"- Effective split level: H{plan['effective_split_level']}",
-        "",
-        "## Chapter links",
-        "",
+        f"- Candidate status: `{status}`",
+        f"- Candidate area: `{default_area}`",
     ]
+    if area_needs_confirmation:
+        overview_candidate_lines.extend(
+            [
+                "",
+                "> `area` is still `__SET_ME__`. Confirm the vault area before promoting this page into a real knowledge base.",
+            ]
+        )
+    overview_candidate_lines.extend(
+        [
+            "",
+            "## Chapter links",
+            "",
+        ]
+    )
     for chapter in chapter_list:
         chapter_path = chapter_candidates[chapter]
         overview_candidate_lines.append(f"- [{chapter}]({chapter_path.name})")
@@ -182,10 +276,30 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
             if index + 1 < len(chapter_list)
             else None
         )
+        chapter_frontmatter = build_page_frontmatter(
+            title=chapter,
+            page_type="knowledge",
+            area=default_area,
+            tags=dedupe(
+                base_tags + ["chapter"] + [slugify(topic) for topic in topic_names[:4]]
+            ),
+            status=status,
+            source_title=source_title,
+            source_path=plan["source"],
+            source_hash=plan.get("source_hash", ""),
+            generated_at=generated_at,
+            run_name=run_dir.name,
+            candidate_kind="chapter",
+            owner=owner,
+        )
         lines = [
+            chapter_frontmatter,
+            "",
             f"# {chapter}",
             "",
             f"- Source overview: [{overview_candidate.name}]({overview_candidate.name})",
+            f"- Candidate status: `{status}`",
+            f"- Candidate area: `{default_area}`",
         ]
         if prev_path:
             lines.append(f"- Previous chapter: [{prev_path}]({prev_path})")
@@ -233,10 +347,28 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
                 if other != topic and other in topic_candidates
             )
         sibling_topics = dedupe(sibling_topics)[:6]
+        topic_frontmatter = build_page_frontmatter(
+            title=topic,
+            page_type="knowledge",
+            area=default_area,
+            tags=dedupe(base_tags + ["topic", slugify(topic)]),
+            status=status,
+            source_title=source_title,
+            source_path=plan["source"],
+            source_hash=plan.get("source_hash", ""),
+            generated_at=generated_at,
+            run_name=run_dir.name,
+            candidate_kind="topic",
+            owner=owner,
+        )
         lines = [
+            topic_frontmatter,
+            "",
             f"# {topic}",
             "",
             f"- Source overview: [{overview_candidate.name}]({overview_candidate.name})",
+            f"- Candidate status: `{status}`",
+            f"- Candidate area: `{default_area}`",
             "",
             "## Mentioned in chapters",
             "",
@@ -263,12 +395,13 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
     overview_lines = [
         f"# Source Overview — {source_title}",
         "",
-        f"- Generated at: {now_iso()}",
+        f"- Generated at: {generated_at}",
         f"- Source path: `{plan['source']}`",
         f"- Effective split level: H{plan['effective_split_level']}",
         f"- Total batches: {len(batches)}",
         f"- Completed notes: {len(notes)}",
         f"- Candidate overview page: [{overview_candidate.name}](candidate-pages/{overview_candidate.name})",
+        f"- Default candidate area: `{default_area}`",
         "",
         "## What this synthesis gives you",
         "",
@@ -384,11 +517,16 @@ def build_synthesis(run_dir: Path, out_dir: Path) -> dict:
     write_text(out_dir / "candidate-link-map.md", "\n".join(link_map_lines) + "\n")
 
     report = {
-        "generated_at": now_iso(),
+        "generated_at": generated_at,
         "source_title": source_title,
         "batch_count": len(batches),
         "completed_notes": len(notes),
         "chapters": len(chapter_rows),
+        "candidate_metadata": {
+            "default_area": default_area,
+            "status": status,
+            "owner": owner,
+        },
         "candidate_pages": {
             "overview": overview_candidate.name,
             "chapters": [path.name for path in chapter_candidates.values()],
@@ -435,11 +573,31 @@ def main() -> int:
         "--out",
         help="Output directory for synthesis artifacts (default: <run_dir>/synthesis)",
     )
+    parser.add_argument(
+        "--default-area",
+        default="__SET_ME__",
+        help="Area value to write into candidate page frontmatter (default: __SET_ME__)",
+    )
+    parser.add_argument(
+        "--owner",
+        help="Optional owner value to write into candidate page frontmatter",
+    )
+    parser.add_argument(
+        "--status",
+        default="draft",
+        help="Status value to write into candidate page frontmatter (default: draft)",
+    )
     args = parser.parse_args()
 
     run_dir = Path(args.run_dir)
     out_dir = Path(args.out) if args.out else run_dir / "synthesis"
-    report = build_synthesis(run_dir, out_dir)
+    report = build_synthesis(
+        run_dir,
+        out_dir,
+        default_area=args.default_area,
+        owner=args.owner,
+        status=args.status,
+    )
     print(json.dumps(report, ensure_ascii=False))
     return 0
 

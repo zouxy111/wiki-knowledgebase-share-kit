@@ -156,6 +156,7 @@ Use `knowledge-base-ingest` to:
 - treat the first import as a **testable baseline** and improve it through iteration and regression checks
 - switch into **close-reading mode** for oversized sources so the AI can review batch packets with rolling context instead of attempting a shallow one-pass import
 - prefer changed-batches-only reruns after source edits, then generate candidate pages and a candidate link map for final landing
+- keep candidate pages closer to real vault pages by writing draft frontmatter and source metadata directly into them
 
 Typical examples:
 - medical books, guidelines, papers

@@ -127,7 +127,7 @@ Use $knowledge-base-ingest to import this long Markdown source into my knowledge
 Read my vault profile first and treat the first import as a testable baseline rather than the final structure.
 ```
 
-如果是超大文本 / 整本书 / 需要分块精读，再明确要求它切到 `close-reading mode`，先生成 batch packets 和 rolling state，再逐轮汇总；如果后续 source 有修改，优先只重跑 changed batches。
+如果是超大文本 / 整本书 / 需要分块精读，再明确要求它切到 `close-reading mode`，先生成 batch packets 和 rolling state，再逐轮汇总；如果后续 source 有修改，优先只重跑 changed batches，并让 candidate pages 带上 draft frontmatter。
 
 ### 沉淀任务结果
 ```text

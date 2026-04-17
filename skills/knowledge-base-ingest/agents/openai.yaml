@@ -1,6 +1,6 @@
 interface:
   display_name: "Knowledge Base 导入"
   short_description: "拆分长文档并生成目录术语与关联链接后导入知识库"
-  default_prompt: "Use $knowledge-base-ingest to import this long markdown document or book into my knowledge base: split it into reusable pages, and if the source is oversized switch into close-reading mode with batch packets, rolling state, changed-batches-only reruns, candidate pages, a candidate link map, TOC, glossary candidates, related links, regression checks, and sync of the necessary entrypoints."
+  default_prompt: "Use $knowledge-base-ingest to import this long markdown document or book into my knowledge base: split it into reusable pages, and if the source is oversized switch into close-reading mode with batch packets, rolling state, changed-batches-only reruns, candidate pages with draft frontmatter, a candidate link map, TOC, glossary candidates, related links, regression checks, and sync of the necessary entrypoints."
 policy:
   allow_implicit_invocation: true

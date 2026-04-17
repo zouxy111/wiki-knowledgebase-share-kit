@@ -101,7 +101,9 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
             json.dumps(note2, ensure_ascii=False, indent=2), encoding="utf-8"
         )
 
-        report = build_synthesis(run_dir, out_dir)
+        report = build_synthesis(
+            run_dir, out_dir, default_area="learning", owner="Codex", status="draft"
+        )
 
         assert report["completed_notes"] == 2
         assert (out_dir / "source-overview.md").exists()
@@ -118,6 +120,9 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
         assert (out_dir / "candidate-pages" / "knowledge-alpha.md").exists()
 
         overview = (out_dir / "source-overview.md").read_text(encoding="utf-8")
+        overview_page = (
+            out_dir / "candidate-pages" / "overview-giant-guide.md"
+        ).read_text(encoding="utf-8")
         chapter_page = (
             out_dir / "candidate-pages" / "knowledge-giant-guide-chapter-a.md"
         ).read_text(encoding="utf-8")
@@ -129,10 +134,17 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
         )
 
         assert "candidate-pages/overview-giant-guide.md" in overview
+        assert 'type: "overview"' in overview_page
+        assert 'area: "learning"' in overview_page
+        assert "candidate: true" in overview_page
+        assert 'owner: "Codex"' in overview_page
         assert "knowledge-alpha.md" in chapter_page
+        assert 'type: "knowledge"' in chapter_page
+        assert 'status: "draft"' in chapter_page
         assert "knowledge-giant-guide-chapter-a.md" in topic_page
         assert "overview-giant-guide.md" == link_map["overview_page"]
         assert (
             "knowledge-alpha.md"
             in link_map["pages"]["knowledge-giant-guide-chapter-a.md"]["links"]
         )
+        assert report["candidate_metadata"]["default_area"] == "learning"

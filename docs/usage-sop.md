@@ -89,7 +89,7 @@
 4. source 变化后优先只重跑 changed batches
 5. 重跑 close-reading harness 刷新 rolling state
 6. 用 synthesis 汇总 chapter / topic / glossary 候选结果
-7. 生成 candidate pages 与 candidate link map
+7. 生成 candidate pages、candidate link map 和 draft frontmatter
 8. 最后再把稳定结构写回知识库
 
 也就是：**先切块，再精读，再汇总，再落页**。
@@ -143,7 +143,7 @@
 5. 只要 source 有局部变更，就优先只重跑 changed batches
 6. 重跑 harness，让后续 packet 读取最新 rolling state
 7. 运行 `scripts/synthesize_knowledge.py`
-8. 查看 candidate pages / candidate link map
+8. 查看 candidate pages / candidate link map / frontmatter 是否合理
 9. 只把 overview / chapter / topic 的稳定候选结构写回知识库
 
 ---

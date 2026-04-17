@@ -163,6 +163,7 @@ close-reading mode 的目标是：
 如果在 close-reading mode：
 - 让 synthesis 产出 candidate pages
 - 让 candidate pages 自带 overview / prev-next / related topic links
+- 让 candidate pages 直接带 draft frontmatter / source metadata / candidate metadata
 - 额外产出 candidate link map，避免后续落页时重新猜链接
 
 如果某一页只是孤零零的摘录页，不应视为完成导入。
@@ -220,6 +221,7 @@ close-reading mode 的目标是：
 - close-reading run 是否有 batch plan / reading state / completed notes / synthesis 产物
 - rerun 时是否只重置了 changed batches，而不是整本书重读
 - synthesis 是否产出了 candidate pages 和 candidate link map
+- candidate pages 是否已经带 frontmatter，且 `area` / `owner` / `status` 是否明确
 - 是否做了 baseline vs candidate 的结构比较
 - 是否通过回归检查
 - 本轮最终决定是 promote / rework / drop
@@ -233,7 +235,7 @@ close-reading mode 的目标是：
 - `scripts/close_read_markdown.py`：为超大源材料生成 batch 级精读包、rolling state 和可续跑的 batch notes
 - `scripts/extract_terms.py`：提取 glossary candidates，输出 JSON 和 Markdown 列表
 - `scripts/suggest_related_links.py`：基于标题和关键词重合度生成 related links 建议
-- `scripts/synthesize_knowledge.py`：把 completed batch notes 汇总成 source overview / chapter summaries / topic candidates / candidate pages / candidate link map
+- `scripts/synthesize_knowledge.py`：把 completed batch notes 汇总成 source overview / chapter summaries / topic candidates / candidate pages / candidate link map，并给 candidate pages 写入 draft frontmatter
 
 ### references/
 - `references/vault-profile-contract.md`：导入前需要哪些 profile 信息
