@@ -346,6 +346,103 @@
     .ambient-illustration .pulse:nth-of-type(3) { animation-delay: 1s; }
     .ambient-illustration .pulse:nth-of-type(4) { animation-delay: 1.5s; }
 
+    .ambient-illustration {
+      top: 74px;
+      width: min(1180px, 90vw);
+      height: min(46vh, 390px);
+      opacity: .42;
+      filter: drop-shadow(0 0 28px rgba(100, 255, 177, .12));
+    }
+
+    .ambient-illustration .hud-arc,
+    .ambient-illustration .brain-fold,
+    .ambient-illustration .brain-lobe,
+    .ambient-illustration .drive-shell,
+    .ambient-illustration .drive-top,
+    .ambient-illustration .drive-plate,
+    .ambient-illustration .drive-port {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ambient-illustration .hud-arc {
+      stroke: rgba(105, 211, 255, .18);
+      stroke-width: 2;
+      stroke-dasharray: 4 12;
+      animation: hudOrbit 14s linear infinite;
+    }
+
+    .ambient-illustration .brain-lobe {
+      stroke: url(#brainShellGlow);
+      stroke-width: 3.4;
+      fill: rgba(42, 124, 255, .05);
+    }
+
+    .ambient-illustration .brain-fold {
+      stroke: rgba(124, 221, 255, .28);
+      stroke-width: 2.1;
+    }
+
+    .ambient-illustration .data-stream {
+      fill: none;
+      stroke: url(#streamGlow);
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 10 16;
+      animation: dataFlow 5.2s linear infinite;
+    }
+
+    .ambient-illustration .data-stream.soft {
+      stroke: rgba(110, 220, 255, .48);
+      stroke-width: 2;
+      stroke-dasharray: 5 12;
+      animation-duration: 7.8s;
+    }
+
+    .ambient-illustration .neuron-node {
+      fill: #aefbff;
+      opacity: .9;
+      filter: drop-shadow(0 0 10px rgba(110, 220, 255, .8));
+      animation: nodeBlink 3.4s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .ambient-illustration .neuron-node:nth-of-type(2n) { animation-delay: .6s; }
+    .ambient-illustration .neuron-node:nth-of-type(3n) { animation-delay: 1.1s; }
+
+    .ambient-illustration .drive-shell {
+      stroke: rgba(223, 242, 255, .34);
+      stroke-width: 3;
+      fill: rgba(8, 13, 24, .18);
+    }
+
+    .ambient-illustration .drive-top {
+      stroke: rgba(216, 238, 255, .3);
+      stroke-width: 2.2;
+      fill: rgba(255,255,255,.04);
+    }
+
+    .ambient-illustration .drive-plate {
+      stroke: rgba(140, 210, 255, .24);
+      stroke-width: 2;
+    }
+
+    .ambient-illustration .drive-port {
+      stroke: rgba(110, 220, 255, .38);
+      stroke-width: 2;
+    }
+
+    .ambient-illustration .drive-led {
+      fill: rgba(110, 255, 188, .92);
+      filter: drop-shadow(0 0 10px rgba(110, 255, 188, .7));
+      animation: ledPulse 2.2s ease-in-out infinite;
+    }
+
+    .ambient-illustration .drive-led:nth-of-type(2) { animation-delay: .5s; fill: rgba(110, 220, 255, .92); }
+    .ambient-illustration .drive-led:nth-of-type(3) { animation-delay: 1s; fill: rgba(255, 233, 110, .88); }
+
     .clone-head {
       display: flex;
       align-items: center;
@@ -399,6 +496,29 @@
     .hero-copy {
       position: relative;
       isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, rgba(9, 18, 34, .62), rgba(9, 18, 34, .34)),
+        radial-gradient(circle at 68% 24%, rgba(105,211,255,.08), transparent 34%),
+        rgba(8, 18, 31, .22);
+      backdrop-filter: blur(14px) saturate(1.08);
+      border-color: rgba(255,255,255,.08);
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+        radial-gradient(circle at 50% 100%, rgba(105,211,255,.08), transparent 46%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 14px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 18px);
+      opacity: .46;
+      pointer-events: none;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.92) 65%, rgba(0,0,0,.38));
     }
 
     .hero-copy::after {
@@ -438,12 +558,19 @@
       line-height: .95;
       letter-spacing: -.05em;
       max-width: 10ch;
+      position: relative;
+      z-index: 1;
     }
 
     html[lang="zh-CN"] h1 {
-      font-size: clamp(36px, 5.2vw, 64px);
-      line-height: 1.02;
-      max-width: 8.8ch;
+      font-size: clamp(34px, 4.9vw, 58px);
+      line-height: 1.03;
+      max-width: 11.2ch;
+      letter-spacing: -.04em;
+    }
+
+    h1 span {
+      display: inline-block;
     }
 
     h2 {
@@ -524,13 +651,47 @@
       font-size: 14px;
     }
 
+    .hero-mini-grid {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+      padding-top: 18px;
+    }
+
+    .hero-mini-card {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      letter-spacing: -.01em;
+    }
+
+    .hero-mini-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
     .hero-side {
       display: grid;
       gap: 16px;
       background:
-        radial-gradient(circle at top right, rgba(105,211,255,.15), transparent 38%),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
-        var(--panel-2);
+        radial-gradient(circle at top right, rgba(105,211,255,.12), transparent 38%),
+        linear-gradient(180deg, rgba(9, 18, 34, .72), rgba(9, 18, 34, .42)),
+        rgba(8, 18, 31, .22);
+      backdrop-filter: blur(16px) saturate(1.06);
+      border-color: rgba(255,255,255,.08);
     }
 
     .stats-grid,
@@ -548,7 +709,7 @@
 
     .stat-card,
     .clone-card,
-    .preview-shell {
+    .switcher-shell {
       border-radius: var(--radius-lg);
       padding: 18px;
       background: rgba(255,255,255,.03);
@@ -576,37 +737,158 @@
       font-size: 13px;
     }
 
-    .preview-shell {
-      padding: 0;
+    .switcher-shell {
+      display: grid;
+      gap: 16px;
       overflow: hidden;
     }
 
-    .preview-topbar {
+    .switcher-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .switcher-head h3 {
+      margin-bottom: 6px;
+    }
+
+    .switcher-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .switcher-controls {
+      display: flex;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+
+    .switcher-btn,
+    .switcher-dot {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: #dff6ff;
+      cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .switcher-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .switcher-btn:hover,
+    .switcher-dot:hover {
+      transform: translateY(-1px);
+      border-color: rgba(136, 241, 208, .38);
+      background: rgba(136, 241, 208, .08);
+    }
+
+    .switcher-viewport {
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.06);
+      background:
+        radial-gradient(circle at top right, rgba(105,211,255,.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.015));
+      touch-action: pan-y;
+    }
+
+    .switcher-track {
+      display: flex;
+      transition: transform .46s cubic-bezier(.22, 1, .36, 1);
+      will-change: transform;
+    }
+
+    .switcher-slide {
+      min-width: 100%;
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .switcher-kicker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(105,211,255,.16);
+      background: rgba(105,211,255,.06);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .switcher-slide h4 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+
+    .switcher-slide p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .switcher-slide ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .switcher-note {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+      color: #dff6ff;
+      font-size: 14px;
+    }
+
+    .switcher-footer {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .dot { width: 10px; height: 10px; border-radius: 999px; }
-    .dot:nth-child(1) { background: #ff6b6b; }
-    .dot:nth-child(2) { background: #ffd166; }
-    .dot:nth-child(3) { background: #7ae582; }
+    .switcher-dots {
+      display: flex;
+      gap: 10px;
+    }
 
-    .preview-topbar span:last-child {
-      margin-left: auto;
+    .switcher-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      padding: 0;
+    }
+
+    .switcher-dot.is-active {
+      background: linear-gradient(135deg, rgba(105,211,255,.96), rgba(136,241,208,.9));
+      border-color: transparent;
+      box-shadow: 0 0 0 6px rgba(105,211,255,.08);
+    }
+
+    .switcher-status {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      letter-spacing: .16em;
-    }
-
-    .preview-shell img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
     }
 
     .section {
@@ -750,7 +1032,7 @@
     .mini-card:hover,
     .stat-card:hover,
     .clone-card:hover,
-    .preview-shell:hover {
+    .switcher-shell:hover {
       transform: translateY(-4px);
       border-color: var(--line-strong);
       box-shadow: 0 18px 38px rgba(0,0,0,.24);
@@ -894,6 +1176,27 @@
       50% { transform: scale(1.35); opacity: 1; }
     }
 
+    @keyframes dataFlow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -120; }
+    }
+
+    @keyframes nodeBlink {
+      0%, 100% { transform: scale(1); opacity: .48; }
+      40% { transform: scale(1.32); opacity: 1; }
+      60% { transform: scale(.92); opacity: .88; }
+    }
+
+    @keyframes ledPulse {
+      0%, 100% { opacity: .55; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.18); }
+    }
+
+    @keyframes hudOrbit {
+      from { stroke-dashoffset: 0; opacity: .12; }
+      to { stroke-dashoffset: -110; opacity: .32; }
+    }
+
     @media (max-width: 1100px) {
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -927,7 +1230,8 @@
       .btn { width: 100%; justify-content: center; }
       .stats-grid,
       .grid-4,
-      .flow { grid-template-columns: 1fr; }
+      .flow,
+      .hero-mini-grid { grid-template-columns: 1fr; }
       .hero-copy,
       .hero-side,
       .section-card,
@@ -948,6 +1252,13 @@
         bottom: auto;
         height: 220px;
         opacity: .22;
+      }
+      .switcher-head {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .switcher-controls {
+        align-self: flex-start;
       }
       .copy-btn { width: 100%; justify-content: center; }
     }
@@ -979,29 +1290,60 @@
     <div class="ambient-illustration">
       <svg viewBox="0 0 1200 460" role="presentation">
         <defs>
-          <linearGradient id="brainGlow" x1="160" y1="150" x2="640" y2="320" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#73ffbc" stop-opacity="1" />
-            <stop offset=".55" stop-color="#6edcff" stop-opacity=".95" />
-            <stop offset="1" stop-color="#a27cff" stop-opacity=".72" />
+          <linearGradient id="brainShellGlow" x1="270" y1="92" x2="802" y2="292" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#88f1d0" stop-opacity=".96" />
+            <stop offset=".42" stop-color="#6edcff" stop-opacity=".94" />
+            <stop offset="1" stop-color="#7fb7ff" stop-opacity=".82" />
           </linearGradient>
-          <linearGradient id="wireGlow" x1="600" y1="225" x2="1040" y2="245" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#6affb6" stop-opacity=".88" />
-            <stop offset=".6" stop-color="#6edcff" stop-opacity=".85" />
-            <stop offset="1" stop-color="#76ffd2" stop-opacity=".92" />
+          <linearGradient id="streamGlow" x1="540" y1="166" x2="640" y2="390" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#c4ffff" stop-opacity=".96" />
+            <stop offset=".42" stop-color="#6edcff" stop-opacity=".95" />
+            <stop offset="1" stop-color="#76ffd2" stop-opacity=".88" />
           </linearGradient>
         </defs>
 
-        <path class="brain-shell" d="M230 256C183 252 151 218 154 174C157 137 185 114 214 111C214 67 249 44 284 51C304 23 351 21 381 49C420 36 461 55 476 90C520 92 555 126 555 174C555 212 532 242 494 253C492 304 449 334 404 325C381 356 333 360 297 334C250 346 203 319 190 275C176 272 166 266 154 254" />
-        <path class="brain-core" d="M259 116C247 160 254 208 282 244M316 88C307 137 316 198 347 243M380 87C386 134 383 193 364 238M435 109C447 150 444 198 420 240M220 176C256 171 286 181 307 207M344 189C371 173 407 172 441 191M242 261C280 246 332 248 367 270M382 269C417 254 453 253 487 265" />
-        <path class="connector" d="M556 208C636 208 645 168 705 168C781 168 785 252 863 252C928 252 961 224 1034 224" />
-        <path class="connector-core" d="M556 228C636 228 650 188 706 188C782 188 787 272 864 272C928 272 966 244 1036 244" />
-        <circle class="pulse" cx="588" cy="208" r="6" />
-        <circle class="pulse" cx="720" cy="168" r="6" />
-        <circle class="pulse" cx="868" cy="252" r="6" />
-        <circle class="pulse" cx="1034" cy="224" r="7" />
-        <path class="usb-shell" d="M1040 194H1128C1144 194 1158 208 1158 224V274C1158 290 1144 304 1128 304H1040V194Z" />
-        <path class="usb-shell" d="M1128 212H1168V286H1128" />
-        <path class="usb-detail" d="M1080 212V286M1102 212V286M1168 228H1188M1168 270H1188" />
+        <path class="hud-arc" d="M220 200C330 64 528 32 666 92C720 116 764 150 808 206" />
+        <path class="hud-arc" d="M314 330C404 372 510 382 606 356C714 326 780 274 844 198" />
+
+        <path class="brain-lobe" d="M338 274C282 270 240 234 238 188C236 150 258 118 292 102C302 70 340 44 382 48C414 22 470 20 508 50C548 34 592 48 620 80C646 82 676 98 692 126C722 178 694 252 642 278C632 322 592 348 548 344C520 370 470 374 430 350C382 360 332 338 314 296C302 292 294 286 338 274Z" />
+        <path class="brain-lobe" d="M858 274C914 270 956 234 958 188C960 150 938 118 904 102C894 70 856 44 814 48C782 22 726 20 688 50C648 34 604 48 576 80C550 82 520 98 504 126C474 178 502 252 554 278C564 322 604 348 648 344C676 370 726 374 766 350C814 360 864 338 882 296C894 292 902 286 858 274Z" />
+
+        <path class="brain-fold" d="M384 96C352 130 350 188 378 234M444 72C424 120 424 192 456 250M520 68C506 120 508 190 530 248M604 82C604 132 598 198 572 250" />
+        <path class="brain-fold" d="M816 96C848 130 850 188 822 234M756 72C776 120 776 192 744 250M680 68C694 120 692 190 670 248M596 82C596 132 602 198 628 250" />
+        <path class="brain-fold" d="M336 184C390 170 446 184 488 214M712 214C754 184 810 170 864 184M382 286C432 260 500 258 556 282M646 282C702 258 770 260 820 286" />
+
+        <path class="data-stream" d="M596 296V356" />
+        <path class="data-stream" d="M620 290V360" />
+        <path class="data-stream soft" d="M572 288V354" />
+        <path class="data-stream soft" d="M644 286V354" />
+        <path class="data-stream" d="M520 214C548 214 562 236 582 250V338" />
+        <path class="data-stream" d="M464 184C516 184 540 210 562 236" />
+        <path class="data-stream soft" d="M408 150C476 150 520 176 556 218" />
+        <path class="data-stream" d="M672 214C644 214 630 236 610 250V338" />
+        <path class="data-stream" d="M728 184C676 184 652 210 630 236" />
+        <path class="data-stream soft" d="M784 150C716 150 672 176 636 218" />
+
+        <circle class="neuron-node" cx="408" cy="150" r="5" />
+        <circle class="neuron-node" cx="464" cy="184" r="4.5" />
+        <circle class="neuron-node" cx="520" cy="214" r="4.5" />
+        <circle class="neuron-node" cx="572" cy="288" r="4.5" />
+        <circle class="neuron-node" cx="620" cy="290" r="4.5" />
+        <circle class="neuron-node" cx="672" cy="214" r="4.5" />
+        <circle class="neuron-node" cx="728" cy="184" r="4.5" />
+        <circle class="neuron-node" cx="784" cy="150" r="5" />
+
+        <path class="drive-shell" d="M372 304H826C844 304 860 320 860 338V404C860 422 844 438 826 438H372C354 438 338 422 338 404V338C338 320 354 304 372 304Z" />
+        <path class="drive-top" d="M368 304H830L804 276H394L368 304Z" />
+        <path class="drive-plate" d="M426 320H770C786 320 800 334 800 350V394C800 410 786 424 770 424H426C410 424 396 410 396 394V350C396 334 410 320 426 320Z" />
+        <path class="drive-plate" d="M516 334C548 320 650 320 684 334C706 344 714 364 708 386C700 410 668 424 634 426H564C520 424 484 406 482 378C480 360 492 342 516 334Z" />
+        <path class="drive-port" d="M420 370H470M484 370H516M540 370H560M640 388H716M730 388H764M782 388H794" />
+        <path class="drive-port" d="M416 402H510V420H416Z" />
+        <path class="drive-port" d="M648 404H712V420H648Z" />
+        <path class="drive-port" d="M732 396H786V420H732Z" />
+
+        <circle class="drive-led" cx="442" cy="350" r="5" />
+        <circle class="drive-led" cx="468" cy="350" r="5" />
+        <circle class="drive-led" cx="494" cy="350" r="5" />
       </svg>
     </div>
   </div>
@@ -1033,7 +1375,7 @@
       <div class="shell hero-grid">
         <article class="panel hero-copy reveal" style="--delay: 90ms;">
           <div class="eyebrow" data-i18n="heroEyebrow">Structured knowledge, not note sprawl</div>
-          <h1 data-i18n="heroTitle">Turn your markdown vault into a usable knowledge base.</h1>
+          <h1 data-i18n-html="heroTitle">Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.</h1>
           <p class="lede" data-i18n="heroLede">
             A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, and auditable instead of letting it drift into scattered notes and process logs.
           </p>
@@ -1052,6 +1394,20 @@
           <p class="hero-note" data-i18n-html="heroNote">
             The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.
           </p>
+          <div class="hero-mini-grid">
+            <article class="hero-mini-card">
+              <strong data-i18n="heroMini1Title">Role-stable structure</strong>
+              <span data-i18n="heroMini1Copy">Keep project, knowledge, ops, task, and overview pages from drifting into each other.</span>
+            </article>
+            <article class="hero-mini-card">
+              <strong data-i18n="heroMini2Title">Testable ingest workflow</strong>
+              <span data-i18n="heroMini2Copy">Import long-form markdown with iteration, comparison, and lightweight regression checks.</span>
+            </article>
+            <article class="hero-mini-card">
+              <strong data-i18n="heroMini3Title">Collaboration without chaos</strong>
+              <span data-i18n="heroMini3Copy">Working profile, team coordination, and journal loops reduce repeated re-explanation.</span>
+            </article>
+          </div>
         </article>
 
         <aside class="panel hero-side reveal" style="--delay: 150ms;">
@@ -1068,7 +1424,70 @@
             </div>
           </div>
 
-          <div class="clone-card reveal" style="--delay: 240ms;">
+          <div class="switcher-shell reveal" style="--delay: 240ms;">
+            <div class="switcher-head">
+              <div>
+                <div class="role-label" data-i18n="switcherLabel">Use-case switcher</div>
+                <h3 data-i18n="switcherTitle">Slide through usage plans</h3>
+                <p data-i18n="switcherSub">Instead of a static preview image, use this panel to see how the package can be applied in different working environments.</p>
+              </div>
+              <div class="switcher-controls">
+                <button type="button" class="switcher-btn" data-switcher-dir="-1" aria-label="Previous">←</button>
+                <button type="button" class="switcher-btn" data-switcher-dir="1" aria-label="Next">→</button>
+              </div>
+            </div>
+
+            <div class="switcher-viewport" data-switcher-viewport>
+              <div class="switcher-track" data-switcher-track>
+                <article class="switcher-slide">
+                  <span class="switcher-kicker" data-i18n="useCase1Kicker">Scenario 01</span>
+                  <h4 data-i18n="scenario1Title">Medical / pathology / research</h4>
+                  <p data-i18n="scenario1Copy">Guidelines, textbooks, papers, and case summaries need structure, lineage, and careful update boundaries.</p>
+                  <ul data-i18n-html="scenario1List">
+                    <li>Long-form source ingest</li>
+                    <li>Stable knowledge and ops pages</li>
+                    <li>Review-friendly collaboration context</li>
+                  </ul>
+                  <div class="switcher-note" data-i18n="useCase1Note">Recommended route: Orchestrator → Ingest → Audit → Working Profile.</div>
+                </article>
+
+                <article class="switcher-slide">
+                  <span class="switcher-kicker" data-i18n="useCase2Kicker">Scenario 02</span>
+                  <h4 data-i18n="scenario2Title">Enterprise knowledge bases</h4>
+                  <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+                  <ul data-i18n-html="scenario2List">
+                    <li>Maintenance and audit loops</li>
+                    <li>Shared-project coordination</li>
+                    <li>Cleaner onboarding for teammates</li>
+                  </ul>
+                  <div class="switcher-note" data-i18n="useCase2Note">Recommended route: Kit Guide → Maintenance → Audit → Team Coordination.</div>
+                </article>
+
+                <article class="switcher-slide">
+                  <span class="switcher-kicker" data-i18n="useCase3Kicker">Scenario 03</span>
+                  <h4 data-i18n="scenario3Title">Cross-team collaboration</h4>
+                  <p data-i18n="scenario3Copy">When context is fragmented across chat and temporary docs, shared coordination and journal workflows reduce repeated re-explanation.</p>
+                  <ul data-i18n-html="scenario3List">
+                    <li>Draft / approved boundaries</li>
+                    <li>Traceable meeting and decision context</li>
+                    <li>Working-profile hygiene with consent boundaries</li>
+                  </ul>
+                  <div class="switcher-note" data-i18n="useCase3Note">Recommended route: Work Journal → Team Coordination → Maintenance → Audit.</div>
+                </article>
+              </div>
+            </div>
+
+            <div class="switcher-footer">
+              <div class="switcher-dots">
+                <button type="button" class="switcher-dot is-active" data-switcher-to="0" aria-label="Go to scenario 1"></button>
+                <button type="button" class="switcher-dot" data-switcher-to="1" aria-label="Go to scenario 2"></button>
+                <button type="button" class="switcher-dot" data-switcher-to="2" aria-label="Go to scenario 3"></button>
+              </div>
+              <span class="switcher-status" data-switcher-status>01 / 03</span>
+            </div>
+          </div>
+
+          <div class="clone-card reveal" style="--delay: 270ms;">
             <div class="clone-head">
               <div class="role-label" data-i18n="cloneLabel">Repository</div>
               <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git">Copy clone</button>
@@ -1076,16 +1495,6 @@
             <h3 data-i18n="cloneTitle">Clone it directly</h3>
             <p class="muted" data-i18n="cloneCopy">If you want the actual repository instead of only browsing the landing page, start here.</p>
             <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
-          </div>
-
-          <div class="preview-shell reveal" style="--delay: 270ms;">
-            <div class="preview-topbar">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span data-i18n="previewLabel">Landing page preview</span>
-            </div>
-            <img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" data-i18n-alt="previewAlt" />
           </div>
         </aside>
       </div>
@@ -1421,12 +1830,18 @@
         navStart: "Start Here",
         navRelease: "Latest release",
         heroEyebrow: "Structured knowledge, not note sprawl",
-        heroTitle: "Turn your markdown vault into a usable knowledge base.",
+        heroTitle: "Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.",
         heroLede: "A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, and auditable instead of letting it drift into scattered notes and process logs.",
         heroCtaRepo: "Get the repository",
         heroCtaStart: "Read START-HERE",
         heroCtaRelease: "Browse latest release",
         heroNote: "The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.",
+        heroMini1Title: "Role-stable structure",
+        heroMini1Copy: "Keep project, knowledge, ops, task, and overview pages from drifting into each other.",
+        heroMini2Title: "Testable ingest workflow",
+        heroMini2Copy: "Import long-form markdown with iteration, comparison, and lightweight regression checks.",
+        heroMini3Title: "Collaboration without chaos",
+        heroMini3Copy: "Working profile, team coordination, and journal loops reduce repeated re-explanation.",
         statsSkillsLabel: "Installable skills",
         statsSkillsCopy: "kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal",
         statsTracksLabel: "Workflow tracks",
@@ -1437,8 +1852,15 @@
         copyCloneIdle: "Copy clone",
         copyCloneDone: "Copied",
         copyCloneFail: "Copy failed",
-        previewLabel: "Landing page preview",
-        previewAlt: "Wiki Knowledge Base Share Kit preview",
+        switcherLabel: "Use-case switcher",
+        switcherTitle: "Slide through usage plans",
+        switcherSub: "Instead of a static preview image, use this panel to see how the package can be applied in different working environments.",
+        useCase1Kicker: "Scenario 01",
+        useCase1Note: "Recommended route: Orchestrator → Ingest → Audit → Working Profile.",
+        useCase2Kicker: "Scenario 02",
+        useCase2Note: "Recommended route: Kit Guide → Maintenance → Audit → Team Coordination.",
+        useCase3Kicker: "Scenario 03",
+        useCase3Note: "Recommended route: Work Journal → Team Coordination → Maintenance → Audit.",
         overviewTitle: "How the package is organized",
         overviewSub: "Think of the repository as a layered operating surface: onboarding first, specialist loops in the middle, collaboration support beside them, and a stable vault shape as the output.",
         overviewCol1Label: "entry",
@@ -1541,12 +1963,18 @@
         navStart: "快速开始",
         navRelease: "最新版本",
         heroEyebrow: "结构化知识，而不是笔记蔓延",
-        heroTitle: "把 markdown vault 变成真正可用的知识库。",
+        heroTitle: "把 <span>markdown vault</span><br>变成真正可用的<br>知识库。",
         heroLede: "这是一个可复用的开源工作包，包含 8 个可安装 skills 和 7 条协同工作流。它帮助个人和团队让 vault 保持可导航、角色稳定、可维护、便于协作、可审计，而不是继续漂成零散笔记和过程流水账。",
         heroCtaRepo: "获取仓库",
         heroCtaStart: "阅读 START-HERE",
         heroCtaRelease: "查看最新版本",
         heroNote: "固定的 page-role model 会保持稳定。<code>work-journal</code> 是独立工作流，不是第六种页面角色。",
+        heroMini1Title: "结构角色稳定",
+        heroMini1Copy: "让 project、knowledge、ops、task、overview 不再互相串位、互相污染。",
+        heroMini2Title: "导入可测试可迭代",
+        heroMini2Copy: "长篇 markdown 导入时可做版本对比、结构迭代和轻量回归检查。",
+        heroMini3Title: "协作上下文不再失控",
+        heroMini3Copy: "working profile、team coordination、journal 形成可追溯的协作层，而不是重复解释。",
         statsSkillsLabel: "可安装 skills",
         statsSkillsCopy: "kit-guide、orchestrator、ingest、maintenance、audit、working-profile、team-coordination、work-journal",
         statsTracksLabel: "工作流轨道",
@@ -1557,8 +1985,15 @@
         copyCloneIdle: "复制命令",
         copyCloneDone: "已复制",
         copyCloneFail: "复制失败",
-        previewLabel: "首页预览",
-        previewAlt: "Wiki Knowledge Base Share Kit 预览图",
+        switcherLabel: "方案切换",
+        switcherTitle: "左右切换使用方案",
+        switcherSub: "这里不再放静态预览图，而是直接展示这个包在不同工作环境里的用法方案。",
+        useCase1Kicker: "方案 01",
+        useCase1Note: "推荐路线：Orchestrator → Ingest → Audit → Working Profile。",
+        useCase2Kicker: "方案 02",
+        useCase2Note: "推荐路线：Kit Guide → Maintenance → Audit → Team Coordination。",
+        useCase3Kicker: "方案 03",
+        useCase3Note: "推荐路线：Work Journal → Team Coordination → Maintenance → Audit。",
         overviewTitle: "这个包的结构怎么组织",
         overviewSub: "你可以把这个仓库理解成一个分层工作面：先 onboarding，中间是 specialist loops，旁边是协作支撑层，最后输出成稳定的 vault 形态。",
         overviewCol1Label: "入口层",
@@ -1662,7 +2097,13 @@
     const i18nHtmlNodes = document.querySelectorAll('[data-i18n-html]');
     const i18nAltNodes = document.querySelectorAll('[data-i18n-alt]');
     const copyButtons = Array.from(document.querySelectorAll('[data-copy-command]'));
+    const switcherTrack = document.querySelector('[data-switcher-track]');
+    const switcherViewport = document.querySelector('[data-switcher-viewport]');
+    const switcherDots = Array.from(document.querySelectorAll('[data-switcher-to]'));
+    const switcherButtons = Array.from(document.querySelectorAll('[data-switcher-dir]'));
+    const switcherStatus = document.querySelector('[data-switcher-status]');
     let currentLocale = 'en';
+    let currentScenario = 0;
 
     function updateLangIndicator(activeButton) {
       if (!langSwitch || !activeButton) return;
@@ -1773,6 +2214,55 @@
       });
     }
 
+    function renderSwitcher(index) {
+      if (!switcherTrack) return;
+      const total = switcherDots.length || switcherTrack.children.length || 1;
+      currentScenario = (index + total) % total;
+      switcherTrack.style.transform = `translateX(-${currentScenario * 100}%)`;
+      switcherDots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === currentScenario);
+      });
+      if (switcherStatus) {
+        switcherStatus.textContent = `${String(currentScenario + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+      }
+    }
+
+    function initSwitcher() {
+      if (!switcherTrack) return;
+      renderSwitcher(0);
+
+      switcherButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          renderSwitcher(currentScenario + Number(button.dataset.switcherDir || 0));
+        });
+      });
+
+      switcherDots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          renderSwitcher(Number(dot.dataset.switcherTo || 0));
+        });
+      });
+
+      if (!switcherViewport) return;
+      let startX = 0;
+      let endX = 0;
+
+      switcherViewport.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX;
+        endX = startX;
+      }, { passive: true });
+
+      switcherViewport.addEventListener('touchmove', (event) => {
+        endX = event.touches[0].clientX;
+      }, { passive: true });
+
+      switcherViewport.addEventListener('touchend', () => {
+        const delta = endX - startX;
+        if (Math.abs(delta) < 40) return;
+        renderSwitcher(currentScenario + (delta < 0 ? 1 : -1));
+      });
+    }
+
     toggleButtons.forEach((button) => {
       button.addEventListener('click', () => applyLanguage(button.dataset.langToggle));
     });
@@ -1805,6 +2295,7 @@
     });
 
     initLanguage();
+    initSwitcher();
     if (document.readyState === 'loading') {
       window.addEventListener('DOMContentLoaded', initReveal, { once: true });
     } else {
