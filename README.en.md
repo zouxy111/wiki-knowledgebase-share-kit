@@ -10,6 +10,16 @@
 > An **8-skill knowledge-base package** for markdown / wiki / Obsidian-style vaults.  
 > The goal is not to record more logs, but to keep a vault **navigable, role-stable, maintainable, collaboration-friendly, and auditable**.
 
+<p align="center">
+  <a href="https://zouxy111.github.io/wiki-knowledgebase-share-kit/"><img src="https://img.shields.io/badge/Open-HTML_Homepage-4ab9ff?style=for-the-badge" alt="Open HTML Homepage" /></a>
+  <a href="./START-HERE.md"><img src="https://img.shields.io/badge/Read-START--HERE-0f172a?style=for-the-badge" alt="Read START-HERE" /></a>
+  <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases"><img src="https://img.shields.io/badge/Browse-Releases-0ea5a4?style=for-the-badge" alt="Browse Releases" /></a>
+</p>
+
+[![HTML homepage preview](./docs/assets/social-preview.png)](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)
+
+> If you want the more product-like HTML landing page, open the **HTML Homepage** above; the repository README continues to handle installation, routing, and method documentation.
+
 ---
 
 ## 30-second overview
