@@ -8,246 +8,838 @@
   <style>
     :root {
       --bg: #07111f;
-      --panel: #0d1a2d;
-      --panel-2: #12233c;
+      --bg-2: #09192d;
+      --panel: rgba(10, 21, 38, 0.84);
+      --panel-strong: rgba(12, 26, 46, 0.92);
+      --line: rgba(255,255,255,.10);
+      --line-strong: rgba(255,255,255,.18);
       --text: #ecf4ff;
-      --muted: #9fb1ca;
-      --line: rgba(255,255,255,.08);
-      --accent: #70d7ff;
-      --accent-2: #9bf3d3;
-      --shadow: 0 24px 80px rgba(0,0,0,.35);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --muted: #9db1ca;
+      --accent: #69d3ff;
+      --accent-2: #8af2d0;
+      --accent-3: #9aa8ff;
+      --glow: rgba(105, 211, 255, 0.22);
+      --shadow: 0 24px 80px rgba(0,0,0,.30);
+      font-family: Geist, Outfit, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #112949 0%, #07111f 48%, #050b14 100%);
       color: var(--text);
       line-height: 1.6;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(105, 211, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 88% 18%, rgba(154, 168, 255, 0.18), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(138, 242, 208, 0.10), transparent 28%),
+        linear-gradient(180deg, #081220 0%, #07111f 42%, #050b14 100%);
     }
-    a { color: inherit; }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .shell { width: min(1180px, calc(100vw - 40px)); margin: 0 auto; }
-    .hero { padding: 28px 0 72px; }
-    .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; padding: 12px 0 32px; }
-    .brand { font-weight: 700; letter-spacing: .03em; color: #dff5ff; }
-    .nav-links { display:flex; gap:12px; flex-wrap:wrap; }
-    .pill, .btn { text-decoration:none; }
-    .pill { padding: 10px 14px; border-radius: 999px; border:1px solid var(--line); color: var(--muted); }
-    .hero-grid { display:grid; grid-template-columns: 1.7fr 1fr; gap: 20px; }
-    .panel { background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border:1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); }
-    .intro, .stat-card, .card, .step, .compare { padding: 28px; }
-    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; margin-bottom: 18px; }
-    h1 { font-size: clamp(40px, 6vw, 70px); line-height: .95; margin: 0 0 18px; letter-spacing: -.04em; }
-    h2 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 38px); }
-    h3 { margin: 0 0 10px; font-size: 20px; }
-    .lede { font-size: 19px; color: var(--muted); max-width: 62ch; }
-    .cta-row, .chip-row { display:flex; gap:12px; flex-wrap:wrap; margin-top: 20px; }
-    .btn { padding: 14px 18px; border-radius: 16px; border:1px solid var(--line); font-weight:700; }
-    .btn.primary { background: linear-gradient(135deg, var(--accent), #4ab9ff); color:#04101c; }
-    .btn.secondary { color: var(--text); background: rgba(255,255,255,.02); }
-    .chip { padding:8px 12px; border-radius:999px; background: rgba(255,255,255,.05); color: var(--muted); }
-    .metric { font-size: 72px; font-weight: 800; margin: 10px 0 0; letter-spacing: -.04em; }
-    .kicker { color: var(--accent-2); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; }
-    .stat-copy, .sub, .card p, .step span { color: var(--muted); }
-    .section { padding: 0 0 34px; }
-    .sub { max-width: 72ch; margin-bottom: 22px; }
-    .grid-2, .grid-3, .grid-4, .flow { display:grid; gap:20px; }
+
+    .shell {
+      width: min(1240px, calc(100vw - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(135deg, rgba(105, 211, 255, .22), rgba(138, 242, 208, .10)),
+        rgba(255,255,255,.03);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: #dff6ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: .02em;
+    }
+
+    .brand-copy span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill,
+    .btn,
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      color: var(--muted);
+      background: rgba(255,255,255,.02);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 52px 0 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .panel {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 20%);
+      pointer-events: none;
+    }
+
+    .hero-copy,
+    .hero-side,
+    .section-card,
+    .flow-step,
+    .scenario-card,
+    .role-card,
+    .cta-card,
+    .footer-card {
+      padding: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 12px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent));
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(44px, 6vw, 82px);
+      line-height: .94;
+      letter-spacing: -.05em;
+      max-width: 10ch;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -.03em;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -.02em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 62ch;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .cta-row,
+    .tag-row,
+    .stats,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .flow {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 26px 0 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 18px;
+      font-weight: 700;
+      background: rgba(255,255,255,.03);
+    }
+
+    .btn.primary {
+      color: #07111f;
+      background: linear-gradient(135deg, var(--accent), #80a8ff 52%, var(--accent-2));
+      border-color: transparent;
+      box-shadow: 0 16px 40px rgba(105, 211, 255, .24);
+    }
+
+    .btn.secondary:hover,
+    .pill:hover {
+      border-color: var(--line-strong);
+      background: rgba(255,255,255,.05);
+    }
+
+    .tag-row {
+      grid-template-columns: repeat(5, minmax(0, max-content));
+      align-items: start;
+      gap: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 8px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+      font-size: 13px;
+    }
+
+    .micro-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-side {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(105, 211, 255, .14), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
+        var(--panel-strong);
+    }
+
+    .metric-block {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: clamp(34px, 5vw, 54px);
+      letter-spacing: -.05em;
+      line-height: .95;
+      margin-bottom: 8px;
+    }
+
+    .metric-card span,
+    .sub,
+    .card-copy,
+    .flow-step p,
+    .muted {
+      color: var(--muted);
+    }
+
+    .preview-frame {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,.03);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .preview-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.22);
+    }
+
+    .dot:nth-child(1) { background: #ff6b6b; }
+    .dot:nth-child(2) { background: #ffd166; }
+    .dot:nth-child(3) { background: #7ae582; }
+
+    .preview-meta {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .preview-frame img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .section {
+      padding: 24px 0 26px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .sub {
+      max-width: 68ch;
+      margin: 0;
+      font-size: 16px;
+    }
+
     .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
     .flow { grid-template-columns: repeat(5, minmax(0,1fr)); }
-    .card p { margin:0; }
-    .compare table { width:100%; border-collapse:collapse; }
-    .compare th, .compare td { padding:16px; border-bottom: 1px solid var(--line); text-align:left; vertical-align:top; }
-    .muted { color: var(--muted); }
-    .step { position:relative; min-height: 170px; }
-    .step small { display:block; color: var(--accent); margin-bottom: 8px; letter-spacing: .18em; }
-    .footer { padding: 18px 0 48px; color: var(--muted); }
-    .preview { overflow:hidden; }
-    .preview img { display:block; width:100%; height:auto; }
-    @media (max-width: 1100px) {
-      .hero-grid, .grid-4, .flow { grid-template-columns: 1fr 1fr; }
+
+    .section-card,
+    .scenario-card,
+    .role-card,
+    .flow-step,
+    .cta-card,
+    .footer-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255,255,255,.022);
+      min-height: 100%;
     }
+
+    .section-card p,
+    .scenario-card p,
+    .role-card p,
+    .role-card ul,
+    .section-card ul,
+    .scenario-card ul {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .section-card ul,
+    .scenario-card ul {
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .role-label {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--accent-2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+    }
+
+    .compare-shell {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255,255,255,.02);
+    }
+
+    .compare-shell table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-shell th,
+    .compare-shell td {
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .compare-shell th {
+      font-size: 14px;
+      color: #dff6ff;
+      background: rgba(255,255,255,.03);
+    }
+
+    .flow-step {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flow-step small {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .flow-step p {
+      margin: 10px 0 0;
+    }
+
+    .cta-band {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .cta-card.primary {
+      background:
+        radial-gradient(circle at top right, rgba(105,211,255,.16), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    }
+
+    .cta-card .cta-row {
+      margin-bottom: 0;
+    }
+
+    .footer-card {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin: 0 0 42px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .cta-band,
+      .grid-4,
+      .flow { grid-template-columns: 1fr 1fr; }
+      .tag-row { grid-template-columns: repeat(3, max-content); }
+    }
+
     @media (max-width: 920px) {
-      .hero-grid, .grid-4, .grid-3, .grid-2, .flow { grid-template-columns: 1fr; }
-      .intro, .stat-card, .card, .step, .compare { padding: 22px; }
+      .hero-grid,
+      .cta-band,
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .flow { grid-template-columns: 1fr; }
+      .hero-copy,
+      .hero-side,
+      .section-card,
+      .flow-step,
+      .scenario-card,
+      .role-card,
+      .cta-card,
+      .footer-card { padding: 24px; }
+      .nav { align-items: flex-start; flex-direction: column; }
+      .tag-row { grid-template-columns: repeat(2, max-content); }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100vw - 24px, 1240px); }
+      .pill,
+      .btn { width: 100%; justify-content: center; }
+      .nav-links,
+      .cta-row { width: 100%; }
+      .metric-block { grid-template-columns: 1fr; }
+      .tag-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="shell hero">
-    <div class="nav">
-      <div class="brand">Wiki Knowledge Base Share Kit</div>
+  <header class="site-header">
+    <div class="shell nav">
+      <div class="brand-wrap">
+        <div class="brand-mark">WK</div>
+        <div class="brand-copy">
+          <strong>Wiki Knowledge Base Share Kit</strong>
+          <span>8-skill knowledge-base package</span>
+        </div>
+      </div>
       <div class="nav-links">
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub</a>
-        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases">Releases</a>
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Start Here</a>
+        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a>
       </div>
     </div>
+  </header>
 
-    <div class="hero-grid">
-      <section class="panel intro">
-        <div class="eyebrow">8-skill knowledge-base package</div>
-        <h1>Keep your markdown vault useful, not noisy.</h1>
-        <p class="lede">
-          A reusable open-source kit with 8 installable skills and 7 coordinated workflow tracks: onboarding, ingest,
-          maintenance, audit, working profile, team coordination, and work journaling.
-          Optional Obsidian installation exists through Orchestrator, but the repository’s core value is stable knowledge-base workflows—not being an app installer.
-        </p>
-        <div class="cta-row">
-          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Read START-HERE</a>
-          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <article class="panel hero-copy">
+          <div class="eyebrow">Structured knowledge, not note sprawl</div>
+          <h1>Turn your markdown vault into a usable knowledge base.</h1>
+          <p class="lede">
+            A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks.
+            It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly,
+            and auditable instead of letting it drift into process logs and scattered notes.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Read START-HERE</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Open GitHub repo</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse release</a>
+          </div>
+          <div class="tag-row">
+            <span class="tag">project</span>
+            <span class="tag">knowledge</span>
+            <span class="tag">ops</span>
+            <span class="tag">task</span>
+            <span class="tag">overview</span>
+          </div>
+          <p class="micro-note">
+            The page-role model stays fixed. <code>work-journal</code> remains a separate workflow rather than a sixth page role.
+          </p>
+        </article>
+
+        <aside class="panel hero-side">
+          <div class="metric-block">
+            <div class="metric-card">
+              <span class="muted">Installable skills</span>
+              <strong>8</strong>
+              <span>kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal</span>
+            </div>
+            <div class="metric-card">
+              <span class="muted">Workflow tracks</span>
+              <strong>7</strong>
+              <span>onboarding, ingest, maintenance, audit, working profile, team coordination, work journal</span>
+            </div>
+          </div>
+
+          <div class="preview-frame">
+            <div class="preview-topbar">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="preview-meta">Product preview</span>
+            </div>
+            <img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" />
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Why this package exists</h2>
+            <p class="sub">The goal is not to help you record more notes. It is to stop a vault from decaying into a maze of folders, dead links, mixed page roles, and hard-to-reuse knowledge.</p>
+          </div>
         </div>
-        <div class="chip-row">
-          <span class="chip">project</span>
-          <span class="chip">knowledge</span>
-          <span class="chip">ops</span>
-          <span class="chip">task</span>
-          <span class="chip">overview</span>
+        <div class="compare-shell">
+          <table>
+            <thead>
+              <tr>
+                <th>Typical drifting vault</th>
+                <th>Target state with this package</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="muted">Root pages become timeline dumps full of temporary execution history.</td>
+                <td class="muted">Root pages return to navigation, stable boundaries, and topic entrypoints.</td>
+              </tr>
+              <tr>
+                <td class="muted"><code>ops</code> pages become chronological logs of what happened once.</td>
+                <td class="muted"><code>ops</code> pages become reusable symptom / root cause / fix / boundary references.</td>
+              </tr>
+              <tr>
+                <td class="muted">Long-form sources are imported as one big blob and become difficult to revisit.</td>
+                <td class="muted">Sources are split into overview / chapter / topic structures with lineage and better retrieval surfaces.</td>
+              </tr>
+              <tr>
+                <td class="muted">Collaboration context sits in chat, meeting notes, and personal memory.</td>
+                <td class="muted">Working profile, team coordination, and journal workflows create a stable, reviewable collaboration layer.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <aside class="panel stat-card">
-        <div>
-          <div class="kicker">Core package</div>
-          <div class="metric">8</div>
-          <p class="stat-copy">`kit-guide`, `orchestrator`, `ingest`, `maintenance`, `audit`, `working-profile`, `team-coordination`, and `work-journal`.</p>
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>What’s inside</h2>
+            <p class="sub">The repository keeps the package explicit: 8 public skills, one fixed page-role model, and a small set of repeatable workflows rather than an opaque automation black box.</p>
+          </div>
         </div>
-        <div style="margin-top:24px;">
-          <div class="kicker">Workflow tracks</div>
-          <p class="stat-copy">7 capability tracks, with `kit-guide` + `orchestrator` sharing the onboarding/orchestration role.</p>
+        <div class="grid-4">
+          <article class="section-card">
+            <div class="role-label">onboarding</div>
+            <h3>knowledge-base-kit-guide</h3>
+            <p>Explains installation, profile setup, and which skill to use next.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">orchestration</div>
+            <h3>knowledge-base-orchestrator</h3>
+            <p>Provides low-friction onboarding: inspect the current environment, create a skeleton, generate a profile, and route the next step.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">ingest</div>
+            <h3>knowledge-base-ingest</h3>
+            <p>Imports long-form markdown with a baseline-first, test-driven, lightweight-harness workflow.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">maintenance</div>
+            <h3>knowledge-base-maintenance</h3>
+            <p>Writes durable conclusions back into the right page role while filtering one-off process noise.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">audit</div>
+            <h3>knowledge-base-audit</h3>
+            <p>Inspects metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">working profile</div>
+            <h3>knowledge-base-working-profile</h3>
+            <p>Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">team coordination</div>
+            <h3>knowledge-base-team-coordination</h3>
+            <p>Coordinates shared-project questionnaires, alignment, assignments, and decision distillation.</p>
+          </article>
+          <article class="section-card">
+            <div class="role-label">work journal</div>
+            <h3>work-journal</h3>
+            <p>Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.</p>
+          </article>
         </div>
-      </aside>
-    </div>
-  </div>
+      </div>
+    </section>
 
-  <div class="shell section">
-    <h2>30-second outcome</h2>
-    <p class="sub">This repository is for vaults that have drifted into a mix of project logs, unstable navigation, and hard-to-reuse notes.</p>
-    <div class="panel compare">
-      <table>
-        <thead>
-          <tr>
-            <th>Typical drifting vault</th>
-            <th>Target state with this package</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="muted">Root pages accumulate temporary execution history.</td>
-            <td class="muted">Root pages return to navigation, stable boundaries, and topic entrypoints.</td>
-          </tr>
-          <tr>
-            <td class="muted"><code>ops</code> pages become chronological logs.</td>
-            <td class="muted"><code>ops</code> pages become reusable symptom / root cause / fix / boundary references.</td>
-          </tr>
-          <tr>
-            <td class="muted"><code>log.md</code> turns into task replay.</td>
-            <td class="muted"><code>log.md</code> stays milestone-only.</td>
-          </tr>
-          <tr>
-            <td class="muted">New teammates or future-you do not know where to start.</td>
-            <td class="muted">Onboarding and specialist skills provide a stable routing path.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>One method, several high-density scenarios</h2>
+            <p class="sub">This package is especially strong in environments that are knowledge-dense, frequently updated, collaboration-heavy, and in need of traceability and auditability.</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <article class="scenario-card">
+            <h3>Medical / pathology / research</h3>
+            <p>Guidelines, textbooks, papers, and case summaries need structure, lineage, and careful update boundaries.</p>
+            <ul>
+              <li>Long-form source ingest</li>
+              <li>Stable method and ops pages</li>
+              <li>Review-friendly collaboration context</li>
+            </ul>
+          </article>
+          <article class="scenario-card">
+            <h3>Enterprise knowledge bases</h3>
+            <p>PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+            <ul>
+              <li>Maintenance and audit loops</li>
+              <li>Shared-project coordination</li>
+              <li>Cleaner onboarding for teammates</li>
+            </ul>
+          </article>
+          <article class="scenario-card">
+            <h3>Cross-team collaboration</h3>
+            <p>When context is fragmented across chat and temporary docs, shared coordination and journal workflows help prevent repeated re-explanation.</p>
+            <ul>
+              <li>Draft / approved boundaries</li>
+              <li>Traceable meeting and decision context</li>
+              <li>Working-profile hygiene with consent boundaries</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <div class="shell section">
-    <h2>What’s inside</h2>
-    <p class="sub">The package is meant to be explicit: 8 public skills, one fixed page-role model, and a small number of repeatable workflows.</p>
-    <div class="grid-4">
-      <article class="panel card">
-        <h3>knowledge-base-kit-guide</h3>
-        <p>Explains installation, profile setup, and which skill to use next.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-orchestrator</h3>
-        <p>Optional onboarding coordinator: check current environment, create a skeleton, generate a profile, and route the user forward.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-ingest</h3>
-        <p>Import long-form markdown with a baseline-first, test-driven, lightweight-harness mindset.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-maintenance</h3>
-        <p>Write durable conclusions back into the right page role while filtering process noise.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-audit</h3>
-        <p>Inspect metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-working-profile</h3>
-        <p>Distill stable collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
-      </article>
-      <article class="panel card">
-        <h3>knowledge-base-team-coordination</h3>
-        <p>Coordinate shared-project questionnaires, alignment, assignments, and closeout decision distillation.</p>
-      </article>
-      <article class="panel card">
-        <h3>work-journal</h3>
-        <p>Capture daily work, meeting notes, temporary ideas, and weekly summaries that can feed durable knowledge later.</p>
-      </article>
-    </div>
-  </div>
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>How it flows</h2>
+            <p class="sub">Start with onboarding, stabilize the profile contract, then move through specialist loops that keep the vault usable as it grows.</p>
+          </div>
+        </div>
+        <div class="flow">
+          <article class="flow-step">
+            <small>01</small>
+            <h3>Install</h3>
+            <p>Copy all 8 skill folders into the skills directory of your AI platform.</p>
+          </article>
+          <article class="flow-step">
+            <small>02</small>
+            <h3>Choose onboarding</h3>
+            <p>Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.</p>
+          </article>
+          <article class="flow-step">
+            <small>03</small>
+            <h3>Prepare profile</h3>
+            <p>Create or refine <code>vault-profile.md</code> so later workflows have a stable contract.</p>
+          </article>
+          <article class="flow-step">
+            <small>04</small>
+            <h3>Run specialist loops</h3>
+            <p>Move into ingest, maintenance, audit, working-profile, team-coordination, or work-journal as needed.</p>
+          </article>
+          <article class="flow-step">
+            <small>05</small>
+            <h3>Keep it stable</h3>
+            <p>Repeat governance and navigation checks so the vault stays useful instead of drifting again.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <div class="shell section">
-    <h2>How it flows</h2>
-    <p class="sub">Use Orchestrator when you want the easiest start, Kit Guide when you want to understand the model first, then move into specialist loops.</p>
-    <div class="flow">
-      <article class="panel step"><small>01</small><strong>Install</strong><span>Copy all 8 skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
-      <article class="panel step"><small>02</small><strong>Choose onboarding</strong><span>Use <code>knowledge-base-orchestrator</code> for low-friction setup or <code>knowledge-base-kit-guide</code> for a more explicit explanation-first path.</span></article>
-      <article class="panel step"><small>03</small><strong>Profile</strong><span>Create or refine your <code>vault-profile.md</code> so later specialist skills have a stable contract.</span></article>
-      <article class="panel step"><small>04</small><strong>Specialist loops</strong><span>Move into ingest, maintenance, audit, working-profile, team-coordination, or work-journal depending on the task.</span></article>
-      <article class="panel step"><small>05</small><strong>Stabilize</strong><span>Keep navigation, page roles, and durable knowledge aligned as the vault grows.</span></article>
-    </div>
-  </div>
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Fixed page-role model</h2>
+            <p class="sub">The package stays stable because page boundaries are explicit. It does not rely on every contributor improvising structure from scratch.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <article class="role-card">
+            <div class="role-label">fixed roles</div>
+            <h3>5 durable page roles</h3>
+            <ul>
+              <li><code>project</code> for navigation, overview, and boundaries</li>
+              <li><code>knowledge</code> for reusable methods and concepts</li>
+              <li><code>ops</code> for troubleshooting and procedures</li>
+              <li><code>task</code> for assignments and in-progress work</li>
+              <li><code>overview</code> for indexes and governance surfaces</li>
+            </ul>
+          </article>
+          <article class="role-card">
+            <div class="role-label">boundary note</div>
+            <h3>Journal is not a sixth role</h3>
+            <p><code>work-journal</code> remains a separate workflow. Journal content is allowed to be more fluid, but durable knowledge should be promoted into the fixed page-role model instead of staying in the journal forever.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <div class="shell section">
-    <h2>Test-driven ingest example</h2>
-    <p class="sub">A good long-form ingest is not a one-shot import. The initial structure should be treated as a baseline, then improved through testing, regression checks, version comparison, and lightweight harness-style iteration.</p>
-    <div class="grid-3">
-      <article class="panel card">
-        <h3>Baseline first</h3>
-        <p>Import the source into an overview/chapter/topic structure with lineage, TOC, glossary candidates, and related-link suggestions.</p>
-      </article>
-      <article class="panel card">
-        <h3>Compare and refine</h3>
-        <p>Compare split strategies, page roles, and link architecture using real retrieval and maintenance feedback.</p>
-      </article>
-      <article class="panel card">
-        <h3>Refactor safely</h3>
-        <p>Run regression checks on entry pages, lineage, and key links after each revision so the vault becomes cleaner instead of noisier.</p>
-      </article>
-    </div>
-  </div>
+    <section class="section">
+      <div class="shell cta-band">
+        <article class="cta-card primary">
+          <div class="eyebrow">Start with the right surface</div>
+          <h2>Use the HTML page for product overview, the README for method details.</h2>
+          <p class="sub">This landing page is meant to explain the package quickly. The repository README remains the authoritative place for installation, routing, and workflow boundaries.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Go to START-HERE</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Open repository</a>
+          </div>
+        </article>
+        <article class="cta-card">
+          <div class="role-label">What to open next</div>
+          <h3>Recommended entrypoints</h3>
+          <ul>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">START-HERE.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md">GLOSSARY.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md">docs/example-prompts.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/usage-sop.md">docs/usage-sop.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
 
-  <div class="shell section">
-    <h2>Project preview</h2>
-    <p class="sub">A ready-to-forward preview image is included for release pages, social posts, or repository announcements.</p>
-    <div class="panel preview"><img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" /></div>
-  </div>
-
-  <div class="shell section">
-    <h2>Developers</h2>
-    <p class="sub">Core developers of this repository and share kit.</p>
-    <div class="grid-2">
-      <article class="panel card">
-        <h3>邹星宇</h3>
-        <p>Repository co-developer.</p>
-      </article>
-      <article class="panel card">
-        <h3>杨琦</h3>
-        <p>Repository co-developer.</p>
-      </article>
-    </div>
-  </div>
-
-  <div class="shell footer">
-    Open source under MIT · GitHub repo: <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">zouxy111/wiki-knowledgebase-share-kit</a>
+  <div class="shell">
+    <footer class="footer-card">
+      <div>
+        <strong>Wiki Knowledge Base Share Kit</strong>
+        <div class="muted">Open source under MIT · Built by 邹星宇 and 杨琦</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub</a>
+        <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases">Releases</a>
+        <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues">Issues</a>
+      </div>
+    </footer>
   </div>
 </body>
 </html>
