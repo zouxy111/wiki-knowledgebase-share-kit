@@ -10,6 +10,16 @@
 > 一套面向 markdown / wiki / Obsidian-style vault 的 **8-skill 知识库维护包**。  
 > 目标不是堆更多日志，而是把知识库收敛成：**入口清楚、页面角色稳定、长期可维护、对协作友好、可审计**。
 
+<p align="center">
+  <a href="https://zouxy111.github.io/wiki-knowledgebase-share-kit/"><img src="https://img.shields.io/badge/Open-HTML_Homepage-4ab9ff?style=for-the-badge" alt="Open HTML Homepage" /></a>
+  <a href="./START-HERE.md"><img src="https://img.shields.io/badge/Read-START--HERE-0f172a?style=for-the-badge" alt="Read START-HERE" /></a>
+  <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases"><img src="https://img.shields.io/badge/Browse-Releases-0ea5a4?style=for-the-badge" alt="Browse Releases" /></a>
+</p>
+
+[![HTML homepage preview](./docs/assets/social-preview.png)](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)
+
+> 想看更像产品首页的 HTML 界面，请直接打开上面的 **HTML Homepage**；仓库 README 继续承担安装、分流和方法说明。
+
 ---
 
 ## 30 秒看懂
