@@ -1,7 +1,7 @@
 # 中文封面说明页
 
-> 这是一套可以直接复用的 **wiki / markdown 知识库维护包**。  
-> 如果你收到这个包，但还不知道里面是什么、该先看哪里、该怎么开始，就先看这一页。
+> 这是一个可直接转发的 **8-skill wiki / markdown 知识库维护包**。  
+> 如果对方第一次拿到仓库，不知道先看哪里，就先看这一页。
 
 ---
 
@@ -10,66 +10,72 @@
 它的目标是把一个容易越写越乱的 markdown / wiki 知识库，收敛成：
 - **知识库优先**，而不是任务流水优先
 - **页面职责清晰**，而不是所有东西都堆在一起
-- **可持续维护**，而不是每次靠临时发挥
+- **长期可维护**，而不是每次靠临时发挥
+- **对协作友好**，而不是每次都重新解释上下文
 
-它特别适合这些场景：
-- 你有自己的 Obsidian / markdown wiki
-- 你想把任务结果沉淀成长期可检索的知识
-- 你想定期检查知识库有没有死链、孤立页、导航漂移、噪音回流
-- 你不想让 wiki 退化成项目日志集合
+它既能做：
+- 长文档导入
+- 任务结果沉淀
+- 结构审计
+- 协作画像沉淀
+- 多人项目协调
+- 工作记录 / 周报
+
+也提供两个 onboarding 入口：
+- `knowledge-base-kit-guide`：解释和分流
+- `knowledge-base-orchestrator`：零门槛初始化入口
 
 ---
 
 ## 这个包里有什么
 
-### 4 个 skills
-1. `knowledge-base-kit-guide`
-   - 安装说明 / 配置说明 / 技能分流
-2. `knowledge-base-ingest`
-   - 把长 markdown / 书稿 / 教程拆分、链接并导入知识库
-3. `knowledge-base-maintenance`
-   - 把任务结果沉淀进知识库
-4. `knowledge-base-audit`
-   - 审计知识库结构、导航、元数据和噪音回流
+### 8 个 skills
+1. `knowledge-base-kit-guide` — 使用说明 / 配置分流
+2. `knowledge-base-ingest` — 长文档导入
+3. `knowledge-base-maintenance` — 任务结果沉淀
+4. `knowledge-base-audit` — 结构审计
+5. `knowledge-base-orchestrator` — 零门槛初始化入口
+6. `knowledge-base-team-coordination` — 多人项目协调
+7. `knowledge-base-working-profile` — 协作画像沉淀
+8. `work-journal` — 工作记录 / 周报沉淀
 
-### 1 个配置模板
+### 常用模板
 - `templates/vault-profile-template.md`
+- `templates/working-profile-page-template.md`
+- `templates/journal-profile-template.md`
+- `templates/member-capability-profile-template.md`
 
-### 1 套说明文档
+### 核心说明文档
 - `README.md`
 - `START-HERE.md`
-- `docs/customization-guide.md`
+- `GLOSSARY.md`
 - `docs/usage-sop.md`
 - `docs/example-prompts.md`
 
-### 1 套示例
-- `examples/example-vault-profile.md`
-- `examples/case-study-current-vault.md`
-
 ---
 
-## 你收到后应该怎么开始
+## 对方收到后应该怎么开始
 
-### 如果你想最快上手
-按这个顺序：
+### 最快上手
 1. 看 `START-HERE.md`
 2. 复制 `templates/vault-profile-template.md`
-3. 填你的 vault 路径、areas、root pages、frontmatter 规则
-4. 把 4 个 skills 复制到你的 skills 目录
-5. 第一次先用 `knowledge-base-kit-guide`
+3. 把 8 个 skill 复制到自己的 `skills/` 目录
+4. 完全新手先用 `knowledge-base-orchestrator`
+5. 想先理解结构的人先用 `knowledge-base-kit-guide`
 
-### 如果你想先了解方法论
-按这个顺序：
-1. 看 `README.md`
-2. 看 `docs/customization-guide.md`
-3. 看 `docs/usage-sop.md`
-4. 再看示例文件
+### 如果对方只想知道“我该用哪个 skill”
+- 初始化 / 检查环境：`knowledge-base-orchestrator`
+- 解释安装 / profile / 分流：`knowledge-base-kit-guide`
+- 导入一本书：`knowledge-base-ingest`
+- 写回知识：`knowledge-base-maintenance`
+- 做结构体检：`knowledge-base-audit`
+- 沉淀协作画像：`knowledge-base-working-profile`
+- 多人项目协调：`knowledge-base-team-coordination`
+- 记录工作 / 周报：`work-journal`
 
 ---
 
 ## 这套方法最重要的固定原则
-
-这套包不是“万能 wiki 包”，它有明确的方法论边界：
 
 - 页面角色固定为：`project / knowledge / ops / task / overview`
 - 根页只做导航和稳定总览
@@ -82,64 +88,10 @@
 
 ---
 
-## 这套包最适合谁
-
-适合：
-- 自己长期维护 markdown/wiki 知识库的人
-- 想把知识沉淀和任务过程分开的个人或团队
-- 已经在用支持 `SKILL.md` 结构的平台的人
-- 想把“维护”和“审计”拆成两条明确工作流的人
-
-不太适合：
-- 完全不想配置 profile 的人
-- 不接受固定页面角色模型的人
-- 只想记录原始过程、不关心知识沉淀的人
-
----
-
-## 你可以直接怎么用
-
-### 第一次上手可以直接对 agent 说
+## 转发给别人时可以直接附这句话
 
 ```text
-用 $knowledge-base-kit-guide 帮我开始用这套知识库维护包。
-我还没有配 vault profile，请先告诉我最少要补哪些信息，再告诉我下一步应该调用哪个 skill。
+这是一个可复用的 8-skill wiki/markdown 知识库维护包。
+先看 START-HERE.md，再复制 8 个 skills，填 vault-profile-template.md。
+完全新手先用 knowledge-base-orchestrator；想先理解结构就先用 knowledge-base-kit-guide。
 ```
-
-### 想写入知识库时可以说
-
-```text
-用 $knowledge-base-maintenance 把这次结果沉淀进我的知识库。
-先读 vault profile，再过滤过程噪音，按页面角色归类，并同步目标页、root page、reader entry 和 milestone log。
-```
-
-### 想导入一本 markdown 书或长文档时可以说
-
-```text
-用 $knowledge-base-ingest 把这本 markdown 书导入我的知识库。
-先读 vault profile，再按章节/主题拆分，建立导航和 related links，并同步 overview、reader entry 和 milestone log。
-```
-
-### 想做结构体检时可以说
-
-```text
-用 $knowledge-base-audit 审计我的知识库。
-先读 vault profile，再检查死链、孤立页、metadata、页面边界漂移、噪音回流，以及根目录 stray markdown 文件。
-```
-
----
-
-## 如果你是转发给别人
-
-你可以直接附这句话：
-
-```text
-这是一个可复用的 wiki/markdown 知识库维护包。
-先看 COVER-CN.md 或 START-HERE.md，再复制 4 个 skills，填 vault-profile-template.md，然后先用 knowledge-base-kit-guide 上手。
-```
-
----
-
-## 一句话总结
-
-> 这是一个把“知识库维护”和“知识库审计”拆开，并要求先配 profile、再稳定使用的通用分享包。

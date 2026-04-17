@@ -1,6 +1,6 @@
 interface:
-  display_name: "知识库总控"
-  short_description: "一键式总控技能，自动检测环境并智能路由到对应 skills，实现零门槛上手"
-  default_prompt: "Use $knowledge-base-orchestrator to help me organize my markdown knowledge base. Auto-detect environment, deploy if needed, and route to the right skill based on my intent."
+  display_name: "知识库初始化总控"
+  short_description: "可选的 onboarding coordinator：检查现有环境、创建骨架、生成 profile，并给出下一步 skill 路由"
+  default_prompt: "Use $knowledge-base-orchestrator to help me initialize this knowledge-base package. Check whether I already have a usable vault first, offer Obsidian installation only if I actually need it, create a vault skeleton if needed, generate a vault profile, and then tell me which specialist skill I should use next."
 policy:
   allow_implicit_invocation: true

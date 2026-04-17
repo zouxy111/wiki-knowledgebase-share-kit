@@ -14,6 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 VAULT_PATH="$1"
+TODAY="$(date +%Y-%m-%d)"
 
 echo "正在创建 vault 文件夹结构（folder structure）..."
 echo "路径（path）: ${VAULT_PATH}"
@@ -41,7 +42,7 @@ cat > "${VAULT_PATH}/index.md" << 'EOF'
 title: "知识库导航"
 type: "overview"
 area: "governance"
-updated: "$(date +%Y-%m-%d)"
+updated: "__TODAY__"
 ---
 
 # 知识库导航
@@ -138,7 +139,7 @@ cat > "${VAULT_PATH}/pages/governance.md" << 'EOF'
 title: "维护规则"
 type: "overview"
 area: "governance"
-updated: "$(date +%Y-%m-%d)"
+updated: "__TODAY__"
 ---
 
 # 维护规则（Governance Rules）
@@ -193,17 +194,25 @@ EOF
 
 echo "✅ 创建维护规则（governance rules）: pages/governance.md"
 
+perl -0pi -e "s/__TODAY__/${TODAY}/g" "${VAULT_PATH}/index.md" "${VAULT_PATH}/pages/governance.md"
+
 # 创建默认导航页 (Create default navigation pages)
 for area in learning work projects; do
+    case "$area" in
+        learning) area_title="Learning" ;;
+        work) area_title="Work" ;;
+        projects) area_title="Projects" ;;
+        *) area_title="$area" ;;
+    esac
     cat > "${VAULT_PATH}/pages/project-${area}-overview.md" << EOF
 ---
-title: "${area^} 总览"
+title: "${area_title} 总览"
 type: "project"
 area: "${area}"
 updated: "$(date +%Y-%m-%d)"
 ---
 
-# ${area^} 总览
+# ${area_title} 总览
 
 ## 当前内容（Current Content）
 （暂无内容，开始添加你的第一篇笔记吧！）
@@ -232,6 +241,6 @@ echo "      ├── project-work-overview.md       # 工作文档导航"
 echo "      └── project-projects-overview.md   # 项目导航"
 echo ""
 echo "下一步（Next Steps）:"
-echo "1. 用 Obsidian 打开这个文件夹（open with Obsidian）"
-echo "2. 开始写第一篇笔记（write your first note）"
-echo "3. 运行 maintenance 整理笔记（run maintenance to organize）"
+echo "1. 用 knowledge-base-kit-guide 或 knowledge-base-orchestrator 检查初始化状态"
+echo "2. 确认或补充 vault-profile.md"
+echo "3. 再进入 \$knowledge-base-ingest / \$knowledge-base-maintenance / \$knowledge-base-audit / \$knowledge-base-working-profile / \$knowledge-base-team-coordination / \$work-journal"

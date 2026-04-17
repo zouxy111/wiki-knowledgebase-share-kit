@@ -1,71 +1,50 @@
 ---
 name: knowledge-base-kit-guide
-description: This skill should be used when the user asks to "how do I use this wiki skill kit", "set up a markdown knowledge base workflow", "install the knowledge base skills", "which skill should I use first", "怎么用这套 skills", "怎么开始配置这套知识库维护包", "先用 maintenance 还是 audit", or "怎么填写 vault profile". It explains how to install, configure, and start using the knowledge-base share kit before day-to-day maintenance or audit work begins.
+description: This skill should be used when the user asks how to install or configure this wiki knowledge-base package, which of the 8 skills to use first, how to fill the vault profile, whether to start with orchestrator or a specialist skill, 怎么开始配置这套知识库维护包, 先用哪个 skill, or 怎么填写 vault profile. It explains onboarding, profile setup, and skill routing before day-to-day use.
 ---
 
 # Knowledge Base Kit Guide
 
-这个 skill 不直接维护知识库，也不直接做审计。
+这个 skill 不直接做长文档导入，不直接维护知识库，也不直接做审计。
 
 它的职责是：
-- 教用户如何安装这套 share kit
-- 教用户如何填写 `vault profile`
-- 教用户什么时候该用 `knowledge-base-maintenance`
-- 教用户什么时候该用 `knowledge-base-audit`
-- 教用户什么时候该用 `knowledge-base-orchestrator`
-- 教用户什么时候该用 `knowledge-base-team-coordination`
-- 教用户什么时候该用 `knowledge-base-working-profile`
-- 教用户什么时候该用 `work-journal`
-- 帮用户判断当前卡在哪个配置步骤
+- 解释这套 8-skill package 的结构
+- 解释 `vault profile` 该怎么填
+- 帮用户判断是先用 `knowledge-base-orchestrator`，还是直接进入 specialist skill
+- 给出下一步只该做什么
 
 ## When to use
 - 用户第一次拿到这套 share kit，不知道从哪开始
 - 用户问“怎么安装这些 skills”
 - 用户问“怎么填写 vault profile”
-- 用户问“先用 maintenance 还是 audit”
-- 用户问“为什么这套模板还不能直接跑”
+- 用户问“我现在该用哪个 skill”
+- 用户已经装好了，但不知道下一步该走哪条路径
 
 ## What this skill should do
 
-### 1. Explain the package structure
-先说明这套分享包有三层：
+### 1. Explain the package shape
+先说明这套分享包至少有三层：
 - `skills/`：可安装 skill
-- `templates/`：需要先填写的 profile 模板
-- `docs/`：平台无关使用说明
-- `examples/`：真实案例参考
+- `templates/`：要先填的 profile / page templates
+- `docs/` 与 `examples/`：平台无关说明和案例
 
-### 2. Explain the first-run path
-默认推荐用户按以下顺序开始：
-1. 读 `README.md`
-2. 读 `docs/customization-guide.md`
-3. 复制并填写 `templates/vault-profile-template.md`
-4. 安装所有 8 个 skills：
-   - `knowledge-base-kit-guide`（本 skill，使用指南）
-   - `knowledge-base-orchestrator`（总控/一键式）
-   - `knowledge-base-ingest`（长文档导入）
-   - `knowledge-base-maintenance`（知识库维护）
-   - `knowledge-base-audit`（结构审计）
-   - `knowledge-base-team-coordination`（团队协调）
-   - `knowledge-base-working-profile`（协作画像）
-   - `work-journal`（工作记录）
-5. 最后进入日常使用工作流
+### 2. Explain the onboarding choice
+先帮用户选入口：
+- 如果用户完全新手、还没弄清楚环境或有没有现成 vault：优先 `knowledge-base-orchestrator`
+- 如果用户想先理解模型、页面角色、profile 和后续分流：优先本 skill
+- 如果用户已经明确知道自己的目标：直接进 specialist skill
 
-### 3. Explain the fixed model vs customizable parts
-明确告诉用户：
-- 固定不变的是页面角色模型：`project / knowledge / ops / task / overview`
-- 可自定义的是 vault 路径、area、root pages、命名规则、frontmatter 规则
+### 3. Explain the 8-skill routing
+- `knowledge-base-orchestrator`：初始化入口；检查现有环境、可选安装 Obsidian、创建骨架、生成 profile、推荐下一步
+- `knowledge-base-ingest`：长文档 / 书籍 / 教程导入
+- `knowledge-base-maintenance`：任务结果沉淀
+- `knowledge-base-audit`：结构健康检查
+- `knowledge-base-working-profile`：协作画像沉淀
+- `knowledge-base-team-coordination`：多人共享项目协调
+- `work-journal`：工作记录 / 周报 / 会议纪要
+- 本 skill：安装说明、profile 说明、技能分流
 
-### 4. Explain skill responsibilities
-- `knowledge-base-kit-guide`（本 skill）：安装、上手、配置和分流说明
-- `knowledge-base-orchestrator`：一键式总控，自动检测环境并智能路由
-- `knowledge-base-ingest`：长文档拆分、导入、生成目录和术语
-- `knowledge-base-maintenance`：把任务结果沉淀进知识库
-- `knowledge-base-audit`：检查结构、导航、元数据和噪音回流
-- `knowledge-base-team-coordination`：多人项目协调、问卷派单、决策沉淀
-- `knowledge-base-working-profile`：从交互中提取稳定协作画像
-- `work-journal`：每日工作记录、会议纪要、周报生成
-
-### 5. Detect missing setup prerequisites
+### 4. Detect missing setup prerequisites
 如果用户还没准备这些内容，就优先提示补齐：
 - vault root
 - pages directory
@@ -74,17 +53,17 @@ description: This skill should be used when the user asks to "how do I use this 
 - canonical root-level markdown files
 - frontmatter contract
 
-## Recommended response shape
+### 5. Keep the response narrow
 回答时优先给出：
-- 当前所处阶段（未安装 / 未配置 / 已配置待使用 / 已使用待审计）
+- 当前所处阶段（未安装 / 未配置 / 已配置待使用）
 - 下一步只做什么
-- 对应应该打开哪个文件
-- 当前该调用哪个 skill
+- 对应该打开哪个文件
+- 这一步该调用哪个 skill
 
 ## Additional resources
 - `references/quickstart.md`
 - `references/profile-setup-checklist.md`
 - `../../README.md`
-- `../../docs/customization-guide.md`
+- `../../START-HERE.md`
 - `../../docs/usage-sop.md`
 - `../../templates/vault-profile-template.md`

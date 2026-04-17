@@ -5,45 +5,29 @@
 [![Repo](https://img.shields.io/badge/GitHub-zouxy111%2Fwiki--knowledgebase--share--kit-black?logo=github)](https://github.com/zouxy111/wiki-knowledgebase-share-kit)
 [![Validate](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml/badge.svg)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/actions/workflows/validate.yml)
 
-## 这是什么？
+一套面向 markdown / wiki / Obsidian vault 的**8-skill 知识库维护包**。  
+目标不是继续堆日志，而是把知识库收敛成：**入口清楚、页面角色稳定、长期可维护、对多人协作友好**。
 
-**你的 Obsidian / Markdown 笔记是不是越写越乱？**
-
-- 任务记录、知识沉淀、临时想法全混在一起
-- 想找一个知识点，翻半天找不到
-- 根目录堆满了临时文件，不知道哪些该留哪些该删
-- 写了很多内容，但没有清晰的导航入口
-
-**这个工具帮你把笔记整理成真正的知识库。**
-
-它提供一套可复用的方法和工具，让你的 markdown/wiki 笔记：
-- ✅ 按固定角色分类（项目文档、知识沉淀、操作手册、任务清单、总览页）
-- ✅ 自动过滤掉临时过程，只保留长期有用的内容
-- ✅ 定期检查死链、孤立页面、导航缺失等结构问题
-- ✅ 把长文档（书籍、教程）拆分成可检索的知识页面
-
-> **新手请先看：** [`START-HERE.md`](./START-HERE.md) — 5 分钟快速上手指南
+> **完全新手先看：** [`START-HERE.md`](./START-HERE.md)
 
 **语言 / Language**：[`中文 README`](./README.md) · [`English README`](./README.en.md)
 
-## 📖 新手导航（按顺序阅读）
-
-1. **[`START-HERE.md`](./START-HERE.md)** ← 从这里开始！5 分钟快速上手
-2. **[`GLOSSARY.md`](./GLOSSARY.md)** — 核心概念解释（什么是 project/knowledge/ops/task/overview？）
-3. **[`templates/vault-profile-template.md`](./templates/vault-profile-template.md)** — 配置你的知识库（带详细示例）
-4. **[`docs/example-prompts.md`](./docs/example-prompts.md)** — 可直接复制的使用命令
-
-## 🔗 其他资源
-- [`examples/`](./examples/) — 真实场景示例
-  - [`case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md) — 测试驱动的长文档导入案例
-- [`docs/customization-guide.md`](./docs/customization-guide.md) — 进阶定制指南
-- [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载发布版本
-- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：在线文档
+## 快速入口
+- [`START-HERE.md`](./START-HERE.md)：5 分钟快速上手
+- [`GLOSSARY.md`](./GLOSSARY.md)：核心概念解释
+- [`templates/vault-profile-template.md`](./templates/vault-profile-template.md)：主配置模板
+- [`templates/working-profile-page-template.md`](./templates/working-profile-page-template.md)：working profile 页面模板
+- [`templates/journal-profile-template.md`](./templates/journal-profile-template.md)：journal 配置模板
+- [`docs/example-prompts.md`](./docs/example-prompts.md)：可直接复制的提示词
+- [`docs/customization-guide.md`](./docs/customization-guide.md)：如何适配自己的 vault
+- [`examples/example-vault-profile-generic.md`](./examples/example-vault-profile-generic.md)：不带个人路径的通用 profile 示例
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：测试驱动的长文档导入案例
+- [`GitHub Pages`](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)：在线落地页
+- [`Releases`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases)：下载已发布版本
 
 ---
 
 ## 开发者
-
 - 邹星宇
 - 杨琦
 
@@ -58,8 +42,8 @@
 | 根页堆了很多执行过程和临时记录 | 根页只保留导航、稳定边界、专题入口 |
 | `ops` 页越写越像按天流水账 | `ops` 页沉淀成“现象 / 根因 / 处理法 / 边界” |
 | `log.md` 变成任务回放 | `log.md` 只保留 milestone 级变化 |
-| 有内容页，但没有稳定入口 | 页面必须被 root page / reader entry 收录 |
-| 审计时不知道先看结构还是正文 | 先看 metadata、导航、死链、边界漂移、噪音回流 |
+| 内容页越来越多，但没有稳定入口 | 页面必须被 root page / reader entry 收录 |
+| 新人或协作者不知道先用哪个 skill | 先走 onboarding，再进入明确分流 |
 
 一句话说：
 
@@ -67,36 +51,36 @@
 
 ---
 
-## 这套分享包解决什么问题
+## 这是一个 8-skill package
 
-很多 markdown/wiki vault 会遇到同一类问题：
-- 新内容越写越像项目日志，而不像知识库
-- 根页、专题页、运维页职责混乱
-- `index.md`、导航入口和里程碑日志不同步
-- 审计时不知道该检查结构、边界还是噪音回流
+当前正式包包含 8 个 skill：
 
-这套 kit 把这些问题抽成两类能力：
+1. `knowledge-base-kit-guide`
+2. `knowledge-base-ingest`
+3. `knowledge-base-maintenance`
+4. `knowledge-base-audit`
+5. `knowledge-base-orchestrator`
+6. `knowledge-base-team-coordination`
+7. `knowledge-base-working-profile`
+8. `work-journal`
 
-1. **Ingest**：把长 markdown / 书稿 / 教程按章节拆分，并生成目录、术语候选和 related links 建议后导入知识库
-   - 第一版导入只作为**可测试基线**，后续应根据测试结果继续优化拆分粒度、页面角色和链接架构
-   - 整个 ingest 回路可以当作一个轻量 harness / 回归底座来用
-2. **Maintenance**：把任务结果或结论沉淀进知识库
-3. **Audit**：检查知识库结构、导航、元数据和噪音回流
+这 8 个 skill 共同覆盖 **7 条能力线**：
 
-同时保留固定页面角色模型：
-- `project`
-- `knowledge`
-- `ops`
-- `task`
-- `overview`
-
-但把这些内容改成用户自定义：
-- vault 路径
-- `pages/` 目录位置
-- root pages
-- area 列表
-- 命名约定
-- frontmatter 约定
+1. **Onboarding / Orchestration**
+   - `knowledge-base-kit-guide`：解释安装、profile 配置、技能分流
+   - `knowledge-base-orchestrator`：零门槛初始化入口；检测现有环境、可选安装 Obsidian、创建骨架、生成 profile，并给出下一步 skill 路由
+2. **Ingest**
+   - `knowledge-base-ingest`：拆分长 markdown / 书稿 / 教程，并把第一次导入作为可测试基线
+3. **Maintenance**
+   - `knowledge-base-maintenance`：把任务结果或结论沉淀进知识库
+4. **Audit**
+   - `knowledge-base-audit`：检查结构、导航、元数据和噪音回流
+5. **Working profile**
+   - `knowledge-base-working-profile`：从持续沟通中提炼稳定协作画像
+6. **Team coordination**
+   - `knowledge-base-team-coordination`：面向多人项目的问卷、对齐、派单和决策蒸馏
+7. **Work journal**
+   - `work-journal`：记录每日工作、会议纪要、临时想法，并支持周报/沉淀
 
 ---
 
@@ -106,18 +90,13 @@
 - 已经在维护 Obsidian / markdown / wiki vault 的个人或团队
 - 想把“任务过程”和“长期知识”拆开的使用者
 - 接受固定页面角色模型：`project / knowledge / ops / task / overview`
-- 希望把“写入维护”和“结构审计”拆成两条明确工作流的人
+- 想给长期协作画像、多人项目协调、工作记录建立稳定入口的人
 
 ### 不太适合
 - 完全不想配置 profile 的人
-- 希望 vault 继续以流水日志为主的人
+- 只想保留日志式记录、不关心导航治理的人
 - 不接受固定页面角色模型的人
-- 只想记录原始过程，不在意知识沉淀和导航治理的人
-
-## 使用案例
-
-- [`examples/case-study-current-vault.md`](./examples/case-study-current-vault.md)：从当前 vault 抽象出可分享的固定规则
-- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)：展示如何把长篇专业 Markdown 先导入成可测试基线，再以轻量 harness 的方式通过测试、回归和版本对比持续优化知识库结构
+- 希望把 Orchestrator 当成“万能自动代理”的人
 
 ---
 
@@ -125,9 +104,9 @@
 
 | 平台 | 状态 | 说明 |
 |---|---|---|
-| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库已包含 8 个 skills，每个都有 `SKILL.md`、`references/`、`agents/openai.yaml` |
-| Claude 风格 skills 目录 | 可用 | 直接复制八个 skill 目录即可 |
-| 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配调用方式与 skill 发现机制 |
+| Codex / ChatGPT Codex 风格 skills 目录 | 推荐 | 仓库包含 8 个完整 skill bundle，每个都有 `SKILL.md`、`references/`、`agents/openai.yaml` |
+| Claude 风格 skills 目录 | 可用 | 直接复制 8 个 skill 目录即可 |
+| 其他支持 `SKILL.md` 目录结构的平台 | 可能可用 | 需自行适配 skill 发现与调用方式 |
 
 如果你不确定平台兼容性，先看：
 - `START-HERE.md`
@@ -141,11 +120,19 @@
 wiki-knowledgebase-share-kit/
   COVER-CN.md
   START-HERE.md
+  GLOSSARY.md
   README.md
+  README.en.md
   docs/
   templates/
+    vault-profile-template.md
+    working-profile-page-template.md
+    journal-profile-template.md
+    member-capability-profile-template.md
+    ingest-iteration-log-template.md
   examples/
     example-vault-profile-generic.md
+    scenario-*.md
   skills/
     knowledge-base-kit-guide/
     knowledge-base-ingest/
@@ -157,23 +144,15 @@ wiki-knowledgebase-share-kit/
     work-journal/
 ```
 
-### `skills/`
-可直接复制到本地 AI 平台的 `skills/` 目录里使用。
-
-### `docs/`
-平台无关的说明文档。即使不安装 skill，也可以按这里的方法手工维护知识库。
-
-### `templates/`
-`vault profile` 模板。使用前先填写它，再把 skill 指向你的 profile。
-
-### `examples/`
-既包含真实案例，也包含**不带个人路径的通用示例**，方便公开仓库读者直接参考。
+### `examples/` 的说明
+- `example-vault-profile*.md` 和 case study 更接近真实落地
+- `scenario-*.md` 是**场景化示意**，其中出现的页面链接和目录结构可能是假设性示例，不等于仓库真实文件
 
 ---
 
 ## 推荐安装方式
 
-把以下八个目录复制到你的 skills 目录：
+把以下 8 个目录复制到你的 skills 目录：
 
 - `skills/knowledge-base-kit-guide`
 - `skills/knowledge-base-ingest`
@@ -188,27 +167,29 @@ wiki-knowledgebase-share-kit/
 - `~/.codex/skills`
 - `~/.claude/skills`
 
-安装后，先准备自己的 `vault profile`，再调用 skill。
+安装后，至少准备好自己的 `vault profile`，再进入日常使用。
 
 ---
 
 ## 推荐使用顺序
 
-### 第一次适配
-1. 先读 `docs/customization-guide.md`
-2. 复制 `templates/vault-profile-template.md`
-3. 填写自己的 vault root、areas、root pages、frontmatter 规则
-4. 参考 `examples/example-vault-profile-generic.md`
-5. 根据需要微调 checklist
+### 完全新手
+- 先用 `knowledge-base-orchestrator`
+- 它会优先检测你是否已经有现成的 Obsidian / vault / profile
+- 如需安装 Obsidian，默认是**可选步骤**，不是必须步骤
+- 初始化完成后，再进入具体 skill
 
-### 第一次上手时
-- 先用 `knowledge-base-kit-guide` 理解安装顺序、profile 配置和技能分工
+### 想手动理解和配置
+- 先用 `knowledge-base-kit-guide`
+- 它负责解释 profile、安装方式、以及后续该调用哪个 skill
 
-### 日常使用
-- 要导入长文档 / 书籍 / 教程时：用 `knowledge-base-ingest`（支持拆分、TOC、术语候选、related links 建议，以及轻量 harness 风格的结构迭代）
-- 要沉淀任务结果时：用 `knowledge-base-maintenance`
-- 要做结构审计时：用 `knowledge-base-audit`
-- 大改之后：先 ingest / maintenance，再 audit
+### 日常分流
+- 要导入长文档 / 书籍 / 教程：`knowledge-base-ingest`
+- 要沉淀任务结果：`knowledge-base-maintenance`
+- 要做结构体检：`knowledge-base-audit`
+- 要沉淀长期协作画像：`knowledge-base-working-profile`
+- 要协调多人共享项目：`knowledge-base-team-coordination`
+- 要记每日工作 / 会议 / 周报：`work-journal`
 
 ---
 
@@ -220,56 +201,22 @@ wiki-knowledgebase-share-kit/
 - 根页只做导航和稳定总览
 - `ops` 页默认写成“现象 / 根因 / 处理法 / 边界”
 - `log.md` 只写里程碑，不写任务回放
-- 每次实质维护至少同步：目标页、根页、`index.md`、`log.md`
-
----
-
-## 可自定义部分
-
-以下内容应由使用者在自己的 `vault profile` 中定义：
-- vault 路径
-- 页面目录
-- 读者入口
-- 日志文件
-- 维护入口
-- area 列表
-- root pages
-- 命名规则
-- frontmatter 规则
-- 允许存在于 vault 根目录的 canonical markdown 文件
+- 实质维护要同步内容页与导航入口
 
 ---
 
 ## 先读哪几个文件
 
 最短路径：
-- `START-HERE.md` — 5 分钟快速上手
-- `GLOSSARY.md` — 核心概念解释
-- `COVER-CN.md` — 中文封面说明（可选）
-- `docs/customization-guide.md` — 进阶定制
-- `templates/vault-profile-template.md` — 配置模板
-- `docs/usage-sop.md` — 使用规范
+- `START-HERE.md` — 新手入口
+- `GLOSSARY.md` — 概念解释
+- `templates/vault-profile-template.md` — 主配置模板
+- `docs/example-prompts.md` — 第一批可直接复制的提示词
+- `docs/usage-sop.md` — 8 个 skill 的职责与分流
 
-如果想看一个完整落地示例，再读：
-- `examples/example-vault-profile-generic.md`
-- `examples/example-vault-profile.md`
-- `examples/case-study-current-vault.md`
+如果你想继续深入：
+- `docs/customization-guide.md`
+- `templates/working-profile-page-template.md`
+- `templates/journal-profile-template.md`
+- `templates/member-capability-profile-template.md`
 - `examples/case-study-pathology-ingest-iteration.md`
-
----
-
-## 开源仓库补充文件
-
-为了方便直接发布到 GitHub，本仓库额外提供：
-- `LICENSE`
-- `CONTRIBUTING.md`
-- `CHANGELOG.md`
-- `README.en.md`
-- `.gitignore`
-- `.github/workflows/validate.yml`
-
-如果你要直接开源，保留这些文件即可。
-
-## License
-
-本项目采用 MIT License，详见 `LICENSE`。

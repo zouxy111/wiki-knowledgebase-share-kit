@@ -27,7 +27,7 @@ def create_journal_file(
     date_str = target_date.strftime("%Y-%m-%d")
     projects_line = f'projects: ["{project}"]' if project else "projects: []"
 
-    content = f'''---
+    content = f"""---
 title: "{date_str} 工作记录"
 type: "journal"
 date: "{date_str}"
@@ -57,7 +57,7 @@ tags: []
 | 人名 | 参与事件 | 备注 |
 |------|---------|------|
 <!-- 自动填充 -->
-'''
+"""
 
     filepath.write_text(content, encoding="utf-8")
     return filepath

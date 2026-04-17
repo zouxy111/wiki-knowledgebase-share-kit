@@ -16,6 +16,7 @@ fi
 VAULT_PATH="$1"
 VAULT_NAME="${2:-我的知识库}"
 AREAS="${3:-learning,work,projects}"
+TODAY="$(date +%Y-%m-%d)"
 
 echo "正在生成 vault profile（知识库配置文件）..."
 echo ""
@@ -31,34 +32,34 @@ IFS=',' read -ra AREA_ARRAY <<< "$AREAS"
 # 生成 vault profile (Generate vault profile)
 PROFILE_PATH="${VAULT_PATH}/vault-profile.md"
 
-cat > "${PROFILE_PATH}" << EOF
+cat > "${PROFILE_PATH}" << 'EOF'
 # Vault Profile（知识库配置文件）
 
-> 自动生成于（auto-generated）: $(date +%Y-%m-%d)
+> 自动生成于（auto-generated）: __TODAY__
 
 ---
 
 ## 1. Vault identity（知识库基本信息）
 
-- **Vault name**（知识库名称）: ${VAULT_NAME}
-- **Vault root path**（知识库根目录）: ${VAULT_PATH}
-- **Primary markdown page directory**（笔记存放目录）: ${VAULT_PATH}/pages
-- **Reader entrypoint file**（导航首页）: ${VAULT_PATH}/index.md
-- **Milestone log file**（里程碑日志）: ${VAULT_PATH}/log.md
-- **Maintainer entrypoint file**（维护者入口）: ${VAULT_PATH}/pages/governance.md
+- **Vault name**（知识库名称）: __VAULT_NAME__
+- **Vault root path**（知识库根目录）: __VAULT_PATH__
+- **Primary markdown page directory**（笔记存放目录）: __VAULT_PATH__/pages
+- **Reader entrypoint file**（导航首页）: __VAULT_PATH__/index.md
+- **Milestone log file**（里程碑日志）: __VAULT_PATH__/log.md
+- **Maintainer entrypoint file**（维护者入口）: __VAULT_PATH__/pages/governance.md
 
 ---
 
 ## 2. Fixed page-role model（固定页面角色）
 
 这套模板使用 5 种固定页面角色，**不要修改**：
-- \`project\` — 项目文档、导航页
-- \`knowledge\` — 知识沉淀、学习笔记
-- \`ops\` — 操作手册、排障文档
-- \`task\` — 任务清单、待办事项
-- \`overview\` — 总览页、索引页
+- `project` — 项目文档、导航页
+- `knowledge` — 知识沉淀、学习笔记
+- `ops` — 操作手册、排障文档
+- `task` — 任务清单、待办事项
+- `overview` — 总览页、索引页
 
-💡 **不理解这 5 种角色？** 先看 [\`GLOSSARY.md\`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md)
+💡 **不理解这 5 种角色？** 先看 [`GLOSSARY.md`](https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md)
 
 ---
 
@@ -67,6 +68,14 @@ cat > "${PROFILE_PATH}" << EOF
 | area（分类名） | 用途说明 |
 |---|---|
 EOF
+python3 - "${PROFILE_PATH}" "${VAULT_NAME}" "${VAULT_PATH}" "${TODAY}" <<'PY'
+from pathlib import Path
+import sys
+path, vault_name, vault_path, today = sys.argv[1:]
+text = Path(path).read_text(encoding='utf-8')
+text = text.replace('__VAULT_NAME__', vault_name).replace('__VAULT_PATH__', vault_path).replace('__TODAY__', today)
+Path(path).write_text(text, encoding='utf-8')
+PY
 
 # 添加 areas (Add areas)
 for area in "${AREA_ARRAY[@]}"; do
@@ -207,12 +216,17 @@ created: "2026-04-01"  # 创建日期
 这个 vault profile 已经可以使用了！
 
 **下一步（Next Steps）**：
-1. 用 Obsidian 打开 vault
-2. 开始写第一篇笔记
-3. 运行 \`knowledge-base-maintenance\` 整理笔记
-4. 运行 \`knowledge-base-audit\` 检查健康度
+1. 如果你还想继续走初始化入口：使用 `knowledge-base-orchestrator`
+2. 如果你想先理解结构和 skill 分流：使用 `knowledge-base-kit-guide`
+3. 如果你要导入长文档：使用 `knowledge-base-ingest`
+4. 如果你要把结果沉淀进知识库：使用 `knowledge-base-maintenance`
+5. 如果你要做结构检查：使用 `knowledge-base-audit`
+6. 如果你要沉淀协作画像：使用 `knowledge-base-working-profile`
+7. 如果你要协调多人项目：使用 `knowledge-base-team-coordination`
+8. 如果你要记录每日工作 / 会议 / 周报：使用 `work-journal`
 
 **需要帮助？**
+- 📖 查看 [START-HERE.md](https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md)
 - 📖 查看 [GLOSSARY.md](https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md)
 - 📝 查看 [示例](https://github.com/zouxy111/wiki-knowledgebase-share-kit/tree/main/examples)
 - 💬 提问 [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
@@ -224,5 +238,6 @@ echo ""
 echo "文件位置（file location）: ${PROFILE_PATH}"
 echo ""
 echo "现在可以使用这个 profile 了（you can now use this profile）:"
-echo "  Use \$knowledge-base-maintenance with profile: ${PROFILE_PATH}"
-echo "  Use \$knowledge-base-audit with profile: ${PROFILE_PATH}"
+echo "  Use \$knowledge-base-kit-guide with profile: ${PROFILE_PATH}"
+echo "  Use \$knowledge-base-orchestrator if you still need guided setup"
+echo "  Use \$knowledge-base-ingest / \$knowledge-base-maintenance / \$knowledge-base-audit / \$knowledge-base-working-profile / \$knowledge-base-team-coordination / \$work-journal as needed"

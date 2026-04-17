@@ -4,18 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Added a new `knowledge-base-ingest` skill for splitting long markdown sources or books into reusable knowledge-base pages.
-- Added a test-driven ingest case study for long-form professional markdown sources at `examples/case-study-pathology-ingest-iteration.md`.
-- Expanded the ingest case study to frame `knowledge-base-ingest` as a lightweight harness / regression baseline for structure evolution.
-- Added a deterministic heading-based splitter at `skills/knowledge-base-ingest/scripts/split_markdown.py`.
-- Added glossary extraction and related-link suggestion scripts for `knowledge-base-ingest`.
-- Generic example vault profile without personal local paths at `examples/example-vault-profile-generic.md`.
-- Basic GitHub Actions validation workflow for skill bundle structure and relative links.
-- Developer list updated to `邹星宇` and `杨琦` in the main repository surfaces.
+- Added `knowledge-base-orchestrator` as an onboarding coordinator for low-friction setup, environment checks, vault skeleton creation, and initial profile generation.
+- Added `knowledge-base-working-profile` for durable collaboration-profile distillation.
+- Added `knowledge-base-team-coordination` for shared-project questionnaire, alignment, assignment, and decision-distill workflows.
+- Added `work-journal` for daily work logs, meeting notes, and weekly distillation.
+- Added template support around working profile, journaling, and reusable member-capability profiles.
 
 ### Changed
-- Improved Chinese and English README files with a 30-second overview, platform status, clearer audience fit guidance, and test-driven ingest case-study links.
-- Updated example prompts, usage SOP, and the GitHub Pages landing page to emphasize baseline import, lightweight harness framing, regression checks, and iterative knowledge-architecture refinement.
+- Reframed the repository as a public **8-skill package** with a consistent onboarding / orchestration, ingest, maintenance, audit, working-profile, team-coordination, and work-journal story.
+- Updated `README.md`, `README.en.md`, `START-HERE.md`, `COVER-CN.md`, `docs/usage-sop.md`, `docs/example-prompts.md`, and `docs/index.html` so skill counts, installation steps, and routing logic all match the current package.
+- Tightened `GLOSSARY.md` and scenario docs so public docs no longer present misleading repo-internal dead links as if they were real files.
+- Narrowed Orchestrator positioning from a “万能总控” narrative to an onboarding coordinator aligned with the actual scripts.
+- Fixed Orchestrator-generated vault files so `updated` frontmatter now writes real dates instead of literal `$(date ...)` strings.
+- Updated generated vault-profile next steps so they reflect the full 8-skill package instead of only maintenance / audit.
 
 ## [1.0.1] - 2026-04-16
 ### Added

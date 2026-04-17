@@ -1,6 +1,7 @@
 # 术语表 / Glossary
 
 > 这个文档解释项目中的核心概念，帮助新手快速理解。
+> 文中若出现文件名或路径示例，默认用于解释概念；除非明确写成仓库链接，否则不代表这些文件真实存在于本仓库。
 
 ---
 
@@ -15,7 +16,7 @@
 ### Skill（技能包）
 一个可以被 AI 助手调用的工具包，包含特定功能的说明和脚本。
 - **类比**：就像给 AI 安装一个"插件"
-- **本项目提供 4 个 skills**：导入、维护、审计、使用指南
+- **本项目当前提供 8 个 skills**：kit-guide、orchestrator、ingest、maintenance、audit、working-profile、team-coordination、work-journal
 
 ### Vault Profile（知识库配置文件）
 描述你的知识库结构的配置文件，告诉工具：
@@ -59,9 +60,9 @@ area: "product"
 - v2.3（2026-04-15 发布）
 
 ## 核心功能模块
-- [用户登录模块](./user-login.md)
-- [支付流程](./payment-flow.md)
-- [消息推送](./push-notification.md)
+- 示例文件名：`user-login.md`
+- 示例文件名：`payment-flow.md`
+- 示例文件名：`push-notification.md`
 
 ## 技术边界
 - 最低支持 iOS 14+
@@ -229,9 +230,9 @@ area: "governance"
 # 知识库导航
 
 ## 主要分类
-- [产品文档](./pages/project-product-overview.md)
-- [技术文档](./pages/project-engineering-overview.md)
-- [运维手册](./pages/project-operations-overview.md)
+- 示例路径：`pages/project-product-overview.md`
+- 示例路径：`pages/project-engineering-overview.md`
+- 示例路径：`pages/project-operations-overview.md`
 
 ## 维护规则
 - 每个页面必须有 frontmatter
@@ -288,7 +289,7 @@ updated: "2026-04-15"
 
 **示例**：
 ```markdown
-[这个链接](./not-exist.md) ← 如果 not-exist.md 不存在，就是死链
+`./not-exist.md` ← 这是示例性路径；如果链接指向的目标不存在，就是死链
 ```
 
 ---

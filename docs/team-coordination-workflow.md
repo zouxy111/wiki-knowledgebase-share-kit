@@ -7,7 +7,7 @@
 
 ## 1. 这是什么
 
-这是一个建立在现有 `guide / maintenance / audit` 架构上的第 4 个 skill：
+这是当前 **8-skill knowledge-base package** 里的一个 specialist skill：
 - 名称固定为：`knowledge-base-team-coordination`
 - 面向：2 人及以上的共享项目目录工作流
 - 默认运行模型：**单协调 AI + 共享项目目录唯一事实源**
@@ -28,7 +28,7 @@ QC 只是默认示例之一。
 不适用：
 - 你只是要把某次任务写回知识库 → 用 `knowledge-base-maintenance`
 - 你只是要检查知识库结构健康 → 用 `knowledge-base-audit`
-- 你还没准备共享项目目录 → 先用 `knowledge-base-kit-guide`
+- 你还没准备共享项目目录，或还没想清楚整体分流 → 先用 `knowledge-base-kit-guide` 或 `knowledge-base-orchestrator`
 
 ---
 
@@ -215,101 +215,3 @@ AI 需要为每位成员生成 `questionnaire.md`。
 - `coordination/decision-register.md`
 
 如提供 vault profile，则可同步稳定知识到知识库。
-
----
-
-## 8. 状态与确认机制
-
-以下文件必须支持 `status`：
-- `questionnaire.md`
-- `assignment.md`
-- `coordination/alignment-summary.md`
-- `coordination/task-board.md`
-- `coordination/decision-register.md`
-
-最少支持：
-- `draft`
-- `approved`
-- `superseded`
-- `blocked`
-
-固定规则：
-- AI 先生成草案，人确认后落盘为正式事实
-- 只有 `approved` 的任务与决策，才允许作为后续事实源
-- 范围变化后，旧任务标为 `superseded`
-- 信息不足或颗粒度不一致时，任务应保持 `draft` 或 `blocked`
-
----
-
-## 9. QC 只是示例，不是写死规则
-
-这套能力是通用多人协同，不是 QC 专用。
-
-但仓库里提供一个 QC 默认案例，展示三类典型分工：
-- 技术事实 owner
-- 表达转译 owner
-- 评审审查 owner
-
-正确做法是：
-- 通用层：角色模板系统
-- 示例层：QC 默认角色模板与问卷示例
-
-可参考：
-- `examples/team-project-generic/`
-- `examples/team-project-qc/`
-
----
-
-## 10. 知识库同步接口
-
-如果提供了 vault profile，则 `knowledge-base-team-coordination` 允许同步两类稳定内容：
-
-1. **人物画像增量**
-   - 长期有效的能力 / 偏好 / 约束变化
-2. **稳定决策蒸馏**
-   - 后续项目仍可复用的判断规则、协同模式、任务边界、问卷策略
-
-注意：
-- 没有 vault profile 时，只写项目目录，不算失败
-- 同步时仍沿用现有 page-role model，不新增第二套知识库治理
-- 未经批准的 draft 不应写回知识库
-
----
-
-## 11. 最小验收场景
-
-### 场景 1：2 人通用项目，无 vault profile
-期望：
-- 2 份差异化问卷
-- alignment summary
-- 任务草案
-- 只写项目目录，不做知识库同步
-
-### 场景 2：3 人 QC 项目，有 canonical member profiles
-期望：
-- 根据画像生成差异化问卷
-- alignment 能识别技术事实 / 表达 / 审查三类分工
-- assignment 与 task-board 保持一致
-- approved 决策可同步到知识库
-
-### 场景 3：回答颗粒度不一致
-期望：
-- alignment-summary 明确指出不一致
-- follow-up 自动生成补问
-- 补齐前 assignment 保持 draft 或 blocked
-
-### 场景 4：项目中途变更范围
-期望：
-- 旧 assignment 标记 `superseded`
-- 重新生成 alignment 与新任务草案
-- decision-register 记录变更原因
-
-### 场景 5：成员无历史画像
-期望：
-- 退化为“先问卷建画像，再派任务”
-- 不因缺画像直接失败
-
-### 场景 6：知识库同步可选
-期望：
-- 有 vault profile：同步成功
-- 无 vault profile：只写项目目录，且明确说明这是预期行为
