@@ -8,42 +8,40 @@
   <style>
     :root {
       --bg: #07111f;
-      --bg-2: #09192d;
-      --panel: rgba(10, 21, 38, 0.84);
-      --panel-strong: rgba(12, 26, 46, 0.92);
+      --bg-2: #0a1628;
+      --panel: rgba(11, 23, 40, 0.9);
+      --panel-2: rgba(13, 28, 49, 0.95);
       --line: rgba(255,255,255,.10);
       --line-strong: rgba(255,255,255,.18);
-      --text: #ecf4ff;
-      --muted: #9db1ca;
+      --text: #edf5ff;
+      --muted: #9eb1ca;
       --accent: #69d3ff;
       --accent-2: #8af2d0;
-      --accent-3: #9aa8ff;
-      --glow: rgba(105, 211, 255, 0.22);
-      --shadow: 0 24px 80px rgba(0,0,0,.30);
+      --accent-3: #96a6ff;
+      --shadow: 0 24px 70px rgba(0,0,0,.30);
       font-family: Geist, Outfit, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
+      overflow-x: hidden;
       background:
-        radial-gradient(circle at 10% 10%, rgba(105, 211, 255, 0.18), transparent 24%),
-        radial-gradient(circle at 88% 18%, rgba(154, 168, 255, 0.18), transparent 26%),
-        radial-gradient(circle at 50% 100%, rgba(138, 242, 208, 0.10), transparent 28%),
-        linear-gradient(180deg, #081220 0%, #07111f 42%, #050b14 100%);
+        radial-gradient(circle at 12% 12%, rgba(105, 211, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 88% 18%, rgba(150, 166, 255, 0.16), transparent 26%),
+        linear-gradient(180deg, #08121f 0%, #07111f 45%, #050b14 100%);
     }
 
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    img { display: block; max-width: 100%; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 
     .shell {
-      width: min(1240px, calc(100vw - 40px));
+      width: min(1200px, calc(100vw - 32px));
       margin: 0 auto;
     }
 
@@ -51,8 +49,8 @@
       position: sticky;
       top: 0;
       z-index: 30;
-      backdrop-filter: blur(16px);
-      background: rgba(7, 17, 31, 0.72);
+      backdrop-filter: blur(14px);
+      background: rgba(7, 17, 31, 0.74);
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
@@ -64,26 +62,23 @@
       padding: 16px 0;
     }
 
-    .brand-wrap {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .brand-mark {
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background:
-        linear-gradient(135deg, rgba(105, 211, 255, .22), rgba(138, 242, 208, .10)),
-        rgba(255,255,255,.03);
       display: grid;
       place-items: center;
       font-weight: 800;
-      letter-spacing: -.04em;
-      color: #dff6ff;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      letter-spacing: -.05em;
+      background: linear-gradient(135deg, rgba(105,211,255,.24), rgba(138,242,208,.12));
+      border: 1px solid rgba(255,255,255,.12);
+      color: #dbf6ff;
     }
 
     .brand-copy strong {
@@ -94,21 +89,21 @@
 
     .brand-copy span {
       display: block;
-      font-size: 12px;
       color: var(--muted);
-      letter-spacing: .06em;
+      font-size: 12px;
+      letter-spacing: .08em;
       text-transform: uppercase;
     }
 
     .nav-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .pill,
     .btn,
-    .tag {
+    .chip {
       border: 1px solid var(--line);
       border-radius: 999px;
     }
@@ -119,23 +114,25 @@
       background: rgba(255,255,255,.02);
     }
 
+    .pill:hover,
+    .btn.secondary:hover {
+      border-color: var(--line-strong);
+      background: rgba(255,255,255,.05);
+    }
+
     .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 52px 0 34px;
+      padding: 52px 0 26px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
       gap: 22px;
-      align-items: stretch;
     }
 
     .panel {
-      position: relative;
       border: 1px solid var(--line);
-      border-radius: 30px;
+      border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
         var(--panel);
@@ -143,34 +140,24 @@
       overflow: hidden;
     }
 
-    .panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 20%);
-      pointer-events: none;
-    }
-
     .hero-copy,
     .hero-side,
     .section-card,
     .flow-step,
-    .scenario-card,
-    .role-card,
-    .cta-card,
+    .mini-card,
     .footer-card {
-      padding: 30px;
+      padding: 28px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 20px;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: .22em;
       font-size: 12px;
+      margin-bottom: 18px;
     }
 
     .eyebrow::before {
@@ -181,35 +168,94 @@
     }
 
     h1 {
-      margin: 0 0 18px;
-      font-size: clamp(44px, 6vw, 82px);
-      line-height: .94;
+      margin: 0 0 16px;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .95;
       letter-spacing: -.05em;
       max-width: 10ch;
     }
 
     h2 {
-      margin: 0 0 14px;
-      font-size: clamp(28px, 4vw, 42px);
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 40px);
       letter-spacing: -.03em;
     }
 
     h3 {
       margin: 0 0 10px;
-      font-size: 22px;
+      font-size: 21px;
       letter-spacing: -.02em;
+    }
+
+    .lede,
+    .sub,
+    .muted,
+    .card-copy,
+    .flow-step p,
+    .mini-card p,
+    .hero-note {
+      color: var(--muted);
     }
 
     .lede {
       margin: 0;
       max-width: 62ch;
       font-size: 18px;
-      color: var(--muted);
     }
 
-    .cta-row,
-    .tag-row,
-    .stats,
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 26px 0 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      font-weight: 700;
+      background: rgba(255,255,255,.03);
+    }
+
+    .btn.primary {
+      color: #07111f;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent), #84a7ff 52%, var(--accent-2));
+      box-shadow: 0 14px 36px rgba(105,211,255,.22);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(255,255,255,.03);
+    }
+
+    .hero-note {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 16px;
+      background:
+        radial-gradient(circle at top right, rgba(105,211,255,.15), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
+        var(--panel-2);
+    }
+
+    .stats-grid,
     .grid-2,
     .grid-3,
     .grid-4,
@@ -218,101 +264,46 @@
       gap: 18px;
     }
 
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin: 26px 0 22px;
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0,1fr));
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 15px 18px;
-      font-weight: 700;
+    .stat-card,
+    .clone-card,
+    .preview-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
       background: rgba(255,255,255,.03);
+      padding: 18px;
     }
 
-    .btn.primary {
-      color: #07111f;
-      background: linear-gradient(135deg, var(--accent), #80a8ff 52%, var(--accent-2));
-      border-color: transparent;
-      box-shadow: 0 16px 40px rgba(105, 211, 255, .24);
+    .stat-card strong {
+      display: block;
+      margin: 6px 0 8px;
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: .95;
+      letter-spacing: -.05em;
     }
 
-    .btn.secondary:hover,
-    .pill:hover {
-      border-color: var(--line-strong);
-      background: rgba(255,255,255,.05);
-    }
-
-    .tag-row {
-      grid-template-columns: repeat(5, minmax(0, max-content));
-      align-items: start;
-      gap: 10px;
-    }
-
-    .tag {
-      display: inline-flex;
-      padding: 8px 12px;
-      color: var(--muted);
-      background: rgba(255,255,255,.03);
+    .clone-card pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(4, 10, 18, .75);
+      color: #dff6ff;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
       font-size: 13px;
     }
 
-    .micro-note {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .hero-side {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      background:
-        radial-gradient(circle at top right, rgba(105, 211, 255, .14), transparent 38%),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
-        var(--panel-strong);
-    }
-
-    .metric-block {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .metric-card {
-      padding: 16px;
-      border: 1px solid var(--line);
+    .preview-shell {
       border-radius: 22px;
-      background: rgba(255,255,255,.025);
-    }
-
-    .metric-card strong {
-      display: block;
-      font-size: clamp(34px, 5vw, 54px);
-      letter-spacing: -.05em;
-      line-height: .95;
-      margin-bottom: 8px;
-    }
-
-    .metric-card span,
-    .sub,
-    .card-copy,
-    .flow-step p,
-    .muted {
-      color: var(--muted);
-    }
-
-    .preview-frame {
-      border: 1px solid var(--line);
-      border-radius: 24px;
       overflow: hidden;
-      background: rgba(255,255,255,.03);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
     }
 
     .preview-topbar {
@@ -324,49 +315,39 @@
       background: rgba(255,255,255,.03);
     }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.22);
-    }
-
+    .dot { width: 10px; height: 10px; border-radius: 999px; }
     .dot:nth-child(1) { background: #ff6b6b; }
     .dot:nth-child(2) { background: #ffd166; }
     .dot:nth-child(3) { background: #7ae582; }
 
-    .preview-meta {
+    .preview-topbar span:last-child {
       margin-left: auto;
-      font-size: 12px;
       color: var(--muted);
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: .14em;
+      letter-spacing: .16em;
     }
 
-    .preview-frame img {
+    .preview-shell img {
       width: 100%;
       height: auto;
       object-fit: cover;
     }
 
     .section {
-      padding: 24px 0 26px;
+      padding: 28px 0;
     }
 
     .section-head {
       display: flex;
-      flex-wrap: wrap;
-      align-items: end;
       justify-content: space-between;
-      gap: 18px;
+      align-items: end;
+      flex-wrap: wrap;
+      gap: 16px;
       margin-bottom: 18px;
     }
 
-    .sub {
-      max-width: 68ch;
-      margin: 0;
-      font-size: 16px;
-    }
+    .sub { max-width: 68ch; margin: 0; }
 
     .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
@@ -374,33 +355,12 @@
     .flow { grid-template-columns: repeat(5, minmax(0,1fr)); }
 
     .section-card,
-    .scenario-card,
-    .role-card,
     .flow-step,
-    .cta-card,
+    .mini-card,
     .footer-card {
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: 26px;
       background: rgba(255,255,255,.022);
-      min-height: 100%;
-    }
-
-    .section-card p,
-    .scenario-card p,
-    .role-card p,
-    .role-card ul,
-    .section-card ul,
-    .scenario-card ul {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .section-card ul,
-    .scenario-card ul {
-      padding-left: 18px;
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
     }
 
     .role-label {
@@ -415,9 +375,18 @@
       letter-spacing: .16em;
     }
 
+    .section-card ul,
+    .mini-card ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
     .compare-shell {
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: 26px;
       overflow: hidden;
       background: rgba(255,255,255,.02);
     }
@@ -431,39 +400,30 @@
     .compare-shell td {
       padding: 18px;
       border-bottom: 1px solid var(--line);
-      vertical-align: top;
       text-align: left;
+      vertical-align: top;
     }
 
     .compare-shell th {
-      font-size: 14px;
-      color: #dff6ff;
       background: rgba(255,255,255,.03);
-    }
-
-    .flow-step {
-      position: relative;
-      overflow: hidden;
+      font-size: 14px;
     }
 
     .flow-step small {
       display: block;
       margin-bottom: 10px;
       color: var(--accent);
-      font-size: 12px;
-      letter-spacing: .22em;
       text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 12px;
     }
 
-    .flow-step p {
-      margin: 10px 0 0;
-    }
+    .flow-step p { margin: 10px 0 0; }
 
     .cta-band {
       display: grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr);
       gap: 20px;
-      align-items: stretch;
     }
 
     .cta-card.primary {
@@ -472,17 +432,15 @@
         linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
     }
 
-    .cta-card .cta-row {
-      margin-bottom: 0;
-    }
+    .footer-wrap { padding: 8px 0 42px; }
 
     .footer-card {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       gap: 18px;
-      margin: 0 0 42px;
+      padding: 24px 28px;
     }
 
     .footer-links {
@@ -492,12 +450,11 @@
       color: var(--muted);
     }
 
-    @media (max-width: 1180px) {
+    @media (max-width: 1160px) {
       .hero-grid,
       .cta-band,
       .grid-4,
       .flow { grid-template-columns: 1fr 1fr; }
-      .tag-row { grid-template-columns: repeat(3, max-content); }
     }
 
     @media (max-width: 920px) {
@@ -506,34 +463,31 @@
       .grid-4,
       .grid-3,
       .grid-2,
-      .flow { grid-template-columns: 1fr; }
+      .flow,
+      .stats-grid { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
       .hero-copy,
       .hero-side,
       .section-card,
       .flow-step,
-      .scenario-card,
-      .role-card,
-      .cta-card,
+      .mini-card,
       .footer-card { padding: 24px; }
-      .nav { align-items: flex-start; flex-direction: column; }
-      .tag-row { grid-template-columns: repeat(2, max-content); }
     }
 
     @media (max-width: 620px) {
-      .shell { width: min(100vw - 24px, 1240px); }
-      .pill,
-      .btn { width: 100%; justify-content: center; }
+      .shell { width: min(100vw - 24px, 1200px); }
       .nav-links,
       .cta-row { width: 100%; }
-      .metric-block { grid-template-columns: 1fr; }
-      .tag-row { grid-template-columns: 1fr 1fr; }
+      .pill,
+      .btn { width: 100%; justify-content: center; }
+      h1 { max-width: none; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="shell nav">
-      <div class="brand-wrap">
+      <div class="brand">
         <div class="brand-mark">WK</div>
         <div class="brand-copy">
           <strong>Wiki Knowledge Base Share Kit</strong>
@@ -541,7 +495,7 @@
         </div>
       </div>
       <div class="nav-links">
-        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub</a>
+        <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub repo</a>
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Start Here</a>
         <a class="pill" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a>
       </div>
@@ -557,45 +511,52 @@
           <p class="lede">
             A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks.
             It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly,
-            and auditable instead of letting it drift into process logs and scattered notes.
+            and auditable instead of letting it drift into scattered notes and process logs.
           </p>
           <div class="cta-row">
-            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Read START-HERE</a>
-            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Open GitHub repo</a>
-            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse release</a>
+            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Get the repository</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Read START-HERE</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
           </div>
-          <div class="tag-row">
-            <span class="tag">project</span>
-            <span class="tag">knowledge</span>
-            <span class="tag">ops</span>
-            <span class="tag">task</span>
-            <span class="tag">overview</span>
+          <div class="chip-row">
+            <span class="chip">project</span>
+            <span class="chip">knowledge</span>
+            <span class="chip">ops</span>
+            <span class="chip">task</span>
+            <span class="chip">overview</span>
           </div>
-          <p class="micro-note">
-            The page-role model stays fixed. <code>work-journal</code> remains a separate workflow rather than a sixth page role.
+          <p class="hero-note">
+            The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.
           </p>
         </article>
 
         <aside class="panel hero-side">
-          <div class="metric-block">
-            <div class="metric-card">
+          <div class="stats-grid">
+            <div class="stat-card">
               <span class="muted">Installable skills</span>
               <strong>8</strong>
-              <span>kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal</span>
+              <span class="muted">kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal</span>
             </div>
-            <div class="metric-card">
+            <div class="stat-card">
               <span class="muted">Workflow tracks</span>
               <strong>7</strong>
-              <span>onboarding, ingest, maintenance, audit, working profile, team coordination, work journal</span>
+              <span class="muted">onboarding, ingest, maintenance, audit, working profile, team coordination, work journal</span>
             </div>
           </div>
 
-          <div class="preview-frame">
+          <div class="clone-card">
+            <div class="role-label">Repository</div>
+            <h3>Clone it directly</h3>
+            <p class="muted">If you want the actual repository instead of only browsing the landing page, start here.</p>
+            <pre><code>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
+          </div>
+
+          <div class="preview-shell">
             <div class="preview-topbar">
               <span class="dot"></span>
               <span class="dot"></span>
               <span class="dot"></span>
-              <span class="preview-meta">Product preview</span>
+              <span>Landing page preview</span>
             </div>
             <img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" />
           </div>
@@ -608,7 +569,7 @@
         <div class="section-head">
           <div>
             <h2>Why this package exists</h2>
-            <p class="sub">The goal is not to help you record more notes. It is to stop a vault from decaying into a maze of folders, dead links, mixed page roles, and hard-to-reuse knowledge.</p>
+            <p class="sub">The point is not to write more notes. The point is to stop a vault from decaying into a maze of folders, mixed page roles, broken navigation, and hard-to-reuse knowledge.</p>
           </div>
         </div>
         <div class="compare-shell">
@@ -630,7 +591,7 @@
               </tr>
               <tr>
                 <td class="muted">Long-form sources are imported as one big blob and become difficult to revisit.</td>
-                <td class="muted">Sources are split into overview / chapter / topic structures with lineage and better retrieval surfaces.</td>
+                <td class="muted">Sources are split into overview / chapter / topic structures with lineage and retrieval surfaces.</td>
               </tr>
               <tr>
                 <td class="muted">Collaboration context sits in chat, meeting notes, and personal memory.</td>
@@ -647,49 +608,49 @@
         <div class="section-head">
           <div>
             <h2>What’s inside</h2>
-            <p class="sub">The repository keeps the package explicit: 8 public skills, one fixed page-role model, and a small set of repeatable workflows rather than an opaque automation black box.</p>
+            <p class="sub">The repository keeps the package explicit: 8 public skills, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.</p>
           </div>
         </div>
         <div class="grid-4">
           <article class="section-card">
             <div class="role-label">onboarding</div>
             <h3>knowledge-base-kit-guide</h3>
-            <p>Explains installation, profile setup, and which skill to use next.</p>
+            <p class="card-copy">Explains installation, profile setup, and which skill to use next.</p>
           </article>
           <article class="section-card">
             <div class="role-label">orchestration</div>
             <h3>knowledge-base-orchestrator</h3>
-            <p>Provides low-friction onboarding: inspect the current environment, create a skeleton, generate a profile, and route the next step.</p>
+            <p class="card-copy">Provides low-friction onboarding: inspect the environment, create a skeleton, generate a profile, and route the next step.</p>
           </article>
           <article class="section-card">
             <div class="role-label">ingest</div>
             <h3>knowledge-base-ingest</h3>
-            <p>Imports long-form markdown with a baseline-first, test-driven, lightweight-harness workflow.</p>
+            <p class="card-copy">Imports long-form markdown with a baseline-first, test-driven, lightweight-harness workflow.</p>
           </article>
           <article class="section-card">
             <div class="role-label">maintenance</div>
             <h3>knowledge-base-maintenance</h3>
-            <p>Writes durable conclusions back into the right page role while filtering one-off process noise.</p>
+            <p class="card-copy">Writes durable conclusions back into the right page role while filtering one-off process noise.</p>
           </article>
           <article class="section-card">
             <div class="role-label">audit</div>
             <h3>knowledge-base-audit</h3>
-            <p>Inspects metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
+            <p class="card-copy">Inspects metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
           </article>
           <article class="section-card">
             <div class="role-label">working profile</div>
             <h3>knowledge-base-working-profile</h3>
-            <p>Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
+            <p class="card-copy">Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
           </article>
           <article class="section-card">
             <div class="role-label">team coordination</div>
             <h3>knowledge-base-team-coordination</h3>
-            <p>Coordinates shared-project questionnaires, alignment, assignments, and decision distillation.</p>
+            <p class="card-copy">Coordinates questionnaires, alignment, assignments, and closeout decision distillation.</p>
           </article>
           <article class="section-card">
             <div class="role-label">work journal</div>
             <h3>work-journal</h3>
-            <p>Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.</p>
+            <p class="card-copy">Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.</p>
           </article>
         </div>
       </div>
@@ -700,20 +661,20 @@
         <div class="section-head">
           <div>
             <h2>One method, several high-density scenarios</h2>
-            <p class="sub">This package is especially strong in environments that are knowledge-dense, frequently updated, collaboration-heavy, and in need of traceability and auditability.</p>
+            <p class="sub">This package is strongest in environments that are knowledge-dense, frequently updated, collaboration-heavy, and in need of traceability and auditability.</p>
           </div>
         </div>
         <div class="grid-3">
-          <article class="scenario-card">
+          <article class="mini-card">
             <h3>Medical / pathology / research</h3>
             <p>Guidelines, textbooks, papers, and case summaries need structure, lineage, and careful update boundaries.</p>
             <ul>
               <li>Long-form source ingest</li>
-              <li>Stable method and ops pages</li>
+              <li>Stable knowledge and ops pages</li>
               <li>Review-friendly collaboration context</li>
             </ul>
           </article>
-          <article class="scenario-card">
+          <article class="mini-card">
             <h3>Enterprise knowledge bases</h3>
             <p>PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
             <ul>
@@ -722,9 +683,9 @@
               <li>Cleaner onboarding for teammates</li>
             </ul>
           </article>
-          <article class="scenario-card">
+          <article class="mini-card">
             <h3>Cross-team collaboration</h3>
-            <p>When context is fragmented across chat and temporary docs, shared coordination and journal workflows help prevent repeated re-explanation.</p>
+            <p>When context is fragmented across chat and temporary docs, shared coordination and journal workflows reduce repeated re-explanation.</p>
             <ul>
               <li>Draft / approved boundaries</li>
               <li>Traceable meeting and decision context</li>
@@ -774,68 +735,60 @@
     </section>
 
     <section class="section">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <h2>Fixed page-role model</h2>
-            <p class="sub">The package stays stable because page boundaries are explicit. It does not rely on every contributor improvising structure from scratch.</p>
-          </div>
-        </div>
-        <div class="grid-2">
-          <article class="role-card">
-            <div class="role-label">fixed roles</div>
-            <h3>5 durable page roles</h3>
-            <ul>
-              <li><code>project</code> for navigation, overview, and boundaries</li>
-              <li><code>knowledge</code> for reusable methods and concepts</li>
-              <li><code>ops</code> for troubleshooting and procedures</li>
-              <li><code>task</code> for assignments and in-progress work</li>
-              <li><code>overview</code> for indexes and governance surfaces</li>
-            </ul>
-          </article>
-          <article class="role-card">
-            <div class="role-label">boundary note</div>
-            <h3>Journal is not a sixth role</h3>
-            <p><code>work-journal</code> remains a separate workflow. Journal content is allowed to be more fluid, but durable knowledge should be promoted into the fixed page-role model instead of staying in the journal forever.</p>
-          </article>
-        </div>
+      <div class="shell grid-2">
+        <article class="mini-card">
+          <div class="role-label">fixed model</div>
+          <h3>5 durable page roles</h3>
+          <ul>
+            <li><code>project</code> for navigation, overview, and boundaries</li>
+            <li><code>knowledge</code> for reusable methods and concepts</li>
+            <li><code>ops</code> for troubleshooting and procedures</li>
+            <li><code>task</code> for assignments and in-progress work</li>
+            <li><code>overview</code> for indexes and governance surfaces</li>
+          </ul>
+        </article>
+        <article class="mini-card">
+          <div class="role-label">boundary note</div>
+          <h3>Journal is not a sixth role</h3>
+          <p>Journal content can be more fluid, but durable knowledge should be promoted into the fixed page-role model instead of remaining in the journal forever.</p>
+        </article>
       </div>
     </section>
 
     <section class="section">
       <div class="shell cta-band">
-        <article class="cta-card primary">
-          <div class="eyebrow">Start with the right surface</div>
-          <h2>Use the HTML page for product overview, the README for method details.</h2>
-          <p class="sub">This landing page is meant to explain the package quickly. The repository README remains the authoritative place for installation, routing, and workflow boundaries.</p>
+        <article class="section-card">
+          <div class="eyebrow">Get started from the right surface</div>
+          <h2>Use the HTML page for overview, the repository for the actual package.</h2>
+          <p class="sub">This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for installation, routing, documentation, and release artifacts.</p>
           <div class="cta-row">
-            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Go to START-HERE</a>
-            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Open repository</a>
+            <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">Open GitHub repository</a>
+            <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Go to START-HERE</a>
           </div>
         </article>
-        <article class="cta-card">
-          <div class="role-label">What to open next</div>
-          <h3>Recommended entrypoints</h3>
+        <article class="mini-card">
+          <div class="role-label">Next surfaces</div>
+          <h3>Open these next</h3>
           <ul>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">START-HERE.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md">GLOSSARY.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md">docs/example-prompts.md</a></li>
-            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/usage-sop.md">docs/usage-sop.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues">Issues</a></li>
           </ul>
         </article>
       </div>
     </section>
   </main>
 
-  <div class="shell">
+  <div class="shell footer-wrap">
     <footer class="footer-card">
       <div>
         <strong>Wiki Knowledge Base Share Kit</strong>
         <div class="muted">Open source under MIT · Built by 邹星宇 and 杨琦</div>
       </div>
       <div class="footer-links">
-        <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub</a>
+        <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit">GitHub repo</a>
         <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases">Releases</a>
         <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues">Issues</a>
       </div>
