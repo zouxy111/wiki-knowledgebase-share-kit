@@ -23,6 +23,7 @@
 - 导入长 markdown 文档、书稿、教程或大章节
 - 先按章节/主题拆分，再建立 parent-child / prev-next / related links
 - 把第一次导入当成可测试基线，并通过对比、回归、重构继续优化结构
+- 对超大源材料切到 close-reading mode，按 batch 分块精读并保留 rolling state
 
 ### `knowledge-base-maintenance`
 用于：
@@ -81,6 +82,16 @@
 
 也就是：**先落基线，再迭代，再审**。
 
+### 场景 C2：超大文本 / 整本书 / 需要分块精读
+1. 先用 `knowledge-base-ingest` 进入 close-reading mode
+2. 生成 chunk、batch packet 和 reading state
+3. 逐 batch 精读并写入 `batch-notes/*.json`
+4. 重跑 close-reading harness 刷新 rolling state
+5. 用 synthesis 汇总 chapter / topic / glossary 候选结果
+6. 最后再把稳定结构写回知识库
+
+也就是：**先切块，再精读，再汇总，再落页**。
+
 ### 场景 D：任务完成后沉淀知识
 1. 先用 `knowledge-base-maintenance`
 2. 如果改动较大，再用 `knowledge-base-audit` 做复检
@@ -120,6 +131,16 @@
 6. 基于测试结果比较拆分方案、页面角色和维护成本
 7. 对入口页、来源链和关键导航做回归检查
 8. 汇报版本差异与最终稳定形态
+
+### 超大文本的 close-reading 回路
+
+1. 先运行 `scripts/close_read_markdown.py`
+2. 生成 `chunks/`、`batch-plan.json`、`reading-state.json`
+3. 逐 batch 精读 `batch-packets/*.md`
+4. 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
+5. 重跑 harness，让后续 packet 读取最新 rolling state
+6. 运行 `scripts/synthesize_knowledge.py`
+7. 只把 overview / chapter / topic 的稳定候选结构写回知识库
 
 ---
 

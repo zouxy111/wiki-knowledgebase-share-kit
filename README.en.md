@@ -154,6 +154,7 @@ Use `knowledge-base-ingest` to:
 - split the source into overview / chapter / topic pages
 - generate TOC, glossary candidates, and related-link suggestions
 - treat the first import as a **testable baseline** and improve it through iteration and regression checks
+- switch into **close-reading mode** for oversized sources so the AI can review batch packets with rolling context instead of attempting a shallow one-pass import
 
 Typical examples:
 - medical books, guidelines, papers

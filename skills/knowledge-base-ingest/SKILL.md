@@ -25,6 +25,9 @@ description: This skill should be used when the user asks to import a long markd
 - `references/ingest-iteration-loop.md`
 - `references/ingest-evaluation-rubric.md`
 - `references/chunking-strategy.md`
+- `references/close-reading-mode.md`
+- `references/rolling-state-contract.md`
+- `references/chunk-note-schema.md`
 - `references/glossary-strategy.md`
 - `references/linking-strategy.md`
 - `../../templates/vault-profile-template.md`
@@ -45,6 +48,7 @@ description: This skill should be used when the user asks to import a long markd
 - **先做 ingestion map，再动目标文件。** 先确定 part / chapter / section / topic 的落点。
 - **默认采用 overview / chapter / topic 三层结构。** 除非源材料本身有更适合的层级。
 - **先认定 stable baseline。** 如果不是第一次导入，本轮要明确“当前稳定版本”是什么。
+- **超大源材料要切到 close-reading mode。** 不要指望一次 prompt 读完整本书。
 - **优先知识库口径，而不是原文镜像口径。**
 - **保留 source lineage。** 每个导入页面都应能看出来自哪本书、哪一章、哪一节。
 - **链接优先级高于排版复刻。**
@@ -90,7 +94,36 @@ description: This skill should be used when the user asks to import a long markd
 - 过长章节再按更深一层标题拆分
 - 单页尽量保持在**一个可读、可维护的长度**，避免再次变成长页
 
-### 4. Classify by page role
+如果 source 已经大到不适合“一轮拆完立刻落页”，切到 close-reading mode：
+- `python3 scripts/close_read_markdown.py <source.md> --out <run-dir>`
+
+这个脚本会输出：
+- `chunks/`
+- `batch-plan.json`
+- `reading-state.json`
+- `batch-packets/`
+- `batch-notes/`
+
+close-reading mode 的目标是：
+- 让 AI 按 batch 分块精读
+- 让每一轮精读保留可恢复、可比较的中间状态
+- 让后续 synthesis 能跨 batch 累积理解，而不是每块重新开始
+
+### 4. Run close-reading mode for oversized sources
+当 source 满足任一条件时，优先进入 close-reading mode：
+- 超过 25,000 words
+- 或拆分后 chunk 数明显很多（例如 > 15）
+- 或用户明确要求“超大文本 / 分块精读 / 整本书精读”
+
+执行时：
+- 先运行 `scripts/close_read_markdown.py`
+- 按 batch packet 逐轮精读
+- 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
+- 反复重跑脚本以刷新 rolling state
+- 需要汇总时运行：
+  - `python3 scripts/synthesize_knowledge.py <run-dir>`
+
+### 5. Classify by page role
 导入时仍遵循固定 page-role model：
 - `overview`：这本书 / 这份源材料的总览、目录、 ingestion rules
 - `knowledge`：概念、框架、模型、结论、定义、方法论
@@ -98,7 +131,7 @@ description: This skill should be used when the user asks to import a long markd
 - `project`：当 source 明显服务于某个长期专题主线时，作为稳定入口页
 - `task`：通常不作为书籍导入的主要落点，除非源文档本身就是协作任务结构
 
-### 5. Extract glossary and related-link suggestions
+### 6. Extract glossary and related-link suggestions
 需要辅助结构化时，可运行：
 - `python3 scripts/extract_terms.py <source-or-dir> --out <dir>`
 - `python3 scripts/suggest_related_links.py <dir> --top 3`
@@ -108,7 +141,7 @@ description: This skill should be used when the user asks to import a long markd
 - 为 chapter / topic 页面提供 related links 建议
 - 发现重复概念与潜在 hub 页面
 
-### 6. Rewrite into knowledge-base form
+### 7. Rewrite into knowledge-base form
 写入时：
 - 压缩重复叙述
 - 合并平行概念
@@ -116,7 +149,7 @@ description: This skill should be used when the user asks to import a long markd
 - 保留必要 source attribution（书名、章节、版本、作者）
 - 如需保留原文，只保留短引用和关键原句，避免大段照搬
 
-### 7. Create the link model
+### 8. Create the link model
 至少建立这些链接：
 - parent / child
 - prev / next
@@ -126,13 +159,13 @@ description: This skill should be used when the user asks to import a long markd
 
 如果某一页只是孤零零的摘录页，不应视为完成导入。
 
-### 8. Compare candidate structure to the stable baseline
+### 9. Compare candidate structure to the stable baseline
 如果当前不是第一次导入，而是在迭代已有结构：
 - 用 `references/ingest-evaluation-rubric.md` 的口径比较 baseline 和 candidate
 - 重点看拆分适配度、页面角色、导航覆盖、related links 是否真的更好
 - 只在 candidate 明显更利于检索、维护和回查时，才考虑晋升
 
-### 9. Run regression checks and record the round
+### 10. Run regression checks and record the round
 至少检查：
 - overview / root page / reader entrypoint 是否仍可达
 - source lineage 是否仍完整
@@ -143,7 +176,7 @@ description: This skill should be used when the user asks to import a long markd
 - 用 `../../templates/ingest-iteration-log-template.md` 记录 baseline / candidate / regression / decision
 - 决策为 promote / rework / drop 之一
 
-### 10. Sync navigation surfaces
+### 11. Sync navigation surfaces
 至少同步：
 - source overview page
 - 对应 root page
@@ -155,7 +188,7 @@ description: This skill should be used when the user asks to import a long markd
 - governance / maintainer overview
 - related topic hubs
 
-### 11. Validate before finishing
+### 12. Validate before finishing
 检查：
 - 有没有单页过长
 - 有没有只拆分但没建立链接
@@ -175,6 +208,8 @@ description: This skill should be used when the user asks to import a long markd
 - 建了哪些关键链接
 - 哪些原文被压缩 / 总结 / 改写
 - 是否抽取了 toc / glossary candidates / related links 建议
+- 是否启用了 close-reading mode
+- close-reading run 是否有 batch plan / reading state / completed notes / synthesis 产物
 - 是否做了 baseline vs candidate 的结构比较
 - 是否通过回归检查
 - 本轮最终决定是 promote / rework / drop
@@ -185,8 +220,10 @@ description: This skill should be used when the user asks to import a long markd
 
 ### scripts/
 - `scripts/split_markdown.py`：按标题层级做 deterministic split，输出 chunk 文件、manifest 和 toc
+- `scripts/close_read_markdown.py`：为超大源材料生成 batch 级精读包、rolling state 和可续跑的 batch notes
 - `scripts/extract_terms.py`：提取 glossary candidates，输出 JSON 和 Markdown 列表
 - `scripts/suggest_related_links.py`：基于标题和关键词重合度生成 related links 建议
+- `scripts/synthesize_knowledge.py`：把 completed batch notes 汇总成 source overview / chapter summaries / topic candidates
 
 ### references/
 - `references/vault-profile-contract.md`：导入前需要哪些 profile 信息
@@ -194,6 +231,9 @@ description: This skill should be used when the user asks to import a long markd
 - `references/ingest-iteration-loop.md`：如何把 ingest 当作稳定基线和候选结构的迭代回路
 - `references/ingest-evaluation-rubric.md`：如何判断候选结构是否值得晋升
 - `references/chunking-strategy.md`：如何决定 chapter / section / topic 的拆分粒度
+- `references/close-reading-mode.md`：什么时候切入超大文本的分块精读模式
+- `references/rolling-state-contract.md`：`reading-state.json` 和 `batch-notes/*.json` 应该如何保持稳定
+- `references/chunk-note-schema.md`：batch note 应提取哪些字段，如何避免变成流水账
 - `references/glossary-strategy.md`：术语页与 glossary candidates 的处理方式
 - `references/linking-strategy.md`：如何从 related links 建议落到真实 wiki 链接模型
 - `../../templates/ingest-iteration-log-template.md`：记录每轮 baseline / candidate / regression / decision

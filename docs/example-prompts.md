@@ -36,6 +36,24 @@ Use a lightweight harness mindset: keep versioned structure outputs, compare spl
 Sync the stabilized structure back to the required entry pages.
 ```
 
+## 3B. 对超大文本启用分块精读
+
+```text
+Use $knowledge-base-ingest to import this oversized Markdown source into my knowledge base.
+Read my vault profile first.
+Do not treat this as a one-pass import. Switch into close-reading mode:
+split the source into chunks, create batch packets, maintain a rolling reading state, extract one JSON note per batch, and only then synthesize chapter summaries, topic candidates, glossary seeds, and overview pages.
+Keep the run resumable so the next iteration can continue from completed batches instead of rereading the whole source.
+```
+
+```text
+用 $knowledge-base-ingest 处理这份超大 Markdown 源材料并导入我的知识库。
+先读 vault profile。
+不要把这次当成一次性导入；请切到 close-reading mode：
+先拆 chunk，再生成 batch packets，维护 rolling reading state，每个 batch 输出一份 JSON 精读笔记，最后再汇总 chapter summaries、topic candidates、glossary seeds 和 overview 页。
+整个 run 必须支持断点续跑，下一轮不要从头重读整份材料。
+```
+
 ## 4. 我已经有 profile，想沉淀一轮任务结果
 
 ```text

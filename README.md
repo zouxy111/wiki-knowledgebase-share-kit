@@ -154,6 +154,7 @@
 - 把长 source 拆成 overview / chapter / topic
 - 建立 toc、glossary candidates、related-link suggestions
 - 把第一版导入当成 **可测试基线**，通过迭代和回归继续优化结构
+- 遇到超大文本时切到 **close-reading mode**，按 batch 分块精读并维护 rolling state
 
 适合：
 - 医学书籍 / 指南 / 文献整理
