@@ -29,6 +29,7 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
+      position: relative;
       margin: 0;
       color: var(--text);
       line-height: 1.65;
@@ -37,6 +38,13 @@
         radial-gradient(circle at 12% 12%, rgba(105, 211, 255, 0.18), transparent 24%),
         radial-gradient(circle at 88% 18%, rgba(150, 166, 255, 0.16), transparent 26%),
         linear-gradient(180deg, #08121f 0%, #07111f 45%, #050b14 100%);
+    }
+
+    .site-header,
+    main,
+    .footer-wrap {
+      position: relative;
+      z-index: 1;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -207,6 +215,167 @@
       border: 1px solid var(--line);
       background: rgba(255,255,255,.024);
       box-shadow: var(--shadow-soft);
+    }
+
+    .ambient-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ambient-aurora,
+    .ambient-floor,
+    .ambient-illustration {
+      position: absolute;
+      inset: auto 0 0 0;
+    }
+
+    .ambient-aurora {
+      inset: auto 50% -10vh 50%;
+      width: min(1200px, 92vw);
+      height: 48vh;
+      transform: translateX(-50%);
+      background:
+        radial-gradient(circle at 48% 62%, rgba(86, 255, 176, .22), transparent 24%),
+        radial-gradient(circle at 38% 68%, rgba(105, 211, 255, .16), transparent 26%),
+        radial-gradient(circle at 62% 58%, rgba(154, 102, 255, .14), transparent 22%);
+      filter: blur(32px);
+      opacity: .72;
+      animation: auroraPulse 10s ease-in-out infinite alternate;
+    }
+
+    .ambient-floor {
+      left: 50%;
+      bottom: -12vh;
+      width: min(1400px, 110vw);
+      height: 46vh;
+      transform: translateX(-50%) perspective(880px) rotateX(72deg);
+      transform-origin: center top;
+      opacity: .34;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.18)),
+        repeating-linear-gradient(90deg, rgba(108,255,177,.18) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(108,255,177,.14) 0 1px, transparent 1px 52px);
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.95) 18%, rgba(0,0,0,.95) 100%);
+      animation: floorShift 16s linear infinite;
+    }
+
+    .ambient-illustration {
+      left: 50%;
+      top: 86px;
+      bottom: auto;
+      width: min(1120px, 88vw);
+      height: min(42vh, 360px);
+      transform: translateX(-50%);
+      opacity: .28;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 20px rgba(100, 255, 177, .14));
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.95), rgba(0,0,0,.75) 62%, rgba(0,0,0,0));
+    }
+
+    .ambient-illustration svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .ambient-illustration .brain-shell {
+      fill: none;
+      stroke: url(#brainGlow);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .9;
+    }
+
+    .ambient-illustration .brain-core {
+      fill: none;
+      stroke: rgba(148, 225, 255, .48);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .92;
+    }
+
+    .ambient-illustration .connector {
+      fill: none;
+      stroke: url(#wireGlow);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 18;
+      animation: wirePulse 7s linear infinite;
+      opacity: .94;
+    }
+
+    .ambient-illustration .connector-core {
+      fill: none;
+      stroke: rgba(130, 255, 204, .45);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ambient-illustration .usb-shell,
+    .ambient-illustration .usb-detail {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ambient-illustration .usb-shell {
+      stroke: rgba(145, 245, 215, .7);
+      stroke-width: 3;
+    }
+
+    .ambient-illustration .usb-detail {
+      stroke: rgba(105, 211, 255, .52);
+      stroke-width: 2;
+    }
+
+    .ambient-illustration .pulse {
+      fill: rgba(110, 255, 188, .82);
+      filter: drop-shadow(0 0 12px rgba(110, 255, 188, .75));
+      animation: nodeBeat 3.4s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .ambient-illustration .pulse:nth-of-type(2) { animation-delay: .5s; }
+    .ambient-illustration .pulse:nth-of-type(3) { animation-delay: 1s; }
+    .ambient-illustration .pulse:nth-of-type(4) { animation-delay: 1.5s; }
+
+    .clone-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .copy-btn {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(105, 211, 255, .26);
+      background: rgba(255,255,255,.04);
+      color: #dff6ff;
+      cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease, color .25s ease;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(136, 241, 208, .46);
+      background: rgba(136, 241, 208, .08);
+    }
+
+    .copy-btn.is-copied {
+      color: #07111f;
+      border-color: transparent;
+      background: linear-gradient(135deg, rgba(105,211,255,.96), rgba(136,241,208,.9));
+      box-shadow: 0 12px 24px rgba(105,211,255,.2);
     }
 
     .panel {
@@ -705,6 +874,26 @@
       to { transform: translate3d(-16px, -12px, 0) scale(1.08); }
     }
 
+    @keyframes auroraPulse {
+      from { transform: translateX(-50%) scale(1) translateY(0); opacity: .55; }
+      to { transform: translateX(-50%) scale(1.08) translateY(-8px); opacity: .82; }
+    }
+
+    @keyframes floorShift {
+      from { background-position: 0 0, 0 0, 0 0; }
+      to { background-position: 0 0, 64px 0, 0 52px; }
+    }
+
+    @keyframes wirePulse {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -128; }
+    }
+
+    @keyframes nodeBeat {
+      0%, 100% { transform: scale(1); opacity: .86; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+
     @media (max-width: 1100px) {
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -752,6 +941,15 @@
       .compare-shell { overflow-x: auto; }
       .compare-shell table { min-width: 620px; }
       .overview-shell { padding: 18px; }
+      .ambient-illustration {
+        width: 112vw;
+        left: 50%;
+        top: 88px;
+        bottom: auto;
+        height: 220px;
+        opacity: .22;
+      }
+      .copy-btn { width: 100%; justify-content: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -764,10 +962,49 @@
         opacity: 1 !important;
         transform: none !important;
       }
+      .ambient-aurora,
+      .ambient-floor,
+      .ambient-illustration .connector,
+      .ambient-illustration .pulse,
+      .hero-copy::after {
+        animation: none !important;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div class="ambient-aurora"></div>
+    <div class="ambient-floor"></div>
+    <div class="ambient-illustration">
+      <svg viewBox="0 0 1200 460" role="presentation">
+        <defs>
+          <linearGradient id="brainGlow" x1="160" y1="150" x2="640" y2="320" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#73ffbc" stop-opacity="1" />
+            <stop offset=".55" stop-color="#6edcff" stop-opacity=".95" />
+            <stop offset="1" stop-color="#a27cff" stop-opacity=".72" />
+          </linearGradient>
+          <linearGradient id="wireGlow" x1="600" y1="225" x2="1040" y2="245" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6affb6" stop-opacity=".88" />
+            <stop offset=".6" stop-color="#6edcff" stop-opacity=".85" />
+            <stop offset="1" stop-color="#76ffd2" stop-opacity=".92" />
+          </linearGradient>
+        </defs>
+
+        <path class="brain-shell" d="M230 256C183 252 151 218 154 174C157 137 185 114 214 111C214 67 249 44 284 51C304 23 351 21 381 49C420 36 461 55 476 90C520 92 555 126 555 174C555 212 532 242 494 253C492 304 449 334 404 325C381 356 333 360 297 334C250 346 203 319 190 275C176 272 166 266 154 254" />
+        <path class="brain-core" d="M259 116C247 160 254 208 282 244M316 88C307 137 316 198 347 243M380 87C386 134 383 193 364 238M435 109C447 150 444 198 420 240M220 176C256 171 286 181 307 207M344 189C371 173 407 172 441 191M242 261C280 246 332 248 367 270M382 269C417 254 453 253 487 265" />
+        <path class="connector" d="M556 208C636 208 645 168 705 168C781 168 785 252 863 252C928 252 961 224 1034 224" />
+        <path class="connector-core" d="M556 228C636 228 650 188 706 188C782 188 787 272 864 272C928 272 966 244 1036 244" />
+        <circle class="pulse" cx="588" cy="208" r="6" />
+        <circle class="pulse" cx="720" cy="168" r="6" />
+        <circle class="pulse" cx="868" cy="252" r="6" />
+        <circle class="pulse" cx="1034" cy="224" r="7" />
+        <path class="usb-shell" d="M1040 194H1128C1144 194 1158 208 1158 224V274C1158 290 1144 304 1128 304H1040V194Z" />
+        <path class="usb-shell" d="M1128 212H1168V286H1128" />
+        <path class="usb-detail" d="M1080 212V286M1102 212V286M1168 228H1188M1168 270H1188" />
+      </svg>
+    </div>
+  </div>
   <header class="site-header reveal" style="--delay: 30ms;">
     <div class="shell nav">
       <div class="brand">
@@ -832,10 +1069,13 @@
           </div>
 
           <div class="clone-card reveal" style="--delay: 240ms;">
-            <div class="role-label" data-i18n="cloneLabel">Repository</div>
+            <div class="clone-head">
+              <div class="role-label" data-i18n="cloneLabel">Repository</div>
+              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git">Copy clone</button>
+            </div>
             <h3 data-i18n="cloneTitle">Clone it directly</h3>
             <p class="muted" data-i18n="cloneCopy">If you want the actual repository instead of only browsing the landing page, start here.</p>
-            <pre><code>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
+            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
           </div>
 
           <div class="preview-shell reveal" style="--delay: 270ms;">
@@ -1194,6 +1434,9 @@
         cloneLabel: "Repository",
         cloneTitle: "Clone it directly",
         cloneCopy: "If you want the actual repository instead of only browsing the landing page, start here.",
+        copyCloneIdle: "Copy clone",
+        copyCloneDone: "Copied",
+        copyCloneFail: "Copy failed",
         previewLabel: "Landing page preview",
         previewAlt: "Wiki Knowledge Base Share Kit preview",
         overviewTitle: "How the package is organized",
@@ -1311,6 +1554,9 @@
         cloneLabel: "仓库入口",
         cloneTitle: "直接拉仓库",
         cloneCopy: "如果你想拿到真正的仓库，而不只是浏览这个落地页，直接从这里开始。",
+        copyCloneIdle: "复制命令",
+        copyCloneDone: "已复制",
+        copyCloneFail: "复制失败",
         previewLabel: "首页预览",
         previewAlt: "Wiki Knowledge Base Share Kit 预览图",
         overviewTitle: "这个包的结构怎么组织",
@@ -1415,6 +1661,8 @@
     const i18nTextNodes = document.querySelectorAll('[data-i18n]');
     const i18nHtmlNodes = document.querySelectorAll('[data-i18n-html]');
     const i18nAltNodes = document.querySelectorAll('[data-i18n-alt]');
+    const copyButtons = Array.from(document.querySelectorAll('[data-copy-command]'));
+    let currentLocale = 'en';
 
     function updateLangIndicator(activeButton) {
       if (!langSwitch || !activeButton) return;
@@ -1429,6 +1677,7 @@
     function applyLanguage(lang) {
       const locale = translations[lang] ? lang : 'en';
       const dict = translations[locale];
+      currentLocale = locale;
 
       document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en';
       document.title = dict.pageTitle;
@@ -1454,8 +1703,39 @@
       });
 
       updateLangIndicator(toggleButtons.find((button) => button.dataset.langToggle === locale));
+      syncCopyLabels();
 
       localStorage.setItem('wiki-kit-lang', locale);
+    }
+
+    function syncCopyLabels() {
+      const dict = translations[currentLocale] || translations.en;
+      copyButtons.forEach((button) => {
+        const state = button.dataset.copyState || 'idle';
+        if (state === 'done') {
+          button.textContent = dict.copyCloneDone;
+        } else if (state === 'fail') {
+          button.textContent = dict.copyCloneFail;
+        } else {
+          button.textContent = dict.copyCloneIdle;
+        }
+      });
+    }
+
+    async function copyText(value) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(value);
+        return;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      textarea.remove();
     }
 
     function initLanguage() {
@@ -1495,6 +1775,29 @@
 
     toggleButtons.forEach((button) => {
       button.addEventListener('click', () => applyLanguage(button.dataset.langToggle));
+    });
+
+    copyButtons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const command = button.dataset.copyCommand;
+        const dict = translations[currentLocale] || translations.en;
+        try {
+          await copyText(command);
+          button.dataset.copyState = 'done';
+          button.classList.add('is-copied');
+          button.textContent = dict.copyCloneDone;
+        } catch (error) {
+          button.dataset.copyState = 'fail';
+          button.classList.remove('is-copied');
+          button.textContent = dict.copyCloneFail;
+        }
+        window.clearTimeout(button._copyTimer);
+        button._copyTimer = window.setTimeout(() => {
+          button.dataset.copyState = 'idle';
+          button.classList.remove('is-copied');
+          syncCopyLabels();
+        }, 1800);
+      });
     });
 
     window.addEventListener('resize', () => {
