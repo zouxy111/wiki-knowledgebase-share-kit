@@ -1,87 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wiki Knowledge Base Share Kit</title>
-  <meta name="description" content="Reusable skills and docs for maintaining markdown/wiki knowledge bases with a knowledge-base-first workflow." />
+  <meta name="description" content="An 8-skill knowledge-base package for markdown, wiki, and Obsidian-style vaults." />
   <style>
     :root {
       --bg: #07111f;
-      --bg-2: #0d1830;
-      --panel: rgba(12, 22, 44, 0.78);
-      --line: rgba(143, 180, 255, 0.24);
-      --text: #f5f7ff;
-      --muted: #b8c2db;
-      --accent: #8ce8d2;
-      --accent-2: #83b7ff;
-      --accent-3: #8d6dff;
-      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-      --radius: 24px;
+      --panel: #0d1a2d;
+      --panel-2: #12233c;
+      --text: #ecf4ff;
+      --muted: #9fb1ca;
+      --line: rgba(255,255,255,.08);
+      --accent: #70d7ff;
+      --accent-2: #9bf3d3;
+      --shadow: 0 24px 80px rgba(0,0,0,.35);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #112949 0%, #07111f 48%, #050b14 100%);
       color: var(--text);
-      background:
-        radial-gradient(circle at 15% 20%, rgba(131,183,255,.22), transparent 28%),
-        radial-gradient(circle at 80% 15%, rgba(141,109,255,.18), transparent 25%),
-        radial-gradient(circle at 80% 80%, rgba(140,232,210,.12), transparent 26%),
-        linear-gradient(180deg, var(--bg), var(--bg-2));
-      min-height: 100vh;
+      line-height: 1.6;
     }
-    a { color: inherit; text-decoration: none; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-    .hero { padding: 34px 0 48px; }
-    .nav { display:flex; gap:14px; align-items:center; justify-content:space-between; margin-bottom: 28px; }
+    a { color: inherit; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .shell { width: min(1180px, calc(100vw - 40px)); margin: 0 auto; }
+    .hero { padding: 28px 0 72px; }
+    .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; padding: 12px 0 32px; }
     .brand { font-weight: 700; letter-spacing: .03em; color: #dff5ff; }
     .nav-links { display:flex; gap:12px; flex-wrap:wrap; }
-    .pill { border: 1px solid var(--line); padding: 10px 14px; border-radius: 999px; color: var(--muted); background: rgba(255,255,255,.03); }
-    .hero-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap: 22px; align-items: stretch; }
-    .panel { background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(8px); }
-    .intro { padding: 36px; }
-    .eyebrow { display:inline-block; margin-bottom:18px; padding:10px 14px; border-radius:999px; background: rgba(140,232,210,.1); color: var(--accent); border: 1px solid rgba(140,232,210,.25); }
-    h1 { font-size: clamp(40px, 6vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: -.04em; }
-    .lede { font-size: 19px; line-height: 1.7; color: var(--muted); max-width: 62ch; }
-    .cta-row { display:flex; gap:14px; flex-wrap:wrap; margin-top: 24px; }
-    .btn { padding: 14px 18px; border-radius: 16px; border:1px solid var(--line); font-weight: 700; }
-    .btn.primary { background: linear-gradient(135deg, rgba(131,183,255,.22), rgba(140,232,210,.20)); }
-    .btn.secondary { color: var(--muted); }
-    .stat-card { padding: 28px; display:flex; flex-direction:column; justify-content:space-between; }
-    .kicker { color: var(--accent-2); font-size: 13px; text-transform: uppercase; letter-spacing: .16em; }
+    .pill, .btn { text-decoration:none; }
+    .pill { padding: 10px 14px; border-radius: 999px; border:1px solid var(--line); color: var(--muted); }
+    .hero-grid { display:grid; grid-template-columns: 1.7fr 1fr; gap: 20px; }
+    .panel { background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border:1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); }
+    .intro, .stat-card, .card, .step, .compare { padding: 28px; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; margin-bottom: 18px; }
+    h1 { font-size: clamp(40px, 6vw, 70px); line-height: .95; margin: 0 0 18px; letter-spacing: -.04em; }
+    h2 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 38px); }
+    h3 { margin: 0 0 10px; font-size: 20px; }
+    .lede { font-size: 19px; color: var(--muted); max-width: 62ch; }
+    .cta-row, .chip-row { display:flex; gap:12px; flex-wrap:wrap; margin-top: 20px; }
+    .btn { padding: 14px 18px; border-radius: 16px; border:1px solid var(--line); font-weight:700; }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), #4ab9ff); color:#04101c; }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.02); }
+    .chip { padding:8px 12px; border-radius:999px; background: rgba(255,255,255,.05); color: var(--muted); }
     .metric { font-size: 72px; font-weight: 800; margin: 10px 0 0; letter-spacing: -.04em; }
-    .stat-copy { color: var(--muted); line-height: 1.7; }
-    .chip-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 24px; }
-    .chip { padding: 9px 13px; border-radius: 999px; background: rgba(255,255,255,.04); border:1px solid var(--line); color: #dce8ff; }
-    .section { padding: 10px 0 34px; }
-    .section h2 { font-size: 30px; margin: 0 0 14px; }
-    .section .sub { color: var(--muted); line-height: 1.75; max-width: 68ch; margin-bottom: 22px; }
-    .grid-3, .grid-2 { display:grid; gap: 18px; }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .card { padding: 24px; }
-    .card h3 { margin: 0 0 10px; font-size: 22px; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.75; }
-    .flow { display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .step { padding: 20px; position:relative; }
-    .step small { color: var(--accent); letter-spacing: .12em; text-transform: uppercase; }
-    .step strong { display:block; margin: 10px 0 8px; font-size: 20px; }
-    .step span { color: var(--muted); line-height: 1.65; }
-    .step::after { content:'→'; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color: rgba(200,220,255,.45); font-size: 24px; }
-    .step:last-child::after { display:none; }
-    .compare { padding: 24px; }
-    .compare table { width: 100%; border-collapse: collapse; }
-    .compare th, .compare td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-    .compare th { color: #dff5ff; font-size: 15px; }
+    .kicker { color: var(--accent-2); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; }
+    .stat-copy, .sub, .card p, .step span { color: var(--muted); }
+    .section { padding: 0 0 34px; }
+    .sub { max-width: 72ch; margin-bottom: 22px; }
+    .grid-2, .grid-3, .grid-4, .flow { display:grid; gap:20px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .flow { grid-template-columns: repeat(5, minmax(0,1fr)); }
+    .card p { margin:0; }
+    .compare table { width:100%; border-collapse:collapse; }
+    .compare th, .compare td { padding:16px; border-bottom: 1px solid var(--line); text-align:left; vertical-align:top; }
     .muted { color: var(--muted); }
-    .footer { padding: 8px 0 48px; color: var(--muted); }
+    .step { position:relative; min-height: 170px; }
+    .step small { display:block; color: var(--accent); margin-bottom: 8px; letter-spacing: .18em; }
+    .footer { padding: 18px 0 48px; color: var(--muted); }
     .preview { overflow:hidden; }
     .preview img { display:block; width:100%; height:auto; }
+    @media (max-width: 1100px) {
+      .hero-grid, .grid-4, .flow { grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 920px) {
-      .hero-grid, .grid-3, .grid-2, .flow { grid-template-columns: 1fr; }
-      .step::after { display:none; }
+      .hero-grid, .grid-4, .grid-3, .grid-2, .flow { grid-template-columns: 1fr; }
       .intro, .stat-card, .card, .step, .compare { padding: 22px; }
     }
   </style>
@@ -99,15 +88,16 @@
 
     <div class="hero-grid">
       <section class="panel intro">
-        <div class="eyebrow">Knowledge-base-first workflow kit</div>
+        <div class="eyebrow">8-skill knowledge-base package</div>
         <h1>Keep your markdown vault useful, not noisy.</h1>
         <p class="lede">
-          A reusable open-source kit with 4 installable skills, profile-driven configuration,
-          and an ingest / maintenance / audit split for markdown and wiki knowledge bases. The ingest loop is test-driven and can be used like a lightweight harness: start with a baseline, then refine structure through regression and comparison.
+          A reusable open-source kit with 8 installable skills and 7 coordinated workflow tracks: onboarding, ingest,
+          maintenance, audit, working profile, team coordination, and work journaling.
+          Optional Obsidian installation exists through Orchestrator, but the repository’s core value is stable knowledge-base workflows—not being an app installer.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
-          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/examples/example-vault-profile-generic.md">See generic profile example</a>
+          <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">Read START-HERE</a>
+          <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Browse latest release</a>
         </div>
         <div class="chip-row">
           <span class="chip">project</span>
@@ -121,12 +111,12 @@
       <aside class="panel stat-card">
         <div>
           <div class="kicker">Core package</div>
-          <div class="metric">4</div>
-          <p class="stat-copy">Guide, ingest, maintenance, and audit skills designed to work together while staying reusable across vaults.</p>
+          <div class="metric">8</div>
+          <p class="stat-copy">`kit-guide`, `orchestrator`, `ingest`, `maintenance`, `audit`, `working-profile`, `team-coordination`, and `work-journal`.</p>
         </div>
-        <div>
-          <div class="kicker">Method constraints</div>
-          <p class="stat-copy">Noise filtering, stable page roles, milestone-only logs, and profile-based configuration instead of hardcoded local structure.</p>
+        <div style="margin-top:24px;">
+          <div class="kicker">Workflow tracks</div>
+          <p class="stat-copy">7 capability tracks, with `kit-guide` + `orchestrator` sharing the onboarding/orchestration role.</p>
         </div>
       </aside>
     </div>
@@ -134,13 +124,13 @@
 
   <div class="shell section">
     <h2>30-second outcome</h2>
-    <p class="sub">This project is for vaults that have drifted into a mix of notes, replay logs, and unstable structure. The kit pulls them back toward durable retrieval.</p>
+    <p class="sub">This repository is for vaults that have drifted into a mix of project logs, unstable navigation, and hard-to-reuse notes.</p>
     <div class="panel compare">
       <table>
         <thead>
           <tr>
             <th>Typical drifting vault</th>
-            <th>Target state with this kit</th>
+            <th>Target state with this package</th>
           </tr>
         </thead>
         <tbody>
@@ -157,8 +147,8 @@
             <td class="muted"><code>log.md</code> stays milestone-only.</td>
           </tr>
           <tr>
-            <td class="muted">Content exists without stable entrypoints.</td>
-            <td class="muted">Pages are discoverable from root pages or the reader entrypoint.</td>
+            <td class="muted">New teammates or future-you do not know where to start.</td>
+            <td class="muted">Onboarding and specialist skills provide a stable routing path.</td>
           </tr>
         </tbody>
       </table>
@@ -167,50 +157,52 @@
 
   <div class="shell section">
     <h2>What’s inside</h2>
-    <p class="sub">The kit is designed for people who want a vault that stays navigable and durable over time instead of turning into a long pile of project notes.</p>
-    <div class="grid-3">
+    <p class="sub">The package is meant to be explicit: 8 public skills, one fixed page-role model, and a small number of repeatable workflows.</p>
+    <div class="grid-4">
       <article class="panel card">
         <h3>knowledge-base-kit-guide</h3>
-        <p>Explains installation, profile setup, and which skill to use first when the user is new to the kit.</p>
+        <p>Explains installation, profile setup, and which skill to use next.</p>
+      </article>
+      <article class="panel card">
+        <h3>knowledge-base-orchestrator</h3>
+        <p>Optional onboarding coordinator: check current environment, create a skeleton, generate a profile, and route the user forward.</p>
       </article>
       <article class="panel card">
         <h3>knowledge-base-ingest</h3>
-        <p>Splits long markdown sources or books into reusable pages, builds navigation links, and generates TOC, glossary, and related-link suggestions. The first import is a baseline for later refinement, not the final structure.</p>
+        <p>Import long-form markdown with a baseline-first, test-driven, lightweight-harness mindset.</p>
       </article>
       <article class="panel card">
         <h3>knowledge-base-maintenance</h3>
-        <p>Writes durable conclusions into the right page role, filters process noise, and syncs content plus navigation surfaces.</p>
+        <p>Write durable conclusions back into the right page role while filtering process noise.</p>
       </article>
       <article class="panel card">
         <h3>knowledge-base-audit</h3>
-        <p>Checks metadata, dead links, orphan pages, boundary drift, navigation coverage, and noise regression.</p>
-      </article>
-    </div>
-  </div>
-
-  <div class="shell section">
-    <h2>Who this is for</h2>
-    <p class="sub">This repository works best when the user accepts a small amount of structure in exchange for a much cleaner long-term vault.</p>
-    <div class="grid-2">
-      <article class="panel card">
-        <h3>Good fit</h3>
-        <p>Teams and individuals already using markdown or wiki vaults, who want durable retrieval, role clarity, and a repeatable maintenance plus audit loop.</p>
+        <p>Inspect metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
       </article>
       <article class="panel card">
-        <h3>Not a good fit</h3>
-        <p>People who want a pure log-first system, do not want to configure a profile, or reject the fixed page-role model entirely.</p>
+        <h3>knowledge-base-working-profile</h3>
+        <p>Distill stable collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
+      </article>
+      <article class="panel card">
+        <h3>knowledge-base-team-coordination</h3>
+        <p>Coordinate shared-project questionnaires, alignment, assignments, and closeout decision distillation.</p>
+      </article>
+      <article class="panel card">
+        <h3>work-journal</h3>
+        <p>Capture daily work, meeting notes, temporary ideas, and weekly summaries that can feed durable knowledge later.</p>
       </article>
     </div>
   </div>
 
   <div class="shell section">
     <h2>How it flows</h2>
-    <p class="sub">The workflow is intentionally simple: configure once, then run maintenance and audit as separate loops.</p>
+    <p class="sub">Use Orchestrator when you want the easiest start, Kit Guide when you want to understand the model first, then move into specialist loops.</p>
     <div class="flow">
-      <article class="panel step"><small>01</small><strong>Install</strong><span>Copy the four skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
-      <article class="panel step"><small>02</small><strong>Profile</strong><span>Fill the vault profile template with your vault root, root pages, areas, and metadata rules.</span></article>
-      <article class="panel step"><small>03</small><strong>Ingest / Maintain</strong><span>Use ingest for long-form sources as a testable baseline, then run it like a lightweight harness: compare versions, refine split strategy, adjust page roles, and improve link architecture before locking in durable structure.</span></article>
-      <article class="panel step"><small>04</small><strong>Audit</strong><span>Run audit after bigger changes or on a schedule to catch drift, dead links, and noise regression.</span></article>
+      <article class="panel step"><small>01</small><strong>Install</strong><span>Copy all 8 skill folders into your AI platform’s <code>skills/</code> directory.</span></article>
+      <article class="panel step"><small>02</small><strong>Choose onboarding</strong><span>Use <code>knowledge-base-orchestrator</code> for low-friction setup or <code>knowledge-base-kit-guide</code> for a more explicit explanation-first path.</span></article>
+      <article class="panel step"><small>03</small><strong>Profile</strong><span>Create or refine your <code>vault-profile.md</code> so later specialist skills have a stable contract.</span></article>
+      <article class="panel step"><small>04</small><strong>Specialist loops</strong><span>Move into ingest, maintenance, audit, working-profile, team-coordination, or work-journal depending on the task.</span></article>
+      <article class="panel step"><small>05</small><strong>Stabilize</strong><span>Keep navigation, page roles, and durable knowledge aligned as the vault grows.</span></article>
     </div>
   </div>
 
@@ -220,15 +212,15 @@
     <div class="grid-3">
       <article class="panel card">
         <h3>Baseline first</h3>
-        <p>Import the source into an overview/chapter/topic structure with lineage, TOC, glossary candidates, related-link suggestions, and other baseline artifacts.</p>
+        <p>Import the source into an overview/chapter/topic structure with lineage, TOC, glossary candidates, and related-link suggestions.</p>
       </article>
       <article class="panel card">
-        <h3>Test and compare</h3>
-        <p>Use real retrieval and navigation feedback to compare split strategies, page roles, maintenance cost, and version-to-version structure diffs.</p>
+        <h3>Compare and refine</h3>
+        <p>Compare split strategies, page roles, and link architecture using real retrieval and maintenance feedback.</p>
       </article>
       <article class="panel card">
         <h3>Refactor safely</h3>
-        <p>Run regression checks on entry pages, lineage, and key links after each revision so the knowledge base gets cleaner instead of noisier.</p>
+        <p>Run regression checks on entry pages, lineage, and key links after each revision so the vault becomes cleaner instead of noisier.</p>
       </article>
     </div>
   </div>

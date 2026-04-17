@@ -9,7 +9,7 @@
 
 这不是一个“现成知识库内容模板仓库”，也不是一个只适用于你当前项目的 Obsidian 配置。
 
-它更像是一套 **“知识库维护方法 + 多人协同方法 + 可安装 skills + 配置模板”**：
+它更像是一套 **“知识库维护方法 + 多人协同方法 + 8 个可安装 skills + 配置模板”**：
 
 - 你保留固定的方法论：
   - knowledge-base-first
@@ -97,14 +97,18 @@
 
 ## Skill 模式：真正推荐的复用路径
 
-### Step 2：先安装 4 个 skill
+### Step 2：安装 8 个 skill
 
 复制以下目录到她自己的 skills 目录：
 
 - `skills/knowledge-base-kit-guide`
+- `skills/knowledge-base-ingest`
 - `skills/knowledge-base-maintenance`
 - `skills/knowledge-base-audit`
+- `skills/knowledge-base-orchestrator`
 - `skills/knowledge-base-team-coordination`
+- `skills/knowledge-base-working-profile`
+- `skills/work-journal`
 
 常见位置示例：
 - `~/.codex/skills`
@@ -135,6 +139,10 @@
 - `templates/member-capability-profile-template.md`
 
 并把画像文件保存成稳定路径，在 `team-roster.md` 里引用。
+
+如果她希望保留长期协作偏好或工作记录，还可以补：
+- `templates/working-profile-page-template.md`
+- `templates/journal-profile-template.md`
 
 ### 推荐协作接入方式
 推荐把多人协同理解成三层：
@@ -196,6 +204,13 @@ agent 能够：
 - 把 alignment / assignment 当成 draft 而不是直接当成事实
 - 明确指出是否需要更多回答或人工确认
 
+#### 成功标准 D：第一次 orchestrator 初始化成功
+agent 能够：
+- 检查用户是否已经有可用 vault
+- 只在必要时建议安装 Obsidian
+- 创建骨架并生成初始 profile
+- 明确告诉用户下一步 specialist skill
+
 只要第一次成功达到其中一个，她就已经“复用”了你的项目核心能力。
 
 ---
@@ -218,86 +233,14 @@ agent 能够：
 1. `templates/team-project-workspace/` 或她已经填好的项目目录
 2. `templates/member-capability-profile-template.md` 或她已有的成员画像
 3. 相关说明文档，例如：
+   - `README.md`
    - `docs/team-coordination-workflow.md`
-   - `docs/example-prompts.md`
-4. 她自己的共享项目目录
+   - `docs/collaboration-integration-patterns.md`
 
-然后直接用类似这样的 prompt：
+### 如果她要跑 working profile / journal
+1. `templates/working-profile-page-template.md` 或已存在画像页
+2. `templates/journal-profile-template.md` 或已存在 journal 配置
+3. `docs/example-prompts.md` 里的 prompt 示例
 
-```text
-I want you to coordinate a shared project using the method in this repository.
-First read these files and folders:
-- /ABSOLUTE/PATH/TO/team-project/
-- /ABSOLUTE/PATH/TO/docs/team-coordination-workflow.md
-- /ABSOLUTE/PATH/TO/docs/example-prompts.md
-- /ABSOLUTE/PATH/TO/templates/member-capability-profile-template.md
-
-Then treat the shared project directory as the only source of truth,
-use draft/approved gating, generate role-aware questionnaires,
-and assume that each member may prepare drafts in their own wiki with OpenClaw, Hermes, or another local agent before syncing the final markdown back into the shared project directory.
-Tell me whether you are at kickoff, alignment, assignment, follow-up, or closeout.
-```
-
-也就是说：
-
-> **skill 只是更方便的包装。真正可复用的核心，是 profile / 项目目录模板 + 方法文档 + prompt 约束。**
-
----
-
-## 你应该给陌生用户看的文件顺序
-
-如果对方完全不懂你的项目，建议强制按这个顺序读：
-
-1. `README.md`
-2. `START-HERE.md`
-3. `docs/reuse-from-zero.md`
-4. `docs/collaboration-integration-patterns.md`
-5. `docs/team-coordination-workflow.md`
-6. `docs/customization-guide.md`
-7. `templates/vault-profile-template.md`
-7. `templates/member-capability-profile-template.md`
-8. `templates/team-project-workspace/README.md`
-9. `docs/example-prompts.md`
-
-这个顺序的意义是：
-- 先知道项目是什么
-- 再知道第一步做什么
-- 再知道如何从零复用
-- 再进入知识库配置和多人协同配置
-
----
-
-## 对开源仓库来说，最关键的外部视角问题
-
-从陌生人的角度，这个仓库最重要的问题不是“方法论对不对”，而是：
-
-### 1. 她能不能在 10 分钟内知道自己该做什么
-如果不能，README 再完整也没用。
-
-### 2. 她能不能在第一次调用里就把 profile 或项目目录正确交给 agent
-如果不能，skills 会显得“像不能用”。
-
-### 3. 她能不能不用理解你的历史项目，也能在自己的 vault 或项目里落地
-如果不能，这个仓库就还在“你的项目衍生物”阶段，而不是“可复用开源能力”。
-
-### 4. 她能不能看到通用示例和 QC 示例的区别
-如果不能，她会误以为这个项目只能服务你的 QC 场景。
-
----
-
-## 推荐你对外强调的仓库定位
-
-对外不要优先说：
-- 这是我的 Obsdain 经验抽象
-- 这是我自己的 wiki 治理方式
-- 这是我的 QC 项目衍生物
-
-而应该优先说：
-
-> A reusable kit for keeping markdown knowledge bases structured and knowledge-base-first, while also coordinating multi-person shared-project workflows through role-aware questionnaires, alignment, assignment, and decision distillation.
-
-这样陌生用户更容易理解：
-- 这是什么
-- 适用于谁
-- 她拿到后第一步做什么
-- 为什么它可以无缝接入 OpenClaw / Hermes，并通过共享目录让多人并行工作
+结论很简单：
+> 没有 skill 生态，也可以复用这套方法；只是“自动发现 skill”的那层要手动做。
