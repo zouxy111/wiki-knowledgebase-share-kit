@@ -204,7 +204,19 @@ Orchestrator：
    - 检查有没有孤立页面（orphan pages，无入口页面）
    - 检查导航是否完整
 
-4. 📚 查看使用指南（view guide，使用指南）
+4. 👥 团队协调（team coordination，多人协作）
+   - 我有一个多人项目需要协调
+   - 我想给团队成员派发任务并跟踪
+
+5. 🧠 记录协作画像（working profile，协作习惯）
+   - 我想记录自己的工作习惯
+   - 我想沉淀长期协作经验
+
+6. 📝 写工作记录/日报（work journal，工作日志）
+   - 我想写今天的工作记录
+   - 我想生成周报
+
+7. 📚 查看使用指南（view guide，使用指南）
    - 我想先了解这套工具怎么用
 
 请选择（输入数字）："
@@ -334,7 +346,7 @@ Orchestrator：
 - ❌ 发现 3 个死链（dead links，失效链接）
   - pages/old-page.md → 文件不存在
   - pages/deleted.md → 文件不存在
-  
+
 - ❌ 发现 2 个孤立页（orphan pages，无入口页面）
   - pages/random-note.md → 没有导航入口（no navigation entry）
   - pages/temp.md → 没有导航入口
@@ -350,6 +362,90 @@ Orchestrator：
 要我帮你修复这些问题吗？"
 ```
 
+##### 选项 4：团队协调
+
+```
+用户："4"
+
+Orchestrator：
+"好的！我会调用 knowledge-base-team-coordination（团队协调工具）。
+
+请提供：
+1. 项目名称
+2. 项目描述
+3. 需要协调的团队成员数量
+4. 项目类型（开发/文档/设计/其他）
+
+收到后我会：
+- 生成项目工作区
+- 创建对应的成员问卷
+- 设置任务跟踪页面"
+```
+
+##### 选项 5：协作画像
+
+```
+用户："5"
+
+Orchestrator：
+"好的！我会调用 knowledge-base-working-profile（协作画像工具）。
+
+这个工具会：
+- 从最近的交互中提取你的协作习惯
+- 记录决策偏好和边界
+- 区分"已确认"和"推断中"的信号
+
+请提供：
+1. 你想记录的时间范围（最近一周/一个月/自定义）
+2. 是否有特定的协作场景想重点关注？"
+```
+
+##### 选项 6：工作记录/日报
+
+```
+用户："6"
+
+Orchestrator：
+"好的！我会调用 work-journal（工作记录工具）。
+
+请提供：
+1. 日期（默认今天）
+2. 主要完成的工作项（可逐项输入）
+3. 是否有会议纪要？
+4. 是否有临时想法想记录？
+
+完成后你可以选择：
+- 生成日报
+- 生成本周周报
+- 查看历史工作记录"
+```
+
+##### 选项 7：查看使用指南
+
+```
+用户："7"
+
+Orchestrator：
+"好的！我会调用 knowledge-base-kit-guide（使用指南）。
+
+这个工具会帮你：
+- 了解所有 8 个 skills 的职责
+- 查看推荐的学习路径
+- 解决配置和使用中的问题
+
+当前可用的 skills：
+1. knowledge-base-kit-guide - 使用指南
+2. knowledge-base-orchestrator - 总控/一键式（当前使用）
+3. knowledge-base-ingest - 长文档导入
+4. knowledge-base-maintenance - 知识库维护
+5. knowledge-base-audit - 结构审计
+6. knowledge-base-team-coordination - 团队协调
+7. knowledge-base-working-profile - 协作画像
+8. work-journal - 工作记录
+
+有什么具体想了解的？"
+```
+
 ---
 
 #### 第 4 步：后续建议（Follow-up Suggestions）
@@ -360,17 +456,32 @@ Orchestrator：
 
 根据你的知识库状态，我建议：
 
-1. 📊 定期运行 audit（健康检查，每周一次）
+🔄 日常工作流：
+1. 📝 每次写完笔记后运行 work-journal（工作记录）
+   - 记录当天的工作和会议纪要
+   - 周末可生成周报
+
+2. ✍️ 定期运行 maintenance（笔记整理，每周 1-2 次）
+   - 把任务结果沉淀进知识库
+   - 确保内容被正确分类和导航
+
+📊 定期检查：
+3. 🔍 定期运行 audit（健康检查，每周一次）
    - 检查死链（dead links，失效链接）和孤立页（orphan pages，无入口页面）
    - 保持知识库健康
 
-2. 📝 养成良好习惯
-   - 每次写完笔记后运行 maintenance（笔记整理）
-   - 确保内容被正确分类和导航
+👥 团队协作：
+4. 👥 多人项目开始时运行 knowledge-base-team-coordination（团队协调）
+   - 生成成员问卷，对齐后再派单
+   - 跟踪任务进度和审批状态
 
-3. 📚 继续学习
-   - 查看 GLOSSARY.md（术语表）了解更多概念
-   - 查看 examples/（示例文件夹）了解真实案例
+5. 🧠 定期运行 knowledge-base-working-profile（协作画像）
+   - 记录长期协作习惯和决策偏好
+   - 帮助新成员快速了解团队
+
+📚 学习资源：
+6. 查看 GLOSSARY.md（术语表）了解更多概念
+7. 查看 examples/（示例文件夹）了解真实案例
 
 还需要我做什么吗？"
 ```
