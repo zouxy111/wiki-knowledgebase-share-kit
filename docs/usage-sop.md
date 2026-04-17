@@ -86,9 +86,11 @@
 1. 先用 `knowledge-base-ingest` 进入 close-reading mode
 2. 生成 chunk、batch packet 和 reading state
 3. 逐 batch 精读并写入 `batch-notes/*.json`
-4. 重跑 close-reading harness 刷新 rolling state
-5. 用 synthesis 汇总 chapter / topic / glossary 候选结果
-6. 最后再把稳定结构写回知识库
+4. source 变化后优先只重跑 changed batches
+5. 重跑 close-reading harness 刷新 rolling state
+6. 用 synthesis 汇总 chapter / topic / glossary 候选结果
+7. 生成 candidate pages 与 candidate link map
+8. 最后再把稳定结构写回知识库
 
 也就是：**先切块，再精读，再汇总，再落页**。
 
@@ -138,9 +140,11 @@
 2. 生成 `chunks/`、`batch-plan.json`、`reading-state.json`
 3. 逐 batch 精读 `batch-packets/*.md`
 4. 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
-5. 重跑 harness，让后续 packet 读取最新 rolling state
-6. 运行 `scripts/synthesize_knowledge.py`
-7. 只把 overview / chapter / topic 的稳定候选结构写回知识库
+5. 只要 source 有局部变更，就优先只重跑 changed batches
+6. 重跑 harness，让后续 packet 读取最新 rolling state
+7. 运行 `scripts/synthesize_knowledge.py`
+8. 查看 candidate pages / candidate link map
+9. 只把 overview / chapter / topic 的稳定候选结构写回知识库
 
 ---
 

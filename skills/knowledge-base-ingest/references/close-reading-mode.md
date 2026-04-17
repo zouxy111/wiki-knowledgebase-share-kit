@@ -21,8 +21,9 @@ Instead, create a stable reading harness that can:
 2. Review one batch packet at a time
 3. Save one JSON note per batch into `batch-notes/`
 4. Re-run the script to refresh rolling state and future packet context
-5. When enough batches are complete, run `scripts/synthesize_knowledge.py`
-6. Promote only the stable overview / chapter / topic outputs into the vault
+5. Prefer changed-batches-only continuation: keep unchanged completed notes, reset only batches whose chunk hash changed
+6. When enough batches are complete, run `scripts/synthesize_knowledge.py`
+7. Promote only the stable overview / chapter / topic outputs into the vault
 
 ## Important rule
 Close-reading mode is for **deep understanding of oversized sources**, not for dumping raw text into the knowledge base.

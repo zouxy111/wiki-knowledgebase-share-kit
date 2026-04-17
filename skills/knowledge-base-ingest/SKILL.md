@@ -49,6 +49,7 @@ description: This skill should be used when the user asks to import a long markd
 - **默认采用 overview / chapter / topic 三层结构。** 除非源材料本身有更适合的层级。
 - **先认定 stable baseline。** 如果不是第一次导入，本轮要明确“当前稳定版本”是什么。
 - **超大源材料要切到 close-reading mode。** 不要指望一次 prompt 读完整本书。
+- **超大源材料优先增量重跑。** 改动了哪个 chapter，就尽量只重跑受影响的 batches。
 - **优先知识库口径，而不是原文镜像口径。**
 - **保留 source lineage。** 每个导入页面都应能看出来自哪本书、哪一章、哪一节。
 - **链接优先级高于排版复刻。**
@@ -108,6 +109,7 @@ close-reading mode 的目标是：
 - 让 AI 按 batch 分块精读
 - 让每一轮精读保留可恢复、可比较的中间状态
 - 让后续 synthesis 能跨 batch 累积理解，而不是每块重新开始
+- 尽量保留 unchanged completed batches，只重置 changed batches
 
 ### 4. Run close-reading mode for oversized sources
 当 source 满足任一条件时，优先进入 close-reading mode：
@@ -120,6 +122,7 @@ close-reading mode 的目标是：
 - 按 batch packet 逐轮精读
 - 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
 - 反复重跑脚本以刷新 rolling state
+- 如果 source 改了，优先利用 chunk hash / batch hash 只重跑 changed batches
 - 需要汇总时运行：
   - `python3 scripts/synthesize_knowledge.py <run-dir>`
 
@@ -156,6 +159,11 @@ close-reading mode 的目标是：
 - sibling / related
 - source overview backlink
 - root page / reader entrypoint entry
+
+如果在 close-reading mode：
+- 让 synthesis 产出 candidate pages
+- 让 candidate pages 自带 overview / prev-next / related topic links
+- 额外产出 candidate link map，避免后续落页时重新猜链接
 
 如果某一页只是孤零零的摘录页，不应视为完成导入。
 
@@ -210,6 +218,8 @@ close-reading mode 的目标是：
 - 是否抽取了 toc / glossary candidates / related links 建议
 - 是否启用了 close-reading mode
 - close-reading run 是否有 batch plan / reading state / completed notes / synthesis 产物
+- rerun 时是否只重置了 changed batches，而不是整本书重读
+- synthesis 是否产出了 candidate pages 和 candidate link map
 - 是否做了 baseline vs candidate 的结构比较
 - 是否通过回归检查
 - 本轮最终决定是 promote / rework / drop
@@ -223,7 +233,7 @@ close-reading mode 的目标是：
 - `scripts/close_read_markdown.py`：为超大源材料生成 batch 级精读包、rolling state 和可续跑的 batch notes
 - `scripts/extract_terms.py`：提取 glossary candidates，输出 JSON 和 Markdown 列表
 - `scripts/suggest_related_links.py`：基于标题和关键词重合度生成 related links 建议
-- `scripts/synthesize_knowledge.py`：把 completed batch notes 汇总成 source overview / chapter summaries / topic candidates
+- `scripts/synthesize_knowledge.py`：把 completed batch notes 汇总成 source overview / chapter summaries / topic candidates / candidate pages / candidate link map
 
 ### references/
 - `references/vault-profile-contract.md`：导入前需要哪些 profile 信息

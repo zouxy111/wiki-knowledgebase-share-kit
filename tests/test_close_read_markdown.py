@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Tests for close_read_markdown.py script."""
 
-import sys
 import json
+import sys
 import tempfile
 from pathlib import Path
 
@@ -15,9 +15,9 @@ sys.path.insert(0, str(scripts_dir))
 from close_read_markdown import prepare_run  # noqa: E402
 
 
-def make_source(path: Path) -> None:
+def make_source(path: Path, chapter_two_extra: str = "") -> None:
     path.write_text(
-        """# Sample Handbook
+        f"""# Sample Handbook
 
 ## Chapter 1
 
@@ -33,7 +33,7 @@ Delta epsilon zeta. Delta epsilon zeta. Delta epsilon zeta.
 
 ## Chapter 2
 
-Bridge text.
+Bridge text. {chapter_two_extra}
 
 ### Section 2.1
 
@@ -43,7 +43,7 @@ Theta iota kappa. Theta iota kappa. Theta iota kappa.
     )
 
 
-def test_prepare_run_creates_packets_and_state():
+def test_prepare_run_creates_packets_state_and_links():
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
         source = tmp / "source.md"
@@ -63,17 +63,23 @@ def test_prepare_run_creates_packets_and_state():
         assert state["batch_count"] >= 2
         assert (out / "batch-plan.json").exists()
         assert (out / "reading-state.json").exists()
-        assert (out / "batch-packets" / "batch-001.md").exists()
-        assert (out / "batch-notes" / "batch-001.json").exists()
+        assert (out / "README.md").exists()
+        packet = out / "batch-packets" / "sample-handbook-chapter-1-b01.md"
+        note = out / "batch-notes" / "sample-handbook-chapter-1-b01.json"
+        assert packet.exists()
+        assert note.exists()
 
-        note_payload = json.loads(
-            (out / "batch-notes" / "batch-001.json").read_text(encoding="utf-8")
-        )
+        note_payload = json.loads(note.read_text(encoding="utf-8"))
         assert note_payload["status"] == "pending"
-        assert note_payload["batch_id"] == "batch-001"
+        assert note_payload["batch_key"] == "sample-handbook-chapter-1-b01"
+        assert note_payload["batch_hash"]
+
+        packet_text = packet.read_text(encoding="utf-8")
+        assert "../batch-notes/sample-handbook-chapter-1-b01.json" in packet_text
+        assert "../chunks/001-book-chapter-1.md" in packet_text
 
 
-def test_prepare_run_refreshes_rolling_state_from_completed_notes():
+def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
         source = tmp / "source.md"
@@ -90,22 +96,34 @@ def test_prepare_run_refreshes_rolling_state_from_completed_notes():
             prefix="book-",
         )
 
-        note = {
-            "batch_id": "batch-001",
-            "status": "completed",
-            "summary": "The first batch defines Alpha as the core concept.",
-            "key_claims": ["Alpha governs the first chapter."],
-            "concepts": ["Alpha", "Core concept"],
-            "procedures": ["Read section 1.1 before section 1.2"],
-            "entities": ["Sample Handbook"],
-            "open_questions": ["How does Chapter 2 refine Alpha?"],
-            "cross_refs": ["book-section-2-1.md"],
-            "candidate_topics": ["Alpha"],
-        }
-        (out / "batch-notes" / "batch-001.json").write_text(
-            json.dumps(note, ensure_ascii=False, indent=2), encoding="utf-8"
+        first_note_path = out / "batch-notes" / "sample-handbook-chapter-1-b01.json"
+        second_note_path = out / "batch-notes" / "sample-handbook-chapter-2-b01.json"
+        first_note = json.loads(first_note_path.read_text(encoding="utf-8"))
+        second_note = json.loads(second_note_path.read_text(encoding="utf-8"))
+        first_note.update(
+            {
+                "status": "completed",
+                "summary": "The first batch defines Alpha as the core concept.",
+                "concepts": ["Alpha"],
+                "candidate_topics": ["Alpha"],
+            }
+        )
+        second_note.update(
+            {
+                "status": "completed",
+                "summary": "The second batch defines Gamma as a later topic.",
+                "concepts": ["Gamma"],
+                "candidate_topics": ["Gamma"],
+            }
+        )
+        first_note_path.write_text(
+            json.dumps(first_note, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        second_note_path.write_text(
+            json.dumps(second_note, ensure_ascii=False, indent=2), encoding="utf-8"
         )
 
+        make_source(source, chapter_two_extra="Updated material changed this batch.")
         state = prepare_run(
             source=source,
             out_dir=out,
@@ -117,14 +135,23 @@ def test_prepare_run_refreshes_rolling_state_from_completed_notes():
         )
 
         assert state["completed_batches"] == 1
-        assert (
-            state["snapshot"]["latest_summary"]
-            == "The first batch defines Alpha as the core concept."
-        )
-        assert state["snapshot"]["top_concepts"][0]["term"] == "Alpha"
+        assert state["changed_batches"] == 1
+        batches = {row["batch_key"]: row for row in state["batches"]}
+        assert batches["sample-handbook-chapter-1-b01"]["status"] == "completed"
+        assert batches["sample-handbook-chapter-1-b01"]["change_status"] == "unchanged"
+        assert batches["sample-handbook-chapter-2-b01"]["status"] == "pending"
+        assert batches["sample-handbook-chapter-2-b01"]["change_status"] == "changed"
 
-        second_packet = (out / "batch-packets" / "batch-002.md").read_text(
-            encoding="utf-8"
+        archived = list(
+            (out / "stale-notes").glob("sample-handbook-chapter-2-b01--*.json")
         )
+        assert archived, "changed batch note should be archived for traceability"
+        refreshed_note = json.loads(second_note_path.read_text(encoding="utf-8"))
+        assert refreshed_note["status"] == "pending"
+        assert refreshed_note["summary"] == ""
+
+        second_packet = (
+            out / "batch-packets" / "sample-handbook-chapter-2-b01.md"
+        ).read_text(encoding="utf-8")
         assert "The first batch defines Alpha as the core concept." in second_packet
         assert "Alpha (x1)" in second_packet

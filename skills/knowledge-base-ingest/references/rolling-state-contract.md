@@ -18,9 +18,11 @@ ingest-run/
 This file is the machine-readable snapshot of progress.
 It should at least track:
 - source path and source title
+- source hash
 - effective split level
 - total batch count
 - completed vs pending batches
+- changed / new / removed batches after a rerun
 - rolling snapshot of concepts / entities / candidate topics / open questions
 - per-batch status and packet/note paths
 
@@ -55,3 +57,11 @@ Each completed batch note should use this shape:
 ## Keep it stable
 Do not let batch notes drift into free-form diaries.
 They should stay compact, comparable, and suitable for later synthesis.
+
+## Incremental rerun rule
+If the chunk hash for a batch changes:
+- archive the old note for traceability
+- reset that batch to pending
+- keep other unchanged completed notes reusable
+
+Do not force the reader to re-read the whole source when only one chapter changed.

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Tests for synthesize_knowledge.py script."""
 
-import sys
 import json
+import sys
 import tempfile
 from pathlib import Path
 
@@ -40,7 +40,7 @@ Gamma flow. Gamma flow. Gamma flow.
     )
 
 
-def test_build_synthesis_outputs_expected_files():
+def test_build_synthesis_outputs_candidate_pages_and_link_map():
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
         source = tmp / "source.md"
@@ -60,6 +60,12 @@ def test_build_synthesis_outputs_expected_files():
 
         note1 = {
             "batch_id": "batch-001",
+            "batch_key": "giant-guide-chapter-a-b01",
+            "batch_hash": json.loads(
+                (run_dir / "batch-notes" / "giant-guide-chapter-a-b01.json").read_text(
+                    encoding="utf-8"
+                )
+            )["batch_hash"],
             "status": "completed",
             "summary": "Chapter A introduces Alpha and Beta.",
             "key_claims": ["Alpha and Beta are paired concepts."],
@@ -72,6 +78,12 @@ def test_build_synthesis_outputs_expected_files():
         }
         note2 = {
             "batch_id": "batch-002",
+            "batch_key": "giant-guide-chapter-b-b01",
+            "batch_hash": json.loads(
+                (run_dir / "batch-notes" / "giant-guide-chapter-b-b01.json").read_text(
+                    encoding="utf-8"
+                )
+            )["batch_hash"],
             "status": "completed",
             "summary": "Chapter B introduces Gamma as a follow-up topic.",
             "key_claims": ["Gamma extends the earlier flow."],
@@ -82,10 +94,10 @@ def test_build_synthesis_outputs_expected_files():
             "cross_refs": ["guide-topic-a1.md"],
             "candidate_topics": ["Gamma", "Alpha"],
         }
-        (run_dir / "batch-notes" / "batch-001.json").write_text(
+        (run_dir / "batch-notes" / "giant-guide-chapter-a-b01.json").write_text(
             json.dumps(note1, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        (run_dir / "batch-notes" / "batch-002.json").write_text(
+        (run_dir / "batch-notes" / "giant-guide-chapter-b-b01.json").write_text(
             json.dumps(note2, ensure_ascii=False, indent=2), encoding="utf-8"
         )
 
@@ -97,9 +109,30 @@ def test_build_synthesis_outputs_expected_files():
         assert (out_dir / "topic-candidates.md").exists()
         assert (out_dir / "glossary-seeds.md").exists()
         assert (out_dir / "unresolved-questions.md").exists()
-        assert (out_dir / "synthesis-report.json").exists()
+        assert (out_dir / "candidate-link-map.md").exists()
+        assert (out_dir / "candidate-link-map.json").exists()
+        assert (out_dir / "candidate-pages" / "overview-giant-guide.md").exists()
+        assert (
+            out_dir / "candidate-pages" / "knowledge-giant-guide-chapter-a.md"
+        ).exists()
+        assert (out_dir / "candidate-pages" / "knowledge-alpha.md").exists()
 
         overview = (out_dir / "source-overview.md").read_text(encoding="utf-8")
-        topics = (out_dir / "topic-candidates.md").read_text(encoding="utf-8")
-        assert "Giant Guide" in overview
-        assert "Alpha" in topics
+        chapter_page = (
+            out_dir / "candidate-pages" / "knowledge-giant-guide-chapter-a.md"
+        ).read_text(encoding="utf-8")
+        topic_page = (out_dir / "candidate-pages" / "knowledge-alpha.md").read_text(
+            encoding="utf-8"
+        )
+        link_map = json.loads(
+            (out_dir / "candidate-link-map.json").read_text(encoding="utf-8")
+        )
+
+        assert "candidate-pages/overview-giant-guide.md" in overview
+        assert "knowledge-alpha.md" in chapter_page
+        assert "knowledge-giant-guide-chapter-a.md" in topic_page
+        assert "overview-giant-guide.md" == link_map["overview_page"]
+        assert (
+            "knowledge-alpha.md"
+            in link_map["pages"]["knowledge-giant-guide-chapter-a.md"]["links"]
+        )

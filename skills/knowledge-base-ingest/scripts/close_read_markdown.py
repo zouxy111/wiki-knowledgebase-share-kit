@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import shutil
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
@@ -12,6 +14,7 @@ from typing import Iterable
 from split_markdown import (
     choose_level,
     find_headings,
+    slugify,
     split_range,
     write_chunks,
     write_toc,
@@ -31,6 +34,8 @@ NOTE_LIST_FIELDS = [
 @dataclass
 class Batch:
     batch_id: str
+    batch_key: str
+    batch_hash: str
     chapter_key: str
     chunk_files: list[str]
     chunk_titles: list[str]
@@ -40,6 +45,8 @@ class Batch:
 @dataclass
 class CompletedNote:
     batch_id: str
+    batch_key: str
+    batch_hash: str
     summary: str
     key_claims: list[str]
     concepts: list[str]
@@ -67,6 +74,14 @@ def write_json(path: Path, payload) -> None:
     )
 
 
+def sha1_text(text: str) -> str:
+    return hashlib.sha1(text.encode("utf-8")).hexdigest()
+
+
+def file_sha1(path: Path) -> str:
+    return sha1_text(path.read_text(encoding="utf-8"))
+
+
 def normalize_list(value) -> list[str]:
     if value is None:
         return []
@@ -91,6 +106,27 @@ def make_source_title(lines: list[str], source: Path) -> str:
     return source.stem
 
 
+def enrich_manifest_hashes(manifest: list[dict], chunks_dir: Path) -> list[dict]:
+    enriched = []
+    for item in manifest:
+        new_item = dict(item)
+        chunk_path = chunks_dir / new_item["file"]
+        if chunk_path.exists():
+            new_item["content_hash"] = file_sha1(chunk_path)
+        enriched.append(new_item)
+    return enriched
+
+
+def reset_generated_chunk_artifacts(chunks_dir: Path) -> None:
+    if not chunks_dir.exists():
+        return
+    for path in chunks_dir.iterdir():
+        if path.is_file():
+            path.unlink()
+        elif path.is_dir():
+            shutil.rmtree(path)
+
+
 def prepare_chunks(
     source: Path,
     chunks_dir: Path,
@@ -98,16 +134,27 @@ def prepare_chunks(
     max_chunk_words: int,
     prefix: str,
     force_resplit: bool,
-) -> tuple[list[dict], int, str]:
+) -> tuple[list[dict], int, str, str]:
     manifest_path = chunks_dir / "manifest.json"
     meta_path = chunks_dir / "source-metadata.json"
+    source_text = source.read_text(encoding="utf-8")
+    source_hash = sha1_text(source_text)
+
     if manifest_path.exists() and meta_path.exists() and not force_resplit:
-        manifest = read_json(manifest_path)
         meta = read_json(meta_path)
-        return manifest, int(meta["effective_level"]), str(meta["source_title"])
+        if meta.get("source_hash") == source_hash:
+            manifest = enrich_manifest_hashes(read_json(manifest_path), chunks_dir)
+            write_json(manifest_path, manifest)
+            return (
+                manifest,
+                int(meta["effective_level"]),
+                str(meta["source_title"]),
+                source_hash,
+            )
 
     chunks_dir.mkdir(parents=True, exist_ok=True)
-    lines = source.read_text(encoding="utf-8").splitlines(keepends=True)
+    reset_generated_chunk_artifacts(chunks_dir)
+    lines = source_text.splitlines(keepends=True)
     headings = find_headings(lines)
     if not headings:
         raise SystemExit("No markdown headings found; add headings or split manually.")
@@ -123,10 +170,9 @@ def prepare_chunks(
         preamble = lines[:preamble_start]
         if "".join(preamble).strip():
             preamble_path.write_text("".join(preamble), encoding="utf-8")
-    elif preamble_path.exists():
-        preamble_path.unlink()
 
     manifest = write_chunks(chunks, chunks_dir, prefix)
+    manifest = enrich_manifest_hashes(manifest, chunks_dir)
     write_json(manifest_path, manifest)
     write_toc(manifest, chunks_dir)
     source_title = make_source_title(lines, source)
@@ -135,12 +181,13 @@ def prepare_chunks(
         {
             "source": str(source),
             "source_title": source_title,
+            "source_hash": source_hash,
             "effective_level": effective_level,
             "generated_at": now_iso(),
             "chunk_count": len(manifest),
         },
     )
-    return manifest, effective_level, source_title
+    return manifest, effective_level, source_title, source_hash
 
 
 def chapter_key(item: dict) -> str:
@@ -148,6 +195,19 @@ def chapter_key(item: dict) -> str:
     if len(breadcrumb) >= 2:
         return " / ".join(breadcrumb[:2])
     return breadcrumb[0]
+
+
+def make_batch_hash(items: list[dict]) -> str:
+    payload = [
+        {
+            "file": item["file"],
+            "title": item.get("title"),
+            "hash": item.get("content_hash", ""),
+            "words": int(item.get("word_count", 0)),
+        }
+        for item in items
+    ]
+    return sha1_text(json.dumps(payload, ensure_ascii=False, sort_keys=True))
 
 
 def plan_batches(
@@ -159,15 +219,22 @@ def plan_batches(
     current_items: list[dict] = []
     current_words = 0
     current_chapter: str | None = None
+    chapter_counts: Counter[str] = Counter()
 
     def flush() -> None:
         nonlocal current_items, current_words, current_chapter
         if not current_items:
             return
-        batch_id = f"batch-{len(batches) + 1:03d}"
+        chapter_slug = slugify(current_chapter or "ungrouped")
+        chapter_counts[chapter_slug] += 1
+        batch_index = chapter_counts[chapter_slug]
+        batch_key = f"{chapter_slug}-b{batch_index:02d}"
+        batch_hash = make_batch_hash(current_items)
         batches.append(
             Batch(
-                batch_id=batch_id,
+                batch_id=f"batch-{len(batches) + 1:03d}",
+                batch_key=batch_key,
+                batch_hash=batch_hash,
                 chapter_key=current_chapter or "Ungrouped",
                 chunk_files=[item["file"] for item in current_items],
                 chunk_titles=[item["title"] for item in current_items],
@@ -202,6 +269,8 @@ def plan_batches(
 def note_template(batch: Batch) -> dict:
     return {
         "batch_id": batch.batch_id,
+        "batch_key": batch.batch_key,
+        "batch_hash": batch.batch_hash,
         "status": "pending",
         "summary": "",
         "key_claims": [],
@@ -214,20 +283,30 @@ def note_template(batch: Batch) -> dict:
     }
 
 
-def load_completed_note(path: Path) -> CompletedNote | None:
-    if not path.exists():
-        return None
-    payload = read_json(path)
+def has_meaningful_note(payload: dict) -> bool:
     summary = " ".join(str(payload.get("summary", "")).split()).strip()
+    if summary:
+        return True
+    for field in NOTE_LIST_FIELDS:
+        if normalize_list(payload.get(field, [])):
+            return True
+    return False
+
+
+def parse_completed_note(path: Path, payload: dict) -> CompletedNote | None:
     status = str(payload.get("status", "pending")).strip().lower() or "pending"
+    if status != "completed" and not has_meaningful_note(payload):
+        return None
+    summary = " ".join(str(payload.get("summary", "")).split()).strip()
     lists = {
         field: normalize_list(payload.get(field, [])) for field in NOTE_LIST_FIELDS
     }
-    meaningful = summary or any(lists[field] for field in NOTE_LIST_FIELDS)
-    if not meaningful and status != "completed":
+    if not summary and not any(lists[field] for field in NOTE_LIST_FIELDS):
         return None
     return CompletedNote(
         batch_id=str(payload.get("batch_id", path.stem)),
+        batch_key=str(payload.get("batch_key", path.stem)),
+        batch_hash=str(payload.get("batch_hash", "")),
         summary=summary,
         key_claims=lists["key_claims"],
         concepts=lists["concepts"],
@@ -239,6 +318,17 @@ def load_completed_note(path: Path) -> CompletedNote | None:
         status=status,
         note_path=str(path),
     )
+
+
+def archive_note(path: Path, stale_dir: Path, suffix: str) -> Path:
+    stale_dir.mkdir(parents=True, exist_ok=True)
+    archived = stale_dir / f"{path.stem}--{suffix}{path.suffix}"
+    counter = 2
+    while archived.exists():
+        archived = stale_dir / f"{path.stem}--{suffix}-{counter}{path.suffix}"
+        counter += 1
+    shutil.move(str(path), str(archived))
+    return archived
 
 
 def build_rolling_snapshot(completed_notes: Iterable[CompletedNote]) -> dict:
@@ -324,6 +414,11 @@ def render_packet(
     note_path: Path,
     snapshot: dict,
 ) -> str:
+    note_link = f"../{note_path.parent.name}/{note_path.name}"
+    chunk_links = [
+        f"[{chunk_file}](../{chunk_dir.name}/{chunk_file})"
+        for chunk_file in batch.chunk_files
+    ]
     lines = [
         f"# Close Reading Packet — {batch.batch_id}",
         "",
@@ -331,8 +426,10 @@ def render_packet(
         "",
         f"- Source: {source_title}",
         f"- Batch: {batch_index}/{total_batches}",
+        f"- Batch key: `{batch.batch_key}`",
+        f"- Batch hash: `{batch.batch_hash}`",
         f"- Chapter key: {batch.chapter_key}",
-        f"- Chunk files: {', '.join(batch.chunk_files)}",
+        f"- Chunk files: {', '.join(chunk_links)}",
         f"- Total words in this batch: {batch.total_words}",
         "",
         render_snapshot_section(snapshot),
@@ -341,7 +438,7 @@ def render_packet(
         "",
         "Write one JSON note for this batch. Keep the output faithful to the source and optimized for later synthesis.",
         "",
-        f"- Save JSON to: `{note_path}`",
+        f"- Save JSON to: [{note_path.name}]({note_link})",
         "- Keep `summary` to 2-5 sentences.",
         "- Use short bullet-like strings for arrays.",
         "- Add only stable, reusable claims and concepts; skip filler prose.",
@@ -361,7 +458,7 @@ def render_packet(
         chunk_text = (chunk_dir / chunk_file).read_text(encoding="utf-8")
         lines.extend(
             [
-                f"### {chunk_title} ({chunk_file})",
+                f"### {chunk_title} ([{chunk_file}](../{chunk_dir.name}/{chunk_file}))",
                 "",
                 "```markdown",
                 chunk_text.rstrip(),
@@ -386,58 +483,57 @@ def prepare_run(
     chunks_dir = out_dir / "chunks"
     batch_packets_dir = out_dir / "batch-packets"
     batch_notes_dir = out_dir / "batch-notes"
+    stale_notes_dir = out_dir / "stale-notes"
     batch_packets_dir.mkdir(exist_ok=True)
     batch_notes_dir.mkdir(exist_ok=True)
+    stale_notes_dir.mkdir(exist_ok=True)
 
-    manifest, effective_level, source_title = prepare_chunks(
+    manifest, effective_level, source_title, source_hash = prepare_chunks(
         source, chunks_dir, level, max_chunk_words, prefix, force_resplit
     )
     batches = plan_batches(manifest, max_batch_words, max_chunks_per_batch)
-    write_json(
-        out_dir / "batch-plan.json",
-        {
-            "source": str(source),
-            "source_title": source_title,
-            "generated_at": now_iso(),
-            "effective_split_level": effective_level,
-            "max_chunk_words": max_chunk_words,
-            "max_batch_words": max_batch_words,
-            "max_chunks_per_batch": max_chunks_per_batch,
-            "batches": [batch.__dict__ for batch in batches],
-        },
-    )
+
+    active_batch_keys = {batch.batch_key for batch in batches}
+    removed_batches = []
+    for existing_note in sorted(batch_notes_dir.glob("*.json")):
+        if existing_note.stem not in active_batch_keys:
+            archive_note(
+                existing_note, stale_notes_dir, f"removed-{now_iso().replace(':', '-')}"
+            )
+            removed_batches.append(existing_note.stem)
 
     notes_by_batch: dict[str, CompletedNote] = {}
-    for batch in batches:
-        note_path = batch_notes_dir / f"{batch.batch_id}.json"
-        if not note_path.exists():
-            write_json(note_path, note_template(batch))
-        note = load_completed_note(note_path)
-        if note is not None:
-            notes_by_batch[batch.batch_id] = note
-
-    completed_before_current: list[CompletedNote] = []
+    changed_batches = 0
+    new_batches = 0
     batch_rows = []
-    for idx, batch in enumerate(batches, start=1):
-        note_path = batch_notes_dir / f"{batch.batch_id}.json"
-        snapshot = build_rolling_snapshot(completed_before_current)
-        packet_text = render_packet(
-            batch,
-            source_title,
-            idx,
-            len(batches),
-            chunks_dir,
-            note_path,
-            snapshot,
-        )
-        packet_path = batch_packets_dir / f"{batch.batch_id}.md"
-        packet_path.write_text(packet_text, encoding="utf-8")
 
-        status = "completed" if batch.batch_id in notes_by_batch else "pending"
+    for batch in batches:
+        note_path = batch_notes_dir / f"{batch.batch_key}.json"
+        change_status = "unchanged"
+        if note_path.exists():
+            payload = read_json(note_path)
+            if str(payload.get("batch_hash", "")) != batch.batch_hash:
+                if has_meaningful_note(payload):
+                    archive_note(note_path, stale_notes_dir, batch.batch_hash[:10])
+                write_json(note_path, note_template(batch))
+                change_status = "changed"
+                changed_batches += 1
+            else:
+                note = parse_completed_note(note_path, payload)
+                if note is not None and note.status == "completed":
+                    notes_by_batch[batch.batch_key] = note
+        else:
+            write_json(note_path, note_template(batch))
+            change_status = "new"
+            new_batches += 1
+
+        packet_path = batch_packets_dir / f"{batch.batch_key}.md"
         batch_rows.append(
             {
                 "batch_id": batch.batch_id,
-                "status": status,
+                "batch_key": batch.batch_key,
+                "batch_hash": batch.batch_hash,
+                "change_status": change_status,
                 "chapter_key": batch.chapter_key,
                 "chunk_files": batch.chunk_files,
                 "chunk_titles": batch.chunk_titles,
@@ -446,27 +542,58 @@ def prepare_run(
                 "packet_file": str(packet_path.relative_to(out_dir)),
             }
         )
-        if batch.batch_id in notes_by_batch:
-            completed_before_current.append(notes_by_batch[batch.batch_id])
+
+    completed_before_current: list[CompletedNote] = []
+    for idx, row in enumerate(batch_rows, start=1):
+        batch = next(item for item in batches if item.batch_key == row["batch_key"])
+        note_path = out_dir / row["note_file"]
+        snapshot = build_rolling_snapshot(completed_before_current)
+        packet_text = render_packet(
+            batch, source_title, idx, len(batch_rows), chunks_dir, note_path, snapshot
+        )
+        (out_dir / row["packet_file"]).write_text(packet_text, encoding="utf-8")
+        if row["batch_key"] in notes_by_batch:
+            row["status"] = "completed"
+            completed_before_current.append(notes_by_batch[row["batch_key"]])
+        else:
+            row["status"] = "pending"
 
     completed_notes = [
-        notes_by_batch[row["batch_id"]]
+        notes_by_batch[row["batch_key"]]
         for row in batch_rows
-        if row["batch_id"] in notes_by_batch
+        if row["batch_key"] in notes_by_batch
     ]
     snapshot = build_rolling_snapshot(completed_notes)
     completed_chunks = sum(
         len(row["chunk_files"]) for row in batch_rows if row["status"] == "completed"
     )
+
+    batch_plan = {
+        "source": str(source),
+        "source_title": source_title,
+        "source_hash": source_hash,
+        "generated_at": now_iso(),
+        "effective_split_level": effective_level,
+        "max_chunk_words": max_chunk_words,
+        "max_batch_words": max_batch_words,
+        "max_chunks_per_batch": max_chunks_per_batch,
+        "batches": batch_rows,
+    }
+    write_json(out_dir / "batch-plan.json", batch_plan)
+
     reading_state = {
         "source": str(source),
         "source_title": source_title,
+        "source_hash": source_hash,
         "generated_at": now_iso(),
         "effective_split_level": effective_level,
         "batch_count": len(batch_rows),
         "completed_batches": len(completed_notes),
         "pending_batches": len(batch_rows) - len(completed_notes),
         "completed_chunks": completed_chunks,
+        "changed_batches": changed_batches,
+        "new_batches": new_batches,
+        "removed_batches": removed_batches,
         "snapshot": snapshot,
         "batches": batch_rows,
     }
@@ -477,17 +604,24 @@ def prepare_run(
         "",
         f"- Source: `{source}`",
         f"- Source title: {source_title}",
+        f"- Source hash: `{source_hash}`",
         f"- Effective split level: H{effective_level}",
         f"- Batches: {len(batch_rows)}",
         f"- Completed batches: {len(completed_notes)}",
+        f"- Changed batches: {changed_batches}",
+        f"- New batches: {new_batches}",
+        f"- Removed batches archived: {len(removed_batches)}",
         "",
         "## Batch queue",
         "",
+        "| Batch | Status | Change | Packet | Note |",
+        "|---|---|---|---|---|",
     ]
     for row in batch_rows:
+        packet_link = f"[{Path(row['packet_file']).name}]({row['packet_file']})"
+        note_link = f"[{Path(row['note_file']).name}]({row['note_file']})"
         index_lines.append(
-            f"- **{row['batch_id']}** [{row['status']}] — {row['chapter_key']} "
-            f"({len(row['chunk_files'])} chunks, {row['total_words']} words)"
+            f"| `{row['batch_key']}` | {row['status']} | {row['change_status']} | {packet_link} | {note_link} |"
         )
     (out_dir / "README.md").write_text("\n".join(index_lines) + "\n", encoding="utf-8")
     return reading_state
