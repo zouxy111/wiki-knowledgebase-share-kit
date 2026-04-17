@@ -1,0 +1,75 @@
+name: Bug report
+description: Report a bug in docs, templates, skill metadata, scripts, or workflow behavior.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report. Please provide enough detail for someone else to reproduce the problem.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - README / docs
+        - Template files
+        - Skill metadata
+        - Helper scripts
+        - Onboarding / Orchestrator
+        - Ingest
+        - Maintenance
+        - Audit
+        - Working profile
+        - Team coordination
+        - Work journal
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly and concisely.
+      placeholder: The expected workflow was..., but instead...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the minimal steps needed to reproduce the issue.
+      placeholder: |
+        1. Go to ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Environment / platform context
+      description: Include platform, skill host, OS, and any relevant file paths or versions.
+      placeholder: Codex on macOS, using ~/.codex/skills, latest main, vault profile at ...
+  - type: textarea
+    id: files
+    attributes:
+      label: Relevant files or screenshots
+      description: Add links, file paths, screenshots, or snippets if useful.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked that this is not already covered by an open issue.
+          required: true
+        - label: I removed secrets, tokens, and private data from this report.
+          required: true
