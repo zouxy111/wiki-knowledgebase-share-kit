@@ -118,6 +118,34 @@
       flex-wrap: wrap;
     }
 
+    .lang-switch {
+      position: relative;
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .lang-switch::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      left: var(--lang-indicator-left, 4px);
+      width: var(--lang-indicator-width, calc(50% - 4px));
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(105,211,255,.92), rgba(136,241,208,.84));
+      box-shadow: 0 10px 24px rgba(105,211,255,.22);
+      transition: left .34s cubic-bezier(.22, 1, .36, 1), width .34s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
+      z-index: -1;
+    }
+
+    .lang-switch.is-switching::before {
+      opacity: .92;
+      filter: saturate(1.1) brightness(1.04);
+    }
+
     .pill,
     .btn,
     .chip,
@@ -145,13 +173,16 @@
     .lang-btn {
       cursor: pointer;
       min-width: 54px;
+      position: relative;
+      z-index: 1;
     }
 
     .lang-btn.active {
       color: #07111f;
       border-color: transparent;
-      background: linear-gradient(135deg, var(--accent), #84a7ff 52%, var(--accent-2));
-      box-shadow: 0 10px 24px rgba(105,211,255,.22);
+      background: transparent;
+      box-shadow: none;
+      transform: translateY(-1px);
     }
 
     .hero {
@@ -410,7 +441,34 @@
     }
 
     .section {
+      position: relative;
       padding: 28px 0;
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(980px, 76vw);
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(105,211,255,.55), rgba(136,241,208,.45), transparent);
+      opacity: .72;
+    }
+
+    .section::after {
+      content: "";
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      width: min(760px, 58vw);
+      height: 110px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(105,211,255,.14), transparent 68%);
+      filter: blur(28px);
+      opacity: .38;
+      pointer-events: none;
     }
 
     .section-head {
@@ -428,6 +486,88 @@
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .flow { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .overview-shell {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
+        rgba(8, 19, 34, .84);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) 40px minmax(0, 1.15fr) 40px minmax(0, 1.05fr) 40px minmax(0, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .overview-column {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.026);
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .overview-column h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .overview-column p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .overview-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .overview-node {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      color: #dfeeff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .overview-node strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .overview-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .overview-arrow {
+      display: grid;
+      place-items: center;
+      color: rgba(136,241,208,.9);
+      font-size: 26px;
+      letter-spacing: -.04em;
+      text-shadow: 0 0 24px rgba(105,211,255,.24);
+    }
+
+    .overview-outcome {
+      display: grid;
+      gap: 10px;
+    }
+
+    .overview-outcome .chip {
+      justify-self: start;
+      background: rgba(255,255,255,.04);
+    }
 
     .section-card,
     .flow-step,
@@ -569,6 +709,13 @@
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .cta-band { grid-template-columns: 1fr; }
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+      .overview-arrow {
+        min-height: 20px;
+        transform: rotate(90deg);
+      }
     }
 
     @media (max-width: 980px) {
@@ -604,6 +751,7 @@
       }
       .compare-shell { overflow-x: auto; }
       .compare-shell table { min-width: 620px; }
+      .overview-shell { padding: 18px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -700,6 +848,95 @@
             <img src="./assets/social-preview.png" alt="Wiki Knowledge Base Share Kit preview" data-i18n-alt="previewAlt" />
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head reveal" style="--delay: 40ms;">
+          <div>
+            <h2 data-i18n="overviewTitle">How the package is organized</h2>
+            <p class="sub" data-i18n="overviewSub">Think of the repository as a layered operating surface: onboarding first, specialist loops in the middle, collaboration support beside them, and a stable vault shape as the output.</p>
+          </div>
+        </div>
+        <div class="overview-shell reveal" style="--delay: 90ms;">
+          <div class="overview-grid">
+            <article class="overview-column reveal" style="--delay: 120ms;">
+              <div class="role-label" data-i18n="overviewCol1Label">entry</div>
+              <h3 data-i18n="overviewCol1Title">Onboarding layer</h3>
+              <p data-i18n="overviewCol1Copy">Start from explanation-first guidance or low-friction setup.</p>
+              <div class="overview-stack">
+                <div class="overview-node">
+                  <strong>knowledge-base-kit-guide</strong>
+                  <span data-i18n="overviewNode1">Installation guide, profile setup, usage routing.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-orchestrator</strong>
+                  <span data-i18n="overviewNode2">Environment check, vault skeleton, profile bootstrap.</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="overview-arrow reveal is-visible" style="--delay: 0ms;">→</div>
+
+            <article class="overview-column reveal" style="--delay: 150ms;">
+              <div class="role-label" data-i18n="overviewCol2Label">core loops</div>
+              <h3 data-i18n="overviewCol2Title">Knowledge maintenance layer</h3>
+              <p data-i18n="overviewCol2Copy">These are the specialist loops that shape structure, durability, and auditability.</p>
+              <div class="overview-stack">
+                <div class="overview-node">
+                  <strong>knowledge-base-ingest</strong>
+                  <span data-i18n="overviewNode3">Long-form markdown split, linking, and baseline-driven import.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-maintenance</strong>
+                  <span data-i18n="overviewNode4">Promote durable conclusions into the right page role.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-audit</strong>
+                  <span data-i18n="overviewNode5">Metadata, links, orphan pages, noise drift, and governance checks.</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="overview-arrow reveal is-visible" style="--delay: 0ms;">→</div>
+
+            <article class="overview-column reveal" style="--delay: 180ms;">
+              <div class="role-label" data-i18n="overviewCol3Label">collaboration</div>
+              <h3 data-i18n="overviewCol3Title">People and coordination layer</h3>
+              <p data-i18n="overviewCol3Copy">Support collaboration without turning the knowledge base into raw chat history.</p>
+              <div class="overview-stack">
+                <div class="overview-node">
+                  <strong>knowledge-base-working-profile</strong>
+                  <span data-i18n="overviewNode6">Collaboration-relevant preferences, heuristics, and boundaries.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-team-coordination</strong>
+                  <span data-i18n="overviewNode7">Questionnaires, alignment, assignments, and closeout decisions.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>work-journal</strong>
+                  <span data-i18n="overviewNode8">Daily execution notes that can later feed durable knowledge.</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="overview-arrow reveal is-visible" style="--delay: 0ms;">→</div>
+
+            <article class="overview-column reveal" style="--delay: 210ms;">
+              <div class="role-label" data-i18n="overviewCol4Label">outcome</div>
+              <h3 data-i18n="overviewCol4Title">Stable vault output</h3>
+              <p data-i18n="overviewCol4Copy">The final target is not more pages, but a vault whose roles and navigation remain legible over time.</p>
+              <div class="overview-outcome">
+                <span class="chip">project</span>
+                <span class="chip">knowledge</span>
+                <span class="chip">ops</span>
+                <span class="chip">task</span>
+                <span class="chip">overview</span>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -959,6 +1196,28 @@
         cloneCopy: "If you want the actual repository instead of only browsing the landing page, start here.",
         previewLabel: "Landing page preview",
         previewAlt: "Wiki Knowledge Base Share Kit preview",
+        overviewTitle: "How the package is organized",
+        overviewSub: "Think of the repository as a layered operating surface: onboarding first, specialist loops in the middle, collaboration support beside them, and a stable vault shape as the output.",
+        overviewCol1Label: "entry",
+        overviewCol1Title: "Onboarding layer",
+        overviewCol1Copy: "Start from explanation-first guidance or low-friction setup.",
+        overviewNode1: "Installation guide, profile setup, usage routing.",
+        overviewNode2: "Environment check, vault skeleton, profile bootstrap.",
+        overviewCol2Label: "core loops",
+        overviewCol2Title: "Knowledge maintenance layer",
+        overviewCol2Copy: "These are the specialist loops that shape structure, durability, and auditability.",
+        overviewNode3: "Long-form markdown split, linking, and baseline-driven import.",
+        overviewNode4: "Promote durable conclusions into the right page role.",
+        overviewNode5: "Metadata, links, orphan pages, noise drift, and governance checks.",
+        overviewCol3Label: "collaboration",
+        overviewCol3Title: "People and coordination layer",
+        overviewCol3Copy: "Support collaboration without turning the knowledge base into raw chat history.",
+        overviewNode6: "Collaboration-relevant preferences, heuristics, and boundaries.",
+        overviewNode7: "Questionnaires, alignment, assignments, and closeout decisions.",
+        overviewNode8: "Daily execution notes that can later feed durable knowledge.",
+        overviewCol4Label: "outcome",
+        overviewCol4Title: "Stable vault output",
+        overviewCol4Copy: "The final target is not more pages, but a vault whose roles and navigation remain legible over time.",
         whyTitle: "Why this package exists",
         whySub: "The point is not to write more notes. The point is to stop a vault from decaying into a maze of folders, mixed page roles, broken navigation, and hard-to-reuse knowledge.",
         whyTableLeft: "Typical drifting vault",
@@ -1054,6 +1313,28 @@
         cloneCopy: "如果你想拿到真正的仓库，而不只是浏览这个落地页，直接从这里开始。",
         previewLabel: "首页预览",
         previewAlt: "Wiki Knowledge Base Share Kit 预览图",
+        overviewTitle: "这个包的结构怎么组织",
+        overviewSub: "你可以把这个仓库理解成一个分层工作面：先 onboarding，中间是 specialist loops，旁边是协作支撑层，最后输出成稳定的 vault 形态。",
+        overviewCol1Label: "入口层",
+        overviewCol1Title: "Onboarding 层",
+        overviewCol1Copy: "可以从解释优先的引导进入，也可以直接低门槛初始化。",
+        overviewNode1: "安装说明、profile 配置、使用路由。",
+        overviewNode2: "环境检查、vault 骨架、profile 启动。",
+        overviewCol2Label: "核心循环",
+        overviewCol2Title: "知识维护层",
+        overviewCol2Copy: "这些 specialist loops 决定结构、耐久性和可审计性。",
+        overviewNode3: "长篇 markdown 拆分、链接与 baseline 驱动导入。",
+        overviewNode4: "把真正耐久的结论提升回正确页面角色。",
+        overviewNode5: "metadata、链接、孤儿页、噪音漂移与治理检查。",
+        overviewCol3Label: "协作层",
+        overviewCol3Title: "人和协同层",
+        overviewCol3Copy: "为协作提供支撑，但不会把知识库变成原始聊天记录堆。",
+        overviewNode6: "与协作有关的偏好、启发式和边界。",
+        overviewNode7: "问卷、对齐、分工与收尾决策沉淀。",
+        overviewNode8: "日常执行记录，后续可再喂回耐久知识。",
+        overviewCol4Label: "输出层",
+        overviewCol4Title: "稳定的 vault 输出",
+        overviewCol4Copy: "最终目标不是多几页文档，而是让 vault 的角色和导航长期保持清晰。",
         whyTitle: "为什么需要这个包",
         whySub: "重点不是写更多笔记，而是阻止 vault 继续退化成文件夹迷宫、页面角色混杂、导航断裂、知识难以复用的状态。",
         whyTableLeft: "常见的漂移型 vault",
@@ -1130,9 +1411,20 @@
 
     const metaDescription = document.querySelector('meta[name="description"]');
     const toggleButtons = Array.from(document.querySelectorAll('[data-lang-toggle]'));
+    const langSwitch = document.querySelector('.lang-switch');
     const i18nTextNodes = document.querySelectorAll('[data-i18n]');
     const i18nHtmlNodes = document.querySelectorAll('[data-i18n-html]');
     const i18nAltNodes = document.querySelectorAll('[data-i18n-alt]');
+
+    function updateLangIndicator(activeButton) {
+      if (!langSwitch || !activeButton) return;
+      const switchRect = langSwitch.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+      langSwitch.style.setProperty('--lang-indicator-left', `${buttonRect.left - switchRect.left}px`);
+      langSwitch.style.setProperty('--lang-indicator-width', `${buttonRect.width}px`);
+      langSwitch.classList.add('is-switching');
+      window.setTimeout(() => langSwitch.classList.remove('is-switching'), 260);
+    }
 
     function applyLanguage(lang) {
       const locale = translations[lang] ? lang : 'en';
@@ -1160,6 +1452,8 @@
       toggleButtons.forEach((button) => {
         button.classList.toggle('active', button.dataset.langToggle === locale);
       });
+
+      updateLangIndicator(toggleButtons.find((button) => button.dataset.langToggle === locale));
 
       localStorage.setItem('wiki-kit-lang', locale);
     }
@@ -1201,6 +1495,10 @@
 
     toggleButtons.forEach((button) => {
       button.addEventListener('click', () => applyLanguage(button.dataset.langToggle));
+    });
+
+    window.addEventListener('resize', () => {
+      updateLangIndicator(toggleButtons.find((button) => button.classList.contains('active')));
     });
 
     initLanguage();
