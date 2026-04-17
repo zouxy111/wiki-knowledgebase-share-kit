@@ -350,8 +350,10 @@
       top: 74px;
       width: min(1180px, 90vw);
       height: min(46vh, 390px);
-      opacity: .42;
-      filter: drop-shadow(0 0 28px rgba(100, 255, 177, .12));
+      opacity: .84;
+      mix-blend-mode: normal;
+      filter: drop-shadow(0 0 24px rgba(100, 255, 177, .16));
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.98), rgba(0,0,0,.95) 74%, rgba(0,0,0,.46));
     }
 
     .ambient-illustration .hud-arc,
@@ -375,19 +377,19 @@
 
     .ambient-illustration .brain-lobe {
       stroke: url(#brainShellGlow);
-      stroke-width: 3.4;
-      fill: rgba(42, 124, 255, .05);
+      stroke-width: 4;
+      fill: rgba(42, 124, 255, .09);
     }
 
     .ambient-illustration .brain-fold {
-      stroke: rgba(124, 221, 255, .28);
-      stroke-width: 2.1;
+      stroke: rgba(124, 221, 255, .42);
+      stroke-width: 2.4;
     }
 
     .ambient-illustration .data-stream {
       fill: none;
       stroke: url(#streamGlow);
-      stroke-width: 3.2;
+      stroke-width: 4.1;
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-dasharray: 10 16;
@@ -396,7 +398,7 @@
 
     .ambient-illustration .data-stream.soft {
       stroke: rgba(110, 220, 255, .48);
-      stroke-width: 2;
+      stroke-width: 2.6;
       stroke-dasharray: 5 12;
       animation-duration: 7.8s;
     }
@@ -443,6 +445,29 @@
     .ambient-illustration .drive-led:nth-of-type(2) { animation-delay: .5s; fill: rgba(110, 220, 255, .92); }
     .ambient-illustration .drive-led:nth-of-type(3) { animation-delay: 1s; fill: rgba(255, 233, 110, .88); }
 
+    .ambient-illustration .drive-ring {
+      fill: none;
+      stroke: rgba(180, 236, 255, .26);
+      stroke-width: 2;
+      transform-origin: 600px 370px;
+      animation: platterSpin 9s linear infinite;
+    }
+
+    .ambient-illustration .drive-scan {
+      fill: none;
+      stroke: rgba(110, 220, 255, .42);
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      transform-origin: 600px 370px;
+      animation: scanSweep 4.2s ease-in-out infinite;
+    }
+
+    .ambient-illustration .data-packet {
+      fill: #d7ffff;
+      opacity: .95;
+      filter: drop-shadow(0 0 12px rgba(120, 255, 219, .86));
+    }
+
     .clone-head {
       display: flex;
       align-items: center;
@@ -478,10 +503,11 @@
     .panel {
       border-radius: var(--radius-xl);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
-        var(--panel);
+        linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.004)),
+        rgba(8, 18, 31, .05);
       box-shadow: var(--shadow);
       overflow: hidden;
+      backdrop-filter: blur(6px) saturate(1.04);
     }
 
     .hero-copy,
@@ -500,11 +526,11 @@
       flex-direction: column;
       min-height: 100%;
       background:
-        linear-gradient(180deg, rgba(9, 18, 34, .62), rgba(9, 18, 34, .34)),
-        radial-gradient(circle at 68% 24%, rgba(105,211,255,.08), transparent 34%),
-        rgba(8, 18, 31, .22);
-      backdrop-filter: blur(14px) saturate(1.08);
-      border-color: rgba(255,255,255,.08);
+        linear-gradient(180deg, rgba(9, 18, 34, .16), rgba(9, 18, 34, .03)),
+        radial-gradient(circle at 68% 24%, rgba(105,211,255,.12), transparent 36%),
+        rgba(8, 18, 31, .02);
+      backdrop-filter: blur(4px) saturate(1.06);
+      border-color: rgba(255,255,255,.05);
     }
 
     .hero-copy::before {
@@ -512,13 +538,13 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
-        radial-gradient(circle at 50% 100%, rgba(105,211,255,.08), transparent 46%),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 14px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 18px);
-      opacity: .46;
+        linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,0)),
+        radial-gradient(circle at 50% 100%, rgba(105,211,255,.09), transparent 46%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 1px, transparent 1px 14px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.010) 0 1px, transparent 1px 18px);
+      opacity: .14;
       pointer-events: none;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.92) 65%, rgba(0,0,0,.38));
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.82) 58%, rgba(0,0,0,.14));
     }
 
     .hero-copy::after {
@@ -532,6 +558,11 @@
       z-index: -1;
       filter: blur(8px);
       animation: drift 9s ease-in-out infinite alternate;
+    }
+
+    .hero-copy > * {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
@@ -563,9 +594,9 @@
     }
 
     html[lang="zh-CN"] h1 {
-      font-size: clamp(34px, 4.9vw, 58px);
-      line-height: 1.03;
-      max-width: 11.2ch;
+      font-size: clamp(28px, 4vw, 50px);
+      line-height: 1.06;
+      max-width: 12.8ch;
       letter-spacing: -.04em;
     }
 
@@ -688,10 +719,10 @@
       gap: 16px;
       background:
         radial-gradient(circle at top right, rgba(105,211,255,.12), transparent 38%),
-        linear-gradient(180deg, rgba(9, 18, 34, .72), rgba(9, 18, 34, .42)),
-        rgba(8, 18, 31, .22);
-      backdrop-filter: blur(16px) saturate(1.06);
-      border-color: rgba(255,255,255,.08);
+        linear-gradient(180deg, rgba(9, 18, 34, .14), rgba(9, 18, 34, .04)),
+        rgba(8, 18, 31, .02);
+      backdrop-filter: blur(5px) saturate(1.04);
+      border-color: rgba(255,255,255,.05);
     }
 
     .stats-grid,
@@ -712,7 +743,8 @@
     .switcher-shell {
       border-radius: var(--radius-lg);
       padding: 18px;
-      background: rgba(255,255,255,.03);
+      background: rgba(14, 26, 43, .32);
+      backdrop-filter: blur(10px);
     }
 
     .stat-card strong {
@@ -1197,6 +1229,16 @@
       to { stroke-dashoffset: -110; opacity: .32; }
     }
 
+    @keyframes platterSpin {
+      from { transform: rotate(0deg); opacity: .22; }
+      to { transform: rotate(360deg); opacity: .32; }
+    }
+
+    @keyframes scanSweep {
+      0%, 100% { transform: rotate(-18deg); opacity: .12; }
+      50% { transform: rotate(22deg); opacity: .52; }
+    }
+
     @media (max-width: 1100px) {
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1312,16 +1354,16 @@
         <path class="brain-fold" d="M816 96C848 130 850 188 822 234M756 72C776 120 776 192 744 250M680 68C694 120 692 190 670 248M596 82C596 132 602 198 628 250" />
         <path class="brain-fold" d="M336 184C390 170 446 184 488 214M712 214C754 184 810 170 864 184M382 286C432 260 500 258 556 282M646 282C702 258 770 260 820 286" />
 
-        <path class="data-stream" d="M596 296V356" />
-        <path class="data-stream" d="M620 290V360" />
-        <path class="data-stream soft" d="M572 288V354" />
-        <path class="data-stream soft" d="M644 286V354" />
-        <path class="data-stream" d="M520 214C548 214 562 236 582 250V338" />
-        <path class="data-stream" d="M464 184C516 184 540 210 562 236" />
-        <path class="data-stream soft" d="M408 150C476 150 520 176 556 218" />
-        <path class="data-stream" d="M672 214C644 214 630 236 610 250V338" />
-        <path class="data-stream" d="M728 184C676 184 652 210 630 236" />
-        <path class="data-stream soft" d="M784 150C716 150 672 176 636 218" />
+        <path id="stream-center-a" class="data-stream" d="M596 296V356" />
+        <path id="stream-center-b" class="data-stream" d="M620 290V360" />
+        <path id="stream-center-c" class="data-stream soft" d="M572 288V354" />
+        <path id="stream-center-d" class="data-stream soft" d="M644 286V354" />
+        <path id="stream-left-a" class="data-stream" d="M520 214C548 214 562 236 582 250V338" />
+        <path id="stream-left-b" class="data-stream" d="M464 184C516 184 540 210 562 236" />
+        <path id="stream-left-c" class="data-stream soft" d="M408 150C476 150 520 176 556 218" />
+        <path id="stream-right-a" class="data-stream" d="M672 214C644 214 630 236 610 250V338" />
+        <path id="stream-right-b" class="data-stream" d="M728 184C676 184 652 210 630 236" />
+        <path id="stream-right-c" class="data-stream soft" d="M784 150C716 150 672 176 636 218" />
 
         <circle class="neuron-node" cx="408" cy="150" r="5" />
         <circle class="neuron-node" cx="464" cy="184" r="4.5" />
@@ -1336,6 +1378,8 @@
         <path class="drive-top" d="M368 304H830L804 276H394L368 304Z" />
         <path class="drive-plate" d="M426 320H770C786 320 800 334 800 350V394C800 410 786 424 770 424H426C410 424 396 410 396 394V350C396 334 410 320 426 320Z" />
         <path class="drive-plate" d="M516 334C548 320 650 320 684 334C706 344 714 364 708 386C700 410 668 424 634 426H564C520 424 484 406 482 378C480 360 492 342 516 334Z" />
+        <ellipse class="drive-ring" cx="596" cy="372" rx="92" ry="34" />
+        <path class="drive-scan" d="M520 370C552 346 638 344 690 366" />
         <path class="drive-port" d="M420 370H470M484 370H516M540 370H560M640 388H716M730 388H764M782 388H794" />
         <path class="drive-port" d="M416 402H510V420H416Z" />
         <path class="drive-port" d="M648 404H712V420H648Z" />
@@ -1344,6 +1388,37 @@
         <circle class="drive-led" cx="442" cy="350" r="5" />
         <circle class="drive-led" cx="468" cy="350" r="5" />
         <circle class="drive-led" cx="494" cy="350" r="5" />
+
+        <circle class="data-packet" r="4">
+          <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-left-c" />
+          </animateMotion>
+        </circle>
+        <circle class="data-packet" r="3.6">
+          <animateMotion dur="2.8s" begin=".6s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-left-a" />
+          </animateMotion>
+        </circle>
+        <circle class="data-packet" r="3.8">
+          <animateMotion dur="3.2s" begin="1.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-right-c" />
+          </animateMotion>
+        </circle>
+        <circle class="data-packet" r="3.2">
+          <animateMotion dur="2.6s" begin=".4s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-right-a" />
+          </animateMotion>
+        </circle>
+        <circle class="data-packet" r="3.4">
+          <animateMotion dur="2.2s" begin=".2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-center-a" />
+          </animateMotion>
+        </circle>
+        <circle class="data-packet" r="3.4">
+          <animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#stream-center-b" />
+          </animateMotion>
+        </circle>
       </svg>
     </div>
   </div>
@@ -1963,7 +2038,7 @@
         navStart: "快速开始",
         navRelease: "最新版本",
         heroEyebrow: "结构化知识，而不是笔记蔓延",
-        heroTitle: "把 <span>markdown vault</span><br>变成真正可用的<br>知识库。",
+        heroTitle: "<span>把 markdown vault</span><br>变成真正可用的<br>知识库。",
         heroLede: "这是一个可复用的开源工作包，包含 8 个可安装 skills 和 7 条协同工作流。它帮助个人和团队让 vault 保持可导航、角色稳定、可维护、便于协作、可审计，而不是继续漂成零散笔记和过程流水账。",
         heroCtaRepo: "获取仓库",
         heroCtaStart: "阅读 START-HERE",
