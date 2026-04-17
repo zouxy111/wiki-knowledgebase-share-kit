@@ -7,7 +7,7 @@
 [![Contributors](https://img.shields.io/github/contributors/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-> 一套面向 markdown / wiki / Obsidian-style vault 的 **8-skill 知识库维护包**。  
+> 一套面向 markdown / wiki / Obsidian-style vault 的 **8-skill 知识库维护包**。
 > 目标不是堆更多日志，而是把知识库收敛成：**入口清楚、页面角色稳定、长期可维护、对协作友好、可审计**。
 
 <p align="center">
@@ -151,8 +151,10 @@
 ### 1. 导入长文档 / 书籍 / 指南 / 方案
 使用 `knowledge-base-ingest`：
 - 先读 `vault profile`
-- 把长 source 拆成 overview / chapter / topic
+- 先把长 source 脚本化拆成 bounded chunks，再重组为 overview / chapter / topic
 - 建立 toc、glossary candidates、related-link suggestions
+- 用 `manifest.json` + `coverage-map.md` 显式跟踪每个 chunk 是否已处理
+- 只有 `verify_ingest_coverage.py` 通过后，才把结果视为完整导入
 - 把第一版导入当成 **可测试基线**，通过迭代和回归继续优化结构
 
 适合：
@@ -239,8 +241,24 @@
 
 先说原则：
 
-> 这套包本质上是 **8 个 `SKILL.md` 风格 skill bundle**。  
+> 这套包本质上是 **8 个 `SKILL.md` 风格 skill bundle**。
 > 只要你的 AI 平台支持类似 skills 目录结构，就可以安装；不同平台的目录位置可能不同。
+> **重点：运行时只会读取它自己的 skills 目录，不会自动读取这个 Git 仓库里的 `skills/`。**
+
+推荐优先使用仓库自带安装脚本，而不是手工逐条复制：
+
+```bash
+# 安装到 Codex
+python3 scripts/install_skills.py --platform codex --force
+
+# 安装到 Claude Code
+python3 scripts/install_skills.py --platform claude --force
+```
+
+安装后一定要：
+1. **重开当前会话**或重启 runtime
+2. 确认 available skills 里真的出现目标 skill 名
+3. 如果还报 `Skill not found`，先看 [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)
 
 常见示例：
 
@@ -289,6 +307,9 @@ cat START-HERE.md
 
 # 3. 复制模板并准备 profile
 cp templates/vault-profile-template.md ./my-vault-profile.md
+
+# 4. 把 8 个 skills 安装到你的运行时目录
+python3 scripts/install_skills.py --platform codex --force
 ```
 
 如果你已经准备好平台和 skills 目录，再安装 8 个 skill bundle。
@@ -297,19 +318,25 @@ cp templates/vault-profile-template.md ./my-vault-profile.md
 
 ## 常见问题
 
-**Q：我不用 Obsidian，能用吗？**  
+**Q：我不用 Obsidian，能用吗？**
 A：能。只要你有 markdown/wiki vault，并且平台支持相应 skill 目录结构，就可以用。
 
-**Q：我不想全自动，只想按规则手动整理，能用吗？**  
+**Q：我不想全自动，只想按规则手动整理，能用吗？**
 A：能。你可以直接使用文档、模板和 checklist；AI 只是提高执行效率。
 
-**Q：我已经有很多旧笔记了，还能用吗？**  
+**Q：我已经有很多旧笔记了，还能用吗？**
 A：能。建议先跑一次 audit，再逐步修结构、补导航、收敛页面边界。
 
-**Q：企业和医疗是不是两套完全不同的方案？**  
+**Q：为什么 repo 里明明有 `knowledge-base-ingest`，运行时却说 `Skill not found`？**
+A：通常不是 repo 缺 skill，而是**当前运行平台的 skills 目录没有安装/刷新**。先用 `python3 scripts/install_skills.py --platform <codex|claude> --force` 安装，再重开会话；详见 [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)。
+
+**Q：怎么防止长文档只读前半部分就被误判为“已完整导入”？**
+A：不要直接把超长 source 整篇塞给模型。先运行 `split_markdown.py` 生成 `manifest.json` 和 `coverage-map.md`，逐 chunk 处理，再用 `verify_ingest_coverage.py` 做完成态校验；详见 [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md)。
+
+**Q：企业和医疗是不是两套完全不同的方案？**
 A：不是。它们都属于“高知识密度 + 多人协作 + 可审计”的场景，只是资料类型和协作方式不同。
 
-**Q：working profile 会不会变成隐私档案？**  
+**Q：working profile 会不会变成隐私档案？**
 A：不应该。正确做法是只保留协作相关的稳定信号，并明确 consent、visibility 和敏感信息过滤边界。
 
 ---

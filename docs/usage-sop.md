@@ -21,7 +21,8 @@
 ### `knowledge-base-ingest`
 用于：
 - 导入长 markdown 文档、书稿、教程或大章节
-- 先按章节/主题拆分，再建立 parent-child / prev-next / related links
+- 先把 source 拆成 bounded chunks，再建立 parent-child / prev-next / related links
+- 用 `manifest.json` + `coverage-map.md` 防止只读前半部分就误判“已完整导入”
 - 把第一次导入当成可测试基线，并通过对比、回归、重构继续优化结构
 
 ### `knowledge-base-maintenance`
@@ -113,13 +114,16 @@
 ## Ingest 的默认回路
 
 1. 先读 vault profile 和 source markdown
-2. 定义 ingestion map 与第一版导入基线
-3. 建立 overview / chapter / topic 结构
-4. 生成 TOC / glossary candidates / related-link suggestions
-5. 为每轮保留最小 harness 产物
-6. 基于测试结果比较拆分方案、页面角色和维护成本
-7. 对入口页、来源链和关键导航做回归检查
-8. 汇报版本差异与最终稳定形态
+2. 超长 source 先运行 split，生成 bounded chunks、`manifest.json`、`coverage-map.md`
+3. 定义 ingestion map 与第一版导入基线
+4. 逐 chunk 读取和处理，给每个 chunk 填 final status
+5. 建立 overview / chapter / topic 结构
+6. 生成 TOC / glossary candidates / related-link suggestions
+7. 为每轮保留最小 harness 产物
+8. 跑 coverage verification，没通过就只能汇报 partial / draft
+9. 基于测试结果比较拆分方案、页面角色和维护成本
+10. 对入口页、来源链和关键导航做回归检查
+11. 汇报版本差异与最终稳定形态
 
 ---
 

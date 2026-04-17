@@ -30,6 +30,7 @@ I want to understand the profile first, then know which of the 8 skills I should
 ```text
 Use $knowledge-base-ingest to import this long Markdown document into my knowledge base.
 Read my vault profile first.
+For large sources, do not rely on a single direct read. First run bounded splitting to produce chunk files, manifest.json, and coverage-map.md; then process every chunk and keep the import in draft/partial state until coverage verification passes.
 Create a minimal workable overview/chapter/topic structure with source lineage, toc, glossary candidates, and related-link suggestions.
 Treat the first import as a testable baseline rather than the final structure.
 Use a lightweight harness mindset: keep versioned structure outputs, compare split strategies across iterations, refine page roles, improve link architecture, and run regression-style checks on navigation, lineage, and entry pages after each iteration.

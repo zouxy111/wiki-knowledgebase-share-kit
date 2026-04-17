@@ -22,6 +22,7 @@ description: This skill should be used when the user asks to import a long markd
 执行前先读取：
 - `references/vault-profile-contract.md`
 - `references/ingestion-checklist.md`
+- `references/source-coverage-rules.md`
 - `references/ingest-iteration-loop.md`
 - `references/ingest-evaluation-rubric.md`
 - `references/chunking-strategy.md`
@@ -42,7 +43,11 @@ description: This skill should be used when the user asks to import a long markd
 ## Core rules
 
 - **先分块，再写入。** 不要把长文档整页导入知识库。
+- **长文档禁止直接整篇读完再回写。** 超长源材料必须先变成受控 chunk 集合。
 - **先做 ingestion map，再动目标文件。** 先确定 part / chapter / section / topic 的落点。
+- **超长源材料必须先产出 `manifest.json` + `coverage-map.md`。**
+- **每个 chunk 在结束前都必须有明确 disposition。** 没有 chunk-level 覆盖表，不得宣称“已完整导入”。
+- **coverage verification 没通过，就只能汇报 partial / draft / incomplete。**
 - **默认采用 overview / chapter / topic 三层结构。** 除非源材料本身有更适合的层级。
 - **先认定 stable baseline。** 如果不是第一次导入，本轮要明确“当前稳定版本”是什么。
 - **优先知识库口径，而不是原文镜像口径。**
@@ -61,6 +66,7 @@ description: This skill should be used when the user asks to import a long markd
 - 读取 vault profile
 - 判断 source 类型：book / handbook / spec / tutorial / notes dump
 - 识别目录结构：part / chapter / section / appendix / glossary
+- 如果 source 很长（例如几千行以上），不要直接尝试整篇塞进单轮上下文
 
 ### 2. Build the ingestion map first
 先生成一个 page map，而不是直接开始写：
@@ -84,13 +90,28 @@ description: This skill should be used when the user asks to import a long markd
 - chunk 文件
 - `manifest.json`
 - `toc.md`
+- `coverage-map.md`
 
 默认优先遵循：
 - H1/H2 对应大的章节单元
 - 过长章节再按更深一层标题拆分
 - 单页尽量保持在**一个可读、可维护的长度**，避免再次变成长页
+- 如果没有合适标题层级，脚本会退化成**固定行数窗口切分**
+- 因此即使 source 达到 10 万行，也应先被变成可遍历的 chunk ledger，而不是一次性让模型“自己读完”
 
-### 4. Classify by page role
+### 4. Read every chunk through the coverage map
+读取 `manifest.json` 和 `coverage-map.md`：
+- 逐个 chunk 阅读和处理
+- 给每个 chunk 填写最终状态：`covered / merged / index-only / intentionally-omitted`
+- 如果某个 chunk 还没处理完，只能保留 `unread` 或 `blocked`
+- 在所有 chunk 都有 final status 之前，不能宣称导入完成
+
+完成时运行：
+- `python3 scripts/verify_ingest_coverage.py --manifest <dir>/manifest.json --coverage <dir>/coverage-map.md`
+
+只有 verification 通过，才允许把结果汇报为完整导入
+
+### 5. Classify by page role
 导入时仍遵循固定 page-role model：
 - `overview`：这本书 / 这份源材料的总览、目录、 ingestion rules
 - `knowledge`：概念、框架、模型、结论、定义、方法论
@@ -98,7 +119,7 @@ description: This skill should be used when the user asks to import a long markd
 - `project`：当 source 明显服务于某个长期专题主线时，作为稳定入口页
 - `task`：通常不作为书籍导入的主要落点，除非源文档本身就是协作任务结构
 
-### 5. Extract glossary and related-link suggestions
+### 6. Extract glossary and related-link suggestions
 需要辅助结构化时，可运行：
 - `python3 scripts/extract_terms.py <source-or-dir> --out <dir>`
 - `python3 scripts/suggest_related_links.py <dir> --top 3`
@@ -108,7 +129,7 @@ description: This skill should be used when the user asks to import a long markd
 - 为 chapter / topic 页面提供 related links 建议
 - 发现重复概念与潜在 hub 页面
 
-### 6. Rewrite into knowledge-base form
+### 7. Rewrite into knowledge-base form
 写入时：
 - 压缩重复叙述
 - 合并平行概念
@@ -116,7 +137,7 @@ description: This skill should be used when the user asks to import a long markd
 - 保留必要 source attribution（书名、章节、版本、作者）
 - 如需保留原文，只保留短引用和关键原句，避免大段照搬
 
-### 7. Create the link model
+### 8. Create the link model
 至少建立这些链接：
 - parent / child
 - prev / next
@@ -126,13 +147,13 @@ description: This skill should be used when the user asks to import a long markd
 
 如果某一页只是孤零零的摘录页，不应视为完成导入。
 
-### 8. Compare candidate structure to the stable baseline
+### 9. Compare candidate structure to the stable baseline
 如果当前不是第一次导入，而是在迭代已有结构：
 - 用 `references/ingest-evaluation-rubric.md` 的口径比较 baseline 和 candidate
 - 重点看拆分适配度、页面角色、导航覆盖、related links 是否真的更好
 - 只在 candidate 明显更利于检索、维护和回查时，才考虑晋升
 
-### 9. Run regression checks and record the round
+### 10. Run regression checks and record the round
 至少检查：
 - overview / root page / reader entrypoint 是否仍可达
 - source lineage 是否仍完整
@@ -143,7 +164,7 @@ description: This skill should be used when the user asks to import a long markd
 - 用 `../../templates/ingest-iteration-log-template.md` 记录 baseline / candidate / regression / decision
 - 决策为 promote / rework / drop 之一
 
-### 10. Sync navigation surfaces
+### 11. Sync navigation surfaces
 至少同步：
 - source overview page
 - 对应 root page
@@ -155,8 +176,12 @@ description: This skill should be used when the user asks to import a long markd
 - governance / maintainer overview
 - related topic hubs
 
-### 11. Validate before finishing
+### 12. Validate before finishing
 检查：
+- source 是否已经先拆成 bounded chunks
+- `manifest.json` 是否覆盖了 source 全部范围（包括 preamble / appendix）
+- `coverage-map.md` 是否每一行都有 final status
+- `verify_ingest_coverage.py` 是否通过
 - 有没有单页过长
 - 有没有只拆分但没建立链接
 - 有没有 source lineage 丢失
@@ -168,6 +193,7 @@ description: This skill should be used when the user asks to import a long markd
 ## Output expectations
 
 汇报时至少说明：
+- source 总行数 / chunk 数量 / 是否使用了固定窗口切分
 - source 被拆成了哪些页面组
 - 当前 stable baseline 是什么（如果存在）
 - 本轮 candidate 主要改了什么
@@ -176,6 +202,7 @@ description: This skill should be used when the user asks to import a long markd
 - 哪些原文被压缩 / 总结 / 改写
 - 是否抽取了 toc / glossary candidates / related links 建议
 - 是否做了 baseline vs candidate 的结构比较
+- 是否通过 coverage verification
 - 是否通过回归检查
 - 本轮最终决定是 promote / rework / drop
 - 是否同步了 root page / reader entrypoint / milestone log
@@ -184,13 +211,15 @@ description: This skill should be used when the user asks to import a long markd
 ## Resources
 
 ### scripts/
-- `scripts/split_markdown.py`：按标题层级做 deterministic split，输出 chunk 文件、manifest 和 toc
+- `scripts/split_markdown.py`：按标题层级或固定窗口做 deterministic split，输出 chunk 文件、manifest、toc 和 coverage map
+- `scripts/verify_ingest_coverage.py`：检查每个 source chunk 是否已经被明确处理，未通过则不得宣称完整导入
 - `scripts/extract_terms.py`：提取 glossary candidates，输出 JSON 和 Markdown 列表
 - `scripts/suggest_related_links.py`：基于标题和关键词重合度生成 related links 建议
 
 ### references/
 - `references/vault-profile-contract.md`：导入前需要哪些 profile 信息
 - `references/ingestion-checklist.md`：固定导入回路和验收清单
+- `references/source-coverage-rules.md`：如何用 chunk-level coverage map 防止半读半写
 - `references/ingest-iteration-loop.md`：如何把 ingest 当作稳定基线和候选结构的迭代回路
 - `references/ingest-evaluation-rubric.md`：如何判断候选结构是否值得晋升
 - `references/chunking-strategy.md`：如何决定 chapter / section / topic 的拆分粒度

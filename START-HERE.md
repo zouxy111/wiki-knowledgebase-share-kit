@@ -28,7 +28,17 @@
 
 ## 第一步：安装 8 个 skill
 
-如果你已经在使用 Codex / Claude Code 或其他支持 `SKILL.md` 的平台，直接把这 8 个目录复制到平台的 `skills/` 目录：
+优先推荐用仓库自带脚本，而不是手工一个个复制目录：
+
+```bash
+# 安装到 Codex
+python3 scripts/install_skills.py --platform codex --force
+
+# 安装到 Claude Code
+python3 scripts/install_skills.py --platform claude --force
+```
+
+如果你需要手工安装，再把这 8 个目录复制到平台的 `skills/` 目录：
 
 ```bash
 # Codex 示例
@@ -53,6 +63,11 @@ cp -r skills/work-journal ~/.claude/skills/
 ```
 
 验证安装时，确认平台已经能看到这 8 个 skill。
+
+安装后一定要：
+- 重开当前会话或重启 runtime
+- 再检查 available skills
+- 如果仍报 `Skill not found`，看 `docs/skill-installation-troubleshooting.md`
 
 > 如果你还没有任何 skill-compatible AI 平台，请先安装你自己的平台，再回到这里；本仓库不绑定单一平台。
 
@@ -124,7 +139,9 @@ I want to understand the profile first, then know which of the 8 skills I should
 ### 导入长文档 / 书籍
 ```text
 Use $knowledge-base-ingest to import this long Markdown source into my knowledge base.
-Read my vault profile first and treat the first import as a testable baseline rather than the final structure.
+Read my vault profile first.
+For large sources, do not read the whole file in one pass. First generate bounded chunks plus manifest.json and coverage-map.md, then process every chunk, and do not call the import complete until coverage verification passes.
+Treat the first import as a testable baseline rather than the final structure.
 ```
 
 ### 沉淀任务结果

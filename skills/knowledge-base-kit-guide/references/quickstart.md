@@ -15,6 +15,9 @@
    - `skills/knowledge-base-team-coordination`（团队协调）
    - `skills/knowledge-base-working-profile`（协作画像）
    - `skills/work-journal`（工作记录）
+   - 推荐直接运行：`python3 scripts/install_skills.py --platform codex --force`
+   - 或：`python3 scripts/install_skills.py --platform claude --force`
+   - 安装后记得重开会话，否则 runtime 可能继续显示旧的 available skills
 6. 第一次落地时：
    - 如果完全新手：先用 `knowledge-base-orchestrator` 一键完成环境配置
    - 如果想手动：先用 maintenance 沉淀一个小结果，再用 audit 看结构是否健康
