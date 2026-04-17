@@ -1,0 +1,62 @@
+name: Feature request
+description: Suggest an improvement to docs, templates, workflows, or skills.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement. Please focus on reuse, clarity, maintainability, or workflow quality.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Requested area
+      options:
+        - README / docs
+        - Template files
+        - Skill metadata
+        - Helper scripts
+        - Onboarding / Orchestrator
+        - Ingest
+        - Maintenance
+        - Audit
+        - Working profile
+        - Team coordination
+        - Work journal
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the current limitation, pain point, or gap.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the feature or improvement you want.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any workarounds or alternative approaches you have considered.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Expected impact
+      description: Explain how this would improve reuse, onboarding, governance, or workflow quality.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked existing issues and pull requests for similar requests.
+          required: true
+        - label: This request does not depend on storing secrets or unsafe personal data.
+          required: true
