@@ -120,7 +120,7 @@ close-reading mode 的目标是：
 执行时：
 - 先运行 `scripts/close_read_markdown.py`
 - 按 batch packet 逐轮精读
-- 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
+- 每轮把抽取结果写入 `batch-notes/<batch-key>.json`
 - 反复重跑脚本以刷新 rolling state
 - 如果 source 改了，优先利用 chunk hash / batch hash 只重跑 changed batches
 - 需要汇总时运行：

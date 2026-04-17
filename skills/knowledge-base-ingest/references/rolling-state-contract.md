@@ -36,12 +36,14 @@ It should only carry enough context to help the next batch stay coherent:
 - candidate topics worth promoting
 - unresolved questions worth watching
 
-## `batch-notes/<batch-id>.json`
+## `batch-notes/<batch-key>.json`
 Each completed batch note should use this shape:
 
 ```json
 {
   "batch_id": "batch-001",
+  "batch_key": "chapter-a-b01",
+  "batch_hash": "content-hash-for-this-batch",
   "status": "completed",
   "summary": "2-5 sentence batch summary",
   "key_claims": ["stable claim"],

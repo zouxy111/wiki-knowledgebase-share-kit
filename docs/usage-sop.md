@@ -139,7 +139,7 @@
 1. 先运行 `scripts/close_read_markdown.py`
 2. 生成 `chunks/`、`batch-plan.json`、`reading-state.json`
 3. 逐 batch 精读 `batch-packets/*.md`
-4. 每轮把抽取结果写入 `batch-notes/<batch-id>.json`
+4. 每轮把抽取结果写入 `batch-notes/<batch-key>.json`
 5. 只要 source 有局部变更，就优先只重跑 changed batches
 6. 重跑 harness，让后续 packet 读取最新 rolling state
 7. 运行 `scripts/synthesize_knowledge.py`
