@@ -148,3 +148,14 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
             in link_map["pages"]["knowledge-giant-guide-chapter-a.md"]["links"]
         )
         assert report["candidate_metadata"]["default_area"] == "learning"
+
+        # Re-run synthesis with Gamma removed and ensure stale candidate pages are cleaned up.
+        note2["status"] = "pending"
+        note2["summary"] = ""
+        note2["concepts"] = []
+        note2["candidate_topics"] = []
+        (run_dir / "batch-notes" / "giant-guide-chapter-b-b01.json").write_text(
+            json.dumps(note2, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        build_synthesis(run_dir, out_dir, default_area="learning")
+        assert not (out_dir / "candidate-pages" / "knowledge-gamma.md").exists()

@@ -155,3 +155,20 @@ def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
         ).read_text(encoding="utf-8")
         assert "The first batch defines Alpha as the core concept." in second_packet
         assert "Alpha (x1)" in second_packet
+
+        original = source.read_text(encoding="utf-8")
+        start = original.index("## Chapter 2")
+        source.write_text(original[:start], encoding="utf-8")
+        state_after_remove = prepare_run(
+            source=source,
+            out_dir=out,
+            level=2,
+            max_chunk_words=80,
+            max_batch_words=60,
+            max_chunks_per_batch=2,
+            prefix="book-",
+        )
+        assert state_after_remove["removed_batches"] == [
+            "sample-handbook-chapter-2-b01"
+        ]
+        assert not (out / "batch-packets" / "sample-handbook-chapter-2-b01.md").exists()

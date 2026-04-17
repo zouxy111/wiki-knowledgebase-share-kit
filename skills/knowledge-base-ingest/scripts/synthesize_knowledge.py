@@ -194,6 +194,8 @@ def build_synthesis(
     generated_at = now_iso()
     candidate_pages_dir = out_dir / "candidate-pages"
     candidate_pages_dir.mkdir(parents=True, exist_ok=True)
+    for stale_page in candidate_pages_dir.glob("*.md"):
+        stale_page.unlink()
 
     overview_candidate = candidate_pages_dir / f"overview-{source_slug}.md"
     chapter_candidates = {

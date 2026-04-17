@@ -501,6 +501,9 @@ def prepare_run(
                 existing_note, stale_notes_dir, f"removed-{now_iso().replace(':', '-')}"
             )
             removed_batches.append(existing_note.stem)
+    for existing_packet in sorted(batch_packets_dir.glob("*.md")):
+        if existing_packet.stem not in active_batch_keys:
+            existing_packet.unlink()
 
     notes_by_batch: dict[str, CompletedNote] = {}
     changed_batches = 0
