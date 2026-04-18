@@ -9,8 +9,11 @@ set -e
 log_warn() { echo "⚠️  $1"; }
 log_info() { echo "ℹ️  $1"; }
 
-echo "正在安装 Obsidian（黑曜石笔记软件）..."
-echo "Installing Obsidian..."
+echo "=========================================="
+echo "📦 正在安装 Obsidian（黑曜石笔记软件）"
+echo "   此脚本将下载并安装 Obsidian 到您的系统"
+echo "   This script will download and install Obsidian"
+echo "=========================================="
 
 # 检测操作系统 (Detect OS)
 OS="$(uname -s)"
