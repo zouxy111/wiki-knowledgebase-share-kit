@@ -80,42 +80,6 @@ jobs:
                       try:
                           resolved.relative_to(root.resolve())
                       except ValueError:
-                          pass
-                      if not resolved.exists():
-                          missing.append((str(file), target, line_idx + 1))
-          if missing:
-              for file, target, line_num in missing:
-                  print(f'Missing link target: {file}:{line_num} -> {target}')
-              raise SystemExit(1)
-          print('Relative link validation passed.')
-          PY
-
-      - name: Run Black (format check)
-        run: |
-          black --check skills/
-
-      - name: Run Flake8 (linting)
-        run: |
-          flake8 --max-line-length=120 --ignore=E501,W503 skills/
-
-      - name: Check script executability
-        run: |
-          find skills/ tests/ -type f -name "*.sh" | while read -r script; do
-            if [ ! -x "$script" ]; then
-              echo "Error: $script lacks execute permission"
-              exit 1
-            fi
-          done
-          echo "Script executability check passed."
-
-      - name: Run tests
-        run: |
-          if [ -d "tests" ]; then
-            pip install pytest
-            pytest tests/ -v
-          else
-            echo "No tests directory found. Consider adding tests/ for Python script validation."
-          finame: Validate repository
 
 on:
   push:
@@ -209,11 +173,21 @@ jobs:
 
       - name: Run Black (format check)
         run: |
-          black --check skills/ || echo "::warning::Python files are not properly formatted. Run 'black skills/' to fix."
+          black --check skills/
 
       - name: Run Flake8 (linting)
         run: |
-          flake8 --max-line-length=120 --ignore=E501,W503 skills/ || echo "::warning::Linting issues found. See output for details."
+          flake8 --max-line-length=120 --ignore=E501,W503 skills/
+
+      - name: Check script executability
+        run: |
+          find skills/ tests/ -type f -name "*.sh" | while read -r script; do
+            if [ ! -x "$script" ]; then
+              echo "Error: $script lacks execute permission"
+              exit 1
+            fi
+          done
+          echo "Script executability check passed."
 
       - name: Run tests
         run: |
