@@ -132,6 +132,7 @@ def prepare_chunks(
     chunks_dir: Path,
     level: int,
     max_chunk_words: int,
+    max_chunk_lines: int,
     prefix: str,
     force_resplit: bool,
 ) -> tuple[list[dict], int, str, str]:
@@ -161,7 +162,13 @@ def prepare_chunks(
 
     effective_level = choose_level(headings, level)
     chunks = split_range(
-        lines, headings, effective_level, 0, len(lines), max_chunk_words
+        lines,
+        headings,
+        effective_level,
+        0,
+        len(lines),
+        max_chunk_words,
+        max_chunk_lines,
     )
 
     preamble_start = headings[0].line_index
@@ -477,6 +484,7 @@ def prepare_run(
     max_batch_words: int,
     max_chunks_per_batch: int,
     prefix: str,
+    max_chunk_lines: int = 400,
     force_resplit: bool = False,
 ) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -489,7 +497,13 @@ def prepare_run(
     stale_notes_dir.mkdir(exist_ok=True)
 
     manifest, effective_level, source_title, source_hash = prepare_chunks(
-        source, chunks_dir, level, max_chunk_words, prefix, force_resplit
+        source,
+        chunks_dir,
+        level,
+        max_chunk_words,
+        max_chunk_lines,
+        prefix,
+        force_resplit,
     )
     batches = plan_batches(manifest, max_batch_words, max_chunks_per_batch)
 
@@ -578,6 +592,7 @@ def prepare_run(
         "generated_at": now_iso(),
         "effective_split_level": effective_level,
         "max_chunk_words": max_chunk_words,
+        "max_chunk_lines": max_chunk_lines,
         "max_batch_words": max_batch_words,
         "max_chunks_per_batch": max_chunks_per_batch,
         "batches": batch_rows,
@@ -651,6 +666,12 @@ def main() -> int:
         help="Maximum words per chunk before recursive re-splitting (default: 1800)",
     )
     parser.add_argument(
+        "--max-chunk-lines",
+        type=int,
+        default=400,
+        help="Hard line cap per chunk before fixed-window fallback (default: 400)",
+    )
+    parser.add_argument(
         "--max-batch-words",
         type=int,
         default=4800,
@@ -677,6 +698,7 @@ def main() -> int:
         out_dir=Path(args.out),
         level=args.level,
         max_chunk_words=args.max_chunk_words,
+        max_chunk_lines=args.max_chunk_lines,
         max_batch_words=args.max_batch_words,
         max_chunks_per_batch=args.max_chunks_per_batch,
         prefix=args.prefix,

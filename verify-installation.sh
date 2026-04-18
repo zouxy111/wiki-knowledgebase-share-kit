@@ -181,7 +181,11 @@ for skill_name in "${SKILLS[@]}"; do
     if [ -d "$skill_dir" ]; then
         # 检查是否真的是本项目的 skill（通过检查 SKILL.md 内容特征）
         if [ -f "${skill_dir}/SKILL.md" ]; then
-            if ! grep -q "wiki-knowledgebase-share-kit\|knowledge-base" "${skill_dir}/SKILL.md" 2>/dev/null; then
+            if ! grep -Eq "^name:[[:space:]]*${skill_name}[[:space:]]*$" "${skill_dir}/SKILL.md" 2>/dev/null; then
+                conflicts+=("$skill_name")
+                continue
+            fi
+            if [ "$skill_name" != "work-journal" ] && ! grep -q "wiki-knowledgebase-share-kit\|knowledge-base" "${skill_dir}/SKILL.md" 2>/dev/null; then
                 conflicts+=("$skill_name")
             fi
         fi
