@@ -358,7 +358,7 @@ A: It should not. The intended use is to keep collaboration-relevant stable sign
 ## Need help?
 
 - [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
-- Developers: 邹星宇, 杨琦
+- Developers: 邹星宇, 杨琦, 张陈祎
 
 ---
 

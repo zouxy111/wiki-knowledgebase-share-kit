@@ -380,7 +380,7 @@ A：不应该。正确做法是只保留协作相关的稳定信号，并明确 
 ## 需要帮助？
 
 - [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
-- 开发者：邹星宇、杨琦
+- 开发者：邹星宇、杨琦、张陈祎
 
 ---
 
