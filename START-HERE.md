@@ -28,7 +28,27 @@
 
 ## 第一步：安装 8 个 skill
 
-优先推荐用仓库自带脚本，而不是手工一个个复制目录：
+### 推荐方式：一键安装脚本（自动检测平台）
+
+```bash
+# 自动检测 Kimi CLI / Claude Code / Codex / 通用 agents 平台
+bash install.sh
+
+# 预览安装内容（不实际执行）
+bash install.sh --dry-run
+
+# 安装到指定目录
+bash install.sh ~/.kimi/skills
+
+# 安装并备份已存在的同名 skill
+bash install.sh --backup
+```
+
+> **符号链接提示**：如果你的 `~/.claude/skills` 是指向 `~/.agents/skills` 的符号链接，脚本会自动识别并只安装一次，不会重复复制。
+
+### 进阶方式：显式指定平台 / 便于脚本化集成
+
+如果你希望明确指定运行平台，或在 CI / 自动化里安装，可以继续使用仓库自带的 Python 安装器：
 
 ```bash
 # 安装到 Codex
@@ -38,20 +58,12 @@ python3 scripts/install_skills.py --platform codex --force
 python3 scripts/install_skills.py --platform claude --force
 ```
 
-如果你需要手工安装，再把这 8 个目录复制到平台的 `skills/` 目录：
+### 手动安装（备选）
+
+如果你更喜欢手动控制，也可以逐个复制：
 
 ```bash
-# Codex 示例
-cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
-cp -r skills/knowledge-base-ingest ~/.codex/skills/
-cp -r skills/knowledge-base-maintenance ~/.codex/skills/
-cp -r skills/knowledge-base-audit ~/.codex/skills/
-cp -r skills/knowledge-base-orchestrator ~/.codex/skills/
-cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
-cp -r skills/knowledge-base-working-profile ~/.codex/skills/
-cp -r skills/work-journal ~/.codex/skills/
-
-# Claude Code 示例
+# Claude Code 示例（同时会被 Kimi CLI 识别，如果 ~/.claude/skills → ~/.agents/skills）
 cp -r skills/knowledge-base-kit-guide ~/.claude/skills/
 cp -r skills/knowledge-base-ingest ~/.claude/skills/
 cp -r skills/knowledge-base-maintenance ~/.claude/skills/
@@ -60,9 +72,23 @@ cp -r skills/knowledge-base-orchestrator ~/.claude/skills/
 cp -r skills/knowledge-base-team-coordination ~/.claude/skills/
 cp -r skills/knowledge-base-working-profile ~/.claude/skills/
 cp -r skills/work-journal ~/.claude/skills/
+
+# Kimi CLI 示例（如果 ~/.kimi/skills 是独立目录）
+cp -r skills/knowledge-base-kit-guide ~/.kimi/skills/
+cp -r skills/knowledge-base-ingest ~/.kimi/skills/
+cp -r skills/knowledge-base-maintenance ~/.kimi/skills/
+cp -r skills/knowledge-base-audit ~/.kimi/skills/
+cp -r skills/knowledge-base-orchestrator ~/.kimi/skills/
+cp -r skills/knowledge-base-team-coordination ~/.kimi/skills/
+cp -r skills/knowledge-base-working-profile ~/.kimi/skills/
+cp -r skills/work-journal ~/.kimi/skills/
 ```
 
-验证安装时，确认平台已经能看到这 8 个 skill。
+### 验证安装
+
+```bash
+bash verify-installation.sh
+```
 
 安装后一定要：
 - 重开当前会话或重启 runtime

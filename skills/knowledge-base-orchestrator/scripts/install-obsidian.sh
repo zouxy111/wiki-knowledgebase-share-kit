@@ -43,8 +43,13 @@ case "${OS}" in
         echo "检测到系统：Linux"
         echo ""
 
-        # 下载 AppImage (Download AppImage)
-        OBSIDIAN_VERSION="1.5.3"
+        # 获取最新版本 (Get latest version)
+        echo "正在获取最新版本信息..."
+        OBSIDIAN_VERSION=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep -oP '"tag_name": "v\K[^"]+' || echo "")
+        if [ -z "$OBSIDIAN_VERSION" ]; then
+            log_warn "无法获取最新版本，使用 fallback 版本 1.8.10"
+            OBSIDIAN_VERSION="1.8.10"
+        fi
         DOWNLOAD_URL="https://github.com/obsidianmd/obsidian-releases/releases/download/v${OBSIDIAN_VERSION}/Obsidian-${OBSIDIAN_VERSION}.AppImage"
 
         echo "正在下载 Obsidian ${OBSIDIAN_VERSION}..."
