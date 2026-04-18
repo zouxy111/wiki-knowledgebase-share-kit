@@ -30,10 +30,33 @@ I want to understand the profile first, then know which of the 8 skills I should
 ```text
 Use $knowledge-base-ingest to import this long Markdown document into my knowledge base.
 Read my vault profile first.
+For large sources, do not rely on a single direct read. First run bounded splitting to produce chunk files, manifest.json, and coverage-map.md; then process every chunk and keep the import in draft/partial state until coverage verification passes.
 Create a minimal workable overview/chapter/topic structure with source lineage, toc, glossary candidates, and related-link suggestions.
 Treat the first import as a testable baseline rather than the final structure.
 Use a lightweight harness mindset: keep versioned structure outputs, compare split strategies across iterations, refine page roles, improve link architecture, and run regression-style checks on navigation, lineage, and entry pages after each iteration.
 Sync the stabilized structure back to the required entry pages.
+```
+
+## 3B. 对超大文本启用分块精读
+
+```text
+Use $knowledge-base-ingest to import this oversized Markdown source into my knowledge base.
+Read my vault profile first.
+Do not treat this as a one-pass import. Switch into close-reading mode:
+split the source into chunks, create batch packets, maintain a rolling reading state, extract one JSON note per batch, and only then synthesize chapter summaries, topic candidates, glossary seeds, and overview pages.
+Keep the run resumable so the next iteration can continue from completed batches instead of rereading the whole source.
+If the source changes later, rerun only the changed batches and generate candidate pages plus a candidate link map for final landing.
+Write draft frontmatter into candidate pages so they are closer to real vault pages instead of plain notes.
+```
+
+```text
+用 $knowledge-base-ingest 处理这份超大 Markdown 源材料并导入我的知识库。
+先读 vault profile。
+不要把这次当成一次性导入；请切到 close-reading mode：
+先拆 chunk，再生成 batch packets，维护 rolling reading state，每个 batch 输出一份 JSON 精读笔记，最后再汇总 chapter summaries、topic candidates、glossary seeds 和 overview 页。
+整个 run 必须支持断点续跑，下一轮不要从头重读整份材料。
+如果后续 source 有修改，也要尽量只重跑 changed batches，并输出 candidate pages 和 candidate link map，方便最后落页。
+candidate pages 还要带 draft frontmatter，这样它们更接近真正可落进 vault 的页面，而不是普通笔记草稿。
 ```
 
 ## 4. 我已经有 profile，想沉淀一轮任务结果

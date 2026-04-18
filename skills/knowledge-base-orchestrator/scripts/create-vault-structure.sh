@@ -5,6 +5,11 @@
 
 set -e
 
+# 日志函数
+log_info()  { echo "ℹ️  $1"; }
+log_warn()  { echo "⚠️  $1"; }
+log_ok()    { echo "✅ $1"; }
+
 # 获取 vault 路径 (Get vault path)
 if [ -z "$1" ]; then
     echo "请提供 vault 路径（vault path）"
@@ -194,7 +199,16 @@ EOF
 
 echo "✅ 创建维护规则（governance rules）: pages/governance.md"
 
-perl -0pi -e "s/__TODAY__/${TODAY}/g" "${VAULT_PATH}/index.md" "${VAULT_PATH}/pages/governance.md"
+# 替换占位符（兼容无 perl 环境）
+for file in "${VAULT_PATH}/index.md" "${VAULT_PATH}/pages/governance.md"; do
+    if command -v perl &> /dev/null; then
+        perl -0pi -e "s/__TODAY__/${TODAY}/g" "$file"
+    elif command -v sed &> /dev/null; then
+        sed -i.bak "s/__TODAY__/${TODAY}/g" "$file" && rm -f "${file}.bak"
+    else
+        log_warn "未检测到 perl 或 sed，请手动将 ${file} 中的 __TODAY__ 替换为 ${TODAY}"
+    fi
+done
 
 # 创建默认导航页 (Create default navigation pages)
 for area in learning work projects; do

@@ -5,6 +5,10 @@
 
 set -e
 
+# 日志函数
+log_warn() { echo "⚠️  $1"; }
+log_info() { echo "ℹ️  $1"; }
+
 echo "正在安装 Obsidian（黑曜石笔记软件）..."
 echo "Installing Obsidian..."
 
@@ -43,8 +47,13 @@ case "${OS}" in
         echo "检测到系统：Linux"
         echo ""
 
-        # 下载 AppImage (Download AppImage)
-        OBSIDIAN_VERSION="1.5.3"
+        # 获取最新版本 (Get latest version)
+        echo "正在获取最新版本信息..."
+        OBSIDIAN_VERSION=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tag_name','').lstrip('v'))" 2>/dev/null || echo "")
+        if [ -z "$OBSIDIAN_VERSION" ]; then
+            log_warn "无法获取最新版本，使用 fallback 版本 1.8.10"
+            OBSIDIAN_VERSION="1.8.10"
+        fi
         DOWNLOAD_URL="https://github.com/obsidianmd/obsidian-releases/releases/download/v${OBSIDIAN_VERSION}/Obsidian-${OBSIDIAN_VERSION}.AppImage"
 
         echo "正在下载 Obsidian ${OBSIDIAN_VERSION}..."
@@ -53,13 +62,23 @@ case "${OS}" in
         # 添加执行权限 (Add execute permission)
         chmod +x /tmp/Obsidian.AppImage
 
-        # 移动到系统目录 (Move to system directory)
-        echo "正在安装到系统目录..."
-        sudo mv /tmp/Obsidian.AppImage /usr/local/bin/obsidian
+        # 安装到用户目录或系统目录 (Install to user or system directory)
+        INSTALL_DIR="${HOME}/.local/bin"
+        if [ -d "$INSTALL_DIR" ]; then
+            echo "正在安装到用户目录: ${INSTALL_DIR}"
+            mv /tmp/Obsidian.AppImage "${INSTALL_DIR}/obsidian"
+        else
+            echo "正在安装到系统目录: /usr/local/bin"
+            sudo mv /tmp/Obsidian.AppImage /usr/local/bin/obsidian
+        fi
 
         echo ""
         echo "✅ Obsidian 安装完成！"
-        echo "路径（path）: /usr/local/bin/obsidian"
+        if [ -d "$INSTALL_DIR" ]; then
+            echo "路径（path）: ${INSTALL_DIR}/obsidian"
+        else
+            echo "路径（path）: /usr/local/bin/obsidian"
+        fi
         echo ""
         echo "运行命令（run command）: obsidian"
         ;;

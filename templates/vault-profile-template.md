@@ -45,6 +45,8 @@
 - `task` — 任务清单、待办事项
 - `overview` — 总览页、索引页
 
+> ⚠️ **关于 `journal` 角色**：[`work-journal`](../skills/work-journal/) 是**独立工作流**，`journal` 角色仅用于 `journals/` 目录下的工作记录，**不属于 vault 核心 5 种 page-role**。详见 [`journal-profile-template.md`](./journal-profile-template.md)。
+
 💡 **不理解这 5 种角色？** 先看 [`GLOSSARY.md`](../GLOSSARY.md)
 
 ---

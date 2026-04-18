@@ -52,6 +52,21 @@ description: This skill should be used when the user asks how to install or conf
 - area list
 - canonical root-level markdown files
 - frontmatter contract
+- 当前 runtime 真正扫描的 skills 目录
+- 安装后当前会话是否已经刷新 skill 列表
+
+如果用户说：
+- repo 里明明有 skill
+- 但运行时提示 `Skill not found`
+
+要优先帮助用户区分：
+- **仓库里的 `skills/`**
+- **运行时真正扫描的 skills 目录**
+
+并明确提醒：
+- 安装后通常需要重开会话或重启 runtime
+- 可以优先使用 `scripts/install_skills.py`
+- 如仍失败，查看 `../../docs/skill-installation-troubleshooting.md`
 
 ### 5. Keep the response narrow
 回答时优先给出：

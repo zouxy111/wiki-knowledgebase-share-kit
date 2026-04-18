@@ -65,7 +65,7 @@ Step 5: 执行四同步
     ↓
 Step 6: 在 journal 页更新沉淀状态
     ↓
-Step 7: 更新 WIKI-INDEX.md
+Step 7: 更新 index.md（reader entrypoint）
     ↓
 Step 8: 追加 milestone log
 ```
@@ -139,7 +139,7 @@ Step 8: 追加 milestone log
 ### 更新文件
 - pages/新增 X 页
 - pages/更新 Y 页
-- WIKI-INDEX.md
+- index.md（reader entrypoint）
 - milestone log
 ```
 

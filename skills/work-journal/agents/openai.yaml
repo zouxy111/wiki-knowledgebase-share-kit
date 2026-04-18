@@ -1,6 +1,6 @@
 interface:
   display_name: "工作记录与总结"
   short_description: "每日工作记录、会议纪要、临时想法记录，自动关联项目与人名"
-  default_prompt: "Use $work-journal to record today's work. Include meeting notes, temporary ideas, and project progress. Automatically link to people table and project knowledge pages."
+  default_prompt: "Use $work-journal to record today's work. Read the vault profile first if available. Include meeting notes, temporary ideas, and project progress. Respect the fixed page-role model: journal entries stay in the journal workflow and should not become permanent knowledge pages without distillation. Separate confirmed facts from inferred items. Automatically link to people table and project knowledge pages. Do not store sensitive personal data."
 policy:
   allow_implicit_invocation: true

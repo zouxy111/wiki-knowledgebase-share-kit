@@ -70,7 +70,78 @@ def choose_level(headings: List[Heading], requested: int) -> int:
 
 
 def count_words(lines: List[str]) -> int:
-    return len(re.findall(r"\b\w+\b", "".join(lines)))
+    text = "".join(lines)
+    # Count Latin-alphabet / number tokens as words.
+    en_words = len(re.findall(r"[A-Za-z0-9_]+", text))
+    # Count CJK characters individually so mixed Chinese/English sources do not
+    # massively undercount chunk size.
+    cjk_chars = len(re.findall(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", text))
+    return en_words + cjk_chars
+
+
+def make_chunk(
+    title: str,
+    level: int,
+    lines: List[str],
+    start_line: int,
+    end_line: int,
+    breadcrumb: List[str],
+) -> Chunk:
+    return Chunk(
+        title=title,
+        level=level,
+        slug=slugify(title),
+        lines=lines,
+        start_line=start_line,
+        end_line=end_line,
+        word_count=count_words(lines),
+        breadcrumb=breadcrumb,
+    )
+
+
+def window_split_chunks(
+    lines: List[str],
+    start: int,
+    end: int,
+    *,
+    base_title: str,
+    level: int,
+    breadcrumb: List[str],
+    max_lines: int,
+) -> List[Chunk]:
+    total_lines = end - start
+    if total_lines <= 0:
+        return []
+    if not max_lines or total_lines <= max_lines:
+        return [
+            make_chunk(
+                title=base_title,
+                level=level,
+                lines=lines[start:end],
+                start_line=start + 1,
+                end_line=end,
+                breadcrumb=breadcrumb,
+            )
+        ]
+
+    chunks: List[Chunk] = []
+    part_number = 1
+    for window_start in range(start, end, max_lines):
+        window_end = min(window_start + max_lines, end)
+        window_title = f"{base_title} (Part {part_number})"
+        window_breadcrumb = breadcrumb + [f"Part {part_number}"]
+        chunks.append(
+            make_chunk(
+                title=window_title,
+                level=level,
+                lines=lines[window_start:window_end],
+                start_line=window_start + 1,
+                end_line=window_end,
+                breadcrumb=window_breadcrumb,
+            )
+        )
+        part_number += 1
+    return chunks
 
 
 def split_range(
@@ -80,23 +151,19 @@ def split_range(
     start: int,
     end: int,
     max_words: int,
+    max_lines: int,
 ) -> List[Chunk]:
     scoped = [h for h in headings if start <= h.line_index < end and h.level == level]
     if not scoped:
-        title = f"part-{start + 1}"
-        chunk_lines = lines[start:end]
-        return [
-            Chunk(
-                title,
-                level,
-                slugify(title),
-                chunk_lines,
-                start + 1,
-                end,
-                count_words(chunk_lines),
-                [title],
-            )
-        ]
+        return window_split_chunks(
+            lines,
+            start,
+            end,
+            base_title=f"part-{start + 1}",
+            level=level,
+            breadcrumb=[f"part-{start + 1}"],
+            max_lines=max_lines,
+        )
 
     chunks: List[Chunk] = []
     for i, heading in enumerate(scoped):
@@ -114,29 +181,57 @@ def split_range(
             section_end = min(next_shallower) if next_shallower else end
         chunk_lines = lines[section_start:section_end]
         word_count = count_words(chunk_lines)
+        line_count = section_end - section_start
 
         deeper = [
             h
             for h in headings
             if section_start < h.line_index < section_end and h.level == level + 1
         ]
-        if max_words and word_count > max_words and deeper and level < 6:
+        if (
+            (
+                (max_words and word_count > max_words)
+                or (max_lines and line_count > max_lines)
+            )
+            and deeper
+            and level < 6
+        ):
             chunks.extend(
                 split_range(
-                    lines, headings, level + 1, section_start, section_end, max_words
+                    lines,
+                    headings,
+                    level + 1,
+                    section_start,
+                    section_end,
+                    max_words,
+                    max_lines,
+                )
+            )
+            continue
+
+        if (max_words and word_count > max_words) or (
+            max_lines and line_count > max_lines
+        ):
+            chunks.extend(
+                window_split_chunks(
+                    lines,
+                    section_start,
+                    section_end,
+                    base_title=heading.title,
+                    level=heading.level,
+                    breadcrumb=heading.breadcrumb,
+                    max_lines=max_lines,
                 )
             )
             continue
 
         chunks.append(
-            Chunk(
+            make_chunk(
                 title=heading.title,
                 level=heading.level,
-                slug=slugify(heading.title),
                 lines=chunk_lines,
                 start_line=section_start + 1,
                 end_line=section_end,
-                word_count=word_count,
                 breadcrumb=heading.breadcrumb,
             )
         )
@@ -152,6 +247,46 @@ def unique_filename(output_dir: Path, idx: int, prefix: str, slug: str) -> str:
     return candidate
 
 
+def make_manifest_entry(
+    *,
+    index: int,
+    filename: str,
+    title: str,
+    level: int,
+    breadcrumb: list[str],
+    start_line: int,
+    end_line: int,
+    word_count: int,
+) -> dict:
+    return {
+        "index": index,
+        "file": filename,
+        "title": title,
+        "level": level,
+        "breadcrumb": breadcrumb,
+        "start_line": start_line,
+        "end_line": end_line,
+        "word_count": word_count,
+    }
+
+
+def write_preamble(lines: List[str], output_dir: Path) -> dict | None:
+    if not "".join(lines).strip():
+        return None
+    filename = "000-preamble.md"
+    (output_dir / filename).write_text("".join(lines), encoding="utf-8")
+    return make_manifest_entry(
+        index=0,
+        filename=filename,
+        title="Preamble",
+        level=0,
+        breadcrumb=["Preamble"],
+        start_line=1,
+        end_line=len(lines),
+        word_count=count_words(lines),
+    )
+
+
 def write_chunks(chunks: List[Chunk], output_dir: Path, prefix: str) -> list[dict]:
     manifest = []
     for idx, chunk in enumerate(chunks, start=1):
@@ -159,16 +294,16 @@ def write_chunks(chunks: List[Chunk], output_dir: Path, prefix: str) -> list[dic
         path = output_dir / filename
         path.write_text("".join(chunk.lines), encoding="utf-8")
         manifest.append(
-            {
-                "index": idx,
-                "file": filename,
-                "title": chunk.title,
-                "level": chunk.level,
-                "breadcrumb": chunk.breadcrumb,
-                "start_line": chunk.start_line,
-                "end_line": chunk.end_line,
-                "word_count": chunk.word_count,
-            }
+            make_manifest_entry(
+                index=idx,
+                filename=filename,
+                title=chunk.title,
+                level=chunk.level,
+                breadcrumb=chunk.breadcrumb,
+                start_line=chunk.start_line,
+                end_line=chunk.end_line,
+                word_count=chunk.word_count,
+            )
         )
     return manifest
 
@@ -181,9 +316,30 @@ def write_toc(manifest: list[dict], output_dir: Path) -> None:
     (output_dir / "toc.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def write_coverage_map(manifest: list[dict], output_dir: Path) -> None:
+    lines = [
+        "# Source Coverage Map",
+        "",
+        "> Completion rule: every manifest row must be assigned a final status before the import can be called complete.",
+        "> Final statuses: `covered`, `merged`, `index-only`, `intentionally-omitted`.",
+        "> Incomplete statuses: `unread`, `blocked`.",
+        "",
+        "| index | file | title | lines | words | status | target pages | notes |",
+        "|---|---|---|---|---:|---|---|---|",
+    ]
+    for item in manifest:
+        line_span = f"{item['start_line']}-{item['end_line']}"
+        lines.append(
+            f"| {item['index']:03d} | {item['file']} | {item['title']} | {line_span} | {item['word_count']} | unread |  |  |"
+        )
+    (output_dir / "coverage-map.md").write_text(
+        "\n".join(lines) + "\n", encoding="utf-8"
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Split a long markdown file into heading-based chunks."
+        description="Split a long markdown file into bounded chunks so large sources can be read and validated incrementally."
     )
     parser.add_argument("source", help="Path to the source markdown file")
     parser.add_argument("--out", required=True, help="Output directory for chunk files")
@@ -200,6 +356,12 @@ def main() -> int:
         help="Recursively split oversized chunks at the next heading level (default: 1800)",
     )
     parser.add_argument(
+        "--max-lines",
+        type=int,
+        default=400,
+        help="Hard line cap per chunk. If no suitable deeper headings exist, the script falls back to fixed line windows (default: 400)",
+    )
+    parser.add_argument(
         "--prefix", default="", help="Optional filename prefix, e.g. book-"
     )
     args = parser.parse_args()
@@ -210,32 +372,54 @@ def main() -> int:
 
     lines = source.read_text(encoding="utf-8").splitlines(keepends=True)
     headings = find_headings(lines)
-    if not headings:
-        raise SystemExit("No markdown headings found; add headings or split manually.")
 
-    level = choose_level(headings, args.level)
-    chunks = split_range(lines, headings, level, 0, len(lines), args.max_words)
+    manifest: list[dict] = []
+    if headings:
+        level = choose_level(headings, args.level)
+        preamble_start = headings[0].line_index
+        if preamble_start > 0:
+            preamble_entry = write_preamble(lines[:preamble_start], output_dir)
+            if preamble_entry:
+                manifest.append(preamble_entry)
+        chunks = split_range(
+            lines,
+            headings,
+            level,
+            preamble_start if preamble_start > 0 else 0,
+            len(lines),
+            args.max_words,
+            args.max_lines,
+        )
+        used_heading_split = True
+    else:
+        level = 1
+        chunks = window_split_chunks(
+            lines,
+            0,
+            len(lines),
+            base_title="Source",
+            level=1,
+            breadcrumb=["Source"],
+            max_lines=args.max_lines,
+        )
+        used_heading_split = False
 
-    preamble_start = headings[0].line_index
-    if preamble_start > 0:
-        preamble = lines[:preamble_start]
-        if "".join(preamble).strip():
-            (output_dir / "000-preamble.md").write_text(
-                "".join(preamble), encoding="utf-8"
-            )
-
-    manifest = write_chunks(chunks, output_dir, args.prefix)
+    manifest.extend(write_chunks(chunks, output_dir, args.prefix))
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     write_toc(manifest, output_dir)
+    write_coverage_map(manifest, output_dir)
     print(
         json.dumps(
             {
                 "source": str(source),
                 "effective_level": level,
                 "chunks": len(chunks),
+                "manifest_entries": len(manifest),
+                "used_heading_split": used_heading_split,
                 "output_dir": str(output_dir),
+                "coverage_map": str(output_dir / "coverage-map.md"),
             },
             ensure_ascii=False,
         )

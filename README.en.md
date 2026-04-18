@@ -7,7 +7,7 @@
 [![Contributors](https://img.shields.io/github/contributors/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-> An **8-skill knowledge-base package** for markdown / wiki / Obsidian-style vaults.  
+> An **8-skill knowledge-base package** for markdown / wiki / Obsidian-style vaults.
 > The goal is not to record more logs, but to keep a vault **navigable, role-stable, maintainable, collaboration-friendly, and auditable**.
 
 <p align="center">
@@ -151,9 +151,14 @@ So this is better understood as **one method for high-knowledge-density collabor
 ### 1. Import long-form sources, books, guidelines, or plans
 Use `knowledge-base-ingest` to:
 - read the `vault profile`
-- split the source into overview / chapter / topic pages
+- first split the source into bounded chunks, then reorganize it into overview / chapter / topic pages
 - generate TOC, glossary candidates, and related-link suggestions
+- track every chunk through `manifest.json` + `coverage-map.md`
+- only treat the import as complete after `verify_ingest_coverage.py` passes
 - treat the first import as a **testable baseline** and improve it through iteration and regression checks
+- switch into **close-reading mode** for oversized sources so the AI can review batch packets with rolling context instead of attempting a shallow one-pass import
+- prefer changed-batches-only reruns after source edits, then generate candidate pages and a candidate link map for final landing
+- keep candidate pages closer to real vault pages by writing draft frontmatter and source metadata directly into them
 
 Typical examples:
 - medical books, guidelines, papers
@@ -239,8 +244,24 @@ Go directly to the relevant specialist skill:
 
 Start with the general rule:
 
-> The package is fundamentally a set of **8 `SKILL.md`-style skill bundles**.  
+> The package is fundamentally a set of **8 `SKILL.md`-style skill bundles**.
 > If your AI platform supports a similar skills directory structure, you can install it. Directory locations vary by platform.
+> **Important:** a runtime only reads its own skills directory. It does not automatically read the `skills/` folder inside this Git repository.
+
+Prefer the bundled installer script over copying folders one by one:
+
+```bash
+# Install into Codex
+python3 scripts/install_skills.py --platform codex --force
+
+# Install into Claude Code
+python3 scripts/install_skills.py --platform claude --force
+```
+
+After installing:
+1. re-open the current session or restart the runtime
+2. confirm the runtime now lists the expected skill names
+3. if it still says `Skill not found`, read [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)
 
 Common examples:
 
@@ -289,6 +310,9 @@ cat START-HERE.md
 
 # 3. Copy the template and prepare your profile
 cp templates/vault-profile-template.md ./my-vault-profile.md
+
+# 4. Install the 8 skills into your runtime directory
+python3 scripts/install_skills.py --platform codex --force
 ```
 
 Once your platform and skill directory are ready, install the 8 skill bundles.
@@ -297,19 +321,25 @@ Once your platform and skill directory are ready, install the 8 skill bundles.
 
 ## FAQ
 
-**Q: Can I use this without Obsidian?**  
+**Q: Can I use this without Obsidian?**
 A: Yes. If you have a markdown/wiki vault and a platform that supports the relevant skill structure, you can use it.
 
-**Q: Can I use it without full automation?**  
+**Q: Can I use it without full automation?**
 A: Yes. The docs, templates, and checklists are still usable manually; the skills mainly improve execution efficiency.
 
-**Q: My vault is already messy. Can I still adopt this?**  
+**Q: My vault is already messy. Can I still adopt this?**
 A: Yes. Start with an audit, then fix structure, repair navigation, and tighten page boundaries incrementally.
 
-**Q: Are enterprise and medical separate solutions?**  
+**Q: Why does the runtime say `Skill not found` even though `knowledge-base-ingest` exists in the repo?**
+A: Usually the repo is fine; the runtime's actual skills directory was not installed or reloaded. Run `python3 scripts/install_skills.py --platform <codex|claude> --force`, then re-open the session. See [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md).
+
+**Q: How do I prevent a huge source from being only half-read and still being reported as “fully imported”?**
+A: Do not feed the whole giant source directly to the model. First generate `manifest.json` and `coverage-map.md` with `split_markdown.py`, process the source chunk by chunk, then gate completion with `verify_ingest_coverage.py`. See [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md).
+
+**Q: Are enterprise and medical separate solutions?**
 A: No. They are two common variants of the same broader scenario: high-knowledge-density, multi-person, auditable collaboration.
 
-**Q: Will the working profile become a privacy dossier?**  
+**Q: Will the working profile become a privacy dossier?**
 A: It should not. The intended use is to keep collaboration-relevant stable signals while enforcing consent, visibility, and sensitive-data filtering boundaries.
 
 ---
@@ -328,7 +358,7 @@ A: It should not. The intended use is to keep collaboration-relevant stable sign
 ## Need help?
 
 - [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
-- Developers: 邹星宇, 杨琦
+- Developers: 邹星宇, 杨琦, 张陈祎
 
 ---
 
