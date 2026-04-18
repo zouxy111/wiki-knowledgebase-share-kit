@@ -156,6 +156,9 @@
 - 用 `manifest.json` + `coverage-map.md` 显式跟踪每个 chunk 是否已处理
 - 只有 `verify_ingest_coverage.py` 通过后，才把结果视为完整导入
 - 把第一版导入当成 **可测试基线**，通过迭代和回归继续优化结构
+- 遇到超大文本时切到 **close-reading mode**，按 batch 分块精读并维护 rolling state
+- source 后续变化时优先只重跑 changed batches，并生成 candidate pages / candidate link map
+- candidate pages 会尽量带 draft frontmatter，让它们更接近可落库的 wiki 草稿页
 
 适合：
 - 医学书籍 / 指南 / 文献整理

@@ -24,6 +24,7 @@
 - 先把 source 拆成 bounded chunks，再建立 parent-child / prev-next / related links
 - 用 `manifest.json` + `coverage-map.md` 防止只读前半部分就误判“已完整导入”
 - 把第一次导入当成可测试基线，并通过对比、回归、重构继续优化结构
+- 对超大源材料切到 close-reading mode，按 batch 分块精读并保留 rolling state
 
 ### `knowledge-base-maintenance`
 用于：
@@ -82,6 +83,18 @@
 
 也就是：**先落基线，再迭代，再审**。
 
+### 场景 C2：超大文本 / 整本书 / 需要分块精读
+1. 先用 `knowledge-base-ingest` 进入 close-reading mode
+2. 生成 chunk、batch packet 和 reading state
+3. 逐 batch 精读并写入 `batch-notes/*.json`
+4. source 变化后优先只重跑 changed batches
+5. 重跑 close-reading harness 刷新 rolling state
+6. 用 synthesis 汇总 chapter / topic / glossary 候选结果
+7. 生成 candidate pages、candidate link map 和 draft frontmatter
+8. 最后再把稳定结构写回知识库
+
+也就是：**先切块，再精读，再汇总，再落页**。
+
 ### 场景 D：任务完成后沉淀知识
 1. 先用 `knowledge-base-maintenance`
 2. 如果改动较大，再用 `knowledge-base-audit` 做复检
@@ -124,6 +137,18 @@
 9. 基于测试结果比较拆分方案、页面角色和维护成本
 10. 对入口页、来源链和关键导航做回归检查
 11. 汇报版本差异与最终稳定形态
+
+### 超大文本的 close-reading 回路
+
+1. 先运行 `scripts/close_read_markdown.py`
+2. 生成 `chunks/`、`batch-plan.json`、`reading-state.json`
+3. 逐 batch 精读 `batch-packets/*.md`
+4. 每轮把抽取结果写入 `batch-notes/<batch-key>.json`
+5. 只要 source 有局部变更，就优先只重跑 changed batches
+6. 重跑 harness，让后续 packet 读取最新 rolling state
+7. 运行 `scripts/synthesize_knowledge.py`
+8. 查看 candidate pages / candidate link map / frontmatter 是否合理
+9. 只把 overview / chapter / topic 的稳定候选结构写回知识库
 
 ---
 
