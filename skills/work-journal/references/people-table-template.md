@@ -24,14 +24,14 @@ area: "治理"
 ## 人名参与记录索引
 
 ### 张三
-- [2026-04-17](../../../templates/journal-profile-template.md) — 项目A启动会
-- [2026-04-15](../../../templates/journal-profile-template.md) — 项目B讨论
+- [2026-04-17](2026-04/2026-04-17.md) — 项目A启动会
+- [2026-04-15](2026-04/2026-04-15.md) — 项目B讨论
 
 ### 李四
-- [2026-04-17](../../../templates/journal-profile-template.md) — 项目A启动会
+- [2026-04-17](2026-04/2026-04-17.md) — 项目A启动会
 
 ### 王五
-- [2026-04-17](../../../templates/journal-profile-template.md) — ISO15189流程讨论
+- [2026-04-17](2026-04/2026-04-17.md) — ISO15189流程讨论
 
 ---
 
