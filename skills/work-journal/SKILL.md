@@ -221,7 +221,7 @@ sources: ["录音路径"]  # 可选
    - 项目结论 → project 页
 4. 创建/更新知识页
 5. 在 journal 页添加沉淀完成标记
-6. 更新 WIKI-INDEX.md
+6. 更新 index.md（reader entrypoint）
 7. 更新里程碑日志
 ```
 
