@@ -16,10 +16,10 @@
 ## 本项目包含的 8 个 skills
 
 1. `knowledge-base-kit-guide` — 使用说明、profile 配置、技能分流
-2. `knowledge-base-ingest` — 长文档 / 书籍 / 教程导入
-3. `knowledge-base-maintenance` — 任务结果写回知识库
-4. `knowledge-base-audit` — 结构审计与健康检查
-5. `knowledge-base-orchestrator` — 零门槛初始化入口
+2. `knowledge-base-orchestrator` — 零门槛初始化入口
+3. `knowledge-base-ingest` — 长文档 / 书籍 / 教程导入
+4. `knowledge-base-maintenance` — 任务结果写回知识库
+5. `knowledge-base-audit` — 结构审计与健康检查
 6. `knowledge-base-team-coordination` — 多人共享项目协调
 7. `knowledge-base-working-profile` — 协作画像沉淀
 8. `work-journal` — 工作记录 / 会议纪要 / 周报沉淀
