@@ -1,0 +1,6 @@
+# Development dependencies for wiki-knowledgebase-share-kit
+# Install with: pip install -r requirements-dev.txt
+
+pytest>=7.0
+black>=23.0
+flake8>=6.0

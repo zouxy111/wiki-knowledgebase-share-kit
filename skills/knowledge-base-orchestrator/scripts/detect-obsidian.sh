@@ -19,6 +19,10 @@ case "${OS}" in
             echo "✅ Obsidian 已安装（installed）"
             echo "路径（path）: /Applications/Obsidian.app"
             exit 0
+        elif [ -d "${HOME}/Applications/Obsidian.app" ]; then
+            echo "✅ Obsidian 已安装（installed）"
+            echo "路径（path）: ${HOME}/Applications/Obsidian.app"
+            exit 0
         else
             echo "❌ Obsidian 未安装（not installed）"
             exit 1

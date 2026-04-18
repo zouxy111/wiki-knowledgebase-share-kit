@@ -179,9 +179,9 @@ conflicts=()
 for skill_name in "${SKILLS[@]}"; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     if [ -d "$skill_dir" ]; then
-        # 检查是否真的是本项目的 skill（通过检查 SKILL.md 内容特征）
+        # 检查是否真的是本项目的 skill（通过检查 SKILL.md frontmatter 中的 name 字段）
         if [ -f "${skill_dir}/SKILL.md" ]; then
-            if ! grep -q "wiki-knowledgebase-share-kit\|knowledge-base" "${skill_dir}/SKILL.md" 2>/dev/null; then
+            if ! grep -qE "^name:\s*${skill_name}\$" "${skill_dir}/SKILL.md" 2>/dev/null; then
                 conflicts+=("$skill_name")
             fi
         fi

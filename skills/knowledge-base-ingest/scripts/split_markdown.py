@@ -70,7 +70,12 @@ def choose_level(headings: List[Heading], requested: int) -> int:
 
 
 def count_words(lines: List[str]) -> int:
-    return len(re.findall(r"\b\w+\b", "".join(lines)))
+    text = "".join(lines)
+    # English words
+    en_words = len(re.findall(r"[A-Za-z0-9_]+", text))
+    # CJK characters (Chinese, Japanese, Korean)
+    cjk_chars = len(re.findall(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", text))
+    return en_words + cjk_chars
 
 
 def split_range(

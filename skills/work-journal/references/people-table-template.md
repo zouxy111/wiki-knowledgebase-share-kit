@@ -24,8 +24,8 @@ area: "治理"
 ## 人名参与记录索引
 
 ### 张三
-- [2026-04-17](../../../templates/journal-profile-template.md) — 项目A启动会
-- [2026-04-15](../../../templates/journal-profile-template.md) — 项目B讨论
+- 2026-04-17 — 项目A启动会
+- 2026-04-15 — 项目B讨论
 
 ### 李四
 - [2026-04-17](../../../templates/journal-profile-template.md) — 项目A启动会

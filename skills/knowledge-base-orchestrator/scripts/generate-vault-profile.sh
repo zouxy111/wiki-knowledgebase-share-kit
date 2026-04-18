@@ -35,6 +35,9 @@ echo ""
 IFS=',' read -ra AREA_ARRAY <<< "$AREAS"
 
 # 生成 vault profile (Generate vault profile)
+# 确保目标目录存在
+mkdir -p "${VAULT_PATH}"
+
 PROFILE_PATH="${VAULT_PATH}/vault-profile.md"
 
 cat > "${PROFILE_PATH}" << 'EOF'
