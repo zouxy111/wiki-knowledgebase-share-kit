@@ -5,6 +5,11 @@
 
 set -e
 
+# 日志函数
+log_info()  { echo "ℹ️  $1"; }
+log_warn()  { echo "⚠️  $1"; }
+log_ok()    { echo "✅ $1"; }
+
 # 获取 vault 路径 (Get vault path)
 if [ -z "$1" ]; then
     echo "请提供 vault 路径（vault path）"
@@ -30,6 +35,9 @@ echo ""
 IFS=',' read -ra AREA_ARRAY <<< "$AREAS"
 
 # 生成 vault profile (Generate vault profile)
+# 确保目标目录存在
+mkdir -p "${VAULT_PATH}"
+
 PROFILE_PATH="${VAULT_PATH}/vault-profile.md"
 
 cat > "${PROFILE_PATH}" << 'EOF'
@@ -68,7 +76,8 @@ cat > "${PROFILE_PATH}" << 'EOF'
 | area（分类名） | 用途说明 |
 |---|---|
 EOF
-python3 - "${PROFILE_PATH}" "${VAULT_NAME}" "${VAULT_PATH}" "${TODAY}" <<'PY'
+if command -v python3 &> /dev/null; then
+    python3 - "${PROFILE_PATH}" "${VAULT_NAME}" "${VAULT_PATH}" "${TODAY}" <<'PY'
 from pathlib import Path
 import sys
 path, vault_name, vault_path, today = sys.argv[1:]
@@ -76,6 +85,15 @@ text = Path(path).read_text(encoding='utf-8')
 text = text.replace('__VAULT_NAME__', vault_name).replace('__VAULT_PATH__', vault_path).replace('__TODAY__', today)
 Path(path).write_text(text, encoding='utf-8')
 PY
+else
+    log_warn "未检测到 python3，使用 sed 进行变量替换"
+    sed -i.bak \
+        -e "s|__VAULT_NAME__|${VAULT_NAME}|g" \
+        -e "s|__VAULT_PATH__|${VAULT_PATH}|g" \
+        -e "s|__TODAY__|${TODAY}|g" \
+        "${PROFILE_PATH}"
+    rm -f "${PROFILE_PATH}.bak"
+fi
 
 # 添加 areas (Add areas)
 for area in "${AREA_ARRAY[@]}"; do

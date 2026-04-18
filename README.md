@@ -242,7 +242,26 @@
 > 这套包本质上是 **8 个 `SKILL.md` 风格 skill bundle**。  
 > 只要你的 AI 平台支持类似 skills 目录结构，就可以安装；不同平台的目录位置可能不同。
 
-常见示例：
+### 推荐：一键安装脚本
+
+```bash
+# 自动检测平台并安装（支持 Kimi CLI / Claude Code / Codex / 通用 agents）
+bash install.sh
+
+# 预览安装内容
+bash install.sh --dry-run
+
+# 验证安装结果
+bash verify-installation.sh
+```
+
+脚本特性：
+- **自动检测**：依次检查 `~/.kimi/skills`、`~/.claude/skills`、`~/.codex/skills`、`~/.agents/skills`
+- **符号链接感知**：如果 `.claude/skills` 是指向 `.agents/skills` 的符号链接，不会重复安装
+- **安全覆盖**：支持 `--backup` 备份已存在的同名 skill
+- **dry-run**：支持 `--dry-run` 预览，不实际改动文件
+
+### 手动安装（备选）
 
 ```bash
 cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
@@ -255,12 +274,15 @@ cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
 cp -r skills/work-journal ~/.codex/skills/
 ```
 
-也可按平台改到：
-- `~/.codex/skills`
-- `~/.claude/skills`
-- 或其他支持 `SKILL.md` bundle 的平台目录
+支持的平台目录：
+- `~/.kimi/skills` — Kimi CLI
+- `~/.claude/skills` — Claude Code
+- `~/.codex/skills` — Codex
+- `~/.agents/skills` — 通用 agents 平台
 
-> 如果你使用 OpenClaw、Hermes Agent、Claude Code 或其他兼容平台，请先确认该平台的 skills 目录约定，再安装。
+> **注意**：Kimi CLI 和 Claude Code 可能共享同一个 `~/.agents/skills` 目录（通过符号链接）。如果你同时使用两者，只需安装到 `.agents/skills` 即可。
+
+> 如果你使用 OpenClaw、Hermes Agent 或其他兼容平台，请先确认该平台的 skills 目录约定，再安装。
 
 ---
 

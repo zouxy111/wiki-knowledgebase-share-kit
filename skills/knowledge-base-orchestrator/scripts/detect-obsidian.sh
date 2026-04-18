@@ -5,8 +5,11 @@
 
 set -e
 
-echo "正在检测 Obsidian（黑曜石笔记软件）..."
-echo "Detecting Obsidian..."
+echo "=========================================="
+echo "🔍 正在检测 Obsidian（黑曜石笔记软件）"
+echo "   注意：此脚本仅检测是否已安装，不会自动安装"
+echo "   Note: This script only detects installation status"
+echo "=========================================="
 
 # 检测操作系统 (Detect OS)
 OS="$(uname -s)"
@@ -18,6 +21,10 @@ case "${OS}" in
         if [ -d "/Applications/Obsidian.app" ]; then
             echo "✅ Obsidian 已安装（installed）"
             echo "路径（path）: /Applications/Obsidian.app"
+            exit 0
+        elif [ -d "${HOME}/Applications/Obsidian.app" ]; then
+            echo "✅ Obsidian 已安装（installed）"
+            echo "路径（path）: ${HOME}/Applications/Obsidian.app"
             exit 0
         else
             echo "❌ Obsidian 未安装（not installed）"
