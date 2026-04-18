@@ -70,7 +70,13 @@ def choose_level(headings: List[Heading], requested: int) -> int:
 
 
 def count_words(lines: List[str]) -> int:
-    return len(re.findall(r"\b\w+\b", "".join(lines)))
+    text = "".join(lines)
+    # Count Latin-alphabet / number tokens as words.
+    en_words = len(re.findall(r"[A-Za-z0-9_]+", text))
+    # Count CJK characters individually so mixed Chinese/English sources do not
+    # massively undercount chunk size.
+    cjk_chars = len(re.findall(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", text))
+    return en_words + cjk_chars
 
 
 def make_chunk(

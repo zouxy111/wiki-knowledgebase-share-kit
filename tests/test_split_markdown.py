@@ -83,6 +83,13 @@ def test_count_words_english():
     assert count_words(lines) == 6
 
 
+def test_count_words_mixed_english_and_cjk():
+    lines = ["胃癌 guideline 第三版\n"]
+    # Count Latin tokens plus visible CJK characters to avoid undercounting
+    # mixed Chinese/English source material.
+    assert count_words(lines) == 6
+
+
 def test_count_words_empty():
     assert count_words([]) == 0
 
