@@ -189,8 +189,13 @@ def split_range(
             if section_start < h.line_index < section_end and h.level == level + 1
         ]
         if (
-            (max_words and word_count > max_words) or (max_lines and line_count > max_lines)
-        ) and deeper and level < 6:
+            (
+                (max_words and word_count > max_words)
+                or (max_lines and line_count > max_lines)
+            )
+            and deeper
+            and level < 6
+        ):
             chunks.extend(
                 split_range(
                     lines,
@@ -204,7 +209,9 @@ def split_range(
             )
             continue
 
-        if (max_words and word_count > max_words) or (max_lines and line_count > max_lines):
+        if (max_words and word_count > max_words) or (
+            max_lines and line_count > max_lines
+        ):
             chunks.extend(
                 window_split_chunks(
                     lines,
@@ -325,7 +332,9 @@ def write_coverage_map(manifest: list[dict], output_dir: Path) -> None:
         lines.append(
             f"| {item['index']:03d} | {item['file']} | {item['title']} | {line_span} | {item['word_count']} | unread |  |  |"
         )
-    (output_dir / "coverage-map.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (output_dir / "coverage-map.md").write_text(
+        "\n".join(lines) + "\n", encoding="utf-8"
+    )
 
 
 def main() -> int:
