@@ -7,18 +7,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="${SCRIPT_DIR}/skills"
-
-# 8 个核心 skill 列表
-SKILLS=(
-    knowledge-base-kit-guide
-    knowledge-base-ingest
-    knowledge-base-maintenance
-    knowledge-base-audit
-    knowledge-base-orchestrator
-    knowledge-base-team-coordination
-    knowledge-base-working-profile
-    work-journal
-)
+SKILLS="$(python3 "${SCRIPT_DIR}/scripts/skill_catalog.py" list-names)"
 
 # 颜色定义
 RED='\033[0;31m'
@@ -126,6 +115,11 @@ install_skill() {
         return 1
     fi
 
+    if [ -L "$dest" ] && is_same_target "$src" "$dest"; then
+        log_warn "${skill_name} is already a symlink to source — skipping"
+        return 0
+    fi
+
     if [ -e "$dest" ]; then
         if [ "$BACKUP" = true ]; then
             local backup_name="${skill_name}.backup.$(date +%Y%m%d_%H%M%S)"
@@ -227,20 +221,10 @@ main() {
         fi
     fi
 
-    # 检查符号链接冲突
-    for skill_name in "${SKILLS[@]}"; do
-        local src="${SKILLS_DIR}/${skill_name}"
-        local dest="${TARGET_DIR}/${skill_name}"
-        if [ -L "$dest" ] && is_same_target "$src" "$dest"; then
-            log_warn "${skill_name} is already a symlink to source — skipping"
-            continue
-        fi
-    done
-
     # 检查前置条件
     log_info "Checking prerequisites..."
     local missing=0
-    for skill_name in "${SKILLS[@]}"; do
+    for skill_name in $SKILLS; do
         if [ ! -d "${SKILLS_DIR}/${skill_name}" ]; then
             log_error "Missing source skill: ${skill_name}"
             missing=$((missing + 1))
@@ -250,7 +234,7 @@ main() {
         log_error "${missing} skill(s) missing from ${SKILLS_DIR}"
         exit 1
     fi
-    log_ok "All 8 skills found in source directory"
+    log_ok "All catalog skills found in source directory"
 
     # 执行安装
     echo ""
@@ -263,7 +247,9 @@ main() {
     echo ""
 
     local installed=0
-    for skill_name in "${SKILLS[@]}"; do
+    local skill_count
+    skill_count=$(printf "%s\n" "$SKILLS" | sed '/^$/d' | wc -l | tr -d ' ')
+    for skill_name in $SKILLS; do
         install_skill "$skill_name" && installed=$((installed + 1))
     done
 
@@ -274,7 +260,7 @@ main() {
         echo "Run without --dry-run to perform the actual installation:"
         echo "  $0 ${TARGET_DIR}"
     else
-        log_ok "Installation complete! ${installed}/8 skills installed."
+        log_ok "Installation complete! ${installed}/${skill_count} skills installed."
         echo ""
         echo "Next steps:"
         echo "  1. Copy templates:  cp templates/vault-profile-template.md ./my-vault-profile.md"

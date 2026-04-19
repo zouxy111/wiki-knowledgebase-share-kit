@@ -48,18 +48,23 @@ In one sentence:
 
 ## This is an 8-skill package
 
-The current public package contains 8 skills:
+The canonical registry lives in [`skills/catalog.toml`](./skills/catalog.toml):
 
-1. `knowledge-base-kit-guide`
-2. `knowledge-base-orchestrator`
-3. `knowledge-base-ingest`
-4. `knowledge-base-maintenance`
-5. `knowledge-base-audit`
-6. `knowledge-base-working-profile`
-7. `knowledge-base-team-coordination`
-8. `work-journal`
+<!-- skill-catalog:en:start -->
+| # | Skill | Capability area | Primary responsibility |
+|---|---|---|---|
+| 1 | `knowledge-base-kit-guide` | Onboarding / Orchestration | installation guidance, profile setup, and skill routing |
+| 2 | `knowledge-base-orchestrator` | Onboarding / Orchestration | low-friction onboarding and initial vault setup |
+| 3 | `knowledge-base-ingest` | Ingest | long-form source import and structural reorganization |
+| 4 | `knowledge-base-maintenance` | Maintenance | durable task-result and meeting write-back |
+| 5 | `knowledge-base-audit` | Audit | structural audit and vault health checks |
+| 6 | `knowledge-base-working-profile` | Working profile | collaboration profile extraction and maintenance |
+| 7 | `knowledge-base-team-coordination` | Team coordination | shared project coordination and role-aware questionnaires |
+| 8 | `work-journal` | Work journal | work logs, meeting notes, and periodic distillation |
+<!-- skill-catalog:en:end -->
 
 Together they cover 7 capability tracks:
+<!-- capability-areas:start -->
 - **Onboarding / Orchestration**
 - **Ingest**
 - **Maintenance**
@@ -67,6 +72,7 @@ Together they cover 7 capability tracks:
 - **Working profile**
 - **Team coordination**
 - **Work journal**
+<!-- capability-areas:end -->
 
 In particular:
 - `knowledge-base-kit-guide` explains installation, profile setup, and skill routing
@@ -266,14 +272,9 @@ After installing:
 Common examples:
 
 ```bash
-cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
-cp -r skills/knowledge-base-orchestrator ~/.codex/skills/
-cp -r skills/knowledge-base-ingest ~/.codex/skills/
-cp -r skills/knowledge-base-maintenance ~/.codex/skills/
-cp -r skills/knowledge-base-audit ~/.codex/skills/
-cp -r skills/knowledge-base-working-profile ~/.codex/skills/
-cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
-cp -r skills/work-journal ~/.codex/skills/
+for skill in $(python3 scripts/skill_catalog.py list-names); do
+  cp -r "skills/${skill}" ~/.codex/skills/
+done
 ```
 
 Other common directory patterns include:
@@ -298,6 +299,9 @@ But the important boundary is:
 
 If you want to plug the method into a longer-running OpenClaw / Hermes workspace, continue with [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
 That document explains why we recommend an optional `agent-workspace/` folder parallel to `pages/`, so drafts, distills, and runtime helper artifacts have a home without polluting durable knowledge pages.
+
+If you need team-specific customization on top of the public bundle, continue with [`docs/core-vs-local-overlay.md`](./docs/core-vs-local-overlay.md).
+That doc explains how to keep the public core reusable while moving private conventions into a local overlay.
 
 ---
 

@@ -15,6 +15,42 @@ def fake_repo(tmp_path):
     repo_root = tmp_path / "repo"
     skills_root = repo_root / "skills"
     skills_root.mkdir(parents=True)
+    (skills_root / "catalog.toml").write_text(
+        "\n".join(
+            [
+                "version = 1",
+                "",
+                "[package]",
+                'name = "fake-kit"',
+                "",
+                "[[skills]]",
+                "order = 1",
+                'name = "knowledge-base-kit-guide"',
+                'path = "skills/knowledge-base-kit-guide"',
+                'area = "Onboarding / Orchestration"',
+                'role = "Guide"',
+                'role_en = "Guide"',
+                "",
+                "[[skills]]",
+                "order = 2",
+                'name = "knowledge-base-ingest"',
+                'path = "skills/knowledge-base-ingest"',
+                'area = "Ingest"',
+                'role = "Ingest"',
+                'role_en = "Ingest"',
+                "",
+                "[[skills]]",
+                "order = 3",
+                'name = "knowledge-base-audit"',
+                'path = "skills/knowledge-base-audit"',
+                'area = "Audit"',
+                'role = "Audit"',
+                'role_en = "Audit"',
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
     for name in [
         "knowledge-base-kit-guide",
         "knowledge-base-ingest",

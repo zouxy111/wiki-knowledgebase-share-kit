@@ -15,14 +15,20 @@
 
 ## 本项目包含的 8 个 skills
 
-1. `knowledge-base-kit-guide` — 使用说明、profile 配置、技能分流
-2. `knowledge-base-orchestrator` — 零门槛初始化入口
-3. `knowledge-base-ingest` — 长文档 / 书籍 / 教程导入
-4. `knowledge-base-maintenance` — 任务结果写回知识库
-5. `knowledge-base-audit` — 结构审计与健康检查
-6. `knowledge-base-team-coordination` — 多人共享项目协调
-7. `knowledge-base-working-profile` — 协作画像沉淀
-8. `work-journal` — 工作记录 / 会议纪要 / 周报沉淀
+规范清单位于 [`skills/catalog.toml`](./skills/catalog.toml)：
+
+<!-- skill-catalog:zh:start -->
+| # | Skill | 能力线 | 主要职责 |
+|---|---|---|---|
+| 1 | `knowledge-base-kit-guide` | Onboarding / Orchestration | 使用说明、profile 配置、技能分流 |
+| 2 | `knowledge-base-orchestrator` | Onboarding / Orchestration | 零门槛初始化入口 |
+| 3 | `knowledge-base-ingest` | Ingest | 长文档导入与结构化重组 |
+| 4 | `knowledge-base-maintenance` | Maintenance | 任务结果与会议结论沉淀 |
+| 5 | `knowledge-base-audit` | Audit | 结构审计与知识库健康检查 |
+| 6 | `knowledge-base-working-profile` | Working profile | 协作画像提炼与维护 |
+| 7 | `knowledge-base-team-coordination` | Team coordination | 共享项目协调与角色化问卷 |
+| 8 | `work-journal` | Work journal | 工作记录、会议纪要与周期沉淀 |
+<!-- skill-catalog:zh:end -->
 
 ---
 
@@ -64,24 +70,14 @@ python3 scripts/install_skills.py --platform claude --force
 
 ```bash
 # Claude Code 示例（同时会被 Kimi CLI 识别，如果 ~/.claude/skills → ~/.agents/skills）
-cp -r skills/knowledge-base-kit-guide ~/.claude/skills/
-cp -r skills/knowledge-base-ingest ~/.claude/skills/
-cp -r skills/knowledge-base-maintenance ~/.claude/skills/
-cp -r skills/knowledge-base-audit ~/.claude/skills/
-cp -r skills/knowledge-base-orchestrator ~/.claude/skills/
-cp -r skills/knowledge-base-team-coordination ~/.claude/skills/
-cp -r skills/knowledge-base-working-profile ~/.claude/skills/
-cp -r skills/work-journal ~/.claude/skills/
+for skill in $(python3 scripts/skill_catalog.py list-names); do
+  cp -r "skills/${skill}" ~/.claude/skills/
+done
 
 # Kimi CLI 示例（如果 ~/.kimi/skills 是独立目录）
-cp -r skills/knowledge-base-kit-guide ~/.kimi/skills/
-cp -r skills/knowledge-base-ingest ~/.kimi/skills/
-cp -r skills/knowledge-base-maintenance ~/.kimi/skills/
-cp -r skills/knowledge-base-audit ~/.kimi/skills/
-cp -r skills/knowledge-base-orchestrator ~/.kimi/skills/
-cp -r skills/knowledge-base-team-coordination ~/.kimi/skills/
-cp -r skills/knowledge-base-working-profile ~/.kimi/skills/
-cp -r skills/work-journal ~/.kimi/skills/
+for skill in $(python3 scripts/skill_catalog.py list-names); do
+  cp -r "skills/${skill}" ~/.kimi/skills/
+done
 ```
 
 ### 验证安装
@@ -225,8 +221,9 @@ Include timestamps, project associations, meeting notes, and weekly distillation
 2. `templates/vault-profile-template.md`
 3. `docs/usage-sop.md`
 4. `docs/example-prompts.md`
-5. `docs/collaboration-integration-patterns.md`
-6. `docs/agent-runtime-writeback-patterns.md`
+5. `docs/README.md`
+6. `docs/collaboration-integration-patterns.md`
+7. `docs/agent-runtime-writeback-patterns.md`
 
 ---
 

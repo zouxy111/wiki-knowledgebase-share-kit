@@ -1,0 +1,69 @@
+version = 1
+
+[package]
+name = "wiki-knowledgebase-share-kit"
+display_name = "Wiki Knowledge Base Share Kit"
+
+[[skills]]
+order = 1
+name = "knowledge-base-kit-guide"
+path = "skills/knowledge-base-kit-guide"
+area = "Onboarding / Orchestration"
+role = "使用说明、profile 配置、技能分流"
+role_en = "installation guidance, profile setup, and skill routing"
+
+[[skills]]
+order = 2
+name = "knowledge-base-orchestrator"
+path = "skills/knowledge-base-orchestrator"
+area = "Onboarding / Orchestration"
+role = "零门槛初始化入口"
+role_en = "low-friction onboarding and initial vault setup"
+
+[[skills]]
+order = 3
+name = "knowledge-base-ingest"
+path = "skills/knowledge-base-ingest"
+area = "Ingest"
+role = "长文档导入与结构化重组"
+role_en = "long-form source import and structural reorganization"
+
+[[skills]]
+order = 4
+name = "knowledge-base-maintenance"
+path = "skills/knowledge-base-maintenance"
+area = "Maintenance"
+role = "任务结果与会议结论沉淀"
+role_en = "durable task-result and meeting write-back"
+
+[[skills]]
+order = 5
+name = "knowledge-base-audit"
+path = "skills/knowledge-base-audit"
+area = "Audit"
+role = "结构审计与知识库健康检查"
+role_en = "structural audit and vault health checks"
+
+[[skills]]
+order = 6
+name = "knowledge-base-working-profile"
+path = "skills/knowledge-base-working-profile"
+area = "Working profile"
+role = "协作画像提炼与维护"
+role_en = "collaboration profile extraction and maintenance"
+
+[[skills]]
+order = 7
+name = "knowledge-base-team-coordination"
+path = "skills/knowledge-base-team-coordination"
+area = "Team coordination"
+role = "共享项目协调与角色化问卷"
+role_en = "shared project coordination and role-aware questionnaires"
+
+[[skills]]
+order = 8
+name = "work-journal"
+path = "skills/work-journal"
+area = "Work journal"
+role = "工作记录、会议纪要与周期沉淀"
+role_en = "work logs, meeting notes, and periodic distillation"

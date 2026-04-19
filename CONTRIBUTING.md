@@ -13,14 +13,18 @@ Thank you for considering a contribution. This repository is a reusable kit for 
 1. Keep the **shareable template body de-localized**.
    - Do not hardcode personal local paths in reusable skill files.
    - Do not hardcode one user's area names or root page names in the template body.
-2. Put environment-specific details in `examples/`, not in the reusable skill core.
-3. Preserve the fixed page-role model unless you are intentionally proposing a breaking change:
+2. Update the canonical skill registry in `skills/catalog.toml` if you add, remove, rename, or reorder a skill.
+3. Keep the marker-based skill tables in sync by running:
+   - `python3 scripts/validate_skill_bundle.py --write-doc-sync`
+   - or `make validate` if you only need the check
+4. Put environment-specific details in `examples/`, not in the reusable skill core.
+5. Preserve the fixed page-role model unless you are intentionally proposing a breaking change:
    - `project`
    - `knowledge`
    - `ops`
    - `task`
    - `overview`
-4. Keep the methodology boundaries intact:
+6. Keep the methodology boundaries intact:
    - knowledge-base-first
    - root pages are for navigation and stable overview
    - `ops` pages default to symptom / root cause / fix / boundary
@@ -28,6 +32,8 @@ Thank you for considering a contribution. This repository is a reusable kit for 
 
 ## Recommended validation
 Before submitting, please check:
+- `make validate`
+- `make test`
 - the three skill directories still contain `SKILL.md`, `references/`, and `agents/openai.yaml`
 - the example prompts still match the current skill names
 - the template docs do not accidentally reintroduce personal local paths

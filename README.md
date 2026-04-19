@@ -48,18 +48,23 @@
 
 ## 这是一个 8-skill package
 
-当前正式包包含 8 个 skill：
+规范清单位于 [`skills/catalog.toml`](./skills/catalog.toml)：
 
-1. `knowledge-base-kit-guide`
-2. `knowledge-base-orchestrator`
-3. `knowledge-base-ingest`
-4. `knowledge-base-maintenance`
-5. `knowledge-base-audit`
-6. `knowledge-base-working-profile`
-7. `knowledge-base-team-coordination`
-8. `work-journal`
+<!-- skill-catalog:zh:start -->
+| # | Skill | 能力线 | 主要职责 |
+|---|---|---|---|
+| 1 | `knowledge-base-kit-guide` | Onboarding / Orchestration | 使用说明、profile 配置、技能分流 |
+| 2 | `knowledge-base-orchestrator` | Onboarding / Orchestration | 零门槛初始化入口 |
+| 3 | `knowledge-base-ingest` | Ingest | 长文档导入与结构化重组 |
+| 4 | `knowledge-base-maintenance` | Maintenance | 任务结果与会议结论沉淀 |
+| 5 | `knowledge-base-audit` | Audit | 结构审计与知识库健康检查 |
+| 6 | `knowledge-base-working-profile` | Working profile | 协作画像提炼与维护 |
+| 7 | `knowledge-base-team-coordination` | Team coordination | 共享项目协调与角色化问卷 |
+| 8 | `work-journal` | Work journal | 工作记录、会议纪要与周期沉淀 |
+<!-- skill-catalog:zh:end -->
 
 它们共同覆盖 7 条能力线：
+<!-- capability-areas:start -->
 - **Onboarding / Orchestration**
 - **Ingest**
 - **Maintenance**
@@ -67,6 +72,7 @@
 - **Working profile**
 - **Team coordination**
 - **Work journal**
+<!-- capability-areas:end -->
 
 其中：
 - `knowledge-base-kit-guide` 负责解释安装、profile 配置、技能分流
@@ -285,14 +291,9 @@ bash verify-installation.sh
 ### 手动安装（备选）
 
 ```bash
-cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
-cp -r skills/knowledge-base-orchestrator ~/.codex/skills/
-cp -r skills/knowledge-base-ingest ~/.codex/skills/
-cp -r skills/knowledge-base-maintenance ~/.codex/skills/
-cp -r skills/knowledge-base-audit ~/.codex/skills/
-cp -r skills/knowledge-base-working-profile ~/.codex/skills/
-cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
-cp -r skills/work-journal ~/.codex/skills/
+for skill in $(python3 scripts/skill_catalog.py list-names); do
+  cp -r "skills/${skill}" ~/.codex/skills/
+done
 ```
 
 支持的平台目录：
@@ -320,6 +321,9 @@ cp -r skills/work-journal ~/.codex/skills/
 
 如果你准备把这套方法接到 OpenClaw / Hermes 的长期工作区里，建议继续看 [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)。
 那份文档会专门说明：为什么推荐保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，用来承接草稿、蒸馏和 runtime 辅助产物，而不污染稳定知识页。
+
+如果你要在自己的团队环境里做额外定制，也建议看 [`docs/core-vs-local-overlay.md`](./docs/core-vs-local-overlay.md)。
+那份文档把“公共核心 skill”和“本地 overlay”该怎么分开写清楚了。
 
 ---
 

@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILLS="$(python3 "${SCRIPT_DIR}/scripts/skill_catalog.py" list-names)"
+
 # 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -16,17 +19,6 @@ log_info()  { echo -e "${BLUE}ℹ️  $1${NC}"; }
 log_ok()    { echo -e "${GREEN}✅ $1${NC}"; }
 log_warn()  { echo -e "${YELLOW}⚠️  $1${NC}"; }
 log_error() { echo -e "${RED}❌ $1${NC}"; }
-
-SKILLS=(
-    knowledge-base-kit-guide
-    knowledge-base-ingest
-    knowledge-base-maintenance
-    knowledge-base-audit
-    knowledge-base-orchestrator
-    knowledge-base-team-coordination
-    knowledge-base-working-profile
-    work-journal
-)
 
 TARGET_DIR=""
 VERBOSE=false
@@ -114,7 +106,7 @@ total_checks=0
 passed_checks=0
 failed_skills=()
 
-for skill_name in "${SKILLS[@]}"; do
+for skill_name in $SKILLS; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     skill_ok=true
     issues=()
@@ -176,7 +168,7 @@ done
 echo ""
 log_info "Checking for potential naming conflicts..."
 conflicts=()
-for skill_name in "${SKILLS[@]}"; do
+for skill_name in $SKILLS; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     if [ -d "$skill_dir" ]; then
         # 检查是否真的是本项目的 skill（通过检查 SKILL.md 内容特征）

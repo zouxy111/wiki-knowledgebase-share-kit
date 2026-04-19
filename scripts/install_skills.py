@@ -16,20 +16,13 @@ import sys
 from pathlib import Path
 from typing import Iterable
 
-DEFAULT_SKILLS = [
-    "knowledge-base-kit-guide",
-    "knowledge-base-orchestrator",
-    "knowledge-base-ingest",
-    "knowledge-base-maintenance",
-    "knowledge-base-audit",
-    "knowledge-base-working-profile",
-    "knowledge-base-team-coordination",
-    "work-journal",
-]
+from skill_catalog import skill_names
 
 PLATFORM_DIRS = {
     "codex": Path.home() / ".codex" / "skills",
     "claude": Path.home() / ".claude" / "skills",
+    "kimi": Path.home() / ".kimi" / "skills",
+    "agents": Path.home() / ".agents" / "skills",
 }
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -49,7 +42,7 @@ def available_skills(repo_root: Path) -> list[str]:
 
 def resolve_skill_names(repo_root: Path, requested: Iterable[str] | None) -> list[str]:
     available = set(available_skills(repo_root))
-    names = list(requested) if requested else list(DEFAULT_SKILLS)
+    names = list(requested) if requested else list(skill_names(repo_root / "skills" / "catalog.toml"))
     unknown = [name for name in names if name not in available]
     if unknown:
         known = ", ".join(sorted(available))
@@ -123,7 +116,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--platform",
         choices=sorted(PLATFORM_DIRS),
-        help="Known runtime to install into (codex or claude).",
+        help="Known runtime to install into (codex, claude, kimi, or agents).",
     )
     parser.add_argument(
         "--target-dir",

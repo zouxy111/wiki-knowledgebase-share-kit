@@ -20,26 +20,9 @@ jobs:
         run: |
           pip install flake8 black
 
-      - name: Validate skill bundle structure
+      - name: Validate skill catalog and bundle structure
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          root = Path('.')
-          skill_dirs = sorted((root / 'skills').iterdir())
-          assert skill_dirs, 'No skills found under skills/'
-          required = [
-              Path('SKILL.md'),
-              Path('references'),
-              Path('agents/openai.yaml'),
-          ]
-          for skill_dir in skill_dirs:
-              if not skill_dir.is_dir():
-                  continue
-              missing = [str(p) for p in required if not (skill_dir / p).exists()]
-              if missing:
-                  raise SystemExit(f'{skill_dir}: missing {missing}')
-          print('Skill bundle structure validated.')
-          PY
+          python scripts/validate_skill_bundle.py
 
       - name: Validate relative links
         run: |
@@ -92,11 +75,11 @@ jobs:
 
       - name: Run Black (format check)
         run: |
-          black --check skills/
+          black --check scripts/ tests/ skills/
 
       - name: Run Flake8 (linting)
         run: |
-          flake8 --max-line-length=120 --ignore=E501,W503 skills/
+          flake8 --max-line-length=120 --ignore=E501,W503 scripts/ tests/ skills/
 
       - name: Check script executability
         run: |
