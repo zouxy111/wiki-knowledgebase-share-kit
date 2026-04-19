@@ -7,7 +7,7 @@
 [![Contributors](https://img.shields.io/github/contributors/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-> 一套面向 markdown / wiki / Obsidian-style vault 的 **8-skill 知识库维护包**。
+> 一套面向 markdown / wiki / Obsidian-style vault 的 **8-skill 知识库治理与协作接入包**。
 > 目标不是堆更多日志，而是把知识库收敛成：**入口清楚、页面角色稳定、长期可维护、对协作友好、可审计**。
 
 <p align="center">
@@ -318,6 +318,9 @@ cp -r skills/work-journal ~/.codex/skills/
 - 这些平台/工具是**推荐组合**，不是本仓库唯一依赖
 - 本仓库的核心价值仍然是 **知识库结构治理与 workflow 设计**，不是平台绑定
 
+如果你准备把这套方法接到 OpenClaw / Hermes 的长期工作区里，建议继续看 [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)。
+那份文档会专门说明：为什么推荐保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，用来承接草稿、蒸馏和 runtime 辅助产物，而不污染稳定知识页。
+
 ---
 
 ## 快速上手
@@ -358,6 +361,9 @@ A：通常不是 repo 缺 skill，而是**当前运行平台的 skills 目录没
 **Q：怎么防止长文档只读前半部分就被误判为“已完整导入”？**
 A：不要直接把超长 source 整篇塞给模型。先运行 `split_markdown.py` 生成 `manifest.json` 和 `coverage-map.md`，逐 chunk 处理，再用 `verify_ingest_coverage.py` 做完成态校验；详见 [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md)。
 
+**Q：这些蒸馏结果也能写进 OpenClaw 吗？**
+A：能。推荐把 `pages/` 留给稳定知识，再保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，承接 OpenClaw / Hermes 的草稿、shared project 副本、distill 产物和中间对照表；详见 [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)。
+
 **Q：企业和医疗是不是两套完全不同的方案？**
 A：不是。它们都属于“高知识密度 + 多人协作 + 可审计”的场景，只是资料类型和协作方式不同。
 
@@ -373,6 +379,7 @@ A：不应该。正确做法是只保留协作相关的稳定信号，并明确 
 - `templates/vault-profile-template.md`
 - `docs/example-prompts.md`
 - `docs/usage-sop.md`
+- `docs/agent-runtime-writeback-patterns.md`
 - `examples/case-study-pathology-ingest-iteration.md`
 
 ---

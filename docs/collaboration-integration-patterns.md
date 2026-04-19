@@ -7,7 +7,7 @@
 
 ## 1. 这份文档解决什么问题
 
-很多人已经能看懂这套仓库有 5 个 skills，但第一次真正落地多人协同时，仍会卡在这些问题：
+很多人已经能看懂这套仓库有 8 个 skills，但第一次真正落地多人协同时，仍会卡在这些问题：
 - OpenClaw / Hermes 到底是“兼容”还是“主推平台”？
 - 共享项目目录应该放在 NAS / 网盘里，还是直接嵌进共享 wiki？
 - 每个人能不能在自己的 wiki / 私有资料区里先整理内容？
@@ -81,6 +81,9 @@
 - 内容已是 `approved`
 
 时，稳定决策或成员画像增量才回写知识库。
+
+> 如果你已经准备把这套 workflow 接到 OpenClaw / Hermes 的长期工作区里，推荐继续读 [`docs/agent-runtime-writeback-patterns.md`](./agent-runtime-writeback-patterns.md)。
+> 那份文档进一步解释了：为什么建议保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，用来承接草稿、蒸馏和 runtime 辅助产物，而不把这些过程噪音直接混进稳定知识页。
 
 ---
 
