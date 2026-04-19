@@ -29,6 +29,12 @@ NOTE_LIST_FIELDS = [
     "cross_refs",
     "candidate_topics",
 ]
+EXTRACTIVE_LIST_FIELDS = [
+    "headings_seen",
+    "must_keep_facts",
+    "boundaries_and_exceptions",
+    "omission_risk",
+]
 
 
 @dataclass
@@ -55,6 +61,10 @@ class CompletedNote:
     open_questions: list[str]
     cross_refs: list[str]
     candidate_topics: list[str]
+    headings_seen: list[str]
+    must_keep_facts: list[dict]
+    boundaries_and_exceptions: list[dict]
+    omission_risk: list[str]
     status: str
     note_path: str
 
@@ -96,6 +106,69 @@ def normalize_list(value) -> list[str]:
         text = " ".join(item.split()).strip()
         if text:
             normalized.append(text)
+    return normalized
+
+
+def normalize_evidence_items(value) -> list[dict]:
+    if value is None:
+        return []
+    if isinstance(value, (str, dict)):
+        value = [value]
+    if not isinstance(value, list):
+        return []
+    normalized = []
+    for index, item in enumerate(value, start=1):
+        if isinstance(item, str):
+            text = " ".join(item.split()).strip()
+            if text:
+                normalized.append(
+                    {
+                        "item_id": f"item-{index:03d}",
+                        "text": text,
+                        "importance": "normal",
+                        "supported_by": [],
+                    }
+                )
+            continue
+        if not isinstance(item, dict):
+            continue
+        text = " ".join(str(item.get("text", "")).split()).strip()
+        if not text:
+            continue
+        supported_by = item.get("supported_by", [])
+        if isinstance(supported_by, dict):
+            supported_by = [supported_by]
+        evidence_rows = []
+        if isinstance(supported_by, list):
+            for evidence in supported_by:
+                if not isinstance(evidence, dict):
+                    continue
+                chunk_file = " ".join(
+                    str(evidence.get("chunk_file", "")).split()
+                ).strip()
+                quote = " ".join(str(evidence.get("quote", "")).split()).strip()
+                if chunk_file or quote:
+                    evidence_rows.append(
+                        {
+                            "chunk_file": chunk_file,
+                            "quote": quote,
+                        }
+                    )
+        item_id = (
+            " ".join(str(item.get("fact_id", "")).split()).strip()
+            or " ".join(str(item.get("boundary_id", "")).split()).strip()
+            or " ".join(str(item.get("item_id", "")).split()).strip()
+            or f"item-{index:03d}"
+        )
+        importance = " ".join(str(item.get("importance", "normal")).split()).strip()
+        normalized.append(
+            {
+                "item_id": item_id,
+                "text": text,
+                "importance": importance or "normal",
+                "supported_by": evidence_rows,
+            }
+        )
     return normalized
 
 
@@ -280,13 +353,17 @@ def note_template(batch: Batch) -> dict:
         "batch_hash": batch.batch_hash,
         "status": "pending",
         "summary": "",
+        "headings_seen": [],
         "key_claims": [],
+        "must_keep_facts": [],
+        "boundaries_and_exceptions": [],
         "concepts": [],
         "procedures": [],
         "entities": [],
         "open_questions": [],
         "cross_refs": [],
         "candidate_topics": [],
+        "omission_risk": [],
     }
 
 
@@ -297,6 +374,13 @@ def has_meaningful_note(payload: dict) -> bool:
     for field in NOTE_LIST_FIELDS:
         if normalize_list(payload.get(field, [])):
             return True
+    if normalize_list(payload.get("headings_seen", [])):
+        return True
+    for field in ("must_keep_facts", "boundaries_and_exceptions"):
+        if normalize_evidence_items(payload.get(field, [])):
+            return True
+    if normalize_list(payload.get("omission_risk", [])):
+        return True
     return False
 
 
@@ -308,7 +392,15 @@ def parse_completed_note(path: Path, payload: dict) -> CompletedNote | None:
     lists = {
         field: normalize_list(payload.get(field, [])) for field in NOTE_LIST_FIELDS
     }
-    if not summary and not any(lists[field] for field in NOTE_LIST_FIELDS):
+    headings_seen = normalize_list(payload.get("headings_seen", []))
+    must_keep_facts = normalize_evidence_items(payload.get("must_keep_facts", []))
+    boundaries = normalize_evidence_items(payload.get("boundaries_and_exceptions", []))
+    omission_risk = normalize_list(payload.get("omission_risk", []))
+    if (
+        not summary
+        and not any(lists[field] for field in NOTE_LIST_FIELDS)
+        and not (headings_seen or must_keep_facts or boundaries or omission_risk)
+    ):
         return None
     return CompletedNote(
         batch_id=str(payload.get("batch_id", path.stem)),
@@ -322,6 +414,10 @@ def parse_completed_note(path: Path, payload: dict) -> CompletedNote | None:
         open_questions=lists["open_questions"],
         cross_refs=lists["cross_refs"],
         candidate_topics=lists["candidate_topics"],
+        headings_seen=headings_seen,
+        must_keep_facts=must_keep_facts,
+        boundaries_and_exceptions=boundaries,
+        omission_risk=omission_risk,
         status=status,
         note_path=str(path),
     )
@@ -446,9 +542,14 @@ def render_packet(
         "Write one JSON note for this batch. Keep the output faithful to the source and optimized for later synthesis.",
         "",
         f"- Save JSON to: [{note_path.name}]({note_link})",
+        "- Populate `headings_seen` with the actual headings you read in this batch.",
+        "- Fill `must_keep_facts` before trying to compress the batch into a short summary.",
+        "- Use `boundaries_and_exceptions` for caveats, limits, or do-not-overclaim rules.",
         "- Keep `summary` to 2-5 sentences.",
         "- Use short bullet-like strings for arrays.",
         "- Add only stable, reusable claims and concepts; skip filler prose.",
+        "- If you have direct evidence, capture it under `supported_by` instead of only writing a naked claim.",
+        "- Use `omission_risk` when something still feels under-extracted or uncertain.",
         "- Use `cross_refs` for chunk files or batch ids that should be revisited together.",
         "- Leave `status` as `completed` once the note is usable.",
         "",

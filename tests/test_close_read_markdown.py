@@ -73,6 +73,10 @@ def test_prepare_run_creates_packets_state_and_links():
         assert note_payload["status"] == "pending"
         assert note_payload["batch_key"] == "sample-handbook-chapter-1-b01"
         assert note_payload["batch_hash"]
+        assert note_payload["headings_seen"] == []
+        assert note_payload["must_keep_facts"] == []
+        assert note_payload["boundaries_and_exceptions"] == []
+        assert note_payload["omission_risk"] == []
 
         packet_text = packet.read_text(encoding="utf-8")
         assert "../batch-notes/sample-handbook-chapter-1-b01.json" in packet_text
@@ -104,6 +108,19 @@ def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
             {
                 "status": "completed",
                 "summary": "The first batch defines Alpha as the core concept.",
+                "headings_seen": ["## Chapter 1", "### Section 1.1"],
+                "must_keep_facts": [
+                    {
+                        "fact_id": "fact-001",
+                        "text": "Alpha is the core concept.",
+                        "supported_by": [
+                            {
+                                "chunk_file": "001-book-chapter-1.md",
+                                "quote": "Alpha beta gamma.",
+                            }
+                        ],
+                    }
+                ],
                 "concepts": ["Alpha"],
                 "candidate_topics": ["Alpha"],
             }
@@ -112,6 +129,19 @@ def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
             {
                 "status": "completed",
                 "summary": "The second batch defines Gamma as a later topic.",
+                "headings_seen": ["## Chapter 2", "### Section 2.1"],
+                "must_keep_facts": [
+                    {
+                        "fact_id": "fact-002",
+                        "text": "Gamma is a later topic.",
+                        "supported_by": [
+                            {
+                                "chunk_file": "002-book-chapter-2.md",
+                                "quote": "Theta iota kappa.",
+                            }
+                        ],
+                    }
+                ],
                 "concepts": ["Gamma"],
                 "candidate_topics": ["Gamma"],
             }
