@@ -1,6 +1,6 @@
 # Vault Profile Contract
 
-## The ingest skill should not proceed without these facts
+## A knowledge-base skill should not proceed without these facts
 - vault root path
 - markdown page directory
 - reader entrypoint file
@@ -12,7 +12,7 @@
 - frontmatter contract
 
 ## Why this matters
-Long-form ingestion creates many pages at once. Without a profile, the skill cannot safely decide:
+Without a profile, the skill cannot safely decide:
 - where overview pages should live
 - which root page should own a chapter/topic page group
 - which files are allowed at the vault root
