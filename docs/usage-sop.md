@@ -87,11 +87,13 @@
 1. 先用 `knowledge-base-ingest` 进入 close-reading mode
 2. 生成 chunk、batch packet 和 reading state
 3. 逐 batch 精读并写入 `batch-notes/*.json`
-4. source 变化后优先只重跑 changed batches
-5. 重跑 close-reading harness 刷新 rolling state
-6. 用 synthesis 汇总 chapter / topic / glossary 候选结果
-7. 生成 candidate pages、candidate link map 和 draft frontmatter
-8. 最后再把稳定结构写回知识库
+4. 把 `batch-notes` 当作 extractive evidence layer，而不是只写一句摘要
+5. source 变化后优先只重跑 changed batches
+6. 重跑 close-reading harness 刷新 rolling state
+7. 用 synthesis 汇总 chapter / topic / glossary 候选结果
+8. 为 candidate pages 里的关键结论建立 `claim-map.json`
+9. 生成 `delivery-gate.json`，由 gate 而不是执行 agent 决定是否可以说“已完成”
+10. 只有 gate 到达 `ready-to-promote`，才把稳定结构写回知识库
 
 也就是：**先切块，再精读，再汇总，再落页**。
 
@@ -144,11 +146,14 @@
 2. 生成 `chunks/`、`batch-plan.json`、`reading-state.json`
 3. 逐 batch 精读 `batch-packets/*.md`
 4. 每轮把抽取结果写入 `batch-notes/<batch-key>.json`
-5. 只要 source 有局部变更，就优先只重跑 changed batches
-6. 重跑 harness，让后续 packet 读取最新 rolling state
-7. 运行 `scripts/synthesize_knowledge.py`
-8. 查看 candidate pages / candidate link map / frontmatter 是否合理
-9. 只把 overview / chapter / topic 的稳定候选结构写回知识库
+5. 对复杂 batch，显式补 `headings_seen / must_keep_facts / boundaries_and_exceptions / omission_risk`
+6. 只要 source 有局部变更，就优先只重跑 changed batches
+7. 重跑 harness，让后续 packet 读取最新 rolling state
+8. 运行 `scripts/synthesize_knowledge.py`
+9. 查看 candidate pages / candidate link map / frontmatter 是否合理
+10. 为关键结论建立 `claim-map.json`
+11. 汇总 `delivery-gate.json`，把完成态分成 `partial / coverage-complete / evidence-complete / ready-to-promote`
+12. 只把达到 `ready-to-promote` 的 overview / chapter / topic 候选结构写回知识库
 
 ---
 

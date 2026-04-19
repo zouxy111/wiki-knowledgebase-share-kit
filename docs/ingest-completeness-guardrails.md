@@ -21,8 +21,9 @@
 3. 生成 `coverage-map.md`
 4. 按 chunk 逐个处理
 5. 用 `verify_ingest_coverage.py` 做完成态校验
+6. 再用 extractive notes + claim map + delivery gate 卡住语义遗漏和交付吹牛
 
-只有 verification 通过，才允许说“完整导入”。
+只有 verification 和 delivery gate 都通过，才允许说“完整导入”。
 
 ---
 
@@ -35,6 +36,17 @@
 - 最后缺少一个逐段核对的工件，所以错误被带入知识库
 
 要解决这个问题，必须把“完整阅读”从隐含要求变成**显式约束**。
+
+但只做 chunk coverage 还不够。
+
+因为实际还会出现两类问题：
+- chunk 虽然“读到了”，但关键边界、例外条款、定义没有真正保留下来
+- 交付总结里说“已完整导入”，但没有证据证明关键结论来自哪里
+
+所以完整性 guardrail 应分成两层：
+
+1. **结构覆盖**：有没有漏 chunk
+2. **证据覆盖**：有没有把关键事实和边界真正保留下来，并能回指到 source
 
 ---
 
@@ -73,7 +85,7 @@ python3 skills/knowledge-base-ingest/scripts/split_markdown.py \
 
 那就说明这轮导入**还没完成**。
 
-### Step 3：完成前跑验证脚本
+### Step 3：完成前跑覆盖验证脚本
 
 ```bash
 python3 skills/knowledge-base-ingest/scripts/verify_ingest_coverage.py \
@@ -87,6 +99,43 @@ python3 skills/knowledge-base-ingest/scripts/verify_ingest_coverage.py \
 - incomplete
 
 不能算 fully imported。
+
+### Step 4：把 `batch-notes/` 当作 extractive evidence layer
+
+不要把 `batch-notes/*.json` 只当“我读了这批内容”的总结。
+
+对于高风险、超长或特别容易漏边界的 source，推荐让每个 batch note 至少显式记录：
+- `headings_seen`
+- `must_keep_facts`
+- `boundaries_and_exceptions`
+- `omission_risk`
+
+也就是说：
+
+> 先抽取，再总结；先证明“这段里有什么必须保留”，再进入 knowledge-base form。
+
+### Step 5：在 synthesis 之后生成 `claim-map.json`
+
+最终 candidate pages 里的关键结论，不应只靠 summary 自己成立。  
+应该用 `claim-map.json` 回指到：
+- 哪个 batch note
+- 哪个 source chunk
+- 哪句 evidence quote
+
+这样才能减少“模型自己说自己做完了”的情况。
+
+### Step 6：用 `delivery-gate.json` 决定能不能宣称完成
+
+执行 agent 不应该自己说：
+- 已完整导入
+- fully imported
+- 全部完成
+
+只有当 gate 同时通过这些检查后，才允许说“ready to promote”：
+- coverage check
+- extractive check
+- evidence check
+- integrity check
 
 ---
 
@@ -151,26 +200,49 @@ python3 skills/knowledge-base-ingest/scripts/verify_ingest_coverage.py \
 - 某个 manifest row 没有 coverage row
 - 某个 chunk 被说“已覆盖”，但没有 target page
 - 某个 chunk 被 `intentionally-omitted`，但没有理由
+- 某个 batch note 过于空泛，无法证明 must-keep facts 是否保留
+- 最终 candidate page 的关键 claim 没有 evidence mapping
+- `delivery-gate.json.final_status` 不是 `ready-to-promote`
 
 ---
 
 ## 7. 推荐用户口径
 
-如果 verification 还没过，应该明确说：
+如果 verification 还没过，或者 delivery gate 还没过，应该明确说：
 
 - “已完成第一轮导入基线，但尚未完成全量 coverage verification”
 - “核心章节已覆盖，但附录/支持治疗/随访仍未完成 disposition”
 - “当前结果是 partial ingest，不应视为完整回写”
+- “当前已经有 candidate pages，但还没有通过 evidence gate”
 
 而不要说：
 
 - “已完整回写”
 - “已全部导入”
 - “source 已 fully covered”
+- “已经全部确认无误”
 
 ---
 
-## 8. 和模型无关的部分
+## 8. 推荐的三层 completion gate
+
+### 第一层：Coverage gate
+- `manifest.json`
+- `coverage-map.md`
+- `verify_ingest_coverage.py`
+
+### 第二层：Evidence gate
+- extractive `batch-notes/*.json`
+- `claim-map.json`
+
+### 第三层：Delivery gate
+- `delivery-gate.json`
+
+只有第三层通过后，才允许用“完整导入 / ready to promote”这类说法。
+
+---
+
+## 9. 和模型无关的部分
 
 这套 guardrail 的价值正是在于：
 

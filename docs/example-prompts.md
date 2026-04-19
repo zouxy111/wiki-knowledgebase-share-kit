@@ -59,6 +59,28 @@ Write draft frontmatter into candidate pages so they are closer to real vault pa
 candidate pages 还要带 draft frontmatter，这样它们更接近真正可落进 vault 的页面，而不是普通笔记草稿。
 ```
 
+## 3C. 对超大文本启用“防漏 + 防吹牛”模式
+
+```text
+Use $knowledge-base-ingest to import this oversized Markdown source into my knowledge base.
+Read my vault profile first.
+Switch into close-reading mode and do not self-certify completion.
+Use batch-notes as extractive evidence notes rather than loose summaries:
+for each batch, record headings_seen, must_keep_facts, boundaries_and_exceptions, and omission_risk where relevant.
+After synthesis, create a claim map for the important conclusions in candidate pages and only use supported or clearly weakly-supported claims.
+Do not say the import is complete until chunk coverage, extractive notes, evidence mapping, and the final delivery gate all pass.
+```
+
+```text
+用 $knowledge-base-ingest 处理这份超大 Markdown 源材料并导入我的知识库。
+先读 vault profile。
+请切到 close-reading mode，并禁止自我认证“已经完成”。
+把 batch-notes 当作抽取式证据层，而不是松散总结：
+每个 batch 在需要时都要显式记录 headings_seen、must_keep_facts、boundaries_and_exceptions 和 omission_risk。
+在 synthesis 之后，再为 candidate pages 里的关键结论建立 claim map，只允许用 supported 或明确标注 weakly-supported 的结论。
+在 chunk coverage、extractive notes、evidence mapping 和 final delivery gate 全部通过前，不要宣称完整导入。
+```
+
 ## 4. 我已经有 profile，想沉淀一轮任务结果
 
 ```text

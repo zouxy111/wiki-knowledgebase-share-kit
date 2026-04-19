@@ -20,10 +20,18 @@ Instead, create a stable reading harness that can:
 1. Run `scripts/close_read_markdown.py`
 2. Review one batch packet at a time
 3. Save one JSON note per batch into `batch-notes/`
-4. Re-run the script to refresh rolling state and future packet context
-5. Prefer changed-batches-only continuation: keep unchanged completed notes, reset only batches whose chunk hash changed
-6. When enough batches are complete, run `scripts/synthesize_knowledge.py`
-7. Promote only the stable overview / chapter / topic outputs into the vault
+4. Treat those batch notes as the **extractive evidence layer**, not just short summaries
+5. Re-run the script to refresh rolling state and future packet context
+6. Prefer changed-batches-only continuation: keep unchanged completed notes, reset only batches whose chunk hash changed
+7. When enough batches are complete, run `scripts/synthesize_knowledge.py`
+8. Build `claim-map.json` for the important claims in the candidate pages
+9. Build `delivery-gate.json` before claiming the import is complete
+10. Promote only the stable overview / chapter / topic outputs into the vault
 
 ## Important rule
 Close-reading mode is for **deep understanding of oversized sources**, not for dumping raw text into the knowledge base.
+
+Additional rule:
+
+> The execution agent must not self-certify “fully complete”.
+> Completion belongs to the delivery gate, not to the worker summary.
