@@ -7,7 +7,7 @@
 [![Contributors](https://img.shields.io/github/contributors/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-> An **8-skill knowledge-base package** for markdown / wiki / Obsidian-style vaults.
+> An **8-skill knowledge-base governance and collaboration kit** for markdown / wiki / Obsidian-style vaults.
 > The goal is not to record more logs, but to keep a vault **navigable, role-stable, maintainable, collaboration-friendly, and auditable**.
 
 <p align="center">
@@ -296,6 +296,9 @@ But the important boundary is:
 - these are **recommended combinations**, not exclusive dependencies
 - the core value of this repository is still **knowledge-base structure governance and workflow design**, not platform lock-in
 
+If you want to plug the method into a longer-running OpenClaw / Hermes workspace, continue with [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+That document explains why we recommend an optional `agent-workspace/` folder parallel to `pages/`, so drafts, distills, and runtime helper artifacts have a home without polluting durable knowledge pages.
+
 ---
 
 ## Quick start
@@ -336,6 +339,9 @@ A: Usually the repo is fine; the runtime's actual skills directory was not insta
 **Q: How do I prevent a huge source from being only half-read and still being reported as “fully imported”?**
 A: Do not feed the whole giant source directly to the model. First generate `manifest.json` and `coverage-map.md` with `split_markdown.py`, process the source chunk by chunk, then gate completion with `verify_ingest_coverage.py`. See [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md).
 
+**Q: Can these distilled outputs also be written back into OpenClaw?**
+A: Yes. The recommended pattern is to keep `pages/` for durable knowledge and add an optional `agent-workspace/` folder parallel to it for OpenClaw / Hermes drafts, shared-project mirrors, distills, and intermediate comparison notes. See [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+
 **Q: Are enterprise and medical separate solutions?**
 A: No. They are two common variants of the same broader scenario: high-knowledge-density, multi-person, auditable collaboration.
 
@@ -351,6 +357,7 @@ A: It should not. The intended use is to keep collaboration-relevant stable sign
 - `templates/vault-profile-template.md`
 - `docs/example-prompts.md`
 - `docs/usage-sop.md`
+- `docs/agent-runtime-writeback-patterns.md`
 - `examples/case-study-pathology-ingest-iteration.md`
 
 ---

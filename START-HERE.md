@@ -225,6 +225,8 @@ Include timestamps, project associations, meeting notes, and weekly distillation
 2. `templates/vault-profile-template.md`
 3. `docs/usage-sop.md`
 4. `docs/example-prompts.md`
+5. `docs/collaboration-integration-patterns.md`
+6. `docs/agent-runtime-writeback-patterns.md`
 
 ---
 
@@ -241,5 +243,7 @@ Include timestamps, project associations, meeting notes, and weekly distillation
 1. `docs/customization-guide.md`
 2. `docs/usage-sop.md`
 3. `docs/example-prompts.md`
-4. `examples/case-study-pathology-ingest-iteration.md`
-5. `examples/scenario-*.md`（注意：这些是场景化示意）
+4. `docs/collaboration-integration-patterns.md`
+5. `docs/agent-runtime-writeback-patterns.md`
+6. `examples/case-study-pathology-ingest-iteration.md`
+7. `examples/scenario-*.md`（注意：这些是场景化示意）
