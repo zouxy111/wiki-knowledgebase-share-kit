@@ -61,6 +61,8 @@
 - `members/<id>/questionnaire.md`
 - `members/<id>/response.md`
 - `members/<id>/assignment.md`
+- `members/<id>/progress-update.md`
+- `members/<id>/decision-distill.md`
 - `coordination/alignment-summary.md`
 - `coordination/task-board.md`
 - `coordination/decision-register.md`
@@ -97,11 +99,15 @@ my-vault/
   log.md
   pages/
     ... stable knowledge pages ...
+  team-project/
+    project-brief.md
+    team-roster.md
+    members/
+    coordination/
   agent-workspace/
     drafts/
     distills/
     imports/
-    shared-projects/
     openclaw/
       prompts/
       scratch/
@@ -112,11 +118,12 @@ my-vault/
 
 说明：
 - `pages/` 继续只放稳定知识页
+- `team-project/` 才是正式 shared project directory，也是 coordinator workflow 的唯一事实源
 - `agent-workspace/` 是**可选增强层**，不是强制 schema
-- `shared-projects/` 可以只是本地镜像、辅助材料或待同步版本
 - 真正进入 coordinator 闭环的，仍应以正式 shared project directory 为准
+- 如果确实需要本地镜像，建议明确标成只读 cache，并避免把它当成协调事实源
 
-如果你的团队已经把 `team-project/` 放在 NAS / 网盘同步目录里，那么 `agent-workspace/shared-projects/` 也可以不保留，或只保留本地辅助副本。
+如果你的团队已经把 `team-project/` 放在 NAS / 网盘同步目录里，那么 `agent-workspace/` 就更适合作为纯草稿 / distill / runtime helper 区，而不是再维护一份可写的 shared project 副本。
 
 ---
 
