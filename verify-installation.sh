@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wiki Knowledge Base Share Kit — 安装验证脚本
-# Verify that all 8 skills are correctly installed
+# Verify that all 10 skills are correctly installed
 
 set -euo pipefail
 
@@ -19,14 +19,17 @@ log_error() { echo -e "${RED}❌ $1${NC}"; }
 
 SKILLS=(
     knowledge-base-kit-guide
+    knowledge-base-orchestrator
     knowledge-base-ingest
     knowledge-base-maintenance
     knowledge-base-audit
-    knowledge-base-orchestrator
+    knowledge-base-project-management
     knowledge-base-team-coordination
+    knowledge-base-delivery-audit
     knowledge-base-working-profile
     work-journal
 )
+SKILL_COUNT=${#SKILLS[@]}
 
 TARGET_DIR=""
 VERBOSE=false
@@ -35,7 +38,7 @@ usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [SKILLS_DIR]
 
-Verify that the 8-skill wiki-knowledgebase-share-kit is correctly installed.
+Verify that the 10-skill wiki-knowledgebase-share-kit is correctly installed.
 
 OPTIONS:
     -v, --verbose      Show detailed output for each skill

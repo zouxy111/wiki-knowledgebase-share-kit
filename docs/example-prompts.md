@@ -17,12 +17,14 @@ Check whether I already have a usable vault first. Only offer Obsidian installat
 
 ```text
 Use $knowledge-base-kit-guide to walk me through this share kit.
-I want to understand the profile first, then know which of the 8 skills I should use next.
+I want to understand the profile first, then know which of the 10 skills I should use next.
+Keep the default path narrow unless I explicitly ask for project-management workflows.
 ```
 
 ```text
 用 $knowledge-base-kit-guide 帮我理解这套知识库维护包。
-我想先搞清楚 profile、安装方式和 8 个 skill 的分工，再决定下一步用哪个。
+我想先搞清楚 profile、安装方式和 10 个 skill 的分工，再决定下一步用哪个。
+如果我没明确提项目管理，就先不要强推 PM 主线。
 ```
 
 ## 3. 以轻量 harness 方式导入一本 markdown 书到知识库
@@ -49,16 +51,6 @@ If the source changes later, rerun only the changed batches and generate candida
 Write draft frontmatter into candidate pages so they are closer to real vault pages instead of plain notes.
 ```
 
-```text
-用 $knowledge-base-ingest 处理这份超大 Markdown 源材料并导入我的知识库。
-先读 vault profile。
-不要把这次当成一次性导入；请切到 close-reading mode：
-先拆 chunk，再生成 batch packets，维护 rolling reading state，每个 batch 输出一份 JSON 精读笔记，最后再汇总 chapter summaries、topic candidates、glossary seeds 和 overview 页。
-整个 run 必须支持断点续跑，下一轮不要从头重读整份材料。
-如果后续 source 有修改，也要尽量只重跑 changed batches，并输出 candidate pages 和 candidate link map，方便最后落页。
-candidate pages 还要带 draft frontmatter，这样它们更接近真正可落进 vault 的页面，而不是普通笔记草稿。
-```
-
 ## 4. 我已经有 profile，想沉淀一轮任务结果
 
 ```text
@@ -66,21 +58,11 @@ Use $knowledge-base-maintenance to integrate this task into my markdown knowledg
 Read my vault profile first. Keep only durable conclusions or reusable troubleshooting knowledge, choose the right page role, and sync the target page, relevant root page, reader entrypoint, and milestone log.
 ```
 
-```text
-用 $knowledge-base-maintenance 把这次结果沉淀进我的知识库。
-先读 vault profile，再过滤过程噪音，按页面角色归类，并同步目标页、root page、reader entry 和 milestone log。
-```
-
 ## 5. 我怀疑 wiki 结构已经乱了
 
 ```text
 Use $knowledge-base-audit to inspect my knowledge base.
 Read the vault profile first, then report dead links, orphan pages, missing entrypoints, metadata issues, page-boundary drift, noise regression, and stray markdown files at the vault root.
-```
-
-```text
-用 $knowledge-base-audit 审计我的知识库。
-先读 vault profile，再检查死链、孤立页、metadata、页面边界漂移、噪音回流，以及根目录 stray markdown 文件。
 ```
 
 ## 6. 先审计，再修
@@ -97,12 +79,23 @@ Use $knowledge-base-working-profile to update my working profile from our recent
 Read my vault profile first, keep only collaboration-relevant stable signals, separate confirmed / repeated / inferred items, filter sensitive personal data, and sync the target profile page according to its visibility rules.
 ```
 
+## 8. 单人 / owner 视角推进项目
+
 ```text
-用 $knowledge-base-working-profile 从我们的持续沟通里更新我的 working profile。
-先读 vault profile，再只保留对未来协作有用的稳定信号，区分 confirmed / repeated / inferred，过滤敏感个人信息，并按 visibility 规则同步到目标画像页。
+Use $knowledge-base-project-management to help me run this project.
+Read my vault profile and the relevant brief / recent journal / current blockers first.
+Generate a concise project summary, milestones, risks, dependencies, and a personal execution board.
+Only suggest the optional project-management area if PM workflows are actually needed.
 ```
 
-## 8. 协调一个多人共享项目
+```text
+用 $knowledge-base-project-management 帮我推进这个项目。
+先读 vault profile，以及相关 brief / 最近 journal / 当前 blocker。
+输出项目摘要、里程碑、风险、依赖和个人执行板。
+只有在 PM 工作流确实需要时，再建议我启用可选的 project-management area。
+```
+
+## 9. 协调一个多人共享项目
 
 ```text
 Use $knowledge-base-team-coordination to coordinate this shared project.
@@ -114,26 +107,38 @@ Read the shared project directory first, generate role-aware questionnaires, sum
 先读取共享项目目录，生成成员级问卷，总结对齐缺口，在确认前保持 assignment 为 draft，并在结项时输出可复用的决策蒸馏。
 ```
 
-## 9. 记录今天的工作 / 会议纪要
+## 9B. 用个人 agent 协助成员填写问卷
+
+```text
+Use OpenClaw / Hermes / my own agent to help me answer the questionnaire in members/<id>/questionnaire.md.
+Work in my personal wiki or private notes first if needed, but only write the final answer back into members/<id>/response.md in the shared project directory.
+Do not treat my private draft notes as the coordinator's source of truth.
+```
+
+## 10. 检查这个项目是否真的 ready
+
+```text
+Use $knowledge-base-delivery-audit to review whether this project is actually ready.
+Read the project brief, current task or assignment artifacts, decision records, and evidence first.
+Report missing proof, missing write-backs, missing decisions, and whether the current state should stay blocked, move to ready, or wait for greenlight approval.
+```
+
+```text
+用 $knowledge-base-delivery-audit 审这个项目是不是真的 ready。
+先读项目 brief、当前任务 / assignment 工件、决策记录和证据。
+指出缺失的证据、缺失的回写、缺失的决策，并判断当前状态应该继续 blocked、进入 ready，还是等待 greenlight 审批。
+```
+
+## 11. 记录今天的工作 / 会议纪要
 
 ```text
 Use $work-journal to create today's work log.
 Include timestamps, project associations, meeting notes, temporary ideas, and any distillation hooks worth revisiting later.
 ```
 
-```text
-用 $work-journal 帮我写今天的工作记录。
-包含时间戳、项目关联、会议纪要、临时想法，以及后续值得沉淀的条目。
-```
-
-## 10. 从本周 journal 生成周报
+## 12. 从本周 journal 生成周报
 
 ```text
 Use $work-journal to distill a weekly summary from my journal entries this week.
 Highlight key achievements, decisions made, blockers, and knowledge worth sending back into the knowledge base.
-```
-
-```text
-用 $work-journal 帮我生成本周的周报。
-突出关键成果、做出的决策、阻塞项，以及值得回流到知识库的知识。
 ```

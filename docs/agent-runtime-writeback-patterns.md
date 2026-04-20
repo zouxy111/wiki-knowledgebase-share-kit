@@ -123,7 +123,7 @@ my-vault/
 - 真正进入 coordinator 闭环的，仍应以正式 shared project directory 为准
 - 如果确实需要本地镜像，建议明确标成只读 cache，并避免把它当成协调事实源
 
-如果你的团队已经把 `team-project/` 放在 NAS / 网盘同步目录里，那么 `agent-workspace/` 就更适合作为纯草稿 / distill / runtime helper 区，而不是再维护一份可写的 shared project 副本。
+如果你的团队已经把 `team-project/` 放在 NAS / 网盘同步目录里，那么 `agent-workspace/` 就更适合作为纯草稿 / distill / runtime helper 区，而不是再维护一份可写的 shared-project 镜像；如果确实需要本地副本，也应明确标成只读 cache。
 
 ---
 

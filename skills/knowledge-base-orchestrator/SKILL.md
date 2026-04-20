@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-orchestrator
-description: Optional onboarding coordinator for this 8-skill knowledge-base package. Use when the user wants the easiest setup path, needs environment detection, wants help checking whether Obsidian or an existing vault is already available, wants a vault skeleton plus profile generated, or asks for 零门槛初始化, 一键式上手, setup orchestrator, or 先帮我把环境和 profile 跑通. It coordinates setup and recommends the next specialist skill; it is not a universal autonomous agent.
+description: Optional onboarding coordinator for this 10-skill knowledge-base package. Use when the user wants the easiest setup path, needs environment detection, wants help checking whether Obsidian or an existing vault is already available, wants a vault skeleton plus profile generated, or asks for 零门槛初始化, 一键式上手, setup orchestrator, or 先帮我把环境和 profile 跑通. It coordinates setup and recommends the next specialist skill; it is not a universal autonomous agent.
 ---
 
 # Knowledge Base Orchestrator
@@ -88,8 +88,10 @@ description: Optional onboarding coordinator for this 8-skill knowledge-base pac
 - 导入长文档：`knowledge-base-ingest`
 - 写回知识：`knowledge-base-maintenance`
 - 审计结构：`knowledge-base-audit`
+- 做项目 intake / 周计划 / blocker / 里程碑：`knowledge-base-project-management`
 - 沉淀协作画像：`knowledge-base-working-profile`
 - 跑多人项目：`knowledge-base-team-coordination`
+- 审交付完整性 / ready / greenlight：`knowledge-base-delivery-audit`
 - 写工作记录：`work-journal`
 
 ## Output expectations

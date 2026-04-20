@@ -1,9 +1,9 @@
 # Skill Installation Troubleshooting
 
-> 这份文档专门处理这类问题：
+> 这份文档专门处理这类问题：  
 > `Skill "knowledge-base-ingest" not found`
 >
-> 最常见原因不是仓库里没有这个 skill，
+> 最常见原因不是仓库里没有这个 skill，  
 > 而是**当前运行的 agent 没有从它真正扫描的 skills 目录里加载到它**。
 
 ---
@@ -13,7 +13,8 @@
 ### A. 仓库里有没有这个 skill
 例如：
 - `skills/knowledge-base-ingest/`
-- `skills/knowledge-base-team-coordination/`
+- `skills/knowledge-base-project-management/`
+- `skills/knowledge-base-delivery-audit/`
 - `skills/work-journal/`
 
 这说明 **repo 自身是否包含该 skill bundle**。
@@ -56,15 +57,6 @@ python3 scripts/install_skills.py --target-dir /path/to/your/skills --force
 python3 scripts/install_skills.py --platform codex --mode copy --force
 ```
 
-默认模式是 `symlink`：
-- 优点：repo 更新后，运行时会直接看到最新 skill 文件
-- 适合：本地开发 / 经常更新仓库
-
-`copy` 模式适合：
-- 你要生成一个独立 snapshot
-- 平台不接受 symlink
-- 你希望技能目录与 repo 脱钩
-
 ---
 
 ## 3. 安装后一定要做的事
@@ -72,7 +64,6 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 很多平台只在**启动会话时**扫描技能目录。
 
 所以安装后要：
-
 1. **重开当前会话**，或直接**重启 AI runtime**
 2. 再次查看平台里的 available skills
 3. 再调用目标 skill
@@ -91,10 +82,6 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 - `skills/knowledge-base-ingest/` 存在
 - 但 `~/.codex/skills/knowledge-base-ingest/` 不存在
 
-结论：
-- 仓库更新了
-- 但运行时没有同步安装
-
 修法：
 - 用 `scripts/install_skills.py` 安装到正确目录
 
@@ -102,21 +89,14 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 典型症状：
 - `~/.claude/skills/knowledge-base-ingest/` 存在
 - `~/.codex/skills/knowledge-base-ingest/` 不存在
-- 结果你在 Codex 里还是报错
-
-结论：
-- skill 装到了**另一个平台**
 
 修法：
 - 安装到你当前实际运行的平台目录
 
-### 情况 3：只装了部分 skill，不是完整 8-skill package
+### 情况 3：只装了部分 skill，不是完整 10-skill package
 典型症状：
 - `knowledge-base-ingest` 有
-- `knowledge-base-team-coordination` / `knowledge-base-working-profile` / `work-journal` 没有
-
-结论：
-- skill package 版本不完整
+- `knowledge-base-project-management` / `knowledge-base-team-coordination` / `knowledge-base-delivery-audit` 等缺失
 
 修法：
 - 整包同步，而不是只补单个 skill
@@ -126,28 +106,21 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 - 目录已存在
 - 但 `Available skills` 列表里没有它
 
-结论：
-- runtime 缓存 / 会话启动时机问题
-
 修法：
 - 重开会话或重启运行环境
 
 ### 情况 5：skill 名称拼错
-典型症状：
-- 你调用的是错误 skill 名
-- 例如少了连字符或用了旧名字
-
-修法：
-- 以 `skills/` 目录名为准
-- 当前 repo 中应使用：
-  - `knowledge-base-kit-guide`
-  - `knowledge-base-orchestrator`
-  - `knowledge-base-ingest`
-  - `knowledge-base-maintenance`
-  - `knowledge-base-audit`
-  - `knowledge-base-working-profile`
-  - `knowledge-base-team-coordination`
-  - `work-journal`
+当前 repo 中应使用：
+- `knowledge-base-kit-guide`
+- `knowledge-base-orchestrator`
+- `knowledge-base-ingest`
+- `knowledge-base-maintenance`
+- `knowledge-base-audit`
+- `knowledge-base-project-management`
+- `knowledge-base-team-coordination`
+- `knowledge-base-delivery-audit`
+- `knowledge-base-working-profile`
+- `work-journal`
 
 ---
 
@@ -169,8 +142,8 @@ ls ~/.claude/skills
 ### 检查某个具体 skill 是否已安装到目标 runtime
 
 ```bash
-ls ~/.codex/skills/knowledge-base-ingest
-ls ~/.claude/skills/knowledge-base-ingest
+ls ~/.codex/skills/knowledge-base-project-management
+ls ~/.codex/skills/knowledge-base-delivery-audit
 ```
 
 ---
@@ -194,7 +167,6 @@ python3 scripts/install_skills.py --platform claude --force
 ## 7. 如果还是失败
 
 请同时检查：
-
 - 你当前到底是在 **Codex / Claude Code / OpenClaw / Hermes / 其他 runtime** 的哪一个里运行
 - 这个 runtime 实际扫描的 `skills` 目录是哪一个
 - 当前会话是不是在安装前就已经启动了

@@ -35,6 +35,7 @@
 | operations | 运维与排障 |
 | research | 调研与知识沉淀 |
 | governance | 知识库治理与维护 |
+| project-management | 可选 PM 管理层 area（里程碑 / blocker / gates） |
 
 ---
 
@@ -47,6 +48,7 @@
 | operations | `project-operations-overview.md` | 运维主线导航入口 |
 | research | `project-research-overview.md` | 调研主线导航入口 |
 | governance | `workspace-governance-overview.md` | 维护者入口 |
+| project-management | `project-project-management-overview.md` | 可选 PM 管理层入口 |
 
 ---
 

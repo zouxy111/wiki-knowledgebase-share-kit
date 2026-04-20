@@ -1,0 +1,6 @@
+interface:
+  display_name: "Knowledge Base 交付审计"
+  short_description: "审交付闭环、证据缺口、回写完整性与 ready / blocked / greenlight 条件"
+  default_prompt: "Use $knowledge-base-delivery-audit to audit whether this project or deliverable is actually ready. Read the project brief, relevant task/assignment artifacts, decision records, and evidence. Report completion gaps, risks, missing write-backs, and whether the current state should stay blocked, move to ready, or wait for greenlight."
+policy:
+  allow_implicit_invocation: true

@@ -1,24 +1,27 @@
 #!/bin/bash
 
 # Wiki Knowledge Base Share Kit — 一键安装脚本
-# One-click installer for the 8-skill knowledge-base package
+# One-click installer for the 10-skill knowledge-base package
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="${SCRIPT_DIR}/skills"
 
-# 8 个核心 skill 列表
+# 10 个核心 skill 列表
 SKILLS=(
     knowledge-base-kit-guide
+    knowledge-base-orchestrator
     knowledge-base-ingest
     knowledge-base-maintenance
     knowledge-base-audit
-    knowledge-base-orchestrator
+    knowledge-base-project-management
     knowledge-base-team-coordination
+    knowledge-base-delivery-audit
     knowledge-base-working-profile
     work-journal
 )
+SKILL_COUNT=${#SKILLS[@]}
 
 # 颜色定义
 RED='\033[0;31m'
@@ -31,12 +34,13 @@ NC='\033[0m' # No Color
 DRY_RUN=false
 BACKUP=false
 TARGET_DIR=""
+LAST_INSTALL_ACTION=""
 
 usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [TARGET_DIR]
 
-Install the 8-skill wiki-knowledgebase-share-kit to your AI platform's skills directory.
+Install the 10-skill wiki-knowledgebase-share-kit to your AI platform's skills directory.
 
 OPTIONS:
     -d, --dry-run      Show what would be installed without making changes
@@ -64,6 +68,41 @@ log_info()  { echo -e "${BLUE}ℹ️  $1${NC}"; }
 log_ok()    { echo -e "${GREEN}✅ $1${NC}"; }
 log_warn()  { echo -e "${YELLOW}⚠️  $1${NC}"; }
 log_error() { echo -e "${RED}❌ $1${NC}"; }
+
+# 即使父目录还不存在，也尽量把目标解析成稳定的绝对路径
+resolve_target_dir_path() {
+    local path="$1"
+    local base tail
+
+    case "$path" in
+        "~")
+            path="$HOME"
+            ;;
+        "~/"*)
+            path="${HOME}/${path#~/}"
+            ;;
+    esac
+
+    if [[ "$path" != /* ]]; then
+        path="${PWD}/${path}"
+    fi
+
+    tail=""
+    while [ ! -d "$path" ]; do
+        base="$(basename "$path")"
+        tail="/${base}${tail}"
+        if [ "$path" = "/" ]; then
+            break
+        fi
+        path="$(dirname "$path")"
+    done
+
+    if [ -d "$path" ]; then
+        path="$(cd "$path" && pwd -P)"
+    fi
+
+    printf '%s%s\n' "${path%/}" "$tail"
+}
 
 # 检测平台并返回 skills 目录
 detect_platform() {
@@ -98,7 +137,11 @@ detect_platform() {
 # 解析符号链接获取真实路径
 resolve_symlink() {
     local path="$1"
-    if [ -L "$path" ]; then
+    if [ -d "$path" ]; then
+        (
+            cd "$path" && pwd -P
+        )
+    elif [ -L "$path" ]; then
         readlink -f "$path" 2>/dev/null || readlink "$path" 2>/dev/null || echo "$path"
     else
         echo "$path"
@@ -120,10 +163,17 @@ install_skill() {
     local skill_name="$1"
     local src="${SKILLS_DIR}/${skill_name}"
     local dest="${TARGET_DIR}/${skill_name}"
+    LAST_INSTALL_ACTION="error"
 
     if [ ! -d "$src" ]; then
         log_error "Source directory not found: $src"
         return 1
+    fi
+
+    if [ -L "$dest" ] && is_same_target "$src" "$dest"; then
+        log_warn "${skill_name} is already a symlink to source — skipping"
+        LAST_INSTALL_ACTION="skipped"
+        return 0
     fi
 
     if [ -e "$dest" ]; then
@@ -151,6 +201,8 @@ install_skill() {
     else
         log_info "[DRY-RUN] Would copy: ${src} → ${dest}"
     fi
+
+    LAST_INSTALL_ACTION="installed"
 }
 
 # 主逻辑
@@ -158,7 +210,7 @@ main() {
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
     echo "║  Wiki Knowledge Base Share Kit — Installer                 ║"
-    echo "║  8-skill knowledge-base package installer                  ║"
+    echo "║  10-skill knowledge-base package installer                 ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
 
@@ -213,7 +265,7 @@ main() {
         }
         log_ok "Detected platform skills directory: ${TARGET_DIR}"
     else
-        TARGET_DIR="$(cd "$(dirname "$TARGET_DIR")" && pwd)/$(basename "$TARGET_DIR")"
+        TARGET_DIR="$(resolve_target_dir_path "$TARGET_DIR")"
         log_info "Using specified directory: ${TARGET_DIR}"
     fi
 
@@ -226,16 +278,6 @@ main() {
             log_info "[DRY-RUN] Would create directory: ${TARGET_DIR}"
         fi
     fi
-
-    # 检查符号链接冲突
-    for skill_name in "${SKILLS[@]}"; do
-        local src="${SKILLS_DIR}/${skill_name}"
-        local dest="${TARGET_DIR}/${skill_name}"
-        if [ -L "$dest" ] && is_same_target "$src" "$dest"; then
-            log_warn "${skill_name} is already a symlink to source — skipping"
-            continue
-        fi
-    done
 
     # 检查前置条件
     log_info "Checking prerequisites..."
@@ -250,7 +292,7 @@ main() {
         log_error "${missing} skill(s) missing from ${SKILLS_DIR}"
         exit 1
     fi
-    log_ok "All 8 skills found in source directory"
+    log_ok "All ${SKILL_COUNT} skills found in source directory"
 
     # 执行安装
     echo ""
@@ -263,18 +305,33 @@ main() {
     echo ""
 
     local installed=0
+    local skipped=0
     for skill_name in "${SKILLS[@]}"; do
-        install_skill "$skill_name" && installed=$((installed + 1))
+        install_skill "$skill_name"
+        case "$LAST_INSTALL_ACTION" in
+            installed)
+                installed=$((installed + 1))
+                ;;
+            skipped)
+                skipped=$((skipped + 1))
+                ;;
+        esac
     done
 
     echo ""
     if [ "$DRY_RUN" = true ]; then
         log_info "Dry-run complete. ${installed} skills would be installed."
+        if [ $skipped -gt 0 ]; then
+            log_info "${skipped} skills are already linked to source and would be skipped."
+        fi
         echo ""
         echo "Run without --dry-run to perform the actual installation:"
         echo "  $0 ${TARGET_DIR}"
     else
-        log_ok "Installation complete! ${installed}/8 skills installed."
+        log_ok "Installation complete! ${installed}/${SKILL_COUNT} skills installed."
+        if [ $skipped -gt 0 ]; then
+            log_info "${skipped} skills were already linked to source and were skipped."
+        fi
         echo ""
         echo "Next steps:"
         echo "  1. Copy templates:  cp templates/vault-profile-template.md ./my-vault-profile.md"
@@ -284,6 +341,7 @@ main() {
         echo "Quick start:"
         echo "  Use \$knowledge-base-orchestrator for guided onboarding"
         echo "  Use \$knowledge-base-kit-guide to understand the structure first"
+        echo "  Use \$knowledge-base-project-management only when you need project / milestone / blocker workflows"
     fi
 }
 

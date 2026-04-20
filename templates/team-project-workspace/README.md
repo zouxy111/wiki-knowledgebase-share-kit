@@ -24,6 +24,10 @@
 - 但 coordinator 默认只把**已同步回 shared project directory 的 markdown 文件**视为正式输入
 - `team-project/` 可以独立放在 NAS / 网盘同步目录中，也可以嵌入共享 wiki / 共享知识库子目录中
 
+## 与 PM 主线的关系
+- 如果你还需要项目 owner 视角的里程碑 / blocker / portfolio / delivery gate，请额外复制 `templates/project-management/`
+- `team-project/` 仍只负责多人协同事实层，不代替 `project-management` area
+
 ## 目录结构
 
 ```text
