@@ -294,6 +294,32 @@ cp -r skills/knowledge-base-working-profile ~/.codex/skills/
 cp -r skills/work-journal ~/.codex/skills/
 ```
 
+支持的平台目录：
+- `~/.kimi/skills` — Kimi CLI
+- `~/.claude/skills` — Claude Code
+- `~/.codex/skills` — Codex
+- `~/.agents/skills` — 通用 agents 平台
+
+> **注意**：Kimi CLI 和 Claude Code 可能共享同一个 `~/.agents/skills` 目录（通过符号链接）。如果你同时使用两者，只需安装到 `.agents/skills` 即可。
+
+> 如果你使用 OpenClaw、Hermes Agent 或其他兼容平台，请先确认该平台的 skills 目录约定，再安装。
+
+---
+
+## OpenClaw / Hermes / MinerU 适配说明
+
+这套方法和以下工具组合时通常会更顺手：
+- **OpenClaw**：适合作为日常 AI 助手运行平台
+- **Hermes Agent**：适合作为可持续协作与成长型 agent 平台
+- **MinerU**：适合把 PDF / 复杂文档转成 LLM 可处理的 markdown
+
+但要注意：
+- 这些平台/工具是**推荐组合**，不是本仓库唯一依赖
+- 本仓库的核心价值仍然是 **知识库结构治理与 workflow 设计**，不是平台绑定
+
+如果你准备把这套方法接到 OpenClaw / Hermes 的长期工作区里，建议继续看 [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)。
+那份文档会专门说明：为什么推荐保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，用来承接草稿、蒸馏、对照表和 runtime helper 产物，而不污染稳定知识页；如果确实需要本地镜像，也只能当只读 cache，不能替代 `team-project/` 作为协调事实源。
+
 ---
 
 ## 快速上手
@@ -335,6 +361,9 @@ A：通常不是 repo 缺 skill，而是**当前运行平台的 skills 目录没
 **Q：怎么防止长文档只读前半部分就被误判为“已完整导入”？**  
 A：不要直接把超长 source 整篇塞给模型。先运行 `split_markdown.py` 生成 `manifest.json` 和 `coverage-map.md`，逐 chunk 处理，再用 `verify_ingest_coverage.py` 做完成态校验；详见 [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md)。
 
+**Q：这些蒸馏结果也能写进 OpenClaw 吗？**
+A：能。推荐把 `pages/` 留给稳定知识，再保留一个与 `pages/` 并行的可选 `agent-workspace/` 目录，承接 OpenClaw / Hermes 的草稿、distill、中间对照表和 runtime helper 产物；如果确实需要镜像 shared project，也只能标成只读 cache，不能把它当成正式协调事实源。详见 [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)。
+
 **Q：项目管理是不是会把业务知识和 governance 搅在一起？**  
 A：不会。PM 主线固定要求：业务事实回原 area，治理规则留在 `governance`，管理层板面才进入 `project-management`。
 
@@ -354,6 +383,7 @@ A：不是。当前是主推平台，但兼容性来自 shared project directory
 - [`docs/example-prompts.md`](./docs/example-prompts.md)
 - [`docs/usage-sop.md`](./docs/usage-sop.md)
 - [`docs/project-management-workflow.md`](./docs/project-management-workflow.md)
+- [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)
 
 ---

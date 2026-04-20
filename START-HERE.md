@@ -97,6 +97,7 @@ bash verify-installation.sh
 - `templates/working-profile-page-template.md`
 - `templates/journal-profile-template.md`
 - `templates/member-capability-profile-template.md`
+- `templates/team-project-workspace/`（**只有你需要 2 人及以上共享项目协调时才复制**）
 - `templates/project-management/`（**只有你需要 PM 主线时才复制**）
 
 最少应补这些字段：
@@ -170,6 +171,10 @@ Only suggest the project-management area if PM workflows are actually needed.
 Use $knowledge-base-team-coordination to coordinate this shared project.
 Read the shared project directory first, generate role-aware questionnaires, summarize alignment gaps, keep assignments in draft until approved, and distill reusable decisions at closeout.
 ```
+
+如果你还没有共享项目目录骨架：
+- 先复制 `templates/team-project-workspace/`
+- 再把 `project-brief.md`、`team-roster.md` 和成员目录补齐
 
 ### C. 交付闭环 / ready 审计
 ```text
@@ -253,4 +258,6 @@ Include timestamps, project associations, meeting notes, and weekly distillation
 2. `docs/usage-sop.md`
 3. `docs/example-prompts.md`
 4. `docs/project-management-workflow.md`
-5. `examples/case-study-pathology-ingest-iteration.md`
+5. `docs/collaboration-integration-patterns.md`
+6. `docs/agent-runtime-writeback-patterns.md`
+7. `examples/case-study-pathology-ingest-iteration.md`

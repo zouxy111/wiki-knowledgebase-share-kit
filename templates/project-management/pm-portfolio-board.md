@@ -25,7 +25,9 @@ updated: "2026-04-20"
 
 | project | owner | completed on | handoff status | write-back status |
 |---|---|---|---|---|
-| 示例项目 C | owner-name | 2026-04-18 | ready | pending |
+| 示例项目 C | owner-name | 2026-04-18 | ready | done |
+
+> 这里只有在达到 `ready` 条件、且必要业务回写已经完成后，才适合进入 `Done`。
 
 ## Parked
 

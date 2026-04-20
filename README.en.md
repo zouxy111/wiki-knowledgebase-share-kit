@@ -294,6 +294,32 @@ cp -r skills/knowledge-base-working-profile ~/.codex/skills/
 cp -r skills/work-journal ~/.codex/skills/
 ```
 
+Other common directory patterns include:
+- `~/.kimi/skills` — Kimi CLI
+- `~/.claude/skills` — Claude Code
+- `~/.codex/skills` — Codex
+- `~/.agents/skills` — generic agents
+
+> **Note:** Kimi CLI and Claude Code may share the same `~/.agents/skills` directory via symlinks. If both point there, you only need one install.
+
+> If you are using OpenClaw, Hermes Agent, or another compatible platform, confirm that platform’s skills-directory convention before installation.
+
+---
+
+## OpenClaw / Hermes / MinerU compatibility notes
+
+This method often pairs well with:
+- **OpenClaw** as a day-to-day AI assistant platform
+- **Hermes Agent** as a long-running collaboration-oriented agent platform
+- **MinerU** as a PDF / complex-document to markdown conversion tool
+
+But the important boundary is:
+- these are **recommended combinations**, not exclusive dependencies
+- the core value of this repository is still **knowledge-base structure governance and workflow design**, not platform lock-in
+
+If you want to plug the method into a longer-running OpenClaw / Hermes workspace, continue with [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+That document explains why we recommend an optional `agent-workspace/` folder parallel to `pages/` for drafts, distills, comparison notes, and runtime helper artifacts; if you really keep a local mirror of shared-project material, it must stay a read-only cache and never replace `team-project/` as the coordination source of truth.
+
 ---
 
 ## Quick start
@@ -334,6 +360,9 @@ A: Usually the repo is fine; the runtime's actual skills directory was not insta
 **Q: How do I prevent a huge source from being only half-read and still being reported as “fully imported”?**  
 A: Do not feed the whole giant source directly to the model. First generate `manifest.json` and `coverage-map.md` with `split_markdown.py`, process the source chunk by chunk, then gate completion with `verify_ingest_coverage.py`. See [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md).
 
+**Q: Can these distilled outputs also be written back into OpenClaw?**
+A: Yes. The recommended pattern is to keep `pages/` for durable knowledge and add an optional `agent-workspace/` folder parallel to it for OpenClaw / Hermes drafts, distills, comparison notes, and runtime helper artifacts. If you keep a local mirror of shared-project material, treat it as a read-only cache only, never as the coordination source of truth. See [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+
 **Q: Will project management mix business knowledge with governance?**  
 A: No. The PM mainline explicitly separates them: business facts stay in business areas, governance stays in `governance`, and management-layer boards live in `project-management`.
 
@@ -353,6 +382,7 @@ A: No. They are recommended platforms, but compatibility comes from the shared p
 - [`docs/example-prompts.md`](./docs/example-prompts.md)
 - [`docs/usage-sop.md`](./docs/usage-sop.md)
 - [`docs/project-management-workflow.md`](./docs/project-management-workflow.md)
+- [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)
 - [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)
 
 ---

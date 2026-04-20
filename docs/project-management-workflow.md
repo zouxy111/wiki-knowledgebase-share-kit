@@ -69,7 +69,7 @@
 
 ---
 
-## 4. 固定 3 个板块
+## 4. 固定 3 个管理视角
 
 ### A. 组合 / 项目总览板块
 建议模板：
@@ -82,19 +82,25 @@
 - 每个项目 owner / 阶段 / 优先级 / 成功标准是什么
 - 哪些项目 `active / blocked / done / parked`
 
-### B. 团队协同板块
-这里不重复发明第二套能力。
+### B. Team coordination 接口层
+这里不在 `project-management` area 内重复发明第二套团队协同页面。
 
 正式入口仍是：
 - `knowledge-base-team-coordination`
+- `templates/team-project-workspace/`
 
 负责：
-- 共享项目目录
+- `team-project/` 共享项目目录
 - 问卷
 - alignment
 - assignment
 - follow-up
 - decision distill
+
+边界要点：
+- canonical coordination artifacts 仍放在 `team-project/`
+- PM board 最多保留链接、摘要、routing 结论，不复制问卷 / assignment / progress-update / decision-distill 原件
+- 如果还没有共享项目目录，应先复制 `templates/team-project-workspace/` 再进入多人协同
 
 ### C. 个人执行板块
 建议模板：

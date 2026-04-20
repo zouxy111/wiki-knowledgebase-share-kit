@@ -1,24 +1,28 @@
 # Vault Profile Contract
 
-## The audit skill needs these facts
+## A knowledge-base skill should not proceed without these facts
 - vault root path
-- content page directory
-- reader entrypoint
-- milestone log
-- maintainer entrypoint
+- markdown page directory
+- reader entrypoint file
+- milestone log file
+- maintainer entrypoint file
 - area list
 - root page map
 - canonical root-level markdown files
 - frontmatter contract
 
-## Why root-level canonical files matter
-The audit skill must know which markdown files are intentionally allowed at the vault root.
-Otherwise it cannot reliably report stray root-level markdown artifacts.
+## Why this matters
+Without a profile, the skill cannot safely decide:
+- where overview pages should live
+- which root page should own a chapter/topic page group
+- which files are allowed at the vault root
+- how imported pages should be tagged and typed
 
 ## If the profile is missing
-Ask for the minimum missing configuration before claiming something is invalid.
+Ask for the minimum missing configuration before editing files.
 Do not guess:
-- which pages are root pages
-- whether a markdown file belongs at the vault root
-- allowed area names
-- required metadata fields
+- root page filenames
+- area names
+- page directory layout
+- metadata fields
+- log policy
