@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wiki Knowledge Base Share Kit</title>
-  <meta name="description" content="A 10-skill knowledge-base maintenance and collaboration package for markdown, wiki, and Obsidian-style vaults." />
+  <meta name="description" content="A 10-skill knowledge-base maintenance, collaboration, and progressive PM workflow package for markdown, wiki, and Obsidian-style vaults." />
   <style>
     :root {
       --bg: #07111f;
@@ -1428,7 +1428,7 @@
         <div class="brand-mark">WK</div>
         <div class="brand-copy">
           <strong>Wiki Knowledge Base Share Kit</strong>
-          <span data-i18n="brandSubtitle">10-skill knowledge-base package</span>
+          <span data-i18n="brandSubtitle">10-skill knowledge-base + PM workflow package</span>
         </div>
       </div>
       <div class="nav-right">
@@ -1452,7 +1452,7 @@
           <div class="eyebrow" data-i18n="heroEyebrow">Structured knowledge, not note sprawl</div>
           <h1 data-i18n-html="heroTitle">Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.</h1>
           <p class="lede" data-i18n="heroLede">
-            A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, project-manageable, and auditable instead of letting it drift into scattered notes and process logs.
+            A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. Start with knowledge-base maintenance first, then progressively load the PM mainline only when milestones, blockers, team alignment, or delivery gates become real needs.
           </p>
           <div class="cta-row">
             <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit" data-i18n="heroCtaRepo">Get the repository</a>
@@ -1475,12 +1475,12 @@
               <span data-i18n="heroMini1Copy">Keep project, knowledge, ops, task, and overview pages from drifting into each other.</span>
             </article>
             <article class="hero-mini-card">
-              <strong data-i18n="heroMini2Title">Testable ingest workflow</strong>
-              <span data-i18n="heroMini2Copy">Import long-form markdown with iteration, comparison, and lightweight regression checks.</span>
+              <strong data-i18n="heroMini2Title">One-command install path</strong>
+              <span data-i18n="heroMini2Copy">Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.</span>
             </article>
             <article class="hero-mini-card">
-              <strong data-i18n="heroMini3Title">Collaboration without chaos</strong>
-              <span data-i18n="heroMini3Copy">Working profile, team coordination, and journal loops reduce repeated re-explanation.</span>
+              <strong data-i18n="heroMini3Title">Default lane, optional PM lane</strong>
+              <span data-i18n="heroMini3Copy">Stay narrow for ingest, maintenance, and audit, then add project-management, team coordination, and delivery audit only when the work actually needs them.</span>
             </article>
           </div>
         </article>
@@ -1529,13 +1529,13 @@
                 <article class="switcher-slide">
                   <span class="switcher-kicker" data-i18n="useCase2Kicker">Scenario 02</span>
                   <h4 data-i18n="scenario2Title">Enterprise knowledge bases</h4>
-                  <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+                  <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.</p>
                   <ul data-i18n-html="scenario2List">
-                    <li>Maintenance and audit loops</li>
-                    <li>Shared-project coordination</li>
+                    <li>Maintenance and audit loops first</li>
+                    <li>Optional PM boards and delivery gates</li>
                     <li>Cleaner onboarding for teammates</li>
                   </ul>
-                  <div class="switcher-note" data-i18n="useCase2Note">Recommended route: Kit Guide → Project Management → Team Coordination → Delivery Audit.</div>
+                  <div class="switcher-note" data-i18n="useCase2Note">Recommended route: Kit Guide → Maintenance → Audit, then Project Management if delivery tracking is actually needed.</div>
                 </article>
 
                 <article class="switcher-slide">
@@ -1564,12 +1564,12 @@
 
           <div class="clone-card reveal" style="--delay: 270ms;">
             <div class="clone-head">
-              <div class="role-label" data-i18n="cloneLabel">Repository</div>
-              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git">Copy clone</button>
+              <div class="role-label" data-i18n="cloneLabel">Quick start</div>
+              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh">Copy install</button>
             </div>
-            <h3 data-i18n="cloneTitle">Clone it directly</h3>
-            <p class="muted" data-i18n="cloneCopy">If you want the actual repository instead of only browsing the landing page, start here.</p>
-            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
+            <h3 data-i18n="cloneTitle">Clone and install</h3>
+            <p class="muted" data-i18n="cloneCopy">Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.</p>
+            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh</code></pre>
           </div>
         </aside>
       </div>
@@ -1716,7 +1716,7 @@
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
             <h2 data-i18n="insideTitle">What’s inside</h2>
-            <p class="sub" data-i18n="insideSub">The repository keeps the package explicit: 10 public skills, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.</p>
+            <p class="sub" data-i18n="insideSub">The repository keeps the package explicit: 10 public skills, one recommended install script, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.</p>
           </div>
         </div>
         <div class="grid-4">
@@ -1775,6 +1775,31 @@
     </section>
 
     <section class="section">
+      <div class="shell grid-2">
+        <article class="mini-card reveal" style="--delay: 70ms;">
+          <div class="role-label" data-i18n="laneDefaultLabel">default path</div>
+          <h3 data-i18n="laneDefaultTitle">Start with knowledge-base loops</h3>
+          <p data-i18n="laneDefaultCopy">Most users do not need every workflow on day one. The default route stays narrow and stabilizes the vault first.</p>
+          <ul data-i18n-html="laneDefaultList">
+            <li>Kit Guide or Orchestrator for onboarding</li>
+            <li>Ingest, maintenance, and audit as the default loops</li>
+            <li>Working profile and journal when collaboration context needs continuity</li>
+          </ul>
+        </article>
+        <article class="mini-card reveal" style="--delay: 100ms;">
+          <div class="role-label" data-i18n="lanePmLabel">optional PM mainline</div>
+          <h3 data-i18n="lanePmTitle">Load PM only when delivery needs it</h3>
+          <p data-i18n="lanePmCopy">Project-management is now part of the package, but it stays progressive. Enable it when milestones, blockers, dependencies, handoff, or delivery gates become real needs.</p>
+          <ul data-i18n-html="lanePmList">
+            <li><code>knowledge-base-project-management</code> for owner-side planning</li>
+            <li><code>knowledge-base-team-coordination</code> for 2+ person alignment</li>
+            <li><code>knowledge-base-delivery-audit</code> for ready / blocked / greenlight review</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="shell">
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
@@ -1794,10 +1819,10 @@
           </article>
           <article class="mini-card reveal" style="--delay: 100ms;">
             <h3 data-i18n="scenario2Title">Enterprise knowledge bases</h3>
-            <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+            <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.</p>
             <ul data-i18n-html="scenario2List">
-              <li>Maintenance and audit loops</li>
-              <li>Shared-project coordination</li>
+              <li>Maintenance and audit loops first</li>
+              <li>Optional PM boards and delivery gates</li>
               <li>Cleaner onboarding for teammates</li>
             </ul>
           </article>
@@ -1819,34 +1844,34 @@
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
             <h2 data-i18n="flowTitle">How it flows</h2>
-            <p class="sub" data-i18n="flowSub">Start with onboarding, stabilize the profile contract, then move through specialist loops that keep the vault usable as it grows.</p>
+            <p class="sub" data-i18n="flowSub">Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.</p>
           </div>
         </div>
         <div class="flow">
           <article class="flow-step reveal" style="--delay: 70ms;">
             <small>01</small>
-            <h3 data-i18n="flow1Title">Install</h3>
-            <p data-i18n="flow1Copy">Copy all 10 skill folders into the skills directory of your AI platform.</p>
+            <h3 data-i18n="flow1Title">Get the repo</h3>
+            <p data-i18n="flow1Copy">Clone the repository or download a release archive so the package contents are local.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 100ms;">
             <small>02</small>
-            <h3 data-i18n="flow2Title">Choose onboarding</h3>
-            <p data-i18n="flow2Copy">Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.</p>
+            <h3 data-i18n="flow2Title">Run install.sh</h3>
+            <p data-i18n="flow2Copy">Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 130ms;">
             <small>03</small>
-            <h3 data-i18n="flow3Title">Prepare profile</h3>
-            <p data-i18n-html="flow3Copy">Create or refine <code>vault-profile.md</code> so later workflows have a stable contract.</p>
+            <h3 data-i18n="flow3Title">Choose onboarding</h3>
+            <p data-i18n="flow3Copy">Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 160ms;">
             <small>04</small>
-            <h3 data-i18n="flow4Title">Run specialist loops</h3>
-            <p data-i18n="flow4Copy">Move into ingest, maintenance, audit, and only load project-management, team-coordination, or delivery-audit when those workflows are actually needed.</p>
+            <h3 data-i18n="flow4Title">Prepare profile</h3>
+            <p data-i18n-html="flow4Copy">Create or refine <code>vault-profile.md</code>. Add the <code>project-management</code> area only if you are actually enabling the PM mainline.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 190ms;">
             <small>05</small>
-            <h3 data-i18n="flow5Title">Keep it stable</h3>
-            <p data-i18n="flow5Copy">Repeat governance and navigation checks so the vault stays useful instead of drifting again.</p>
+            <h3 data-i18n="flow5Title">Run default loops first</h3>
+            <p data-i18n="flow5Copy">Start with ingest, maintenance, and audit. Only add project-management, team-coordination, or delivery-audit when milestones, blockers, alignment, or delivery gates are truly part of the work.</p>
           </article>
         </div>
       </div>
@@ -1878,7 +1903,7 @@
         <article class="section-card reveal" style="--delay: 70ms;">
           <div class="eyebrow" data-i18n="ctaEyebrow">Get started from the right surface</div>
           <h2 data-i18n="ctaTitle">Use the HTML page for overview, the repository for the actual package.</h2>
-          <p class="sub" data-i18n="ctaSub">This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for installation, routing, documentation, and release artifacts.</p>
+          <p class="sub" data-i18n="ctaSub">This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for install scripts, routing, templates, documentation, and release artifacts.</p>
           <div class="cta-row">
             <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit" data-i18n="ctaRepo">Open GitHub repository</a>
             <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md" data-i18n="ctaStart">Go to START-HERE</a>
@@ -1889,7 +1914,12 @@
           <h3 data-i18n="nextTitle">Open these next</h3>
           <ul data-i18n-html="nextList">
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">START-HERE.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh">install.sh</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md">docs/skill-installation-troubleshooting.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md">GLOSSARY.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md">docs/project-management-workflow.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md">templates/project-management/README.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md">docs/agent-runtime-writeback-patterns.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md">docs/example-prompts.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues">Issues</a></li>
@@ -1917,32 +1947,32 @@
     const translations = {
       en: {
         pageTitle: "Wiki Knowledge Base Share Kit",
-        pageDescription: "A 10-skill knowledge-base maintenance and collaboration package for markdown, wiki, and Obsidian-style vaults.",
-        brandSubtitle: "10-skill knowledge-base package",
+        pageDescription: "A 10-skill knowledge-base maintenance, collaboration, and progressive PM workflow package for markdown, wiki, and Obsidian-style vaults.",
+        brandSubtitle: "10-skill knowledge-base + PM workflow package",
         navRepo: "GitHub repo",
         navStart: "Start Here",
         navRelease: "Latest release",
         heroEyebrow: "Structured knowledge, not note sprawl",
         heroTitle: "Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.",
-        heroLede: "A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, project-manageable, and auditable instead of letting it drift into scattered notes and process logs.",
+        heroLede: "A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. Start with knowledge-base maintenance first, then progressively load the PM mainline only when milestones, blockers, team alignment, or delivery gates become real needs.",
         heroCtaRepo: "Get the repository",
         heroCtaStart: "Read START-HERE",
         heroCtaRelease: "Browse latest release",
         heroNote: "The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.",
         heroMini1Title: "Role-stable structure",
         heroMini1Copy: "Keep project, knowledge, ops, task, and overview pages from drifting into each other.",
-        heroMini2Title: "Testable ingest workflow",
-        heroMini2Copy: "Import long-form markdown with iteration, comparison, and lightweight regression checks.",
-        heroMini3Title: "Collaboration without chaos",
-        heroMini3Copy: "Working profile, team coordination, and journal loops reduce repeated re-explanation.",
+        heroMini2Title: "One-command install path",
+        heroMini2Copy: "Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.",
+        heroMini3Title: "Default lane, optional PM lane",
+        heroMini3Copy: "Stay narrow for ingest, maintenance, and audit, then add project-management, team coordination, and delivery audit only when the work actually needs them.",
         statsSkillsLabel: "Installable skills",
         statsSkillsCopy: "kit-guide, orchestrator, ingest, maintenance, audit, project-management, team-coordination, delivery-audit, working-profile, work-journal",
         statsTracksLabel: "Workflow tracks",
         statsTracksCopy: "onboarding, ingest, maintenance, audit, project management, team coordination, delivery audit, working profile, work journal",
-        cloneLabel: "Repository",
-        cloneTitle: "Clone it directly",
-        cloneCopy: "If you want the actual repository instead of only browsing the landing page, start here.",
-        copyCloneIdle: "Copy clone",
+        cloneLabel: "Quick start",
+        cloneTitle: "Clone and install",
+        cloneCopy: "Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.",
+        copyCloneIdle: "Copy install",
         copyCloneDone: "Copied",
         copyCloneFail: "Copy failed",
         switcherLabel: "Use-case switcher",
@@ -1951,7 +1981,7 @@
         useCase1Kicker: "Scenario 01",
         useCase1Note: "Recommended route: Orchestrator → Ingest → Audit → Working Profile.",
         useCase2Kicker: "Scenario 02",
-        useCase2Note: "Recommended route: Kit Guide → Project Management → Team Coordination → Delivery Audit.",
+        useCase2Note: "Recommended route: Kit Guide → Maintenance → Audit, then Project Management if delivery tracking is actually needed.",
         useCase3Kicker: "Scenario 03",
         useCase3Note: "Recommended route: Work Journal → Project Management → Team Coordination → Delivery Audit.",
         overviewTitle: "How the package is organized",
@@ -1991,7 +2021,7 @@
         whyRow4Left: "Collaboration context sits in chat, meeting notes, and personal memory.",
         whyRow4Right: "Working profile, team coordination, and journal workflows create a stable, reviewable collaboration layer.",
         insideTitle: "What’s inside",
-        insideSub: "The repository keeps the package explicit: 10 public skills, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.",
+        insideSub: "The repository keeps the package explicit: 10 public skills, one recommended install script, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.",
         skill1Label: "onboarding",
         skill1Copy: "Explains installation, profile setup, and which skill to use next.",
         skill2Label: "orchestration",
@@ -2018,23 +2048,31 @@
         scenario1Copy: "Guidelines, textbooks, papers, and case summaries need structure, lineage, and careful update boundaries.",
         scenario1List: "<li>Long-form source ingest</li><li>Stable knowledge and ops pages</li><li>Review-friendly collaboration context</li>",
         scenario2Title: "Enterprise knowledge bases",
-        scenario2Copy: "PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.",
-        scenario2List: "<li>Maintenance and audit loops</li><li>Shared-project coordination</li><li>Cleaner onboarding for teammates</li>",
+        scenario2Copy: "PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.",
+        scenario2List: "<li>Maintenance and audit loops first</li><li>Optional PM boards and delivery gates</li><li>Cleaner onboarding for teammates</li>",
+        laneDefaultLabel: "default path",
+        laneDefaultTitle: "Start with knowledge-base loops",
+        laneDefaultCopy: "Most users do not need every workflow on day one. The default route stays narrow and stabilizes the vault first.",
+        laneDefaultList: "<li>Kit Guide or Orchestrator for onboarding</li><li>Ingest, maintenance, and audit as the default loops</li><li>Working profile and journal when collaboration context needs continuity</li>",
+        lanePmLabel: "optional PM mainline",
+        lanePmTitle: "Load PM only when delivery needs it",
+        lanePmCopy: "Project-management is now part of the package, but it stays progressive. Enable it when milestones, blockers, dependencies, handoff, or delivery gates become real needs.",
+        lanePmList: "<li><code>knowledge-base-project-management</code> for owner-side planning</li><li><code>knowledge-base-team-coordination</code> for 2+ person alignment</li><li><code>knowledge-base-delivery-audit</code> for ready / blocked / greenlight review</li>",
         scenario3Title: "Cross-team collaboration",
         scenario3Copy: "When context is fragmented across chat and temporary docs, shared coordination and journal workflows reduce repeated re-explanation.",
         scenario3List: "<li>Draft / approved boundaries</li><li>Traceable meeting and decision context</li><li>Working-profile hygiene with consent boundaries</li>",
         flowTitle: "How it flows",
-        flowSub: "Start with onboarding, stabilize the profile contract, then move through specialist loops that keep the vault usable as it grows.",
-        flow1Title: "Install",
-        flow1Copy: "Copy all 10 skill folders into the skills directory of your AI platform.",
-        flow2Title: "Choose onboarding",
-        flow2Copy: "Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.",
-        flow3Title: "Prepare profile",
-        flow3Copy: "Create or refine <code>vault-profile.md</code> so later workflows have a stable contract.",
-        flow4Title: "Run specialist loops",
-        flow4Copy: "Move into ingest, maintenance, audit, and only load project-management, team-coordination, or delivery-audit when those workflows are actually needed.",
-        flow5Title: "Keep it stable",
-        flow5Copy: "Repeat governance and navigation checks so the vault stays useful instead of drifting again.",
+        flowSub: "Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.",
+        flow1Title: "Get the repo",
+        flow1Copy: "Clone the repository or download a release archive so the package contents are local.",
+        flow2Title: "Run install.sh",
+        flow2Copy: "Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.",
+        flow3Title: "Choose onboarding",
+        flow3Copy: "Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.",
+        flow4Title: "Prepare profile",
+        flow4Copy: "Create or refine <code>vault-profile.md</code>. Add the <code>project-management</code> area only if you are actually enabling the PM mainline.",
+        flow5Title: "Run default loops first",
+        flow5Copy: "Start with ingest, maintenance, and audit. Only add project-management, team-coordination, or delivery-audit when milestones, blockers, alignment, or delivery gates are truly part of the work.",
         rolesLabel: "fixed model",
         rolesTitle: "5 durable page roles",
         rolesList: "<li><code>project</code> for navigation, overview, and boundaries</li><li><code>knowledge</code> for reusable methods and concepts</li><li><code>ops</code> for troubleshooting and procedures</li><li><code>task</code> for assignments and in-progress work</li><li><code>overview</code> for indexes and governance surfaces</li>",
@@ -2043,12 +2081,12 @@
         journalCopy: "Journal content can be more fluid, but durable knowledge should be promoted into the fixed page-role model instead of remaining in the journal forever.",
         ctaEyebrow: "Get started from the right surface",
         ctaTitle: "Use the HTML page for overview, the repository for the actual package.",
-        ctaSub: "This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for installation, routing, documentation, and release artifacts.",
+        ctaSub: "This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for install scripts, routing, templates, documentation, and release artifacts.",
         ctaRepo: "Open GitHub repository",
         ctaStart: "Go to START-HERE",
         nextLabel: "Next surfaces",
         nextTitle: "Open these next",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
         footerCopy: "Open source under MIT · Built by 邹星宇, 杨琦, and 张陈祎",
         footerRepo: "GitHub repo",
         footerReleases: "Releases",
@@ -2056,32 +2094,32 @@
       },
       zh: {
         pageTitle: "Wiki Knowledge Base Share Kit｜知识库分享包",
-        pageDescription: "一个面向 markdown、wiki 和 Obsidian 风格 vault 的 10-skill 知识库维护 + 协作包。",
-        brandSubtitle: "10-skill 知识库维护 + 协作包",
+        pageDescription: "一个面向 markdown、wiki 和 Obsidian 风格 vault 的 10-skill 知识库维护、协作与渐进式 PM 工作流包。",
+        brandSubtitle: "10-skill 知识库维护 + PM 工作流包",
         navRepo: "GitHub 仓库",
         navStart: "快速开始",
         navRelease: "最新版本",
         heroEyebrow: "结构化知识，而不是笔记蔓延",
         heroTitle: "<span>把 markdown vault</span><br>变成真正可用的<br>知识库。",
-        heroLede: "这是一个可复用的开源工作包，包含 10 个可安装 skills 和 9 条协同工作流。它帮助个人和团队让 vault 保持可导航、角色稳定、可维护、便于协作、可做项目推进、可审计，而不是继续漂成零散笔记和过程流水账。",
+        heroLede: "这是一个可复用的开源工作包，包含 10 个可安装 skills 和 9 条协同工作流。默认先走知识库维护主线；只有当里程碑、blocker、团队对齐或交付 gate 真正出现时，再渐进式加载 PM 主线。",
         heroCtaRepo: "获取仓库",
         heroCtaStart: "阅读 START-HERE",
         heroCtaRelease: "查看最新版本",
         heroNote: "固定的 page-role model 会保持稳定。<code>work-journal</code> 是独立工作流，不是第六种页面角色。",
         heroMini1Title: "结构角色稳定",
         heroMini1Copy: "让 project、knowledge、ops、task、overview 不再互相串位、互相污染。",
-        heroMini2Title: "导入可测试可迭代",
-        heroMini2Copy: "长篇 markdown 导入时可做版本对比、结构迭代和轻量回归检查。",
-        heroMini3Title: "协作上下文不再失控",
-        heroMini3Copy: "working profile、team coordination、journal 形成可追溯的协作层，而不是重复解释。",
+        heroMini2Title: "一条命令安装",
+        heroMini2Copy: "拉取仓库后直接运行 install.sh，自动识别 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。",
+        heroMini3Title: "默认主线，按需 PM 主线",
+        heroMini3Copy: "先窄后稳地做 ingest、maintenance、audit，真的需要时再加载 project-management、team coordination 和 delivery audit。",
         statsSkillsLabel: "可安装 skills",
         statsSkillsCopy: "kit-guide、orchestrator、ingest、maintenance、audit、project-management、team-coordination、delivery-audit、working-profile、work-journal",
         statsTracksLabel: "工作流轨道",
         statsTracksCopy: "onboarding、ingest、maintenance、audit、project management、team coordination、delivery audit、working profile、work journal",
-        cloneLabel: "仓库入口",
-        cloneTitle: "直接拉仓库",
-        cloneCopy: "如果你想拿到真正的仓库，而不只是浏览这个落地页，直接从这里开始。",
-        copyCloneIdle: "复制命令",
+        cloneLabel: "快速安装",
+        cloneTitle: "拉仓库并安装",
+        cloneCopy: "推荐路径是先拉取仓库、进入目录，再运行自动检测安装脚本，而不是手动一个个复制 skill 文件夹。",
+        copyCloneIdle: "复制安装命令",
         copyCloneDone: "已复制",
         copyCloneFail: "复制失败",
         switcherLabel: "方案切换",
@@ -2090,7 +2128,7 @@
         useCase1Kicker: "方案 01",
         useCase1Note: "推荐路线：Orchestrator → Ingest → Audit → Working Profile。",
         useCase2Kicker: "方案 02",
-        useCase2Note: "推荐路线：Kit Guide → Project Management → Team Coordination → Delivery Audit。",
+        useCase2Note: "推荐路线：Kit Guide → Maintenance → Audit；只有真的需要交付追踪时再进入 Project Management。",
         useCase3Kicker: "方案 03",
         useCase3Note: "推荐路线：Work Journal → Project Management → Team Coordination → Delivery Audit。",
         overviewTitle: "这个包的结构怎么组织",
@@ -2130,7 +2168,7 @@
         whyRow4Left: "协作上下文散落在聊天、会议记录和个人脑内记忆里。",
         whyRow4Right: "working profile、team coordination 和 journal 工作流会形成稳定、可复查的协作层。",
         insideTitle: "这个包里有什么",
-        insideSub: "仓库公开地展示了包的组成：10 个 public skills、1 套固定 page-role model，以及几条可重复工作流，而不是把能力包装成黑盒自动化承诺。",
+        insideSub: "仓库公开地展示了包的组成：10 个 public skills、1 条推荐安装脚本、1 套固定 page-role model，以及几条可重复工作流，而不是把能力包装成黑盒自动化承诺。",
         skill1Label: "引导",
         skill1Copy: "解释安装方式、profile 配置，以及下一步应该用哪个 skill。",
         skill2Label: "总控引导",
@@ -2157,23 +2195,31 @@
         scenario1Copy: "规范、教材、论文和案例总结需要清晰结构、来源链和谨慎的更新边界。",
         scenario1List: "<li>长文档知识源导入</li><li>稳定的 knowledge / ops 页面</li><li>更适合复审的协作上下文</li>",
         scenario2Title: "企业知识库",
-        scenario2Copy: "PRD、runbook、交付文档和会议结论需要可靠的导航与治理，而不是临时拼凑式堆积。",
-        scenario2List: "<li>maintenance 和 audit 循环</li><li>共享项目协同</li><li>更干净的团队 onboarding</li>",
+        scenario2Copy: "PRD、runbook、交付文档和会议结论需要可靠的导航、治理，以及在执行变复杂时可选的 owner 视角交付层。",
+        scenario2List: "<li>先跑 maintenance 和 audit 循环</li><li>按需再加 PM 板面和 delivery gates</li><li>更干净的团队 onboarding</li>",
+        laneDefaultLabel: "默认主线",
+        laneDefaultTitle: "先走知识库主循环",
+        laneDefaultCopy: "大多数用户第一天并不需要所有工作流。默认路径应该先窄下来，把 vault 稳住。",
+        laneDefaultList: "<li>用 Kit Guide 或 Orchestrator 完成 onboarding</li><li>先把 ingest、maintenance、audit 作为默认循环</li><li>只有在协作上下文需要连续性时再启用 working profile 和 journal</li>",
+        lanePmLabel: "可选 PM 主线",
+        lanePmTitle: "只有交付真的需要时再加载",
+        lanePmCopy: "项目管理现在已经进入这个包，但它仍然是渐进式能力。只有当里程碑、blocker、依赖、handoff 或交付 gate 真正出现时再启用。",
+        lanePmList: "<li><code>knowledge-base-project-management</code> 负责 owner 视角规划</li><li><code>knowledge-base-team-coordination</code> 负责 2 人及以上协作对齐</li><li><code>knowledge-base-delivery-audit</code> 负责 ready / blocked / greenlight 审计</li>",
         scenario3Title: "跨团队协作",
         scenario3Copy: "当上下文散落在聊天和临时文档里时，shared coordination 和 journal 工作流能减少反复解释。",
         scenario3List: "<li>草稿 / 定稿边界更清晰</li><li>会议和决策上下文可追溯</li><li>带 consent 边界的 working-profile 卫生</li>",
         flowTitle: "它怎么运转",
-        flowSub: "先完成 onboarding，稳定 profile 合约，再进入各条 specialist loops，让 vault 在持续增长时仍然保持可用。",
-        flow1Title: "安装",
-        flow1Copy: "把 10 个 skill 文件夹复制到你的 AI 平台 skills 目录。",
-        flow2Title: "选择 onboarding 入口",
-        flow2Copy: "想低门槛启动就用 Orchestrator；想先理解方法再上手就用 Kit Guide。",
-        flow3Title: "准备 profile",
-        flow3Copy: "创建或完善 <code>vault-profile.md</code>，让后续工作流有稳定合约。",
-        flow4Title: "运行 specialist loops",
-        flow4Copy: "根据需要进入 ingest、maintenance、audit；只有真的需要时再加载 project-management、team-coordination 或 delivery-audit。",
-        flow5Title: "保持稳定",
-        flow5Copy: "持续做治理和导航检查，避免 vault 再次漂回混乱状态。",
+        flowSub: "先把仓库拿到本地并完成安装，再稳定 profile 合约，随后优先走默认主线，等 PM 工作流真的需要时再加载。",
+        flow1Title: "先拿到仓库",
+        flow1Copy: "先 clone 仓库，或者下载 release 压缩包，把包内容放到本地。",
+        flow2Title: "运行 install.sh",
+        flow2Copy: "优先使用自动检测安装脚本，适配 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。手动复制文件夹只是兜底路径。",
+        flow3Title: "选择 onboarding 入口",
+        flow3Copy: "想低门槛启动就用 Orchestrator；想先理解方法再上手就用 Kit Guide。",
+        flow4Title: "准备 profile",
+        flow4Copy: "创建或完善 <code>vault-profile.md</code>。只有真的要启用 PM 主线时，才额外加入 <code>project-management</code> area。",
+        flow5Title: "先跑默认循环",
+        flow5Copy: "先从 ingest、maintenance、audit 开始；只有当里程碑、blocker、对齐或交付 gate 成为真实工作内容时，再加入 project-management、team-coordination 或 delivery-audit。",
         rolesLabel: "固定模型",
         rolesTitle: "5 种耐久页面角色",
         rolesList: "<li><code>project</code>：导航、概览与边界</li><li><code>knowledge</code>：可复用的方法与概念</li><li><code>ops</code>：排障与操作流程</li><li><code>task</code>：任务分配与进行中工作</li><li><code>overview</code>：索引与治理面</li>",
@@ -2182,12 +2228,12 @@
         journalCopy: "Journal 内容可以更灵活，但真正耐久的知识应当被提升回固定 page-role model，而不是永远停留在日志里。",
         ctaEyebrow: "从正确入口开始",
         ctaTitle: "用 HTML 首页快速理解，用 GitHub 仓库拿到真正的工作包。",
-        ctaSub: "这个落地页负责让你快速看懂。真正权威的安装、路由、文档和发布物仍然在 GitHub 仓库里。",
+        ctaSub: "这个落地页负责让你快速看懂。真正权威的安装脚本、路由、模板、文档和发布物仍然在 GitHub 仓库里。",
         ctaRepo: "打开 GitHub 仓库",
         ctaStart: "前往 START-HERE",
         nextLabel: "下一步入口",
         nextTitle: "建议接着打开这些",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
         footerCopy: "MIT 开源 · 开发者：邹星宇、杨琦、张陈祎",
         footerRepo: "GitHub 仓库",
         footerReleases: "版本发布",
