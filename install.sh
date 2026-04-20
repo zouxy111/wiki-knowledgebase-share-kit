@@ -1,24 +1,27 @@
 #!/bin/bash
 
 # Wiki Knowledge Base Share Kit — 一键安装脚本
-# One-click installer for the 8-skill knowledge-base package
+# One-click installer for the 10-skill knowledge-base package
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="${SCRIPT_DIR}/skills"
 
-# 8 个核心 skill 列表
+# 10 个核心 skill 列表
 SKILLS=(
     knowledge-base-kit-guide
+    knowledge-base-orchestrator
     knowledge-base-ingest
     knowledge-base-maintenance
     knowledge-base-audit
-    knowledge-base-orchestrator
+    knowledge-base-project-management
     knowledge-base-team-coordination
+    knowledge-base-delivery-audit
     knowledge-base-working-profile
     work-journal
 )
+SKILL_COUNT=${#SKILLS[@]}
 
 # 颜色定义
 RED='\033[0;31m'
@@ -36,7 +39,7 @@ usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [TARGET_DIR]
 
-Install the 8-skill wiki-knowledgebase-share-kit to your AI platform's skills directory.
+Install the 10-skill wiki-knowledgebase-share-kit to your AI platform's skills directory.
 
 OPTIONS:
     -d, --dry-run      Show what would be installed without making changes
@@ -158,7 +161,7 @@ main() {
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
     echo "║  Wiki Knowledge Base Share Kit — Installer                 ║"
-    echo "║  8-skill knowledge-base package installer                  ║"
+    echo "║  10-skill knowledge-base package installer                 ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
 
@@ -250,7 +253,7 @@ main() {
         log_error "${missing} skill(s) missing from ${SKILLS_DIR}"
         exit 1
     fi
-    log_ok "All 8 skills found in source directory"
+    log_ok "All ${SKILL_COUNT} skills found in source directory"
 
     # 执行安装
     echo ""
@@ -274,7 +277,7 @@ main() {
         echo "Run without --dry-run to perform the actual installation:"
         echo "  $0 ${TARGET_DIR}"
     else
-        log_ok "Installation complete! ${installed}/8 skills installed."
+        log_ok "Installation complete! ${installed}/${SKILL_COUNT} skills installed."
         echo ""
         echo "Next steps:"
         echo "  1. Copy templates:  cp templates/vault-profile-template.md ./my-vault-profile.md"
@@ -284,6 +287,7 @@ main() {
         echo "Quick start:"
         echo "  Use \$knowledge-base-orchestrator for guided onboarding"
         echo "  Use \$knowledge-base-kit-guide to understand the structure first"
+        echo "  Use \$knowledge-base-project-management only when you need project / milestone / blocker workflows"
     fi
 }
 

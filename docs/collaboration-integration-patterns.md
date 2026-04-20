@@ -1,13 +1,13 @@
 # Collaboration Integration Patterns
 
-> 这份文档专门解释这套 share kit 的**协作接入模式**：
+> 这份文档专门解释这套 share kit 的**协作接入模式**：  
 > 如何把 `knowledge-base-team-coordination` 跑在 OpenClaw、Hermes 或其他 agent runtime 上，以及为什么共享项目目录仍是唯一事实源。
 
 ---
 
 ## 1. 这份文档解决什么问题
 
-很多人已经能看懂这套仓库有 5 个 skills，但第一次真正落地多人协同时，仍会卡在这些问题：
+很多人已经能看懂这套仓库有 10 个 skills，但第一次真正落地多人协同时，仍会卡在这些问题：
 - OpenClaw / Hermes 到底是“兼容”还是“主推平台”？
 - 共享项目目录应该放在 NAS / 网盘里，还是直接嵌进共享 wiki？
 - 每个人能不能在自己的 wiki / 私有资料区里先整理内容？
@@ -23,9 +23,9 @@
 本仓库把 **OpenClaw** 和 **Hermes** 视为主推运行平台。
 
 这里说的“主推”，不是因为 repo 里为它们写了平台专有逻辑，而是因为它们都很适合承接这套 workflow：
-- 都适合驱动共享项目目录上的多文件协作流程
-- 都适合把 skills / prompts / 项目规则组织成稳定工作流
-- 都适合让不同成员在自己的工作面里使用 agent 协助整理问卷、回应和进展
+- 适合驱动共享项目目录上的多文件协作流程
+- 适合把 skills / prompts / 项目规则组织成稳定工作流
+- 适合让不同成员在自己的工作面里使用 agent 协助整理问卷、回应和进展
 
 ### “无缝接入”在这里是什么意思
 默认解释为：
@@ -38,8 +38,6 @@
 
 > 兼容性来自 **共享项目目录契约 + 协作文档协议 + skills/prompt 工作方式**，而不是某个平台专有功能。
 
-如果你换到别的 agent runtime，只要它能可靠读写 markdown 文件、理解目录契约、遵守 draft / approved 规则，这套模式仍然成立。
-
 ---
 
 ## 3. 推荐协作模式：共享目录 + 各自 agent + 可选知识库同步
@@ -48,17 +46,6 @@
 
 ### A. 共享项目目录
 这是 coordinator 的唯一事实源。
-
-典型目录：
-- `project-brief.md`
-- `team-roster.md`
-- `members/<id>/questionnaire.md`
-- `members/<id>/response.md`
-- `members/<id>/assignment.md`
-- `members/<id>/progress-update.md`
-- `coordination/alignment-summary.md`
-- `coordination/task-board.md`
-- `coordination/decision-register.md`
 
 ### B. 每个人自己的工作面
 每位成员可以保留自己的：
@@ -90,35 +77,16 @@
 
 ### 模式 1：共享项目目录独立放在 NAS / 网盘同步目录
 
-推荐结构：
-- 一个共享 `team-project/` 目录，放在 NAS / 网盘同步空间
-- 每个人自己的 wiki / 私有资料仍在个人环境中维护
-- 需要进入协作闭环的内容，再写回共享目录
-
 适合：
 - 团队已经有共享 NAS / 网盘
 - 大家不共用同一棵 wiki
 - 想把协作事实层和个人知识层分开
 
-好处：
-- 共享目录职责清楚
-- 个人知识库不需要强行统一
-- 更容易做到“各自并行，最后同步”
-
 ### 模式 2：共享项目目录嵌入共享 wiki / 共享知识库子目录
-
-推荐结构：
-- `team-project/` 作为共享 wiki 里的一个明确子目录
-- 大家围绕同一棵知识库协作
-- 协作文件和知识文件物理上更接近
 
 适合：
 - 团队本来就维护同一个共享 wiki
 - 希望协作和知识沉淀在同一棵库里完成
-
-好处：
-- 共享资料和协作资料更集中
-- 结项后转入知识库沉淀更顺手
 
 ### 两种模式共同的底线
 无论你选哪种拓扑：
@@ -147,14 +115,6 @@
 - **允许并行工作**：每个人都能用自己熟悉的工具、自己的 agent、自己的知识库节奏
 - **不破坏共享事实源**：只有同步回 shared project directory 的内容才会被 coordinator 采信
 
-### 这里不要搞混的边界
-- 个人 wiki：可以有更多草稿、过程、局部判断
-- shared project directory：只保留要进入团队协调闭环的正式 markdown 工件
-
-也就是说：
-
-> 个人工作区可以更自由，但团队事实源必须更严格。
-
 ---
 
 ## 6. Coordinator 与成员 agent 的职责分工
@@ -178,12 +138,16 @@
 
 ---
 
-## 7. 推荐对外怎么讲这套模式
+## 7. 它和 PM 主线是什么关系
 
-如果你要向陌生用户介绍，最推荐的说法是：
+多人协同接入模式与 PM 主线兼容，但不是同一个层次：
+- `knowledge-base-project-management` 负责 owner 视角的里程碑 / blocker / priority
+- `knowledge-base-team-coordination` 负责共享项目目录上的多人成员事实层
+- `knowledge-base-delivery-audit` 负责 closeout / ready / greenlight 审计
 
-> 这套 share kit 不只是一个知识库维护包，也是一个面向 OpenClaw / Hermes 等 agent runtime 的多人协同工作流。
-> 你可以把共享项目目录放在 NAS、网盘或共享 wiki 中，让每位成员在自己的 wiki 和自己的 agent 协助下并行完成问卷、回应和进展更新；而 coordinator 始终只把 shared project directory 视为唯一事实源。
+所以：
+
+> 个人 wiki 和个人 agent 是辅助工作面；shared project directory 是协调事实源；`project-management` area 则是 owner 和 gate 的管理层工作面。
 
 ---
 
@@ -194,10 +158,6 @@
 2. `README.md`
 3. `docs/collaboration-integration-patterns.md`
 4. `docs/team-coordination-workflow.md`
-5. `docs/reuse-from-zero.md`
-6. `docs/example-prompts.md`
-
-这样顺序最容易建立完整心智模型：
-- 先知道仓库是什么
-- 再知道协作是怎么接入的
-- 再知道多人协同如何实际运行
+5. `docs/project-management-workflow.md`
+6. `docs/reuse-from-zero.md`
+7. `docs/example-prompts.md`
