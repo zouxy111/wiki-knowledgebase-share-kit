@@ -1,116 +1,144 @@
 #!/usr/bin/env python3
-"""Tests for scripts/install_skills.py."""
-import sys
+"""Tests for the unified wiki-kit install and verify backend."""
+
+from __future__ import annotations
+
 from pathlib import Path
 
-scripts_dir = Path(__file__).parent.parent / "scripts"
-sys.path.insert(0, str(scripts_dir))
-
 import pytest
-from install_skills import DEFAULT_SKILLS, InstallError, install_selected_skills, resolve_skill_names
+
+from wiki_knowledgebase_share_kit import core
+
+
+def write_skill(skills_root: Path, name: str) -> None:
+    skill_dir = skills_root / name
+    (skill_dir / "references").mkdir(parents=True)
+    (skill_dir / "agents").mkdir()
+    (skill_dir / "SKILL.md").write_text(
+        f"---\nname: {name}\ndescription: Test skill\n---\n",
+        encoding="utf-8",
+    )
+    (skill_dir / "agents" / "openai.yaml").write_text("name: test\n", encoding="utf-8")
+    (skill_dir / "references" / "ref.md").write_text("reference\n", encoding="utf-8")
 
 
 @pytest.fixture()
-def fake_repo(tmp_path):
-    repo_root = tmp_path / "repo"
-    skills_root = repo_root / "skills"
-    skills_root.mkdir(parents=True)
+def fake_bundle(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
+    skills_root = tmp_path / "skills"
+    skills_root.mkdir()
     for name in [
         "knowledge-base-kit-guide",
         "knowledge-base-ingest",
         "knowledge-base-audit",
     ]:
-        skill_dir = skills_root / name
-        (skill_dir / "references").mkdir(parents=True)
-        (skill_dir / "agents").mkdir(parents=True)
-        (skill_dir / "SKILL.md").write_text(f"# {name}\n", encoding="utf-8")
-        (skill_dir / "agents" / "openai.yaml").write_text("name: test\n", encoding="utf-8")
-    return repo_root
+        write_skill(skills_root, name)
+    monkeypatch.setattr(core, "share_root_candidates", lambda: [skills_root])
+    return skills_root
 
 
-def test_resolve_skill_names_defaults_to_requested_subset(fake_repo):
-    names = resolve_skill_names(fake_repo, ["knowledge-base-ingest", "knowledge-base-audit"])
-    assert names == ["knowledge-base-ingest", "knowledge-base-audit"]
+def test_available_skills_reads_bundled_directory(fake_bundle: Path) -> None:
+    assert core.available_skills() == [
+        "knowledge-base-audit",
+        "knowledge-base-ingest",
+        "knowledge-base-kit-guide",
+    ]
 
 
-def test_resolve_skill_names_rejects_unknown(fake_repo):
-    with pytest.raises(InstallError):
-        resolve_skill_names(fake_repo, ["missing-skill"])
-
-
-def test_default_skill_list_includes_pm_and_delivery_audit():
-    assert "knowledge-base-project-management" in DEFAULT_SKILLS
-    assert "knowledge-base-delivery-audit" in DEFAULT_SKILLS
-
-
-def test_install_selected_skills_copy_mode(fake_repo, tmp_path):
+def test_install_skills_copy_mode(fake_bundle: Path, tmp_path: Path) -> None:
     target_dir = tmp_path / "runtime-skills"
-    results = install_selected_skills(
-        repo_root=fake_repo,
-        target_dir=target_dir,
-        skill_names=["knowledge-base-kit-guide", "knowledge-base-ingest"],
+
+    result = core.install_skills(
+        target_dir=str(target_dir),
+        skills=["knowledge-base-kit-guide", "knowledge-base-ingest"],
         mode="copy",
-        force=False,
     )
 
-    assert results == {
-        "knowledge-base-kit-guide": "copied",
-        "knowledge-base-ingest": "copied",
-    }
+    assert result["platform"] == "custom"
+    assert [item["action"] for item in result["skills"]] == ["installed", "installed"]
     assert (target_dir / "knowledge-base-kit-guide" / "SKILL.md").exists()
     assert (target_dir / "knowledge-base-ingest" / "agents" / "openai.yaml").exists()
 
 
-def test_install_selected_skills_symlink_mode(fake_repo, tmp_path):
+def test_install_skills_dry_run_leaves_target_missing(fake_bundle: Path, tmp_path: Path) -> None:
     target_dir = tmp_path / "runtime-skills"
-    results = install_selected_skills(
-        repo_root=fake_repo,
-        target_dir=target_dir,
-        skill_names=["knowledge-base-ingest"],
-        mode="symlink",
-        force=False,
-    )
 
-    installed = target_dir / "knowledge-base-ingest"
-    assert results == {"knowledge-base-ingest": "symlinked"}
-    assert installed.is_symlink()
-    assert installed.resolve() == (fake_repo / "skills" / "knowledge-base-ingest").resolve()
-
-
-def test_install_selected_skills_skips_existing_without_force(fake_repo, tmp_path):
-    target_dir = tmp_path / "runtime-skills"
-    target_dir.mkdir(parents=True)
-    existing = target_dir / "knowledge-base-ingest"
-    existing.mkdir()
-    (existing / "old.txt").write_text("stale", encoding="utf-8")
-
-    results = install_selected_skills(
-        repo_root=fake_repo,
-        target_dir=target_dir,
-        skill_names=["knowledge-base-ingest"],
+    result = core.install_skills(
+        target_dir=str(target_dir),
+        skills=["knowledge-base-audit"],
         mode="copy",
-        force=False,
+        dry_run=True,
     )
 
-    assert results == {"knowledge-base-ingest": "skipped"}
-    assert (existing / "old.txt").read_text(encoding="utf-8") == "stale"
+    assert result["skills"] == [
+        {
+            "skill": "knowledge-base-audit",
+            "action": "dry-run-installed",
+            "target": str(target_dir / "knowledge-base-audit"),
+            "backup": None,
+        }
+    ]
+    assert not target_dir.exists()
 
 
-def test_install_selected_skills_force_replaces_existing(fake_repo, tmp_path):
+def test_verify_installation_reports_subset(fake_bundle: Path, tmp_path: Path) -> None:
     target_dir = tmp_path / "runtime-skills"
-    target_dir.mkdir(parents=True)
-    existing = target_dir / "knowledge-base-ingest"
-    existing.mkdir()
-    (existing / "old.txt").write_text("stale", encoding="utf-8")
-
-    results = install_selected_skills(
-        repo_root=fake_repo,
-        target_dir=target_dir,
-        skill_names=["knowledge-base-ingest"],
+    core.install_skills(
+        target_dir=str(target_dir),
+        skills=["knowledge-base-ingest"],
         mode="copy",
-        force=True,
     )
 
-    assert results == {"knowledge-base-ingest": "copied"}
-    assert not (existing / "old.txt").exists()
-    assert (existing / "SKILL.md").exists()
+    result = core.verify_installation(
+        target_dir=str(target_dir),
+        skills=["knowledge-base-ingest"],
+    )
+
+    assert result["ok"] is True
+    assert result["passed_count"] == 1
+    assert result["failed_count"] == 0
+
+
+def test_resolve_target_prefers_env_hint_when_multiple_platforms_exist(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    codex_dir = tmp_path / ".codex" / "skills"
+    claude_dir = tmp_path / ".claude" / "skills"
+    codex_dir.mkdir(parents=True)
+    claude_dir.mkdir(parents=True)
+    monkeypatch.setattr(
+        core,
+        "PLATFORM_DIRS",
+        {
+            "claude": claude_dir,
+            "codex": codex_dir,
+        },
+    )
+    monkeypatch.setenv("CODEX_HOME", str(tmp_path / ".codex"))
+
+    assert core.resolve_target("auto", None) == ("codex", codex_dir)
+
+
+def test_resolve_target_rejects_ambiguous_platforms_without_hint(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    codex_dir = tmp_path / ".codex" / "skills"
+    claude_dir = tmp_path / ".claude" / "skills"
+    codex_dir.mkdir(parents=True)
+    claude_dir.mkdir(parents=True)
+    monkeypatch.setattr(
+        core,
+        "PLATFORM_DIRS",
+        {
+            "claude": claude_dir,
+            "codex": codex_dir,
+        },
+    )
+    monkeypatch.delenv("CODEX_HOME", raising=False)
+    monkeypatch.delenv("CLAUDE_CONFIG_DIR", raising=False)
+    monkeypatch.delenv("CLAUDE_HOME", raising=False)
+    monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
+
+    with pytest.raises(core.WikiKitError, match="Multiple supported skills directories were detected"):
+        core.resolve_target("auto", None)

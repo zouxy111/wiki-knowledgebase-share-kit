@@ -78,7 +78,7 @@ PM 主线的三个关键 skill：
 
 并明确提醒：
 - 安装后通常需要重开会话或重启 runtime
-- 可以优先使用 `scripts/install_skills.py`
+- 可以优先使用 `wiki-kit detect` 和 `wiki-kit install`
 - 如仍失败，查看 `../../docs/skill-installation-troubleshooting.md`
 
 ### 6. Keep the response narrow

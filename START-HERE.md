@@ -31,32 +31,50 @@
 
 ## 第一步：安装 10 个 skill
 
-### 推荐方式：一键安装脚本（自动检测平台）
+### 推荐方式：统一 CLI（单平台自动检测，多平台显式选择）
 
 ```bash
-# 自动检测 Kimi CLI / Claude Code / Codex / 通用 agents 平台
-bash install.sh
+# 先看 CLI 检测到哪些平台
+./wiki-kit detect
+
+# 直接从仓库运行统一 CLI（单平台环境可直接安装）
+./wiki-kit install
 
 # 预览安装内容（不实际执行）
-bash install.sh --dry-run
+./wiki-kit install --dry-run
 
-# 安装到指定目录
-bash install.sh ~/.kimi/skills
+# 多 runtime 共存时，显式指定平台
+./wiki-kit install --platform codex --force
 
-# 安装并备份已存在的同名 skill
-bash install.sh --backup
+# 验证安装结果
+./wiki-kit verify
 ```
 
-> **符号链接提示**：如果你的 `~/.claude/skills` 是指向 `~/.agents/skills` 的符号链接，脚本会自动识别并只安装一次，不会重复复制。
+如果 `./wiki-kit detect` 提示发现了多个可用 skills 目录，说明这台机器上装了不止一个 runtime。此时请直接加 `--platform <codex|claude|kimi|agents>`，避免装到错误的位置。
 
-### 进阶方式：显式指定平台 / 便于脚本化集成
+也可以不用可执行权限，直接走 Python 模块入口：
 
 ```bash
-# 安装到 Codex
-python3 scripts/install_skills.py --platform codex --force
+python3 -m wiki_knowledgebase_share_kit install
+python3 -m wiki_knowledgebase_share_kit verify
+```
 
-# 安装到 Claude Code
-python3 scripts/install_skills.py --platform claude --force
+如果你想把命令装到系统里，再直接执行 `wiki-kit`：
+
+```bash
+pipx install git+https://github.com/zouxy111/wiki-knowledgebase-share-kit.git
+wiki-kit install
+wiki-kit verify
+```
+
+> **符号链接提示**：如果你的 `~/.claude/skills` 是指向 `~/.agents/skills` 的符号链接，CLI 会自动识别真实目录；如果你需要保持 repo 与运行时联动，可额外使用 `--mode symlink`。
+
+### 兼容入口：保留旧脚本
+
+```bash
+# 这些入口现在都走同一套 CLI 后端
+bash install.sh
+python3 scripts/install_skills.py --platform codex --force
 ```
 
 ### 手动安装（备选）
@@ -77,7 +95,7 @@ cp -r skills/work-journal ~/.claude/skills/
 ### 验证安装
 
 ```bash
-bash verify-installation.sh
+./wiki-kit verify
 ```
 
 安装后一定要：

@@ -29,32 +29,50 @@
 
 ---
 
-## 2. 最快修法：用安装脚本把整套 skills 同步到运行时目录
+## 2. 最快修法：用统一 CLI 把整套 skills 同步到运行时目录
 
-推荐优先使用仓库自带脚本，而不是手工一条条 `cp -r`。
+推荐优先使用统一 CLI，而不是手工一条条 `cp -r`。
+
+### 先看 CLI 检测到了哪些平台
+
+```bash
+./wiki-kit detect
+```
+
+如果只检测到一个运行时目录，可以直接：
+
+```bash
+./wiki-kit install
+```
 
 ### 安装到 Codex
 
 ```bash
-python3 scripts/install_skills.py --platform codex --force
+./wiki-kit install --platform codex --force
 ```
 
 ### 安装到 Claude Code
 
 ```bash
-python3 scripts/install_skills.py --platform claude --force
+./wiki-kit install --platform claude --force
 ```
 
 ### 如果你的平台使用自定义目录
 
 ```bash
-python3 scripts/install_skills.py --target-dir /path/to/your/skills --force
+./wiki-kit install --target-dir /path/to/your/skills --force
 ```
 
 ### 如果你的系统或平台不方便使用 symlink
 
 ```bash
-python3 scripts/install_skills.py --platform codex --mode copy --force
+./wiki-kit install --platform codex --mode copy --force
+```
+
+### 不想依赖可执行权限时
+
+```bash
+python3 -m wiki_knowledgebase_share_kit install --platform codex --force
 ```
 
 ---
@@ -83,7 +101,7 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 - 但 `~/.codex/skills/knowledge-base-ingest/` 不存在
 
 修法：
-- 用 `scripts/install_skills.py` 安装到正确目录
+- 用 `wiki-kit install --platform ...` 安装到正确目录
 
 ### 情况 2：装到了 Claude，但你实际在 Codex 里运行
 典型症状：
@@ -126,6 +144,12 @@ python3 scripts/install_skills.py --platform codex --mode copy --force
 
 ## 5. 推荐验证方式
 
+### 先做一次结构校验
+
+```bash
+./wiki-kit verify --platform codex
+```
+
 ### 检查 repo 里有哪些 skills
 
 ```bash
@@ -153,8 +177,8 @@ ls ~/.codex/skills/knowledge-base-delivery-audit
 对于本地长期使用，推荐：
 
 ```bash
-python3 scripts/install_skills.py --platform codex --force
-python3 scripts/install_skills.py --platform claude --force
+./wiki-kit install --platform codex --force
+./wiki-kit install --platform claude --force
 ```
 
 这样可以：
