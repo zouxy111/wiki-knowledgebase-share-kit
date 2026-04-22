@@ -182,7 +182,7 @@ conflicts=()
 for skill_name in "${SKILLS[@]}"; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     if [ -d "$skill_dir" ]; then
-        # 检查是否真的是本项目的 skill（通过检查 SKILL.md 内容特征）
+        # 检查是否真的是本项目的 skill（通过检查 SKILL.md frontmatter 中的 name 字段）
         if [ -f "${skill_dir}/SKILL.md" ]; then
             if ! grep -Eq "^name:[[:space:]]*${skill_name}[[:space:]]*$" "${skill_dir}/SKILL.md" 2>/dev/null; then
                 conflicts+=("$skill_name")
