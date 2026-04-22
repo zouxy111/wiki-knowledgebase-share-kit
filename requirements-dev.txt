@@ -1,5 +1,7 @@
 # Development dependencies for wiki-knowledgebase-share-kit
 # Install with: pip install -r requirements-dev.txt
+#
+# Runtime has no dependencies (Python 3.11+ standard library only).
 
 pytest>=7.0
 black>=23.0
