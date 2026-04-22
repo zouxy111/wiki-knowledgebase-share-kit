@@ -1091,6 +1091,305 @@
       gap: 8px;
     }
 
+    .poster-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        rgba(7, 18, 31, .62);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      isolation: isolate;
+    }
+
+    .poster-shell::before,
+    .poster-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .poster-shell::before {
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+      opacity: .11;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.95), rgba(0,0,0,.1));
+    }
+
+    .poster-shell::after {
+      inset: auto -6% -16% auto;
+      width: 44%;
+      height: 78%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(105,211,255,.22), transparent 56%),
+        radial-gradient(circle at 30% 34%, rgba(136,241,208,.16), transparent 48%);
+      filter: blur(20px);
+      opacity: .88;
+    }
+
+    .poster-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .poster-copy,
+    .poster-visual,
+    .poster-node,
+    .poster-bottom-card {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.034);
+      backdrop-filter: blur(10px);
+    }
+
+    .poster-copy,
+    .poster-visual {
+      border-radius: 26px;
+      padding: 24px;
+      min-width: 0;
+    }
+
+    .poster-copy {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .poster-copy h3 {
+      margin: 0;
+      max-width: 10.5ch;
+      font-size: clamp(38px, 5.8vw, 78px);
+      line-height: .97;
+      letter-spacing: -.06em;
+    }
+
+    .poster-copy h3 span {
+      color: var(--accent);
+    }
+
+    .poster-lede {
+      margin: 0;
+      max-width: 58ch;
+      color: #dbe9fb;
+    }
+
+    .poster-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .poster-chip-row .chip {
+      background: rgba(255,255,255,.045);
+      color: #dceeff;
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .poster-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .poster-stat {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.026);
+      min-width: 0;
+    }
+
+    .poster-stat small {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent-2);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .poster-stat strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #eff7ff;
+    }
+
+    .poster-outcome {
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(105,211,255,.10), rgba(136,241,208,.05));
+      color: #ebf7ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .poster-visual {
+      position: relative;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      min-height: 100%;
+    }
+
+    .poster-visual::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(105,211,255,.10);
+      background:
+        radial-gradient(circle at 20% 26%, rgba(105,211,255,.10), transparent 28%),
+        radial-gradient(circle at 82% 20%, rgba(136,241,208,.08), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 70%);
+      pointer-events: none;
+    }
+
+    .poster-visual > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .poster-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .poster-ribbon span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: #d6e6fb;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .poster-lane-grid {
+      display: grid;
+      grid-template-columns: .92fr .98fr .92fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .poster-column {
+      display: grid;
+      gap: 12px;
+    }
+
+    .poster-node,
+    .poster-core,
+    .poster-bottom-card {
+      border-radius: 20px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .poster-node strong,
+    .poster-core strong,
+    .poster-bottom-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #f0f7ff;
+    }
+
+    .poster-node p,
+    .poster-core p,
+    .poster-bottom-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .poster-node small {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-2);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .poster-core {
+      position: relative;
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      min-height: 100%;
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 50% 26%, rgba(105,211,255,.20), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.018)),
+        rgba(7, 19, 33, .56);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 0 0 1px rgba(105,211,255,.06),
+        0 22px 42px rgba(0,0,0,.22);
+    }
+
+    .poster-core::before,
+    .poster-core::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(105,211,255,.45), rgba(136,241,208,.08));
+      transform: translateX(-50%);
+      opacity: .75;
+    }
+
+    .poster-core::before {
+      top: -34px;
+      height: 34px;
+    }
+
+    .poster-core::after {
+      bottom: -34px;
+      height: 34px;
+    }
+
+    .poster-core-ring {
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(105,211,255,.18);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.03) inset,
+        0 0 46px rgba(105,211,255,.10);
+      animation: hudOrbit 12s linear infinite;
+    }
+
+    .poster-core .chip-row {
+      margin-top: 14px;
+    }
+
+    .poster-core .chip {
+      background: rgba(255,255,255,.05);
+      color: #eef7ff;
+    }
+
+    .poster-bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
     .compare-shell {
       border: 1px solid var(--line);
       border-radius: 26px;
@@ -1243,6 +1542,11 @@
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .cta-band { grid-template-columns: 1fr; }
+      .poster-grid,
+      .poster-lane-grid,
+      .poster-bottom-grid {
+        grid-template-columns: 1fr;
+      }
       .overview-grid {
         grid-template-columns: 1fr;
       }
@@ -1256,9 +1560,11 @@
       .nav { align-items: flex-start; }
       .hero-grid,
       .grid-3,
-      .grid-2 { grid-template-columns: 1fr; }
+      .grid-2,
+      .poster-stat-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
       h1 { max-width: 12ch; }
+      .poster-copy h3 { max-width: none; }
     }
 
     @media (max-width: 720px) {
@@ -1843,6 +2149,121 @@
       <div class="shell">
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
+            <h2 data-i18n="posterSectionTitle">Best-fit use-case poster</h2>
+            <p class="sub" data-i18n="posterSectionSub">If you want one scenario that shows why this package exists, use this one: one shared vault for books, papers, SOPs, questionnaires, and project context.</p>
+          </div>
+        </div>
+        <article class="poster-shell reveal" style="--delay: 70ms;">
+          <div class="poster-grid">
+            <div class="poster-copy">
+              <div class="role-label" data-i18n="posterKicker">Best-fit use case</div>
+              <h3 data-i18n-html="posterTitle">One shared vault for<br><span>papers, books, SOPs,</span><br>questionnaires, and<br>project context.</h3>
+              <p class="poster-lede" data-i18n="posterSub">Keep the same markdown/wiki vault on NAS or a synced drive, let each teammate continue using their own agent, and make long-form knowledge, intake forms, and delivery context flow back into one governed structure.</p>
+              <div class="poster-chip-row">
+                <span class="chip" data-i18n="posterChip1">OpenClaw</span>
+                <span class="chip" data-i18n="posterChip2">Hermes agent</span>
+                <span class="chip" data-i18n="posterChip3">Claude Code</span>
+                <span class="chip" data-i18n="posterChip4">NAS / cloud sync</span>
+              </div>
+              <div class="poster-stat-grid">
+                <article class="poster-stat">
+                  <small data-i18n="posterStat1Label">Sources</small>
+                  <strong data-i18n="posterStat1Value">papers · textbooks · books · SOPs</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat2Label">Sync surface</small>
+                  <strong data-i18n="posterStat2Value">NAS / shared drive / cloud disk</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat3Label">Individual entrypoints</small>
+                  <strong data-i18n="posterStat3Value">each person keeps their own agent and working context</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat4Label">Output</small>
+                  <strong data-i18n="posterStat4Value">an auditable wiki instead of chat fragments and drifting folders</strong>
+                </article>
+              </div>
+              <div class="poster-outcome" data-i18n="posterOutcome">Result: people can improve the same wiki in parallel while still using their own agents to help with questionnaires, literature digestion, book notes, and working documents.</div>
+            </div>
+
+            <div class="poster-visual">
+              <div class="poster-ribbon">
+                <span data-i18n="posterRibbon1">close-read ingest</span>
+                <span data-i18n="posterRibbon2">maintenance loop</span>
+                <span data-i18n="posterRibbon3">audit gate</span>
+                <span data-i18n="posterRibbon4">collaboration hygiene</span>
+              </div>
+
+              <div class="poster-lane-grid">
+                <div class="poster-column">
+                  <article class="poster-node">
+                    <small data-i18n="posterSourceLabel">input layer</small>
+                    <strong data-i18n="posterSource1Title">Papers / literature</strong>
+                    <p data-i18n="posterSource1Copy">Research papers, guidelines, and review notes enter the vault as structured source material instead of attachment piles.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterSource2Title">Books / long-form markdown</strong>
+                    <p data-i18n="posterSource2Copy">Textbooks, manuals, and long markdown sources are split into chapter/topic layers with lineage preserved.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterSource3Title">Questionnaires / intake forms</strong>
+                    <p data-i18n="posterSource3Copy">Each teammate can use their own agent to help fill forms, organize answers, and push reusable conclusions back into the wiki.</p>
+                  </article>
+                </div>
+
+                <article class="poster-core">
+                  <div class="poster-core-ring" aria-hidden="true"></div>
+                  <div class="role-label" data-i18n="posterVaultLabel">shared vault</div>
+                  <strong data-i18n="posterVaultTitle">Governed markdown wiki</strong>
+                  <p data-i18n="posterVaultCopy">One synchronized vault holds knowledge pages, ops pages, project context, questionnaires, and durable summaries while the package keeps metadata, links, and page roles coherent.</p>
+                  <div class="chip-row">
+                    <span class="chip" data-i18n="posterVaultTag1">ingest</span>
+                    <span class="chip" data-i18n="posterVaultTag2">maintenance</span>
+                    <span class="chip" data-i18n="posterVaultTag3">audit</span>
+                  </div>
+                </article>
+
+                <div class="poster-column">
+                  <article class="poster-node">
+                    <small data-i18n="posterAgentLabel">agent surfaces</small>
+                    <strong data-i18n="posterAgent1Title">OpenClaw</strong>
+                    <p data-i18n="posterAgent1Copy">Good for structured execution, source handling, and batch operations around the same shared vault.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterAgent2Title">Hermes agent</strong>
+                    <p data-i18n="posterAgent2Copy">Fits ongoing collaboration, working context maintenance, and coordination-heavy routines.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterAgent3Title">Claude Code</strong>
+                    <p data-i18n="posterAgent3Copy">Useful for large document work, script-assisted cleanup, and knowledge-structure refinement.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="poster-bottom-grid">
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom1Title">working-profile</strong>
+                  <p data-i18n="posterBottom1Copy">Keep collaboration preferences and boundaries explicit instead of repeatedly re-explaining them.</p>
+                </article>
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom2Title">team-coordination</strong>
+                  <p data-i18n="posterBottom2Copy">Route questionnaires, assignments, and alignment through a shared contract instead of private chat memory.</p>
+                </article>
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom3Title">work-journal</strong>
+                  <p data-i18n="posterBottom3Copy">Let agents leave structured work logs so validated paths and dead ends can actually become reusable experience.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head reveal" style="--delay: 40ms;">
+          <div>
             <h2 data-i18n="flowTitle">How it flows</h2>
             <p class="sub" data-i18n="flowSub">Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.</p>
           </div>
@@ -2063,6 +2484,54 @@
         scenario3Title: "Cross-team collaboration",
         scenario3Copy: "When context is fragmented across chat and temporary docs, shared coordination and journal workflows reduce repeated re-explanation.",
         scenario3List: "<li>Draft / approved boundaries</li><li>Traceable meeting and decision context</li><li>Working-profile hygiene with consent boundaries</li>",
+        posterSectionTitle: "Best-fit use-case poster",
+        posterSectionSub: "If you want one scenario that best explains why this package exists, use this one: one shared vault for books, papers, SOPs, questionnaires, and project context.",
+        posterKicker: "Best-fit use case",
+        posterTitle: "One shared vault for<br><span>papers, books, SOPs,</span><br>questionnaires, and<br>project context.",
+        posterSub: "Keep the same markdown/wiki vault on NAS or a synced drive, let each teammate continue using their own agent, and make long-form knowledge, intake forms, and delivery context flow back into one governed structure.",
+        posterChip1: "OpenClaw",
+        posterChip2: "Hermes agent",
+        posterChip3: "Claude Code",
+        posterChip4: "NAS / cloud sync",
+        posterStat1Label: "Sources",
+        posterStat1Value: "papers · textbooks · books · SOPs",
+        posterStat2Label: "Sync surface",
+        posterStat2Value: "NAS / shared drive / cloud disk",
+        posterStat3Label: "Individual entrypoints",
+        posterStat3Value: "each person keeps their own agent and working context",
+        posterStat4Label: "Output",
+        posterStat4Value: "an auditable wiki instead of chat fragments and drifting folders",
+        posterOutcome: "Result: people can improve the same wiki in parallel while still using their own agents to help with questionnaires, literature digestion, book notes, and working documents.",
+        posterRibbon1: "close-read ingest",
+        posterRibbon2: "maintenance loop",
+        posterRibbon3: "audit gate",
+        posterRibbon4: "collaboration hygiene",
+        posterSourceLabel: "input layer",
+        posterSource1Title: "Papers / literature",
+        posterSource1Copy: "Research papers, guidelines, and review notes enter the vault as structured source material instead of attachment piles.",
+        posterSource2Title: "Books / long-form markdown",
+        posterSource2Copy: "Textbooks, manuals, and long markdown sources are split into chapter/topic layers with lineage preserved.",
+        posterSource3Title: "Questionnaires / intake forms",
+        posterSource3Copy: "Each teammate can use their own agent to help fill forms, organize answers, and push reusable conclusions back into the wiki.",
+        posterVaultLabel: "shared vault",
+        posterVaultTitle: "Governed markdown wiki",
+        posterVaultCopy: "One synchronized vault holds knowledge pages, ops pages, project context, questionnaires, and durable summaries while the package keeps metadata, links, and page roles coherent.",
+        posterVaultTag1: "ingest",
+        posterVaultTag2: "maintenance",
+        posterVaultTag3: "audit",
+        posterAgentLabel: "agent surfaces",
+        posterAgent1Title: "OpenClaw",
+        posterAgent1Copy: "Good for structured execution, source handling, and batch operations around the same shared vault.",
+        posterAgent2Title: "Hermes agent",
+        posterAgent2Copy: "Fits ongoing collaboration, working context maintenance, and coordination-heavy routines.",
+        posterAgent3Title: "Claude Code",
+        posterAgent3Copy: "Useful for large document work, script-assisted cleanup, and knowledge-structure refinement.",
+        posterBottom1Title: "working-profile",
+        posterBottom1Copy: "Keep collaboration preferences and boundaries explicit instead of repeatedly re-explaining them.",
+        posterBottom2Title: "team-coordination",
+        posterBottom2Copy: "Route questionnaires, assignments, and alignment through a shared contract instead of private chat memory.",
+        posterBottom3Title: "work-journal",
+        posterBottom3Copy: "Let agents leave structured work logs so validated paths and dead ends can actually become reusable experience.",
         flowTitle: "How it flows",
         flowSub: "Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.",
         flow1Title: "Get the repo",
@@ -2210,6 +2679,54 @@
         scenario3Title: "跨团队协作",
         scenario3Copy: "当上下文散落在聊天和临时文档里时，shared coordination 和 journal 工作流能减少反复解释。",
         scenario3List: "<li>草稿 / 定稿边界更清晰</li><li>会议和决策上下文可追溯</li><li>带 consent 边界的 working-profile 卫生</li>",
+        posterSectionTitle: "最佳使用案例海报",
+        posterSectionSub: "如果只挑一个最能说明这个包价值的场景，我会选这个：把书籍、文献、SOP、问卷和项目上下文都收进同一套共享 wiki。",
+        posterKicker: "最佳使用案例",
+        posterTitle: "把共享 wiki 变成<br><span>文献、书籍、SOP、</span><br>问卷与项目上下文的<br>统一工作面。",
+        posterSub: "团队把同一套 markdown/wiki vault 放在 NAS、网盘或同步盘里，每个人继续用自己的 agent，并把长文档知识、资料收集、问卷整理和项目沉淀都收回同一套受治理结构。",
+        posterChip1: "OpenClaw",
+        posterChip2: "Hermes agent",
+        posterChip3: "Claude Code",
+        posterChip4: "NAS / 网盘同步",
+        posterStat1Label: "知识源",
+        posterStat1Value: "文献 · 教材 · 书籍 · SOP",
+        posterStat2Label: "共享介质",
+        posterStat2Value: "NAS / 共享盘 / 同步网盘",
+        posterStat3Label: "个人入口",
+        posterStat3Value: "每个人保留自己的 agent 和自己的工作上下文",
+        posterStat4Label: "最终输出",
+        posterStat4Value: "可审计 wiki，而不是聊天碎片和漂移文件夹",
+        posterOutcome: "结果是：多人可以并行完善同一套 wiki，同时继续用自己的 agent 协助问卷填写、文献消化、书籍整理和工作文档处理。",
+        posterRibbon1: "close-read 导入",
+        posterRibbon2: "maintenance 循环",
+        posterRibbon3: "audit 闸门",
+        posterRibbon4: "协作卫生",
+        posterSourceLabel: "输入层",
+        posterSource1Title: "文献 / 论文",
+        posterSource1Copy: "论文、指南和复习笔记不再散成附件堆，而是作为结构化知识源进入 vault。",
+        posterSource2Title: "书籍 / 长文档",
+        posterSource2Copy: "教材、手册和长篇 markdown 会被拆成 chapter/topic 结构，并保留来源链。",
+        posterSource3Title: "问卷 / 表单 / 资料收集",
+        posterSource3Copy: "每个人都可以用自己的 agent 协助填写、整理答案，再把可复用结论沉淀回 wiki。",
+        posterVaultLabel: "共享 vault",
+        posterVaultTitle: "受治理的 markdown wiki",
+        posterVaultCopy: "同一套同步中的 vault 同时承载知识页、操作页、项目上下文、问卷资料和耐久总结，而这套包负责维持 metadata、链接和页面角色的一致性。",
+        posterVaultTag1: "ingest",
+        posterVaultTag2: "maintenance",
+        posterVaultTag3: "audit",
+        posterAgentLabel: "agent 工作面",
+        posterAgent1Title: "OpenClaw",
+        posterAgent1Copy: "适合围绕同一套共享 vault 做流程执行、结构整理和批量处理。",
+        posterAgent2Title: "Hermes agent",
+        posterAgent2Copy: "适合持续协作、上下文维护和偏协调型的工作流。",
+        posterAgent3Title: "Claude Code",
+        posterAgent3Copy: "适合大型文档处理、脚本辅助清理和知识结构修整。",
+        posterBottom1Title: "working-profile",
+        posterBottom1Copy: "把协作偏好和边界写清楚，而不是反复重新解释。",
+        posterBottom2Title: "team-coordination",
+        posterBottom2Copy: "让问卷、分工和对齐走共享契约，而不是卡在私人聊天记忆里。",
+        posterBottom3Title: "work-journal",
+        posterBottom3Copy: "让 agent 自己留下结构化工作日志，把验证过的路径和死路都变成可复用经验。",
         flowTitle: "它怎么运转",
         flowSub: "先把仓库拿到本地并完成安装，再稳定 profile 合约，随后优先走默认主线，等 PM 工作流真的需要时再加载。",
         flow1Title: "先拿到仓库",

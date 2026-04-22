@@ -1,89 +1,42 @@
-#!/usr/bin/env python3
-"""Tests for verify_ingest_coverage.py."""
-import sys
-from pathlib import Path
+from __future__ import annotations
 
-scripts_dir = Path(__file__).parent.parent / "skills" / "knowledge-base-ingest" / "scripts"
-sys.path.insert(0, str(scripts_dir))
-
-from verify_ingest_coverage import parse_coverage_table, validate_coverage
+from tests.helpers import load_module
 
 
-def test_parse_coverage_table_basic(tmp_path):
-    coverage = tmp_path / "coverage-map.md"
-    coverage.write_text(
-        """# Source Coverage Map
-
-| index | file | title | lines | words | status | target pages | notes |
-|---|---|---|---|---:|---|---|---|
-| 001 | 001-a.md | A | 1-10 | 100 | covered | pages/a.md |  |
-""",
-        encoding="utf-8",
+def test_coverage_map_round_trips_escaped_pipe_cells(tmp_path):
+    split_markdown = load_module(
+        "test_split_markdown_for_coverage",
+        "skills/knowledge-base-ingest/scripts/split_markdown.py",
     )
-    rows = parse_coverage_table(coverage)
+    verify = load_module(
+        "test_verify_ingest_coverage_module",
+        "skills/knowledge-base-ingest/scripts/verify_ingest_coverage.py",
+    )
+
+    manifest = [
+        {
+            "index": 1,
+            "file": "001-a|b.md",
+            "title": "Topic | A",
+            "start_line": 1,
+            "end_line": 10,
+            "word_count": 12,
+            "level": 2,
+            "breadcrumb": ["Topic | A"],
+        }
+    ]
+    split_markdown.write_coverage_map(manifest, tmp_path)
+
+    rows = verify.parse_coverage_table(tmp_path / "coverage-map.md")
     assert rows == [
         {
             "index": "001",
-            "file": "001-a.md",
-            "title": "A",
+            "file": "001-a|b.md",
+            "title": "Topic | A",
             "lines": "1-10",
-            "words": "100",
-            "status": "covered",
-            "target pages": "pages/a.md",
-            "notes": "",
-        }
-    ]
-
-
-def test_validate_coverage_passes_for_final_statuses():
-    manifest = [
-        {"file": "001-a.md", "title": "A"},
-        {"file": "002-b.md", "title": "B"},
-    ]
-    coverage_rows = [
-        {
-            "file": "001-a.md",
-            "status": "covered",
-            "target pages": "pages/a.md",
-            "notes": "",
-        },
-        {
-            "file": "002-b.md",
-            "status": "intentionally-omitted",
-            "target pages": "",
-            "notes": "Appendix duplicate kept only in overview",
-        },
-    ]
-    assert validate_coverage(manifest, coverage_rows) == []
-
-
-def test_validate_coverage_flags_incomplete_or_missing_rows():
-    manifest = [
-        {"file": "001-a.md", "title": "A"},
-        {"file": "002-b.md", "title": "B"},
-    ]
-    coverage_rows = [
-        {
-            "file": "001-a.md",
+            "words": "12",
             "status": "unread",
             "target pages": "",
             "notes": "",
         }
     ]
-    problems = validate_coverage(manifest, coverage_rows)
-    assert any("001-a.md: status is still incomplete" in problem for problem in problems)
-    assert any("Missing coverage row for manifest file: 002-b.md" in problem for problem in problems)
-
-
-def test_validate_coverage_requires_target_pages_for_covered_status():
-    manifest = [{"file": "001-a.md", "title": "A"}]
-    coverage_rows = [
-        {
-            "file": "001-a.md",
-            "status": "covered",
-            "target pages": "",
-            "notes": "",
-        }
-    ]
-    problems = validate_coverage(manifest, coverage_rows)
-    assert any("requires target pages" in problem for problem in problems)

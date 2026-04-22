@@ -11,6 +11,8 @@ ingest-run/
   chunks/
   batch-packets/
   batch-notes/
+  claim-map.json
+  delivery-gate.json
   synthesis/
 ```
 
@@ -55,6 +57,25 @@ Each completed batch note should use this shape:
   "candidate_topics": ["topic page candidate"]
 }
 ```
+
+These notes are not just “batch summaries”. They are the first structured evidence layer for later synthesis and claim validation.
+
+## `claim-map.json`
+This file records how important synthesized claims map back to:
+- batch keys
+- source chunks
+- supporting quotes
+
+Its purpose is to reduce unsupported or overstated delivery claims.
+
+## `delivery-gate.json`
+This file is the final completion gate.
+It should summarize:
+- chunk coverage status
+- extractive note completeness
+- claim support status
+- integrity status
+- final delivery label (`partial` / `coverage-complete` / `evidence-complete` / `ready-to-promote`)
 
 ## Keep it stable
 Do not let batch notes drift into free-form diaries.

@@ -29,6 +29,8 @@ description: This skill should be used when the user asks to import a long markd
 - `references/close-reading-mode.md`
 - `references/rolling-state-contract.md`
 - `references/chunk-note-schema.md`
+- `references/claim-map-contract.md`
+- `references/delivery-gate-contract.md`
 - `references/glossary-strategy.md`
 - `references/linking-strategy.md`
 - `../../templates/vault-profile-template.md`
@@ -55,6 +57,9 @@ description: This skill should be used when the user asks to import a long markd
 - **先认定 stable baseline。** 如果不是第一次导入，本轮要明确“当前稳定版本”是什么。
 - **超大源材料要切到 close-reading mode。** 不要指望一次 prompt 读完整本书。
 - **超大源材料优先增量重跑。** 改动了哪个 chapter，就尽量只重跑受影响的 batches。
+- **`batch-notes/` 默认视为 extractive evidence layer。** 不要只写松散 summary。
+- **没有 claim map，就不能把关键结论当成“已证实知识”。**
+- **执行 agent 不得自我认证“已完整导入”。** 完成态必须交给 delivery gate。
 - **优先知识库口径，而不是原文镜像口径。**
 - **保留 source lineage。** 每个导入页面都应能看出来自哪本书、哪一章、哪一节。
 - **链接优先级高于排版复刻。**
@@ -142,10 +147,29 @@ close-reading mode 的目标是：
 - 先运行 `scripts/close_read_markdown.py`
 - 按 batch packet 逐轮精读
 - 每轮把抽取结果写入 `batch-notes/<batch-key>.json`
+- 把 `batch-notes` 当作 extractive evidence layer；对于高风险 batch，补充 `headings_seen / must_keep_facts / boundaries_and_exceptions / omission_risk`
 - 反复重跑脚本以刷新 rolling state
 - 如果 source 改了，优先利用 chunk hash / batch hash 只重跑 changed batches
 - 需要汇总时运行：
   - `python3 scripts/synthesize_knowledge.py <run-dir>`
+
+### 5B. Build evidence gates after synthesis
+在 close-reading mode 之后，不要立刻宣称完成。
+
+还需要准备：
+- `claim-map.json`：记录 candidate pages 中的重要 claim 如何回指到 batch note / source chunk / evidence quote
+- `delivery-gate.json`：统一汇总 coverage / extractive / evidence / integrity 的状态
+
+建议的完成态枚举：
+- `partial`
+- `coverage-complete`
+- `evidence-complete`
+- `ready-to-promote`
+
+只有 `ready-to-promote` 才允许说：
+- 已完整导入
+- fully imported
+- ready to merge / ready to promote
 
 ### 6. Classify by page role
 导入时仍遵循固定 page-role model：
@@ -245,6 +269,10 @@ close-reading mode 的目标是：
 - 是否抽取了 toc / glossary candidates / related links 建议
 - 是否启用了 close-reading mode
 - close-reading run 是否有 batch plan / reading state / completed notes / synthesis 产物
+- `batch-notes` 是否只是 summary，还是已经作为 extractive evidence layer 使用
+- 是否生成了 `claim-map.json`
+- 是否生成了 `delivery-gate.json`
+- 当前 gate 是 `partial / coverage-complete / evidence-complete / ready-to-promote` 中的哪一种
 - rerun 时是否只重置了 changed batches，而不是整本书重读
 - synthesis 是否产出了 candidate pages 和 candidate link map
 - candidate pages 是否已经带 frontmatter，且 `area` / `owner` / `status` 是否明确
@@ -275,6 +303,8 @@ close-reading mode 的目标是：
 - `references/close-reading-mode.md`：什么时候切入超大文本的分块精读模式
 - `references/rolling-state-contract.md`：`reading-state.json` 和 `batch-notes/*.json` 应该如何保持稳定
 - `references/chunk-note-schema.md`：batch note 应提取哪些字段，如何避免变成流水账
+- `references/claim-map-contract.md`：如何把最终交付里的关键 claim 回指到 source 证据
+- `references/delivery-gate-contract.md`：什么状态下才允许说“已完整导入”
 - `references/glossary-strategy.md`：术语页与 glossary candidates 的处理方式
 - `references/linking-strategy.md`：如何从 related links 建议落到真实 wiki 链接模型
 - `../../templates/ingest-iteration-log-template.md`：记录每轮 baseline / candidate / regression / decision
