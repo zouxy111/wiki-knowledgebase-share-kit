@@ -29,6 +29,17 @@ STOP_TERMS = {
     "From",
     "This",
     "That",
+    "引言",
+    "导言",
+    "概述",
+    "总结",
+    "结论",
+    "附录",
+    "目录",
+    "参考文献",
+    "术语表",
+    "示例",
+    "案例",
 }
 
 
@@ -47,36 +58,40 @@ def normalize(term: str) -> str:
     return term.strip(" -:：,，。.;；")
 
 
+def should_keep_term(term: str) -> bool:
+    return len(term) >= 2 and term not in STOP_TERMS
+
+
 def collect_terms(path: Path, counter: Counter, sources: dict[str, set[str]]) -> None:
     text = path.read_text(encoding="utf-8", errors="ignore")
 
     for _, title in HEADING_RE.findall(text):
         term = normalize(title)
-        if len(term) >= 2:
+        if should_keep_term(term):
             counter[term] += 3
             sources[term].add(path.name)
 
     for match in CODE_RE.findall(text):
         term = normalize(match)
-        if len(term) >= 2:
+        if should_keep_term(term):
             counter[term] += 2
             sources[term].add(path.name)
 
     for match in BOLD_RE.findall(text):
         term = normalize(match[0] or match[1])
-        if len(term) >= 2:
+        if should_keep_term(term):
             counter[term] += 2
             sources[term].add(path.name)
 
     for match in TITLE_RE.findall(text):
         term = normalize(match)
-        if len(term) >= 2 and term not in STOP_TERMS:
+        if should_keep_term(term):
             counter[term] += 1
             sources[term].add(path.name)
 
     for match in CJK_QUOTE_RE.findall(text):
         term = normalize(match)
-        if len(term) >= 2:
+        if should_keep_term(term):
             counter[term] += 1
             sources[term].add(path.name)
 

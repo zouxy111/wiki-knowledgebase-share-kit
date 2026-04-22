@@ -77,7 +77,11 @@ case "${OS}" in
 
         echo ""
         echo "✅ Obsidian 安装完成！"
-        echo "路径（path）: /usr/local/bin/obsidian"
+        if [ -d "$INSTALL_DIR" ]; then
+            echo "路径（path）: ${INSTALL_DIR}/obsidian"
+        else
+            echo "路径（path）: /usr/local/bin/obsidian"
+        fi
         echo ""
         echo "运行命令（run command）: obsidian"
         ;;

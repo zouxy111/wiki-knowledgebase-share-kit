@@ -92,11 +92,21 @@ jobs:
 
       - name: Run Black (format check)
         run: |
-          black --check skills/ || echo "::warning::Python files are not properly formatted. Run 'black skills/' to fix."
+          black --check skills/
 
       - name: Run Flake8 (linting)
         run: |
-          flake8 --max-line-length=120 --ignore=E501,W503 skills/ || echo "::warning::Linting issues found. See output for details."
+          flake8 --max-line-length=120 --ignore=E501,W503 skills/
+
+      - name: Check script executability
+        run: |
+          find skills/ tests/ -type f -name "*.sh" | while read -r script; do
+            if [ ! -x "$script" ]; then
+              echo "Error: $script lacks execute permission"
+              exit 1
+            fi
+          done
+          echo "Script executability check passed."
 
       - name: Run tests
         run: |

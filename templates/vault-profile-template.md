@@ -45,6 +45,8 @@
 - `task` — 任务清单、待办事项
 - `overview` — 总览页、索引页
 
+> ⚠️ **关于 `journal` 角色**：[`work-journal`](../skills/work-journal/) 是**独立工作流**，`journal` 角色仅用于 `journals/` 目录下的工作记录，**不属于 vault 核心 5 种 page-role**。详见 [`journal-profile-template.md`](./journal-profile-template.md)。
+
 💡 **不理解这 5 种角色？** 先看 [`GLOSSARY.md`](../GLOSSARY.md)
 
 ---
@@ -65,6 +67,10 @@
 - 工程师：`frontend`（前端）、`backend`（后端）、`devops`（运维）
 - 产品经理：`product`（产品）、`design`（设计）、`research`（调研）
 
+💡 **PM 主线提示**：
+- 如果你要启用项目 owner / 周计划 / 里程碑 / blocker / delivery gate 主线，可以额外增加 `project-management`
+- 这个 area 是**可选管理层 area**，不是所有用户都必须一开始就配置
+
 💡 **建议**：先从 2-3 个分类开始，不要一开始就分太细
 
 ---
@@ -78,6 +84,7 @@
 | `learning` | `pages/project-learning-overview.md` | 学习笔记的导航入口 |
 | `work` | `pages/project-work-overview.md` | 工作文档的导航入口 |
 | `projects` | `pages/project-projects-overview.md` | 项目管理的导航入口 |
+| `project-management` | `pages/project-project-management-overview.md` | 可选 PM 管理层入口 |
 
 💡 **什么是 root page？**
 - 就是每个分类的"目录页"

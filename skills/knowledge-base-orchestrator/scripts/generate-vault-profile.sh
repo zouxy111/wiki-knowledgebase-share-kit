@@ -37,7 +37,6 @@ IFS=',' read -ra AREA_ARRAY <<< "$AREAS"
 # 生成 vault profile (Generate vault profile)
 # 确保目标目录存在
 mkdir -p "${VAULT_PATH}"
-
 PROFILE_PATH="${VAULT_PATH}/vault-profile.md"
 
 cat > "${PROFILE_PATH}" << 'EOF'
@@ -239,9 +238,11 @@ created: "2026-04-01"  # 创建日期
 3. 如果你要导入长文档：使用 `knowledge-base-ingest`
 4. 如果你要把结果沉淀进知识库：使用 `knowledge-base-maintenance`
 5. 如果你要做结构检查：使用 `knowledge-base-audit`
-6. 如果你要沉淀协作画像：使用 `knowledge-base-working-profile`
+6. 如果你要做项目 owner / 里程碑 / blocker 主线：使用 `knowledge-base-project-management`
 7. 如果你要协调多人项目：使用 `knowledge-base-team-coordination`
-8. 如果你要记录每日工作 / 会议 / 周报：使用 `work-journal`
+8. 如果你要做交付闭环 / ready / greenlight 审计：使用 `knowledge-base-delivery-audit`
+9. 如果你要沉淀协作画像：使用 `knowledge-base-working-profile`
+10. 如果你要记录每日工作 / 会议 / 周报：使用 `work-journal`
 
 **需要帮助？**
 - 📖 查看 [START-HERE.md](https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md)
@@ -258,4 +259,6 @@ echo ""
 echo "现在可以使用这个 profile 了（you can now use this profile）:"
 echo "  Use \$knowledge-base-kit-guide with profile: ${PROFILE_PATH}"
 echo "  Use \$knowledge-base-orchestrator if you still need guided setup"
-echo "  Use \$knowledge-base-ingest / \$knowledge-base-maintenance / \$knowledge-base-audit / \$knowledge-base-working-profile / \$knowledge-base-team-coordination / \$work-journal as needed"
+echo "  Use \$knowledge-base-ingest / \$knowledge-base-maintenance / \$knowledge-base-audit as the default specialist path"
+echo "  Use \$knowledge-base-project-management / \$knowledge-base-team-coordination / \$knowledge-base-delivery-audit only when you need PM workflows"
+echo "  Use \$knowledge-base-working-profile / \$work-journal as needed"

@@ -7,8 +7,8 @@
 [![Contributors](https://img.shields.io/github/contributors/zouxy111/wiki-knowledgebase-share-kit)](https://github.com/zouxy111/wiki-knowledgebase-share-kit/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-> An **8-skill knowledge-base package** for markdown / wiki / Obsidian-style vaults.  
-> The goal is not to record more logs, but to keep a vault **navigable, role-stable, maintainable, collaboration-friendly, and auditable**.
+> A **10-skill knowledge-base maintenance + collaboration package** for markdown / wiki / Obsidian-style vaults.  
+> The default path still starts with knowledge-base maintenance; the PM mainline is added progressively only when you need milestones, blockers, team alignment, or delivery gates.
 
 <p align="center">
   <a href="https://zouxy111.github.io/wiki-knowledgebase-share-kit/"><img src="https://img.shields.io/badge/Open-HTML_Homepage-4ab9ff?style=for-the-badge" alt="Open HTML Homepage" /></a>
@@ -18,19 +18,20 @@
 
 [![HTML homepage preview](./docs/assets/social-preview.png)](https://zouxy111.github.io/wiki-knowledgebase-share-kit/)
 
-> If you want the more product-like HTML landing page, open the **HTML Homepage** above; the repository README continues to handle installation, routing, and method documentation.
+> If you want the more product-like HTML landing page, open the **HTML Homepage** above; the repository README remains the authoritative surface for installation, routing, and method documentation.
 
 ---
 
 ## 30-second overview
 
-Many vault problems are not caused by a lack of writing. They come from structure drift:
+Most vault problems are not caused by a lack of writing. They come from drift:
 - too much content without stable entrypoints
 - root pages turning into process logs
 - long-form sources, meeting notes, and task conclusions getting mixed together
-- new collaborators not knowing where to start or which workflow to use
+- collaboration context living in chat, personal notes, and temporary files
+- projects moving forward without a shared milestone / blocker / delivery gate surface
 
-This kit is designed to shift a vault toward the following state:
+This kit is designed to shift a vault and a collaboration workspace toward the following state:
 
 | Typical problem | Target state |
 |---|---|
@@ -39,40 +40,90 @@ This kit is designed to shift a vault toward the following state:
 | Durable conclusions only exist in chat or meetings | Reusable conclusions are written back into the right pages |
 | The vault drifts but nobody knows where it is broken | Audit checks dead links, orphan pages, boundary drift, and noise regression |
 | Collaboration context is fragmented and hard to hand off | Working profile, team coordination, and journal workflows create a stable collaboration surface |
+| A project owner cannot clearly drive the next step | Project-management and delivery-audit add milestones, blockers, and readiness gates |
 
 In one sentence:
 
-> Make your markdown repository behave like a real knowledge base instead of a pile of notes you wrote once and cannot reliably find later.
+> Make your markdown repository behave like a real knowledge base, and make shared projects behave like traceable, auditable workflows instead of scattered temporary coordination.
 
 ---
 
-## This is an 8-skill package
+## This is a 10-skill package
 
-The current public package contains 8 skills:
+The current public package contains 10 skills:
 
 1. `knowledge-base-kit-guide`
 2. `knowledge-base-orchestrator`
 3. `knowledge-base-ingest`
 4. `knowledge-base-maintenance`
 5. `knowledge-base-audit`
-6. `knowledge-base-working-profile`
+6. `knowledge-base-project-management`
 7. `knowledge-base-team-coordination`
-8. `work-journal`
+8. `knowledge-base-delivery-audit`
+9. `knowledge-base-working-profile`
+10. `work-journal`
 
-Together they cover 7 capability tracks:
+Together they cover 9 capability tracks:
 - **Onboarding / Orchestration**
 - **Ingest**
 - **Maintenance**
 - **Audit**
-- **Working profile**
+- **Project management**
 - **Team coordination**
+- **Delivery audit**
+- **Working profile**
 - **Work journal**
 
 In particular:
-- `knowledge-base-kit-guide` explains installation, profile setup, and skill routing
-- `knowledge-base-orchestrator` provides low-friction onboarding: inspect the current environment, create a vault skeleton, generate a profile, and route the user to the next specialist skill
+- `knowledge-base-kit-guide` explains installation, profile setup, and routing
+- `knowledge-base-orchestrator` handles low-friction onboarding
+- `knowledge-base-project-management` handles owner-side intake, milestones, blockers, and execution boards
+- `knowledge-base-team-coordination` handles 2+ person shared-project workflows
+- `knowledge-base-delivery-audit` handles delivery completeness and ready / blocked / greenlight review
 
-> `knowledge-base-orchestrator` is an **onboarding coordinator**, not a universal autonomous agent.
+> `knowledge-base-orchestrator` is an onboarding coordinator, not a universal autonomous agent.
+
+---
+
+## Default path vs optional PM mainline
+
+### Default path: stay narrow first
+If you mainly need to:
+- import long-form sources
+- maintain a knowledge base
+- audit structure
+- maintain working profiles or work journals
+
+start with:
+- `knowledge-base-kit-guide`
+- `knowledge-base-orchestrator`
+- `knowledge-base-ingest`
+- `knowledge-base-maintenance`
+- `knowledge-base-audit`
+
+### Optional PM mainline: load only when needed
+Only move into the PM mainline when the intent is clearly about:
+- project management
+- weekly planning
+- milestones
+- blockers / dependencies
+- handoff
+- ready / greenlight
+- project retrospectives
+
+The PM mainline is formed by:
+- `knowledge-base-project-management`
+- `knowledge-base-team-coordination`
+- `knowledge-base-delivery-audit`
+
+It corresponds to a new **optional area**:
+- `project-management`
+
+This area holds management-layer artifacts only. It does not replace business areas and does not replace `governance`.
+
+See also:
+- [`docs/project-management-workflow.md`](./docs/project-management-workflow.md)
+- [`templates/project-management/README.md`](./templates/project-management/README.md)
 
 ---
 
@@ -82,13 +133,13 @@ In particular:
 - Individuals or teams already maintaining a markdown / wiki / Obsidian-style vault
 - People who want to separate execution history from durable knowledge
 - Users who accept the fixed page-role model: `project / knowledge / ops / task / overview`
-- Teams that want stable workflows for long-form ingest, maintenance, audit, working profile, shared-project coordination, and work journaling
+- Teams that want stable workflows for ingest, maintenance, audit, collaboration, project progression, and delivery review
 
 ### Not a good fit
 - People who do not want to configure a `vault profile`
 - Log-first vaults that do not care about navigation or governance
 - Users expecting the package to run as a background fully automatic system
-- Setups that reject the fixed page-role model entirely
+- Setups that reject the fixed page-role model and explicit artifact states
 
 ---
 
@@ -104,27 +155,29 @@ This method uses **5 fixed page roles**:
 | `task` | todo items, assignments, in-progress work | long-term knowledge |
 | `overview` | vault homepage, governance rules, indexes | detailed project history |
 
-Additional note:
-- `work-journal` is a **separate workflow**, not a sixth fixed page role
-- journal content should be filtered before it is promoted into `knowledge`, `ops`, `project`, or other stable pages
+Additional notes:
+- `work-journal` is a separate workflow, not a sixth page role
+- `project-management` is an optional area, not a new page role
+- journal entries, PM boards, and shared-project artifacts should still be filtered before they are promoted into durable knowledge pages
 
 ---
 
-## Why this method works
+## Why the method works
 
-It relies on a few fixed rules:
+It relies on a few stable rules:
 
 1. **Knowledge-base-first**: keep durable knowledge, filter one-off noise
 2. **Fixed role model**: each page has a clear job
 3. **Four-sync mechanism**: substantive updates should sync the target page, root page, `index.md`, and `log.md`
 4. **Milestone-only log**: `log.md` should record milestones, not task playback
-5. **Periodic audit**: structure, navigation, metadata, and noise regression should be checked on a regular basis
+5. **Periodic audit**: structure, navigation, metadata, and noise regression should be checked regularly
+6. **Draft / approval boundaries**: multi-person and PM artifacts should distinguish `draft / approved / blocked / superseded`
 
 ---
 
 ## Recommended scenario: high-knowledge-density, multi-person, auditable collaboration
 
-This kit is particularly strong in a class of environments that are:
+This kit is particularly strong in environments that are:
 
 > **knowledge-dense, frequently updated, collaboration-heavy, and in need of traceability and auditability.**
 
@@ -132,106 +185,61 @@ That includes, but is not limited to:
 - medical / pathology / research work
 - enterprise knowledge bases / project delivery / operational documentation
 - cross-team collaboration / onboarding / meeting conclusion distillation
-
-These settings look different, but the underlying problems are often similar:
-
-| Shared problem | In medical / research work | In enterprise / team work |
-|---|---|---|
-| Long-form sources are hard to reuse | guidelines, textbooks, papers, case summaries are hard to retrieve | PRDs, solution docs, runbooks, and meeting materials are hard to revisit |
-| Experience is scattered | clinical or research experience lives in fragmented notes | project experience is scattered across chat, meeting notes, and temporary docs |
-| Collaboration is complex | advisors, colleagues, and collaborators are hard to keep aligned | cross-functional teams keep repeating context and background |
-| Boundaries and auditability matter | content cannot be mixed casually and updates must stay controlled | governance needs clear navigation, ownership, and audit findings |
-
-So this is better understood as **one method for high-knowledge-density collaboration**, not as separate “medical” and “enterprise” products.
+- teams that need owner-side planning, multi-person alignment, and delivery gating
 
 ---
 
-## How the kit is used in that scenario
+## How the PM mainline avoids polluting the structure
 
-### 1. Import long-form sources, books, guidelines, or plans
-Use `knowledge-base-ingest` to:
-- read the `vault profile`
-- split the source into overview / chapter / topic pages
-- generate TOC, glossary candidates, and related-link suggestions
-- treat the first import as a **testable baseline** and improve it through iteration and regression checks
+New area:
+- `project-management`
 
-Typical examples:
-- medical books, guidelines, papers
-- enterprise SOPs, PRDs, delivery docs, training materials
+Its boundary is fixed:
+- business facts → original business areas
+- vault governance → `governance`
+- milestones, boards, risks, decisions, delivery gates → `project-management`
 
-### 2. Distill durable task results and meeting conclusions
-Use `knowledge-base-maintenance` to:
-- extract stable conclusions from tasks, meetings, conversations, or deliverables
-- filter one-off process noise
-- update the target page and the related navigation surfaces
+Recommended blocks:
+1. **Portfolio / project overview**
+2. **Team coordination**
+3. **Personal execution**
 
-### 3. Perform periodic structural governance
-Use `knowledge-base-audit` to:
-- inspect dead links, orphan pages, and missing entrypoints
-- detect page-boundary drift, metadata issues, and stray root-level files
-- report traceable P1 / P2 / P3 findings
-
-### 4. Maintain collaboration context and shared-project structure
-Use:
-- `knowledge-base-working-profile`
-- `knowledge-base-team-coordination`
-- `work-journal`
-
-The goal here is **not** to create a private dossier. The goal is to:
-- distill stable signals that matter for future collaboration
-- separate `confirmed / repeated / inferred` items
-- filter sensitive personal data and anything that should not be stored long term
-- keep draft / approved boundaries in shared coordination workflows
+Recommended templates:
+- `project-project-management-overview.md`
+- `pm-portfolio-board.md`
+- `pm-operating-model.md`
+- `pm-personal-execution-board.md`
+- `pm-weekly-review-ops.md`
+- `pm-delivery-gates.md`
+- `pm-risk-register.md`
+- `pm-decision-register.md`
 
 ---
 
-## Working profile boundaries matter
+## OpenClaw / Hermes / NAS / personal wiki integration patterns
 
-`knowledge-base-working-profile` maintains a **working profile**, not a personal surveillance record.
+Current recommended platforms:
+- **OpenClaw**
+- **Hermes**
 
-It focuses on:
-- stable preferences
-- decision heuristics
-- collaboration boundaries
-- anti-patterns
-- stable signals that directly improve future collaboration
+“Seamless integration” here means:
+- the same shared project directory contract
+- the same skills / prompts / coordinator workflow
+- no dependency on platform-private APIs
 
-It should not retain by default:
-- highly sensitive personal data
-- private details unrelated to future collaboration
-- third-party private information
-- strong unconfirmed inference
-- one-off emotional reactions
+Recommended collaboration pattern:
+- `team-project/` is the shared source of truth
+- each member can keep a personal wiki / private workspace for drafts and reasoning
+- each member can use OpenClaw / Hermes / another agent to help answer questionnaires and organize updates
+- only the markdown files synced back into the shared project directory enter the formal coordination loop
 
-In team, medical, or otherwise sensitive settings, the README should make these boundaries explicit:
-- consent
-- visibility
-- share only what is necessary
-- confirm first, then promote to durable profile material
+Recommended sync topologies:
+1. `team-project/` as a standalone NAS / cloud-synced folder
+2. `team-project/` embedded inside a shared wiki / shared knowledge base
 
----
-
-## Recommended usage order
-
-### If you are completely new
-1. Start with `START-HERE.md`
-2. Prepare `templates/vault-profile-template.md`
-3. Use `knowledge-base-orchestrator` for onboarding
-4. Then move into the relevant specialist skill
-
-### If you want to understand the method first
-1. Start with `knowledge-base-kit-guide`
-2. Understand the profile, role model, and routing
-3. Then choose ingest / maintenance / audit / working-profile / team-coordination / journal as needed
-
-### If you already know what you need
-Go directly to the relevant specialist skill:
-- long-form import: `knowledge-base-ingest`
-- durable maintenance: `knowledge-base-maintenance`
-- structural review: `knowledge-base-audit`
-- collaboration profile update: `knowledge-base-working-profile`
-- shared-project coordination: `knowledge-base-team-coordination`
-- daily work logging: `work-journal`
+See also:
+- [`docs/collaboration-integration-patterns.md`](./docs/collaboration-integration-patterns.md)
+- [`docs/team-coordination-workflow.md`](./docs/team-coordination-workflow.md)
 
 ---
 
@@ -239,10 +247,39 @@ Go directly to the relevant specialist skill:
 
 Start with the general rule:
 
-> The package is fundamentally a set of **8 `SKILL.md`-style skill bundles**.  
-> If your AI platform supports a similar skills directory structure, you can install it. Directory locations vary by platform.
+> The package is fundamentally a set of **10 `SKILL.md`-style skill bundles**.  
+> If your AI platform supports a similar skills-directory structure, you can install it.  
+> **Important:** a runtime only reads its own skills directory. It does not automatically read the `skills/` folder inside this Git repository.
 
-Common examples:
+Prefer the bundled installer over copying folders one by one:
+
+```bash
+# Install into Codex
+python3 scripts/install_skills.py --platform codex --force
+
+# Install into Claude Code
+python3 scripts/install_skills.py --platform claude --force
+```
+
+After installing:
+1. reopen the current session or restart the runtime
+2. confirm the runtime now lists the expected skill names
+3. if it still says `Skill not found`, read [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)
+
+### One-command installer
+
+```bash
+# Auto-detect platform and install (Kimi CLI / Claude Code / Codex / generic agents)
+bash install.sh
+
+# Preview installation
+bash install.sh --dry-run
+
+# Verify installation
+bash verify-installation.sh
+```
+
+### Manual install example
 
 ```bash
 cp -r skills/knowledge-base-kit-guide ~/.codex/skills/
@@ -250,17 +287,22 @@ cp -r skills/knowledge-base-orchestrator ~/.codex/skills/
 cp -r skills/knowledge-base-ingest ~/.codex/skills/
 cp -r skills/knowledge-base-maintenance ~/.codex/skills/
 cp -r skills/knowledge-base-audit ~/.codex/skills/
-cp -r skills/knowledge-base-working-profile ~/.codex/skills/
+cp -r skills/knowledge-base-project-management ~/.codex/skills/
 cp -r skills/knowledge-base-team-coordination ~/.codex/skills/
+cp -r skills/knowledge-base-delivery-audit ~/.codex/skills/
+cp -r skills/knowledge-base-working-profile ~/.codex/skills/
 cp -r skills/work-journal ~/.codex/skills/
 ```
 
 Other common directory patterns include:
-- `~/.codex/skills`
-- `~/.claude/skills`
-- or another platform-specific location for `SKILL.md` bundles
+- `~/.kimi/skills` — Kimi CLI
+- `~/.claude/skills` — Claude Code
+- `~/.codex/skills` — Codex
+- `~/.agents/skills` — generic agents
 
-> If you are using OpenClaw, Hermes Agent, Claude Code, or another compatible platform, confirm that platform’s skill-directory convention before installation.
+> **Note:** Kimi CLI and Claude Code may share the same `~/.agents/skills` directory via symlinks. If both point there, you only need one install.
+
+> If you are using OpenClaw, Hermes Agent, or another compatible platform, confirm that platform’s skills-directory convention before installation.
 
 ---
 
@@ -274,6 +316,9 @@ This method often pairs well with:
 But the important boundary is:
 - these are **recommended combinations**, not exclusive dependencies
 - the core value of this repository is still **knowledge-base structure governance and workflow design**, not platform lock-in
+
+If you want to plug the method into a longer-running OpenClaw / Hermes workspace, continue with [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+That document explains why we recommend an optional `agent-workspace/` folder parallel to `pages/` for drafts, distills, comparison notes, and runtime helper artifacts; if you really keep a local mirror of shared-project material, it must stay a read-only cache and never replace `team-project/` as the coordination source of truth.
 
 ---
 
@@ -289,46 +334,63 @@ cat START-HERE.md
 
 # 3. Copy the template and prepare your profile
 cp templates/vault-profile-template.md ./my-vault-profile.md
+
+# 4. Install the 10 skills into your runtime directory
+python3 scripts/install_skills.py --platform codex --force
 ```
 
-Once your platform and skill directory are ready, install the 8 skill bundles.
+If you do not need the PM mainline yet, you do not have to configure the `project-management` area on day one.
 
 ---
 
 ## FAQ
 
 **Q: Can I use this without Obsidian?**  
-A: Yes. If you have a markdown/wiki vault and a platform that supports the relevant skill structure, you can use it.
+A: Yes. If you have a markdown/wiki vault and a platform that supports a comparable skills directory structure, you can use it.
 
 **Q: Can I use it without full automation?**  
-A: Yes. The docs, templates, and checklists are still usable manually; the skills mainly improve execution efficiency.
+A: Yes. The docs, templates, and checklists are still useful manually; the skills mainly improve execution efficiency.
 
 **Q: My vault is already messy. Can I still adopt this?**  
-A: Yes. Start with an audit, then fix structure, repair navigation, and tighten page boundaries incrementally.
+A: Yes. Start with an audit, then repair structure, navigation, and boundaries incrementally.
 
-**Q: Are enterprise and medical separate solutions?**  
-A: No. They are two common variants of the same broader scenario: high-knowledge-density, multi-person, auditable collaboration.
+**Q: Why does the runtime say `Skill not found` even though `knowledge-base-ingest` exists in the repo?**  
+A: Usually the repo is fine; the runtime's actual skills directory was not installed or reloaded. Run `python3 scripts/install_skills.py --platform <codex|claude> --force`, then reopen the session. See [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md).
 
-**Q: Will the working profile become a privacy dossier?**  
-A: It should not. The intended use is to keep collaboration-relevant stable signals while enforcing consent, visibility, and sensitive-data filtering boundaries.
+**Q: How do I prevent a huge source from being only half-read and still being reported as “fully imported”?**  
+A: Do not feed the whole giant source directly to the model. First generate `manifest.json` and `coverage-map.md` with `split_markdown.py`, process the source chunk by chunk, then gate completion with `verify_ingest_coverage.py`. See [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md).
+
+**Q: Can these distilled outputs also be written back into OpenClaw?**
+A: Yes. The recommended pattern is to keep `pages/` for durable knowledge and add an optional `agent-workspace/` folder parallel to it for OpenClaw / Hermes drafts, distills, comparison notes, and runtime helper artifacts. If you keep a local mirror of shared-project material, treat it as a read-only cache only, never as the coordination source of truth. See [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md).
+
+**Q: Will project management mix business knowledge with governance?**  
+A: No. The PM mainline explicitly separates them: business facts stay in business areas, governance stays in `governance`, and management-layer boards live in `project-management`.
+
+**Q: Do I have to configure the PM area from the start?**  
+A: No. It is progressive. Enable it only when you actually need owner-side project progression, multi-person alignment, or delivery gating.
+
+**Q: Are OpenClaw / Hermes platform-specific dependencies?**  
+A: No. They are recommended platforms, but compatibility comes from the shared project directory contract, markdown protocol, and skills / prompt workflow rather than private APIs.
 
 ---
 
 ## Read these first
 
-- `START-HERE.md`
-- `GLOSSARY.md`
-- `templates/vault-profile-template.md`
-- `docs/example-prompts.md`
-- `docs/usage-sop.md`
-- `examples/case-study-pathology-ingest-iteration.md`
+- [`START-HERE.md`](./START-HERE.md)
+- [`GLOSSARY.md`](./GLOSSARY.md)
+- [`templates/vault-profile-template.md`](./templates/vault-profile-template.md)
+- [`docs/example-prompts.md`](./docs/example-prompts.md)
+- [`docs/usage-sop.md`](./docs/usage-sop.md)
+- [`docs/project-management-workflow.md`](./docs/project-management-workflow.md)
+- [`docs/agent-runtime-writeback-patterns.md`](./docs/agent-runtime-writeback-patterns.md)
+- [`examples/case-study-pathology-ingest-iteration.md`](./examples/case-study-pathology-ingest-iteration.md)
 
 ---
 
 ## Need help?
 
 - [GitHub Issues](https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues)
-- Developers: 邹星宇, 杨琦
+- Developers: 邹星宇, 杨琦, 张陈祎
 
 ---
 
@@ -338,4 +400,4 @@ MIT License
 
 ---
 
-> If you want your vault to behave more like a knowledge base and less like a note dump, start with `START-HERE.md`.
+> If you want your vault to behave more like a knowledge base and your collaboration to behave more like a reusable, auditable workflow, start with `START-HERE.md`.

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wiki Knowledge Base Share Kit</title>
-  <meta name="description" content="An 8-skill knowledge-base package for markdown, wiki, and Obsidian-style vaults." />
+  <meta name="description" content="A 10-skill knowledge-base maintenance, collaboration, and progressive PM workflow package for markdown, wiki, and Obsidian-style vaults." />
   <style>
     :root {
       --bg: #07111f;
@@ -1091,6 +1091,305 @@
       gap: 8px;
     }
 
+    .poster-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        rgba(7, 18, 31, .62);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      isolation: isolate;
+    }
+
+    .poster-shell::before,
+    .poster-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .poster-shell::before {
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+      opacity: .11;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.95), rgba(0,0,0,.1));
+    }
+
+    .poster-shell::after {
+      inset: auto -6% -16% auto;
+      width: 44%;
+      height: 78%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(105,211,255,.22), transparent 56%),
+        radial-gradient(circle at 30% 34%, rgba(136,241,208,.16), transparent 48%);
+      filter: blur(20px);
+      opacity: .88;
+    }
+
+    .poster-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .poster-copy,
+    .poster-visual,
+    .poster-node,
+    .poster-bottom-card {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.034);
+      backdrop-filter: blur(10px);
+    }
+
+    .poster-copy,
+    .poster-visual {
+      border-radius: 26px;
+      padding: 24px;
+      min-width: 0;
+    }
+
+    .poster-copy {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .poster-copy h3 {
+      margin: 0;
+      max-width: 10.5ch;
+      font-size: clamp(38px, 5.8vw, 78px);
+      line-height: .97;
+      letter-spacing: -.06em;
+    }
+
+    .poster-copy h3 span {
+      color: var(--accent);
+    }
+
+    .poster-lede {
+      margin: 0;
+      max-width: 58ch;
+      color: #dbe9fb;
+    }
+
+    .poster-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .poster-chip-row .chip {
+      background: rgba(255,255,255,.045);
+      color: #dceeff;
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .poster-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .poster-stat {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.026);
+      min-width: 0;
+    }
+
+    .poster-stat small {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent-2);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .poster-stat strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #eff7ff;
+    }
+
+    .poster-outcome {
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(105,211,255,.10), rgba(136,241,208,.05));
+      color: #ebf7ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .poster-visual {
+      position: relative;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      min-height: 100%;
+    }
+
+    .poster-visual::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(105,211,255,.10);
+      background:
+        radial-gradient(circle at 20% 26%, rgba(105,211,255,.10), transparent 28%),
+        radial-gradient(circle at 82% 20%, rgba(136,241,208,.08), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 70%);
+      pointer-events: none;
+    }
+
+    .poster-visual > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .poster-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .poster-ribbon span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: #d6e6fb;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .poster-lane-grid {
+      display: grid;
+      grid-template-columns: .92fr .98fr .92fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .poster-column {
+      display: grid;
+      gap: 12px;
+    }
+
+    .poster-node,
+    .poster-core,
+    .poster-bottom-card {
+      border-radius: 20px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .poster-node strong,
+    .poster-core strong,
+    .poster-bottom-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #f0f7ff;
+    }
+
+    .poster-node p,
+    .poster-core p,
+    .poster-bottom-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .poster-node small {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-2);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .poster-core {
+      position: relative;
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      min-height: 100%;
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 50% 26%, rgba(105,211,255,.20), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.018)),
+        rgba(7, 19, 33, .56);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 0 0 1px rgba(105,211,255,.06),
+        0 22px 42px rgba(0,0,0,.22);
+    }
+
+    .poster-core::before,
+    .poster-core::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(105,211,255,.45), rgba(136,241,208,.08));
+      transform: translateX(-50%);
+      opacity: .75;
+    }
+
+    .poster-core::before {
+      top: -34px;
+      height: 34px;
+    }
+
+    .poster-core::after {
+      bottom: -34px;
+      height: 34px;
+    }
+
+    .poster-core-ring {
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(105,211,255,.18);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.03) inset,
+        0 0 46px rgba(105,211,255,.10);
+      animation: hudOrbit 12s linear infinite;
+    }
+
+    .poster-core .chip-row {
+      margin-top: 14px;
+    }
+
+    .poster-core .chip {
+      background: rgba(255,255,255,.05);
+      color: #eef7ff;
+    }
+
+    .poster-bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
     .compare-shell {
       border: 1px solid var(--line);
       border-radius: 26px;
@@ -1243,6 +1542,11 @@
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .cta-band { grid-template-columns: 1fr; }
+      .poster-grid,
+      .poster-lane-grid,
+      .poster-bottom-grid {
+        grid-template-columns: 1fr;
+      }
       .overview-grid {
         grid-template-columns: 1fr;
       }
@@ -1256,9 +1560,11 @@
       .nav { align-items: flex-start; }
       .hero-grid,
       .grid-3,
-      .grid-2 { grid-template-columns: 1fr; }
+      .grid-2,
+      .poster-stat-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
       h1 { max-width: 12ch; }
+      .poster-copy h3 { max-width: none; }
     }
 
     @media (max-width: 720px) {
@@ -1428,7 +1734,7 @@
         <div class="brand-mark">WK</div>
         <div class="brand-copy">
           <strong>Wiki Knowledge Base Share Kit</strong>
-          <span data-i18n="brandSubtitle">8-skill knowledge-base package</span>
+          <span data-i18n="brandSubtitle">10-skill knowledge-base + PM workflow package</span>
         </div>
       </div>
       <div class="nav-right">
@@ -1452,7 +1758,7 @@
           <div class="eyebrow" data-i18n="heroEyebrow">Structured knowledge, not note sprawl</div>
           <h1 data-i18n-html="heroTitle">Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.</h1>
           <p class="lede" data-i18n="heroLede">
-            A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, and auditable instead of letting it drift into scattered notes and process logs.
+            A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. Start with knowledge-base maintenance first, then progressively load the PM mainline only when milestones, blockers, team alignment, or delivery gates become real needs.
           </p>
           <div class="cta-row">
             <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit" data-i18n="heroCtaRepo">Get the repository</a>
@@ -1475,12 +1781,12 @@
               <span data-i18n="heroMini1Copy">Keep project, knowledge, ops, task, and overview pages from drifting into each other.</span>
             </article>
             <article class="hero-mini-card">
-              <strong data-i18n="heroMini2Title">Testable ingest workflow</strong>
-              <span data-i18n="heroMini2Copy">Import long-form markdown with iteration, comparison, and lightweight regression checks.</span>
+              <strong data-i18n="heroMini2Title">One-command install path</strong>
+              <span data-i18n="heroMini2Copy">Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.</span>
             </article>
             <article class="hero-mini-card">
-              <strong data-i18n="heroMini3Title">Collaboration without chaos</strong>
-              <span data-i18n="heroMini3Copy">Working profile, team coordination, and journal loops reduce repeated re-explanation.</span>
+              <strong data-i18n="heroMini3Title">Default lane, optional PM lane</strong>
+              <span data-i18n="heroMini3Copy">Stay narrow for ingest, maintenance, and audit, then add project-management, team coordination, and delivery audit only when the work actually needs them.</span>
             </article>
           </div>
         </article>
@@ -1489,13 +1795,13 @@
           <div class="stats-grid">
             <div class="stat-card reveal" style="--delay: 180ms;">
               <span class="muted" data-i18n="statsSkillsLabel">Installable skills</span>
-              <strong>8</strong>
-              <span class="muted" data-i18n="statsSkillsCopy">kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal</span>
+              <strong>10</strong>
+              <span class="muted" data-i18n="statsSkillsCopy">kit-guide, orchestrator, ingest, maintenance, audit, project-management, team-coordination, delivery-audit, working-profile, work-journal</span>
             </div>
             <div class="stat-card reveal" style="--delay: 210ms;">
               <span class="muted" data-i18n="statsTracksLabel">Workflow tracks</span>
-              <strong>7</strong>
-              <span class="muted" data-i18n="statsTracksCopy">onboarding, ingest, maintenance, audit, working profile, team coordination, work journal</span>
+              <strong>9</strong>
+              <span class="muted" data-i18n="statsTracksCopy">onboarding, ingest, maintenance, audit, project management, team coordination, delivery audit, working profile, work journal</span>
             </div>
           </div>
 
@@ -1529,13 +1835,13 @@
                 <article class="switcher-slide">
                   <span class="switcher-kicker" data-i18n="useCase2Kicker">Scenario 02</span>
                   <h4 data-i18n="scenario2Title">Enterprise knowledge bases</h4>
-                  <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+                  <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.</p>
                   <ul data-i18n-html="scenario2List">
-                    <li>Maintenance and audit loops</li>
-                    <li>Shared-project coordination</li>
+                    <li>Maintenance and audit loops first</li>
+                    <li>Optional PM boards and delivery gates</li>
                     <li>Cleaner onboarding for teammates</li>
                   </ul>
-                  <div class="switcher-note" data-i18n="useCase2Note">Recommended route: Kit Guide → Maintenance → Audit → Team Coordination.</div>
+                  <div class="switcher-note" data-i18n="useCase2Note">Recommended route: Kit Guide → Maintenance → Audit, then Project Management if delivery tracking is actually needed.</div>
                 </article>
 
                 <article class="switcher-slide">
@@ -1547,7 +1853,7 @@
                     <li>Traceable meeting and decision context</li>
                     <li>Working-profile hygiene with consent boundaries</li>
                   </ul>
-                  <div class="switcher-note" data-i18n="useCase3Note">Recommended route: Work Journal → Team Coordination → Maintenance → Audit.</div>
+                  <div class="switcher-note" data-i18n="useCase3Note">Recommended route: Work Journal → Project Management → Team Coordination → Delivery Audit.</div>
                 </article>
               </div>
             </div>
@@ -1564,12 +1870,12 @@
 
           <div class="clone-card reveal" style="--delay: 270ms;">
             <div class="clone-head">
-              <div class="role-label" data-i18n="cloneLabel">Repository</div>
-              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git">Copy clone</button>
+              <div class="role-label" data-i18n="cloneLabel">Quick start</div>
+              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh">Copy install</button>
             </div>
-            <h3 data-i18n="cloneTitle">Clone it directly</h3>
-            <p class="muted" data-i18n="cloneCopy">If you want the actual repository instead of only browsing the landing page, start here.</p>
-            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git</code></pre>
+            <h3 data-i18n="cloneTitle">Clone and install</h3>
+            <p class="muted" data-i18n="cloneCopy">Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.</p>
+            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh</code></pre>
           </div>
         </aside>
       </div>
@@ -1580,7 +1886,7 @@
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
             <h2 data-i18n="overviewTitle">How the package is organized</h2>
-            <p class="sub" data-i18n="overviewSub">Think of the repository as a layered operating surface: onboarding first, specialist loops in the middle, collaboration support beside them, and a stable vault shape as the output.</p>
+            <p class="sub" data-i18n="overviewSub">Think of the repository as a layered operating surface: onboarding first, knowledge loops next, PM layers when needed, collaboration beside them, and a stable vault shape as the output.</p>
           </div>
         </div>
         <div class="overview-shell reveal" style="--delay: 90ms;">
@@ -1605,8 +1911,8 @@
 
             <article class="overview-column reveal" style="--delay: 150ms;">
               <div class="role-label" data-i18n="overviewCol2Label">core loops</div>
-              <h3 data-i18n="overviewCol2Title">Knowledge maintenance layer</h3>
-              <p data-i18n="overviewCol2Copy">These are the specialist loops that shape structure, durability, and auditability.</p>
+              <h3 data-i18n="overviewCol2Title">Knowledge and PM specialist layer</h3>
+              <p data-i18n="overviewCol2Copy">These are the specialist loops that shape structure, durability, project progression, and auditability.</p>
               <div class="overview-stack">
                 <div class="overview-node">
                   <strong>knowledge-base-ingest</strong>
@@ -1620,6 +1926,14 @@
                   <strong>knowledge-base-audit</strong>
                   <span data-i18n="overviewNode5">Metadata, links, orphan pages, noise drift, and governance checks.</span>
                 </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-project-management</strong>
+                  <span data-i18n="overviewNode6">Owner-side intake, milestones, blockers, priorities, and execution boards.</span>
+                </div>
+                <div class="overview-node">
+                  <strong>knowledge-base-delivery-audit</strong>
+                  <span data-i18n="overviewNode7">Delivery completeness, evidence gaps, ready / blocked, and greenlight review.</span>
+                </div>
               </div>
             </article>
 
@@ -1628,19 +1942,19 @@
             <article class="overview-column reveal" style="--delay: 180ms;">
               <div class="role-label" data-i18n="overviewCol3Label">collaboration</div>
               <h3 data-i18n="overviewCol3Title">People and coordination layer</h3>
-              <p data-i18n="overviewCol3Copy">Support collaboration without turning the knowledge base into raw chat history.</p>
+              <p data-i18n="overviewCol3Copy">Support collaboration without turning the knowledge base into raw chat history or replacing the shared source of truth.</p>
               <div class="overview-stack">
                 <div class="overview-node">
                   <strong>knowledge-base-working-profile</strong>
-                  <span data-i18n="overviewNode6">Collaboration-relevant preferences, heuristics, and boundaries.</span>
+                  <span data-i18n="overviewNode8">Collaboration-relevant preferences, heuristics, and boundaries.</span>
                 </div>
                 <div class="overview-node">
                   <strong>knowledge-base-team-coordination</strong>
-                  <span data-i18n="overviewNode7">Questionnaires, alignment, assignments, and closeout decisions.</span>
+                  <span data-i18n="overviewNode9">Questionnaires, alignment, assignments, and closeout decisions.</span>
                 </div>
                 <div class="overview-node">
                   <strong>work-journal</strong>
-                  <span data-i18n="overviewNode8">Daily execution notes that can later feed durable knowledge.</span>
+                  <span data-i18n="overviewNode10">Daily execution notes that can later feed durable knowledge.</span>
                 </div>
               </div>
             </article>
@@ -1708,7 +2022,7 @@
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
             <h2 data-i18n="insideTitle">What’s inside</h2>
-            <p class="sub" data-i18n="insideSub">The repository keeps the package explicit: 8 public skills, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.</p>
+            <p class="sub" data-i18n="insideSub">The repository keeps the package explicit: 10 public skills, one recommended install script, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.</p>
           </div>
         </div>
         <div class="grid-4">
@@ -1738,9 +2052,9 @@
             <p class="card-copy" data-i18n="skill5Copy">Inspects metadata, dead links, orphan pages, boundary drift, and noise regression.</p>
           </article>
           <article class="section-card reveal" style="--delay: 220ms;">
-            <div class="role-label" data-i18n="skill6Label">working profile</div>
-            <h3>knowledge-base-working-profile</h3>
-            <p class="card-copy" data-i18n="skill6Copy">Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
+            <div class="role-label" data-i18n="skill6Label">project management</div>
+            <h3>knowledge-base-project-management</h3>
+            <p class="card-copy" data-i18n="skill6Copy">Builds owner-side summaries, milestones, blockers, and personal execution boards without mixing management surfaces into governance.</p>
           </article>
           <article class="section-card reveal" style="--delay: 250ms;">
             <div class="role-label" data-i18n="skill7Label">team coordination</div>
@@ -1748,11 +2062,46 @@
             <p class="card-copy" data-i18n="skill7Copy">Coordinates questionnaires, alignment, assignments, and closeout decision distillation.</p>
           </article>
           <article class="section-card reveal" style="--delay: 280ms;">
-            <div class="role-label" data-i18n="skill8Label">work journal</div>
+            <div class="role-label" data-i18n="skill8Label">delivery audit</div>
+            <h3>knowledge-base-delivery-audit</h3>
+            <p class="card-copy" data-i18n="skill8Copy">Checks delivery completeness, evidence gaps, write-back gaps, and ready / blocked / greenlight conditions.</p>
+          </article>
+          <article class="section-card reveal" style="--delay: 310ms;">
+            <div class="role-label" data-i18n="skill9Label">working profile</div>
+            <h3>knowledge-base-working-profile</h3>
+            <p class="card-copy" data-i18n="skill9Copy">Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.</p>
+          </article>
+          <article class="section-card reveal" style="--delay: 340ms;">
+            <div class="role-label" data-i18n="skill10Label">work journal</div>
             <h3>work-journal</h3>
-            <p class="card-copy" data-i18n="skill8Copy">Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.</p>
+            <p class="card-copy" data-i18n="skill10Copy">Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell grid-2">
+        <article class="mini-card reveal" style="--delay: 70ms;">
+          <div class="role-label" data-i18n="laneDefaultLabel">default path</div>
+          <h3 data-i18n="laneDefaultTitle">Start with knowledge-base loops</h3>
+          <p data-i18n="laneDefaultCopy">Most users do not need every workflow on day one. The default route stays narrow and stabilizes the vault first.</p>
+          <ul data-i18n-html="laneDefaultList">
+            <li>Kit Guide or Orchestrator for onboarding</li>
+            <li>Ingest, maintenance, and audit as the default loops</li>
+            <li>Working profile and journal when collaboration context needs continuity</li>
+          </ul>
+        </article>
+        <article class="mini-card reveal" style="--delay: 100ms;">
+          <div class="role-label" data-i18n="lanePmLabel">optional PM mainline</div>
+          <h3 data-i18n="lanePmTitle">Load PM only when delivery needs it</h3>
+          <p data-i18n="lanePmCopy">Project-management is now part of the package, but it stays progressive. Enable it when milestones, blockers, dependencies, handoff, or delivery gates become real needs.</p>
+          <ul data-i18n-html="lanePmList">
+            <li><code>knowledge-base-project-management</code> for owner-side planning</li>
+            <li><code>knowledge-base-team-coordination</code> for 2+ person alignment</li>
+            <li><code>knowledge-base-delivery-audit</code> for ready / blocked / greenlight review</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -1776,10 +2125,10 @@
           </article>
           <article class="mini-card reveal" style="--delay: 100ms;">
             <h3 data-i18n="scenario2Title">Enterprise knowledge bases</h3>
-            <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.</p>
+            <p data-i18n="scenario2Copy">PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.</p>
             <ul data-i18n-html="scenario2List">
-              <li>Maintenance and audit loops</li>
-              <li>Shared-project coordination</li>
+              <li>Maintenance and audit loops first</li>
+              <li>Optional PM boards and delivery gates</li>
               <li>Cleaner onboarding for teammates</li>
             </ul>
           </article>
@@ -1800,35 +2149,150 @@
       <div class="shell">
         <div class="section-head reveal" style="--delay: 40ms;">
           <div>
+            <h2 data-i18n="posterSectionTitle">Best-fit use-case poster</h2>
+            <p class="sub" data-i18n="posterSectionSub">If you want one scenario that shows why this package exists, use this one: one shared vault for books, papers, SOPs, questionnaires, and project context.</p>
+          </div>
+        </div>
+        <article class="poster-shell reveal" style="--delay: 70ms;">
+          <div class="poster-grid">
+            <div class="poster-copy">
+              <div class="role-label" data-i18n="posterKicker">Best-fit use case</div>
+              <h3 data-i18n-html="posterTitle">One shared vault for<br><span>papers, books, SOPs,</span><br>questionnaires, and<br>project context.</h3>
+              <p class="poster-lede" data-i18n="posterSub">Keep the same markdown/wiki vault on NAS or a synced drive, let each teammate continue using their own agent, and make long-form knowledge, intake forms, and delivery context flow back into one governed structure.</p>
+              <div class="poster-chip-row">
+                <span class="chip" data-i18n="posterChip1">OpenClaw</span>
+                <span class="chip" data-i18n="posterChip2">Hermes agent</span>
+                <span class="chip" data-i18n="posterChip3">Claude Code</span>
+                <span class="chip" data-i18n="posterChip4">NAS / cloud sync</span>
+              </div>
+              <div class="poster-stat-grid">
+                <article class="poster-stat">
+                  <small data-i18n="posterStat1Label">Sources</small>
+                  <strong data-i18n="posterStat1Value">papers · textbooks · books · SOPs</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat2Label">Sync surface</small>
+                  <strong data-i18n="posterStat2Value">NAS / shared drive / cloud disk</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat3Label">Individual entrypoints</small>
+                  <strong data-i18n="posterStat3Value">each person keeps their own agent and working context</strong>
+                </article>
+                <article class="poster-stat">
+                  <small data-i18n="posterStat4Label">Output</small>
+                  <strong data-i18n="posterStat4Value">an auditable wiki instead of chat fragments and drifting folders</strong>
+                </article>
+              </div>
+              <div class="poster-outcome" data-i18n="posterOutcome">Result: people can improve the same wiki in parallel while still using their own agents to help with questionnaires, literature digestion, book notes, and working documents.</div>
+            </div>
+
+            <div class="poster-visual">
+              <div class="poster-ribbon">
+                <span data-i18n="posterRibbon1">close-read ingest</span>
+                <span data-i18n="posterRibbon2">maintenance loop</span>
+                <span data-i18n="posterRibbon3">audit gate</span>
+                <span data-i18n="posterRibbon4">collaboration hygiene</span>
+              </div>
+
+              <div class="poster-lane-grid">
+                <div class="poster-column">
+                  <article class="poster-node">
+                    <small data-i18n="posterSourceLabel">input layer</small>
+                    <strong data-i18n="posterSource1Title">Papers / literature</strong>
+                    <p data-i18n="posterSource1Copy">Research papers, guidelines, and review notes enter the vault as structured source material instead of attachment piles.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterSource2Title">Books / long-form markdown</strong>
+                    <p data-i18n="posterSource2Copy">Textbooks, manuals, and long markdown sources are split into chapter/topic layers with lineage preserved.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterSource3Title">Questionnaires / intake forms</strong>
+                    <p data-i18n="posterSource3Copy">Each teammate can use their own agent to help fill forms, organize answers, and push reusable conclusions back into the wiki.</p>
+                  </article>
+                </div>
+
+                <article class="poster-core">
+                  <div class="poster-core-ring" aria-hidden="true"></div>
+                  <div class="role-label" data-i18n="posterVaultLabel">shared vault</div>
+                  <strong data-i18n="posterVaultTitle">Governed markdown wiki</strong>
+                  <p data-i18n="posterVaultCopy">One synchronized vault holds knowledge pages, ops pages, project context, questionnaires, and durable summaries while the package keeps metadata, links, and page roles coherent.</p>
+                  <div class="chip-row">
+                    <span class="chip" data-i18n="posterVaultTag1">ingest</span>
+                    <span class="chip" data-i18n="posterVaultTag2">maintenance</span>
+                    <span class="chip" data-i18n="posterVaultTag3">audit</span>
+                  </div>
+                </article>
+
+                <div class="poster-column">
+                  <article class="poster-node">
+                    <small data-i18n="posterAgentLabel">agent surfaces</small>
+                    <strong data-i18n="posterAgent1Title">OpenClaw</strong>
+                    <p data-i18n="posterAgent1Copy">Good for structured execution, source handling, and batch operations around the same shared vault.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterAgent2Title">Hermes agent</strong>
+                    <p data-i18n="posterAgent2Copy">Fits ongoing collaboration, working context maintenance, and coordination-heavy routines.</p>
+                  </article>
+                  <article class="poster-node">
+                    <strong data-i18n="posterAgent3Title">Claude Code</strong>
+                    <p data-i18n="posterAgent3Copy">Useful for large document work, script-assisted cleanup, and knowledge-structure refinement.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="poster-bottom-grid">
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom1Title">working-profile</strong>
+                  <p data-i18n="posterBottom1Copy">Keep collaboration preferences and boundaries explicit instead of repeatedly re-explaining them.</p>
+                </article>
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom2Title">team-coordination</strong>
+                  <p data-i18n="posterBottom2Copy">Route questionnaires, assignments, and alignment through a shared contract instead of private chat memory.</p>
+                </article>
+                <article class="poster-bottom-card">
+                  <strong data-i18n="posterBottom3Title">work-journal</strong>
+                  <p data-i18n="posterBottom3Copy">Let agents leave structured work logs so validated paths and dead ends can actually become reusable experience.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head reveal" style="--delay: 40ms;">
+          <div>
             <h2 data-i18n="flowTitle">How it flows</h2>
-            <p class="sub" data-i18n="flowSub">Start with onboarding, stabilize the profile contract, then move through specialist loops that keep the vault usable as it grows.</p>
+            <p class="sub" data-i18n="flowSub">Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.</p>
           </div>
         </div>
         <div class="flow">
           <article class="flow-step reveal" style="--delay: 70ms;">
             <small>01</small>
-            <h3 data-i18n="flow1Title">Install</h3>
-            <p data-i18n="flow1Copy">Copy all 8 skill folders into the skills directory of your AI platform.</p>
+            <h3 data-i18n="flow1Title">Get the repo</h3>
+            <p data-i18n="flow1Copy">Clone the repository or download a release archive so the package contents are local.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 100ms;">
             <small>02</small>
-            <h3 data-i18n="flow2Title">Choose onboarding</h3>
-            <p data-i18n="flow2Copy">Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.</p>
+            <h3 data-i18n="flow2Title">Run install.sh</h3>
+            <p data-i18n="flow2Copy">Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 130ms;">
             <small>03</small>
-            <h3 data-i18n="flow3Title">Prepare profile</h3>
-            <p data-i18n-html="flow3Copy">Create or refine <code>vault-profile.md</code> so later workflows have a stable contract.</p>
+            <h3 data-i18n="flow3Title">Choose onboarding</h3>
+            <p data-i18n="flow3Copy">Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 160ms;">
             <small>04</small>
-            <h3 data-i18n="flow4Title">Run specialist loops</h3>
-            <p data-i18n="flow4Copy">Move into ingest, maintenance, audit, working-profile, team-coordination, or work-journal as needed.</p>
+            <h3 data-i18n="flow4Title">Prepare profile</h3>
+            <p data-i18n-html="flow4Copy">Create or refine <code>vault-profile.md</code>. Add the <code>project-management</code> area only if you are actually enabling the PM mainline.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 190ms;">
             <small>05</small>
-            <h3 data-i18n="flow5Title">Keep it stable</h3>
-            <p data-i18n="flow5Copy">Repeat governance and navigation checks so the vault stays useful instead of drifting again.</p>
+            <h3 data-i18n="flow5Title">Run default loops first</h3>
+            <p data-i18n="flow5Copy">Start with ingest, maintenance, and audit. Only add project-management, team-coordination, or delivery-audit when milestones, blockers, alignment, or delivery gates are truly part of the work.</p>
           </article>
         </div>
       </div>
@@ -1860,7 +2324,7 @@
         <article class="section-card reveal" style="--delay: 70ms;">
           <div class="eyebrow" data-i18n="ctaEyebrow">Get started from the right surface</div>
           <h2 data-i18n="ctaTitle">Use the HTML page for overview, the repository for the actual package.</h2>
-          <p class="sub" data-i18n="ctaSub">This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for installation, routing, documentation, and release artifacts.</p>
+          <p class="sub" data-i18n="ctaSub">This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for install scripts, routing, templates, documentation, and release artifacts.</p>
           <div class="cta-row">
             <a class="btn primary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit" data-i18n="ctaRepo">Open GitHub repository</a>
             <a class="btn secondary" href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md" data-i18n="ctaStart">Go to START-HERE</a>
@@ -1871,7 +2335,12 @@
           <h3 data-i18n="nextTitle">Open these next</h3>
           <ul data-i18n-html="nextList">
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">START-HERE.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh">install.sh</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md">docs/skill-installation-troubleshooting.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md">GLOSSARY.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md">docs/project-management-workflow.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md">templates/project-management/README.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md">docs/agent-runtime-writeback-patterns.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md">docs/example-prompts.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest">Latest release</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues">Issues</a></li>
@@ -1885,7 +2354,7 @@
     <footer class="footer-card reveal" style="--delay: 60ms;">
       <div>
         <strong>Wiki Knowledge Base Share Kit</strong>
-        <div class="muted" data-i18n="footerCopy">Open source under MIT · Built by 邹星宇 and 杨琦</div>
+        <div class="muted" data-i18n="footerCopy">Open source under MIT · Built by 邹星宇, 杨琦, and 张陈祎</div>
       </div>
       <div class="footer-links">
         <a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit" data-i18n="footerRepo">GitHub repo</a>
@@ -1899,32 +2368,32 @@
     const translations = {
       en: {
         pageTitle: "Wiki Knowledge Base Share Kit",
-        pageDescription: "An 8-skill knowledge-base package for markdown, wiki, and Obsidian-style vaults.",
-        brandSubtitle: "8-skill knowledge-base package",
+        pageDescription: "A 10-skill knowledge-base maintenance, collaboration, and progressive PM workflow package for markdown, wiki, and Obsidian-style vaults.",
+        brandSubtitle: "10-skill knowledge-base + PM workflow package",
         navRepo: "GitHub repo",
         navStart: "Start Here",
         navRelease: "Latest release",
         heroEyebrow: "Structured knowledge, not note sprawl",
         heroTitle: "Turn your<br><span>markdown vault</span> into a<br>usable knowledge base.",
-        heroLede: "A reusable open-source package with 8 installable skills and 7 coordinated workflow tracks. It helps teams and individuals keep a vault navigable, role-stable, maintainable, collaboration-friendly, and auditable instead of letting it drift into scattered notes and process logs.",
+        heroLede: "A reusable open-source package with 10 installable skills and 9 coordinated workflow tracks. Start with knowledge-base maintenance first, then progressively load the PM mainline only when milestones, blockers, team alignment, or delivery gates become real needs.",
         heroCtaRepo: "Get the repository",
         heroCtaStart: "Read START-HERE",
         heroCtaRelease: "Browse latest release",
         heroNote: "The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.",
         heroMini1Title: "Role-stable structure",
         heroMini1Copy: "Keep project, knowledge, ops, task, and overview pages from drifting into each other.",
-        heroMini2Title: "Testable ingest workflow",
-        heroMini2Copy: "Import long-form markdown with iteration, comparison, and lightweight regression checks.",
-        heroMini3Title: "Collaboration without chaos",
-        heroMini3Copy: "Working profile, team coordination, and journal loops reduce repeated re-explanation.",
+        heroMini2Title: "One-command install path",
+        heroMini2Copy: "Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.",
+        heroMini3Title: "Default lane, optional PM lane",
+        heroMini3Copy: "Stay narrow for ingest, maintenance, and audit, then add project-management, team coordination, and delivery audit only when the work actually needs them.",
         statsSkillsLabel: "Installable skills",
-        statsSkillsCopy: "kit-guide, orchestrator, ingest, maintenance, audit, working-profile, team-coordination, work-journal",
+        statsSkillsCopy: "kit-guide, orchestrator, ingest, maintenance, audit, project-management, team-coordination, delivery-audit, working-profile, work-journal",
         statsTracksLabel: "Workflow tracks",
-        statsTracksCopy: "onboarding, ingest, maintenance, audit, working profile, team coordination, work journal",
-        cloneLabel: "Repository",
-        cloneTitle: "Clone it directly",
-        cloneCopy: "If you want the actual repository instead of only browsing the landing page, start here.",
-        copyCloneIdle: "Copy clone",
+        statsTracksCopy: "onboarding, ingest, maintenance, audit, project management, team coordination, delivery audit, working profile, work journal",
+        cloneLabel: "Quick start",
+        cloneTitle: "Clone and install",
+        cloneCopy: "Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.",
+        copyCloneIdle: "Copy install",
         copyCloneDone: "Copied",
         copyCloneFail: "Copy failed",
         switcherLabel: "Use-case switcher",
@@ -1933,28 +2402,30 @@
         useCase1Kicker: "Scenario 01",
         useCase1Note: "Recommended route: Orchestrator → Ingest → Audit → Working Profile.",
         useCase2Kicker: "Scenario 02",
-        useCase2Note: "Recommended route: Kit Guide → Maintenance → Audit → Team Coordination.",
+        useCase2Note: "Recommended route: Kit Guide → Maintenance → Audit, then Project Management if delivery tracking is actually needed.",
         useCase3Kicker: "Scenario 03",
-        useCase3Note: "Recommended route: Work Journal → Team Coordination → Maintenance → Audit.",
+        useCase3Note: "Recommended route: Work Journal → Project Management → Team Coordination → Delivery Audit.",
         overviewTitle: "How the package is organized",
-        overviewSub: "Think of the repository as a layered operating surface: onboarding first, specialist loops in the middle, collaboration support beside them, and a stable vault shape as the output.",
+        overviewSub: "Think of the repository as a layered operating surface: onboarding first, knowledge loops next, PM layers when needed, collaboration beside them, and a stable vault shape as the output.",
         overviewCol1Label: "entry",
         overviewCol1Title: "Onboarding layer",
         overviewCol1Copy: "Start from explanation-first guidance or low-friction setup.",
         overviewNode1: "Installation guide, profile setup, usage routing.",
         overviewNode2: "Environment check, vault skeleton, profile bootstrap.",
         overviewCol2Label: "core loops",
-        overviewCol2Title: "Knowledge maintenance layer",
-        overviewCol2Copy: "These are the specialist loops that shape structure, durability, and auditability.",
+        overviewCol2Title: "Knowledge and PM specialist layer",
+        overviewCol2Copy: "These are the specialist loops that shape structure, durability, project progression, and auditability.",
         overviewNode3: "Long-form markdown split, linking, and baseline-driven import.",
         overviewNode4: "Promote durable conclusions into the right page role.",
         overviewNode5: "Metadata, links, orphan pages, noise drift, and governance checks.",
+        overviewNode6: "Owner-side intake, milestones, blockers, priorities, and execution boards.",
+        overviewNode7: "Delivery completeness, evidence gaps, ready / blocked, and greenlight review.",
         overviewCol3Label: "collaboration",
         overviewCol3Title: "People and coordination layer",
-        overviewCol3Copy: "Support collaboration without turning the knowledge base into raw chat history.",
-        overviewNode6: "Collaboration-relevant preferences, heuristics, and boundaries.",
-        overviewNode7: "Questionnaires, alignment, assignments, and closeout decisions.",
-        overviewNode8: "Daily execution notes that can later feed durable knowledge.",
+        overviewCol3Copy: "Support collaboration without turning the knowledge base into raw chat history or replacing the shared source of truth.",
+        overviewNode8: "Collaboration-relevant preferences, heuristics, and boundaries.",
+        overviewNode9: "Questionnaires, alignment, assignments, and closeout decisions.",
+        overviewNode10: "Daily execution notes that can later feed durable knowledge.",
         overviewCol4Label: "outcome",
         overviewCol4Title: "Stable vault output",
         overviewCol4Copy: "The final target is not more pages, but a vault whose roles and navigation remain legible over time.",
@@ -1971,7 +2442,7 @@
         whyRow4Left: "Collaboration context sits in chat, meeting notes, and personal memory.",
         whyRow4Right: "Working profile, team coordination, and journal workflows create a stable, reviewable collaboration layer.",
         insideTitle: "What’s inside",
-        insideSub: "The repository keeps the package explicit: 8 public skills, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.",
+        insideSub: "The repository keeps the package explicit: 10 public skills, one recommended install script, one fixed page-role model, and a small set of repeatable workflows rather than a black-box automation promise.",
         skill1Label: "onboarding",
         skill1Copy: "Explains installation, profile setup, and which skill to use next.",
         skill2Label: "orchestration",
@@ -1982,35 +2453,95 @@
         skill4Copy: "Writes durable conclusions back into the right page role while filtering one-off process noise.",
         skill5Label: "audit",
         skill5Copy: "Inspects metadata, dead links, orphan pages, boundary drift, and noise regression.",
-        skill6Label: "working profile",
-        skill6Copy: "Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.",
+        skill6Label: "project management",
+        skill6Copy: "Builds owner-side summaries, milestones, blockers, and personal execution boards without mixing management surfaces into governance.",
         skill7Label: "team coordination",
         skill7Copy: "Coordinates questionnaires, alignment, assignments, and closeout decision distillation.",
-        skill8Label: "work journal",
-        skill8Copy: "Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.",
+        skill8Label: "delivery audit",
+        skill8Copy: "Checks delivery completeness, evidence gaps, write-back gaps, and ready / blocked / greenlight conditions.",
+        skill9Label: "working profile",
+        skill9Copy: "Distills collaboration-relevant preferences, heuristics, and boundaries without turning them into a private dossier.",
+        skill10Label: "work journal",
+        skill10Copy: "Captures daily work, meeting notes, and temporary ideas that can later feed durable knowledge.",
         scenariosTitle: "One method, several high-density scenarios",
         scenariosSub: "This package is strongest in environments that are knowledge-dense, frequently updated, collaboration-heavy, and in need of traceability and auditability.",
         scenario1Title: "Medical / pathology / research",
         scenario1Copy: "Guidelines, textbooks, papers, and case summaries need structure, lineage, and careful update boundaries.",
         scenario1List: "<li>Long-form source ingest</li><li>Stable knowledge and ops pages</li><li>Review-friendly collaboration context</li>",
         scenario2Title: "Enterprise knowledge bases",
-        scenario2Copy: "PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation and governance instead of ad hoc sprawl.",
-        scenario2List: "<li>Maintenance and audit loops</li><li>Shared-project coordination</li><li>Cleaner onboarding for teammates</li>",
+        scenario2Copy: "PRDs, runbooks, delivery docs, and meeting conclusions need reliable navigation, governance, and an optional owner-side delivery layer when execution starts to sprawl.",
+        scenario2List: "<li>Maintenance and audit loops first</li><li>Optional PM boards and delivery gates</li><li>Cleaner onboarding for teammates</li>",
+        laneDefaultLabel: "default path",
+        laneDefaultTitle: "Start with knowledge-base loops",
+        laneDefaultCopy: "Most users do not need every workflow on day one. The default route stays narrow and stabilizes the vault first.",
+        laneDefaultList: "<li>Kit Guide or Orchestrator for onboarding</li><li>Ingest, maintenance, and audit as the default loops</li><li>Working profile and journal when collaboration context needs continuity</li>",
+        lanePmLabel: "optional PM mainline",
+        lanePmTitle: "Load PM only when delivery needs it",
+        lanePmCopy: "Project-management is now part of the package, but it stays progressive. Enable it when milestones, blockers, dependencies, handoff, or delivery gates become real needs.",
+        lanePmList: "<li><code>knowledge-base-project-management</code> for owner-side planning</li><li><code>knowledge-base-team-coordination</code> for 2+ person alignment</li><li><code>knowledge-base-delivery-audit</code> for ready / blocked / greenlight review</li>",
         scenario3Title: "Cross-team collaboration",
         scenario3Copy: "When context is fragmented across chat and temporary docs, shared coordination and journal workflows reduce repeated re-explanation.",
         scenario3List: "<li>Draft / approved boundaries</li><li>Traceable meeting and decision context</li><li>Working-profile hygiene with consent boundaries</li>",
+        posterSectionTitle: "Best-fit use-case poster",
+        posterSectionSub: "If you want one scenario that best explains why this package exists, use this one: one shared vault for books, papers, SOPs, questionnaires, and project context.",
+        posterKicker: "Best-fit use case",
+        posterTitle: "One shared vault for<br><span>papers, books, SOPs,</span><br>questionnaires, and<br>project context.",
+        posterSub: "Keep the same markdown/wiki vault on NAS or a synced drive, let each teammate continue using their own agent, and make long-form knowledge, intake forms, and delivery context flow back into one governed structure.",
+        posterChip1: "OpenClaw",
+        posterChip2: "Hermes agent",
+        posterChip3: "Claude Code",
+        posterChip4: "NAS / cloud sync",
+        posterStat1Label: "Sources",
+        posterStat1Value: "papers · textbooks · books · SOPs",
+        posterStat2Label: "Sync surface",
+        posterStat2Value: "NAS / shared drive / cloud disk",
+        posterStat3Label: "Individual entrypoints",
+        posterStat3Value: "each person keeps their own agent and working context",
+        posterStat4Label: "Output",
+        posterStat4Value: "an auditable wiki instead of chat fragments and drifting folders",
+        posterOutcome: "Result: people can improve the same wiki in parallel while still using their own agents to help with questionnaires, literature digestion, book notes, and working documents.",
+        posterRibbon1: "close-read ingest",
+        posterRibbon2: "maintenance loop",
+        posterRibbon3: "audit gate",
+        posterRibbon4: "collaboration hygiene",
+        posterSourceLabel: "input layer",
+        posterSource1Title: "Papers / literature",
+        posterSource1Copy: "Research papers, guidelines, and review notes enter the vault as structured source material instead of attachment piles.",
+        posterSource2Title: "Books / long-form markdown",
+        posterSource2Copy: "Textbooks, manuals, and long markdown sources are split into chapter/topic layers with lineage preserved.",
+        posterSource3Title: "Questionnaires / intake forms",
+        posterSource3Copy: "Each teammate can use their own agent to help fill forms, organize answers, and push reusable conclusions back into the wiki.",
+        posterVaultLabel: "shared vault",
+        posterVaultTitle: "Governed markdown wiki",
+        posterVaultCopy: "One synchronized vault holds knowledge pages, ops pages, project context, questionnaires, and durable summaries while the package keeps metadata, links, and page roles coherent.",
+        posterVaultTag1: "ingest",
+        posterVaultTag2: "maintenance",
+        posterVaultTag3: "audit",
+        posterAgentLabel: "agent surfaces",
+        posterAgent1Title: "OpenClaw",
+        posterAgent1Copy: "Good for structured execution, source handling, and batch operations around the same shared vault.",
+        posterAgent2Title: "Hermes agent",
+        posterAgent2Copy: "Fits ongoing collaboration, working context maintenance, and coordination-heavy routines.",
+        posterAgent3Title: "Claude Code",
+        posterAgent3Copy: "Useful for large document work, script-assisted cleanup, and knowledge-structure refinement.",
+        posterBottom1Title: "working-profile",
+        posterBottom1Copy: "Keep collaboration preferences and boundaries explicit instead of repeatedly re-explaining them.",
+        posterBottom2Title: "team-coordination",
+        posterBottom2Copy: "Route questionnaires, assignments, and alignment through a shared contract instead of private chat memory.",
+        posterBottom3Title: "work-journal",
+        posterBottom3Copy: "Let agents leave structured work logs so validated paths and dead ends can actually become reusable experience.",
         flowTitle: "How it flows",
-        flowSub: "Start with onboarding, stabilize the profile contract, then move through specialist loops that keep the vault usable as it grows.",
-        flow1Title: "Install",
-        flow1Copy: "Copy all 8 skill folders into the skills directory of your AI platform.",
-        flow2Title: "Choose onboarding",
-        flow2Copy: "Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.",
-        flow3Title: "Prepare profile",
-        flow3Copy: "Create or refine <code>vault-profile.md</code> so later workflows have a stable contract.",
-        flow4Title: "Run specialist loops",
-        flow4Copy: "Move into ingest, maintenance, audit, working-profile, team-coordination, or work-journal as needed.",
-        flow5Title: "Keep it stable",
-        flow5Copy: "Repeat governance and navigation checks so the vault stays useful instead of drifting again.",
+        flowSub: "Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.",
+        flow1Title: "Get the repo",
+        flow1Copy: "Clone the repository or download a release archive so the package contents are local.",
+        flow2Title: "Run install.sh",
+        flow2Copy: "Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.",
+        flow3Title: "Choose onboarding",
+        flow3Copy: "Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.",
+        flow4Title: "Prepare profile",
+        flow4Copy: "Create or refine <code>vault-profile.md</code>. Add the <code>project-management</code> area only if you are actually enabling the PM mainline.",
+        flow5Title: "Run default loops first",
+        flow5Copy: "Start with ingest, maintenance, and audit. Only add project-management, team-coordination, or delivery-audit when milestones, blockers, alignment, or delivery gates are truly part of the work.",
         rolesLabel: "fixed model",
         rolesTitle: "5 durable page roles",
         rolesList: "<li><code>project</code> for navigation, overview, and boundaries</li><li><code>knowledge</code> for reusable methods and concepts</li><li><code>ops</code> for troubleshooting and procedures</li><li><code>task</code> for assignments and in-progress work</li><li><code>overview</code> for indexes and governance surfaces</li>",
@@ -2019,45 +2550,45 @@
         journalCopy: "Journal content can be more fluid, but durable knowledge should be promoted into the fixed page-role model instead of remaining in the journal forever.",
         ctaEyebrow: "Get started from the right surface",
         ctaTitle: "Use the HTML page for overview, the repository for the actual package.",
-        ctaSub: "This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for installation, routing, documentation, and release artifacts.",
+        ctaSub: "This landing page is designed for quick understanding. The GitHub repository remains the authoritative surface for install scripts, routing, templates, documentation, and release artifacts.",
         ctaRepo: "Open GitHub repository",
         ctaStart: "Go to START-HERE",
         nextLabel: "Next surfaces",
         nextTitle: "Open these next",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
-        footerCopy: "Open source under MIT · Built by 邹星宇 and 杨琦",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        footerCopy: "Open source under MIT · Built by 邹星宇, 杨琦, and 张陈祎",
         footerRepo: "GitHub repo",
         footerReleases: "Releases",
         footerIssues: "Issues"
       },
       zh: {
         pageTitle: "Wiki Knowledge Base Share Kit｜知识库分享包",
-        pageDescription: "一个面向 markdown、wiki 和 Obsidian 风格 vault 的 8-skill 知识库工作包。",
-        brandSubtitle: "8-skill 知识库工作包",
+        pageDescription: "一个面向 markdown、wiki 和 Obsidian 风格 vault 的 10-skill 知识库维护、协作与渐进式 PM 工作流包。",
+        brandSubtitle: "10-skill 知识库维护 + PM 工作流包",
         navRepo: "GitHub 仓库",
         navStart: "快速开始",
         navRelease: "最新版本",
         heroEyebrow: "结构化知识，而不是笔记蔓延",
         heroTitle: "<span>把 markdown vault</span><br>变成真正可用的<br>知识库。",
-        heroLede: "这是一个可复用的开源工作包，包含 8 个可安装 skills 和 7 条协同工作流。它帮助个人和团队让 vault 保持可导航、角色稳定、可维护、便于协作、可审计，而不是继续漂成零散笔记和过程流水账。",
+        heroLede: "这是一个可复用的开源工作包，包含 10 个可安装 skills 和 9 条协同工作流。默认先走知识库维护主线；只有当里程碑、blocker、团队对齐或交付 gate 真正出现时，再渐进式加载 PM 主线。",
         heroCtaRepo: "获取仓库",
         heroCtaStart: "阅读 START-HERE",
         heroCtaRelease: "查看最新版本",
         heroNote: "固定的 page-role model 会保持稳定。<code>work-journal</code> 是独立工作流，不是第六种页面角色。",
         heroMini1Title: "结构角色稳定",
         heroMini1Copy: "让 project、knowledge、ops、task、overview 不再互相串位、互相污染。",
-        heroMini2Title: "导入可测试可迭代",
-        heroMini2Copy: "长篇 markdown 导入时可做版本对比、结构迭代和轻量回归检查。",
-        heroMini3Title: "协作上下文不再失控",
-        heroMini3Copy: "working profile、team coordination、journal 形成可追溯的协作层，而不是重复解释。",
+        heroMini2Title: "一条命令安装",
+        heroMini2Copy: "拉取仓库后直接运行 install.sh，自动识别 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。",
+        heroMini3Title: "默认主线，按需 PM 主线",
+        heroMini3Copy: "先窄后稳地做 ingest、maintenance、audit，真的需要时再加载 project-management、team coordination 和 delivery audit。",
         statsSkillsLabel: "可安装 skills",
-        statsSkillsCopy: "kit-guide、orchestrator、ingest、maintenance、audit、working-profile、team-coordination、work-journal",
+        statsSkillsCopy: "kit-guide、orchestrator、ingest、maintenance、audit、project-management、team-coordination、delivery-audit、working-profile、work-journal",
         statsTracksLabel: "工作流轨道",
-        statsTracksCopy: "onboarding、ingest、maintenance、audit、working profile、team coordination、work journal",
-        cloneLabel: "仓库入口",
-        cloneTitle: "直接拉仓库",
-        cloneCopy: "如果你想拿到真正的仓库，而不只是浏览这个落地页，直接从这里开始。",
-        copyCloneIdle: "复制命令",
+        statsTracksCopy: "onboarding、ingest、maintenance、audit、project management、team coordination、delivery audit、working profile、work journal",
+        cloneLabel: "快速安装",
+        cloneTitle: "拉仓库并安装",
+        cloneCopy: "推荐路径是先拉取仓库、进入目录，再运行自动检测安装脚本，而不是手动一个个复制 skill 文件夹。",
+        copyCloneIdle: "复制安装命令",
         copyCloneDone: "已复制",
         copyCloneFail: "复制失败",
         switcherLabel: "方案切换",
@@ -2066,28 +2597,30 @@
         useCase1Kicker: "方案 01",
         useCase1Note: "推荐路线：Orchestrator → Ingest → Audit → Working Profile。",
         useCase2Kicker: "方案 02",
-        useCase2Note: "推荐路线：Kit Guide → Maintenance → Audit → Team Coordination。",
+        useCase2Note: "推荐路线：Kit Guide → Maintenance → Audit；只有真的需要交付追踪时再进入 Project Management。",
         useCase3Kicker: "方案 03",
-        useCase3Note: "推荐路线：Work Journal → Team Coordination → Maintenance → Audit。",
+        useCase3Note: "推荐路线：Work Journal → Project Management → Team Coordination → Delivery Audit。",
         overviewTitle: "这个包的结构怎么组织",
-        overviewSub: "你可以把这个仓库理解成一个分层工作面：先 onboarding，中间是 specialist loops，旁边是协作支撑层，最后输出成稳定的 vault 形态。",
+        overviewSub: "你可以把这个仓库理解成一个分层工作面：先 onboarding，再进入知识维护循环，需要时再加载 PM 层和协作层，最后输出成稳定的 vault 形态。",
         overviewCol1Label: "入口层",
         overviewCol1Title: "Onboarding 层",
         overviewCol1Copy: "可以从解释优先的引导进入，也可以直接低门槛初始化。",
         overviewNode1: "安装说明、profile 配置、使用路由。",
         overviewNode2: "环境检查、vault 骨架、profile 启动。",
         overviewCol2Label: "核心循环",
-        overviewCol2Title: "知识维护层",
-        overviewCol2Copy: "这些 specialist loops 决定结构、耐久性和可审计性。",
+        overviewCol2Title: "知识维护与 PM specialist 层",
+        overviewCol2Copy: "这些 specialist loops 决定结构、耐久性、项目推进能力和可审计性。",
         overviewNode3: "长篇 markdown 拆分、链接与 baseline 驱动导入。",
         overviewNode4: "把真正耐久的结论提升回正确页面角色。",
         overviewNode5: "metadata、链接、孤儿页、噪音漂移与治理检查。",
+        overviewNode6: "owner 视角的 intake、里程碑、blocker、优先级和执行板。",
+        overviewNode7: "交付完整性、证据缺口、ready / blocked 与 greenlight 审计。",
         overviewCol3Label: "协作层",
         overviewCol3Title: "人和协同层",
-        overviewCol3Copy: "为协作提供支撑，但不会把知识库变成原始聊天记录堆。",
-        overviewNode6: "与协作有关的偏好、启发式和边界。",
-        overviewNode7: "问卷、对齐、分工与收尾决策沉淀。",
-        overviewNode8: "日常执行记录，后续可再喂回耐久知识。",
+        overviewCol3Copy: "为协作提供支撑，但不会把知识库变成原始聊天记录堆，也不会替代共享事实源。",
+        overviewNode8: "与协作有关的偏好、启发式和边界。",
+        overviewNode9: "问卷、对齐、分工与收尾决策沉淀。",
+        overviewNode10: "日常执行记录，后续可再喂回耐久知识。",
         overviewCol4Label: "输出层",
         overviewCol4Title: "稳定的 vault 输出",
         overviewCol4Copy: "最终目标不是多几页文档，而是让 vault 的角色和导航长期保持清晰。",
@@ -2104,7 +2637,7 @@
         whyRow4Left: "协作上下文散落在聊天、会议记录和个人脑内记忆里。",
         whyRow4Right: "working profile、team coordination 和 journal 工作流会形成稳定、可复查的协作层。",
         insideTitle: "这个包里有什么",
-        insideSub: "仓库公开地展示了包的组成：8 个 public skills、1 套固定 page-role model，以及几条可重复工作流，而不是把能力包装成黑盒自动化承诺。",
+        insideSub: "仓库公开地展示了包的组成：10 个 public skills、1 条推荐安装脚本、1 套固定 page-role model，以及几条可重复工作流，而不是把能力包装成黑盒自动化承诺。",
         skill1Label: "引导",
         skill1Copy: "解释安装方式、profile 配置，以及下一步应该用哪个 skill。",
         skill2Label: "总控引导",
@@ -2115,35 +2648,95 @@
         skill4Copy: "把真正耐久的结论写回正确页面角色，同时过滤一次性过程噪音。",
         skill5Label: "审计",
         skill5Copy: "检查 metadata、死链、孤儿页、边界漂移和噪音回归。",
-        skill6Label: "工作画像",
-        skill6Copy: "提炼与协作有关的偏好、启发式和边界，但不会把它做成私人档案。",
+        skill6Label: "项目管理",
+        skill6Copy: "生成 owner 视角的项目摘要、里程碑、blocker 和个人执行板，但不会把管理层板面混进 governance。",
         skill7Label: "团队协同",
         skill7Copy: "支持问卷、对齐、分工以及收尾时的决策沉淀。",
-        skill8Label: "工作日志",
-        skill8Copy: "记录日常工作、会议笔记和临时想法，后续再把有价值的部分提升成耐久知识。",
+        skill8Label: "交付审计",
+        skill8Copy: "检查交付闭环、证据缺口、回写缺口以及 ready / blocked / greenlight 条件。",
+        skill9Label: "工作画像",
+        skill9Copy: "提炼与协作有关的偏好、启发式和边界，但不会把它做成私人档案。",
+        skill10Label: "工作日志",
+        skill10Copy: "记录日常工作、会议笔记和临时想法，后续再把有价值的部分提升成耐久知识。",
         scenariosTitle: "一种方法，适配多种高密度场景",
         scenariosSub: "这个包最适合知识密度高、变化频繁、多人协作且需要可追溯与可审计性的环境。",
         scenario1Title: "医疗 / 病理 / 研究",
         scenario1Copy: "规范、教材、论文和案例总结需要清晰结构、来源链和谨慎的更新边界。",
         scenario1List: "<li>长文档知识源导入</li><li>稳定的 knowledge / ops 页面</li><li>更适合复审的协作上下文</li>",
         scenario2Title: "企业知识库",
-        scenario2Copy: "PRD、runbook、交付文档和会议结论需要可靠的导航与治理，而不是临时拼凑式堆积。",
-        scenario2List: "<li>maintenance 和 audit 循环</li><li>共享项目协同</li><li>更干净的团队 onboarding</li>",
+        scenario2Copy: "PRD、runbook、交付文档和会议结论需要可靠的导航、治理，以及在执行变复杂时可选的 owner 视角交付层。",
+        scenario2List: "<li>先跑 maintenance 和 audit 循环</li><li>按需再加 PM 板面和 delivery gates</li><li>更干净的团队 onboarding</li>",
+        laneDefaultLabel: "默认主线",
+        laneDefaultTitle: "先走知识库主循环",
+        laneDefaultCopy: "大多数用户第一天并不需要所有工作流。默认路径应该先窄下来，把 vault 稳住。",
+        laneDefaultList: "<li>用 Kit Guide 或 Orchestrator 完成 onboarding</li><li>先把 ingest、maintenance、audit 作为默认循环</li><li>只有在协作上下文需要连续性时再启用 working profile 和 journal</li>",
+        lanePmLabel: "可选 PM 主线",
+        lanePmTitle: "只有交付真的需要时再加载",
+        lanePmCopy: "项目管理现在已经进入这个包，但它仍然是渐进式能力。只有当里程碑、blocker、依赖、handoff 或交付 gate 真正出现时再启用。",
+        lanePmList: "<li><code>knowledge-base-project-management</code> 负责 owner 视角规划</li><li><code>knowledge-base-team-coordination</code> 负责 2 人及以上协作对齐</li><li><code>knowledge-base-delivery-audit</code> 负责 ready / blocked / greenlight 审计</li>",
         scenario3Title: "跨团队协作",
         scenario3Copy: "当上下文散落在聊天和临时文档里时，shared coordination 和 journal 工作流能减少反复解释。",
         scenario3List: "<li>草稿 / 定稿边界更清晰</li><li>会议和决策上下文可追溯</li><li>带 consent 边界的 working-profile 卫生</li>",
+        posterSectionTitle: "最佳使用案例海报",
+        posterSectionSub: "如果只挑一个最能说明这个包价值的场景，我会选这个：把书籍、文献、SOP、问卷和项目上下文都收进同一套共享 wiki。",
+        posterKicker: "最佳使用案例",
+        posterTitle: "把共享 wiki 变成<br><span>文献、书籍、SOP、</span><br>问卷与项目上下文的<br>统一工作面。",
+        posterSub: "团队把同一套 markdown/wiki vault 放在 NAS、网盘或同步盘里，每个人继续用自己的 agent，并把长文档知识、资料收集、问卷整理和项目沉淀都收回同一套受治理结构。",
+        posterChip1: "OpenClaw",
+        posterChip2: "Hermes agent",
+        posterChip3: "Claude Code",
+        posterChip4: "NAS / 网盘同步",
+        posterStat1Label: "知识源",
+        posterStat1Value: "文献 · 教材 · 书籍 · SOP",
+        posterStat2Label: "共享介质",
+        posterStat2Value: "NAS / 共享盘 / 同步网盘",
+        posterStat3Label: "个人入口",
+        posterStat3Value: "每个人保留自己的 agent 和自己的工作上下文",
+        posterStat4Label: "最终输出",
+        posterStat4Value: "可审计 wiki，而不是聊天碎片和漂移文件夹",
+        posterOutcome: "结果是：多人可以并行完善同一套 wiki，同时继续用自己的 agent 协助问卷填写、文献消化、书籍整理和工作文档处理。",
+        posterRibbon1: "close-read 导入",
+        posterRibbon2: "maintenance 循环",
+        posterRibbon3: "audit 闸门",
+        posterRibbon4: "协作卫生",
+        posterSourceLabel: "输入层",
+        posterSource1Title: "文献 / 论文",
+        posterSource1Copy: "论文、指南和复习笔记不再散成附件堆，而是作为结构化知识源进入 vault。",
+        posterSource2Title: "书籍 / 长文档",
+        posterSource2Copy: "教材、手册和长篇 markdown 会被拆成 chapter/topic 结构，并保留来源链。",
+        posterSource3Title: "问卷 / 表单 / 资料收集",
+        posterSource3Copy: "每个人都可以用自己的 agent 协助填写、整理答案，再把可复用结论沉淀回 wiki。",
+        posterVaultLabel: "共享 vault",
+        posterVaultTitle: "受治理的 markdown wiki",
+        posterVaultCopy: "同一套同步中的 vault 同时承载知识页、操作页、项目上下文、问卷资料和耐久总结，而这套包负责维持 metadata、链接和页面角色的一致性。",
+        posterVaultTag1: "ingest",
+        posterVaultTag2: "maintenance",
+        posterVaultTag3: "audit",
+        posterAgentLabel: "agent 工作面",
+        posterAgent1Title: "OpenClaw",
+        posterAgent1Copy: "适合围绕同一套共享 vault 做流程执行、结构整理和批量处理。",
+        posterAgent2Title: "Hermes agent",
+        posterAgent2Copy: "适合持续协作、上下文维护和偏协调型的工作流。",
+        posterAgent3Title: "Claude Code",
+        posterAgent3Copy: "适合大型文档处理、脚本辅助清理和知识结构修整。",
+        posterBottom1Title: "working-profile",
+        posterBottom1Copy: "把协作偏好和边界写清楚，而不是反复重新解释。",
+        posterBottom2Title: "team-coordination",
+        posterBottom2Copy: "让问卷、分工和对齐走共享契约，而不是卡在私人聊天记忆里。",
+        posterBottom3Title: "work-journal",
+        posterBottom3Copy: "让 agent 自己留下结构化工作日志，把验证过的路径和死路都变成可复用经验。",
         flowTitle: "它怎么运转",
-        flowSub: "先完成 onboarding，稳定 profile 合约，再进入各条 specialist loops，让 vault 在持续增长时仍然保持可用。",
-        flow1Title: "安装",
-        flow1Copy: "把 8 个 skill 文件夹复制到你的 AI 平台 skills 目录。",
-        flow2Title: "选择 onboarding 入口",
-        flow2Copy: "想低门槛启动就用 Orchestrator；想先理解方法再上手就用 Kit Guide。",
-        flow3Title: "准备 profile",
-        flow3Copy: "创建或完善 <code>vault-profile.md</code>，让后续工作流有稳定合约。",
-        flow4Title: "运行 specialist loops",
-        flow4Copy: "根据需要进入 ingest、maintenance、audit、working-profile、team-coordination 或 work-journal。",
-        flow5Title: "保持稳定",
-        flow5Copy: "持续做治理和导航检查，避免 vault 再次漂回混乱状态。",
+        flowSub: "先把仓库拿到本地并完成安装，再稳定 profile 合约，随后优先走默认主线，等 PM 工作流真的需要时再加载。",
+        flow1Title: "先拿到仓库",
+        flow1Copy: "先 clone 仓库，或者下载 release 压缩包，把包内容放到本地。",
+        flow2Title: "运行 install.sh",
+        flow2Copy: "优先使用自动检测安装脚本，适配 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。手动复制文件夹只是兜底路径。",
+        flow3Title: "选择 onboarding 入口",
+        flow3Copy: "想低门槛启动就用 Orchestrator；想先理解方法再上手就用 Kit Guide。",
+        flow4Title: "准备 profile",
+        flow4Copy: "创建或完善 <code>vault-profile.md</code>。只有真的要启用 PM 主线时，才额外加入 <code>project-management</code> area。",
+        flow5Title: "先跑默认循环",
+        flow5Copy: "先从 ingest、maintenance、audit 开始；只有当里程碑、blocker、对齐或交付 gate 成为真实工作内容时，再加入 project-management、team-coordination 或 delivery-audit。",
         rolesLabel: "固定模型",
         rolesTitle: "5 种耐久页面角色",
         rolesList: "<li><code>project</code>：导航、概览与边界</li><li><code>knowledge</code>：可复用的方法与概念</li><li><code>ops</code>：排障与操作流程</li><li><code>task</code>：任务分配与进行中工作</li><li><code>overview</code>：索引与治理面</li>",
@@ -2152,13 +2745,13 @@
         journalCopy: "Journal 内容可以更灵活，但真正耐久的知识应当被提升回固定 page-role model，而不是永远停留在日志里。",
         ctaEyebrow: "从正确入口开始",
         ctaTitle: "用 HTML 首页快速理解，用 GitHub 仓库拿到真正的工作包。",
-        ctaSub: "这个落地页负责让你快速看懂。真正权威的安装、路由、文档和发布物仍然在 GitHub 仓库里。",
+        ctaSub: "这个落地页负责让你快速看懂。真正权威的安装脚本、路由、模板、文档和发布物仍然在 GitHub 仓库里。",
         ctaRepo: "打开 GitHub 仓库",
         ctaStart: "前往 START-HERE",
         nextLabel: "下一步入口",
         nextTitle: "建议接着打开这些",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
-        footerCopy: "MIT 开源 · 开发者：邹星宇、杨琦",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        footerCopy: "MIT 开源 · 开发者：邹星宇、杨琦、张陈祎",
         footerRepo: "GitHub 仓库",
         footerReleases: "版本发布",
         footerIssues: "问题反馈"

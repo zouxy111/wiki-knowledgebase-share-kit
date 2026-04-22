@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wiki Knowledge Base Share Kit — 安装验证脚本
-# Verify that all 8 skills are correctly installed
+# Verify that all 10 skills are correctly installed
 
 set -euo pipefail
 
@@ -19,14 +19,17 @@ log_error() { echo -e "${RED}❌ $1${NC}"; }
 
 SKILLS=(
     knowledge-base-kit-guide
+    knowledge-base-orchestrator
     knowledge-base-ingest
     knowledge-base-maintenance
     knowledge-base-audit
-    knowledge-base-orchestrator
+    knowledge-base-project-management
     knowledge-base-team-coordination
+    knowledge-base-delivery-audit
     knowledge-base-working-profile
     work-journal
 )
+SKILL_COUNT=${#SKILLS[@]}
 
 TARGET_DIR=""
 VERBOSE=false
@@ -35,7 +38,7 @@ usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [SKILLS_DIR]
 
-Verify that the 8-skill wiki-knowledgebase-share-kit is correctly installed.
+Verify that the 10-skill wiki-knowledgebase-share-kit is correctly installed.
 
 OPTIONS:
     -v, --verbose      Show detailed output for each skill
@@ -181,7 +184,11 @@ for skill_name in "${SKILLS[@]}"; do
     if [ -d "$skill_dir" ]; then
         # 检查是否真的是本项目的 skill（通过检查 SKILL.md frontmatter 中的 name 字段）
         if [ -f "${skill_dir}/SKILL.md" ]; then
-            if ! grep -qE "^name:\s*${skill_name}\$" "${skill_dir}/SKILL.md" 2>/dev/null; then
+            if ! grep -Eq "^name:[[:space:]]*${skill_name}[[:space:]]*$" "${skill_dir}/SKILL.md" 2>/dev/null; then
+                conflicts+=("$skill_name")
+                continue
+            fi
+            if [ "$skill_name" != "work-journal" ] && ! grep -q "wiki-knowledgebase-share-kit\|knowledge-base" "${skill_dir}/SKILL.md" 2>/dev/null; then
                 conflicts+=("$skill_name")
             fi
         fi

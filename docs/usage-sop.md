@@ -1,13 +1,13 @@
 # Usage SOP
 
-## 8 个 skill 的职责分工
+## 10 个 skill 的职责分工
 
 ### `knowledge-base-kit-guide`
 用于：
 - 解释这套分享包怎么安装
 - 解释 `vault profile` 应该填什么
 - 判断当前更适合用哪个 specialist skill
-- 把用户从“我不知道从哪里开始”引到清晰下一步
+- 在用户没有 PM 意图时，保持默认分流尽量窄
 
 ### `knowledge-base-orchestrator`
 用于：
@@ -21,8 +21,10 @@
 ### `knowledge-base-ingest`
 用于：
 - 导入长 markdown 文档、书稿、教程或大章节
-- 先按章节/主题拆分，再建立 parent-child / prev-next / related links
+- 先把 source 拆成 bounded chunks，再建立 parent-child / prev-next / related links
+- 用 `manifest.json` + `coverage-map.md` 防止只读前半部分就误判“已完整导入”
 - 把第一次导入当成可测试基线，并通过对比、回归、重构继续优化结构
+- 对超大源材料切到 close-reading mode，按 batch 分块精读并保留 rolling state
 
 ### `knowledge-base-maintenance`
 用于：
@@ -37,17 +39,30 @@
 - 检查 dead links、orphan pages、frontmatter、导航覆盖
 - 检查 page-boundary drift、noise regression、root-level stray markdown files
 
-### `knowledge-base-working-profile`
+### `knowledge-base-project-management`
 用于：
-- 从持续沟通中提炼稳定的协作画像
-- 沉淀偏好、决策习惯、协作边界和反模式
-- 区分 confirmed / repeated / inferred，并过滤敏感个人信息
+- 项目 intake
+- milestone / blocker / dependency / risk 管理
+- owner 视角拆解、优先级判断、个人执行板维护
+- 判断哪些事项需要转 team coordination / maintenance / delivery audit
 
 ### `knowledge-base-team-coordination`
 用于：
 - 协调 2 人及以上的共享项目目录
 - 生成成员级问卷、汇总对齐、生成派单草案
 - 输出决策蒸馏，并在需要时同步到知识库
+
+### `knowledge-base-delivery-audit`
+用于：
+- 审交付是否真的闭环
+- 审证据 / 决策 / handoff / 回写是否齐全
+- 判断当前状态应是 `blocked / ready / greenlight pending`
+
+### `knowledge-base-working-profile`
+用于：
+- 从持续沟通中提炼稳定的协作画像
+- 沉淀偏好、决策习惯、协作边界和反模式
+- 区分 confirmed / repeated / inferred，并过滤敏感个人信息
 
 ### `work-journal`
 用于：
@@ -94,14 +109,31 @@
 
 也就是：**先提炼，再分级，再决定可见范围**。
 
-### 场景 F：多人共享项目
-1. 先用 `knowledge-base-team-coordination` 建立 kickoff / questionnaire / alignment / assignment 流程
-2. 只把已确认内容升级为 approved
-3. 如需沉淀稳定知识，再交给 maintenance / working-profile
+### 场景 F：单人 / owner 视角推进项目
+1. 先用 `knowledge-base-project-management`
+2. 生成项目摘要、里程碑、风险、依赖与个人执行板
+3. 已形成稳定业务结论时转 `knowledge-base-maintenance`
+4. 需要 closeout / ready 审计时转 `knowledge-base-delivery-audit`
 
-也就是：**先对齐，再派单，再蒸馏**。
+也就是：**先 intake，再拆解，再推进，再验收**。
 
-### 场景 G：每日记录与周期沉淀
+### 场景 G：多人共享项目
+1. 先由 `knowledge-base-project-management` 建立项目 owner 视角的总览与节奏（如果需要）
+2. 再用 `knowledge-base-team-coordination` 建立 kickoff / questionnaire / alignment / assignment 流程
+3. 只把已确认内容升级为 approved
+4. 如需沉淀稳定知识，再交给 maintenance / working-profile
+
+也就是：**先定主线，再对齐，再派单，再蒸馏**。
+
+### 场景 H：交付未闭环
+1. 用 `knowledge-base-delivery-audit`
+2. 输出证据缺口、回写缺口、决策缺口
+3. 状态维持 `blocked` 或 `greenlight pending`
+4. 补齐后再重新审
+
+也就是：**先严审，再 greenlight**。
+
+### 场景 I：每日记录与周期沉淀
 1. 用 `work-journal` 记录工作、会议、临时想法
 2. 周期性提取可沉淀条目
 3. 需要长期进入知识库的部分，再交给 maintenance
@@ -110,52 +142,26 @@
 
 ---
 
-## Ingest 的默认回路
+## PM 主线的边界
 
-1. 先读 vault profile 和 source markdown
-2. 定义 ingestion map 与第一版导入基线
-3. 建立 overview / chapter / topic 结构
-4. 生成 TOC / glossary candidates / related-link suggestions
-5. 为每轮保留最小 harness 产物
-6. 基于测试结果比较拆分方案、页面角色和维护成本
-7. 对入口页、来源链和关键导航做回归检查
-8. 汇报版本差异与最终稳定形态
+### `project-management` area 只放
+- portfolio board
+- personal execution board
+- PM operating model
+- delivery gates
+- risk register
+- decision register
 
----
+### 不放
+- 业务知识正文
+- 业务运维细节
+- 原始长文档正文
+- 本应回原 area 的稳定业务事实
 
-## Maintenance 的默认回路
-
-1. 先读 vault profile
-2. 先做噪音过滤
-3. 判页面角色和 area
-4. 优先更新已有页
-5. 同步根页 / 读者入口 / 里程碑日志
-6. 汇报哪些内容被保留、哪些被压缩
-
----
-
-## Audit 的默认回路
-
-1. 先读 vault profile
-2. 查 frontmatter 和 metadata
-3. 查 dead links / orphan pages / missing entrypoints
-4. 查 root page coverage
-5. 查 page-boundary drift
-6. 查 noise regression
-7. 查 root-level stray markdown files
-8. 按 P1 / P2 / P3 输出
-
----
-
-## Working Profile 的默认回路
-
-1. 先读 vault profile 和当前 working profile 页面
-2. 收集本轮可作为证据的互动信号
-3. 先跑敏感信息过滤
-4. 抽取 stable facts / preferences / heuristics / boundaries / anti-patterns / provisional signals
-5. 标注 confirmed / repeated / inferred
-6. 更新 working profile 页面并补 change notes
-7. 按 visibility 规则决定是否同步 maintainer / reader 入口
+固定边界：
+- 业务事实 → 原 area
+- 全库治理 → `governance`
+- 管理层板面 / 方法 / gate → `project-management`
 
 ---
 
@@ -170,13 +176,13 @@
 
 ---
 
-## Work Journal 的默认回路
+## Delivery Audit 的默认回路
 
-1. 按日期创建或追加 journal 页面
-2. 记录时间戳、项目关联、人名与来源
-3. 标出“可沉淀 / 待沉淀”条目
-4. 生成周报或周期蒸馏时，回收稳定知识
-5. 需要长期进入知识库的内容再同步给 maintenance
+1. 读取项目 brief、成功标准和当前交付物
+2. 检查证据、决策、回写、handoff 是否齐全
+3. 判断当前状态应是 `blocked / ready / greenlight pending`
+4. 指出应补到哪份 artifact、由谁补
+5. 审计通过后，再允许 closeout 或 greenlight
 
 ---
 
@@ -204,3 +210,11 @@
 - 与未来协作无关的私人细节
 - 对第三方的私人评价
 - 未经确认的强推断
+
+### 不该一上来就强推 PM 主线
+如果用户只是：
+- 普通知识库维护
+- 结构审计
+- 长文档导入
+
+就不要默认要求她先配置 `project-management` area。

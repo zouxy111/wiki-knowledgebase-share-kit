@@ -40,9 +40,9 @@
 - **临时想法**: `sources/ideas/`
   - 💡 存放临时想法草稿
 
-### 13.4 Page Role 扩展
+### 13.4 `journal` 角色（独立工作流扩展）
 
-新增 **`journal`** 角色（仅用于 journals/ 目录）：
+> **核心口径**：`work-journal` 是**独立于核心知识库**的工作流，`journal` 角色仅用于 `journals/` 目录下的工作记录，**不属于 vault 核心 5 种 page-role**（project / knowledge / ops / task / overview）。
 
 | Role | 定义 | 写什么 | 不写什么 |
 |------|------|--------|---------|
