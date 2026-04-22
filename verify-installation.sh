@@ -109,7 +109,7 @@ total_checks=0
 passed_checks=0
 failed_skills=()
 
-for skill_name in "${SKILLS[@]}"; do
+for skill_name in $SKILLS; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     skill_ok=true
     issues=()
@@ -171,7 +171,7 @@ done
 echo ""
 log_info "Checking for potential naming conflicts..."
 conflicts=()
-for skill_name in "${SKILLS[@]}"; do
+for skill_name in $SKILLS; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     if [ -d "$skill_dir" ]; then
         # 检查是否真的是本项目的 skill（通过检查 SKILL.md frontmatter 中的 name 字段）
