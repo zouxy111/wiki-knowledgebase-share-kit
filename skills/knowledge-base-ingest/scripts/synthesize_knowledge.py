@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from datetime import datetime
@@ -57,6 +58,69 @@ def normalize_list(value) -> list[str]:
     return normalized
 
 
+def normalize_evidence_items(value) -> list[dict]:
+    if value is None:
+        return []
+    if isinstance(value, (str, dict)):
+        value = [value]
+    if not isinstance(value, list):
+        return []
+    normalized = []
+    for index, item in enumerate(value, start=1):
+        if isinstance(item, str):
+            text = " ".join(item.split()).strip()
+            if text:
+                normalized.append(
+                    {
+                        "item_id": f"item-{index:03d}",
+                        "text": text,
+                        "importance": "normal",
+                        "supported_by": [],
+                    }
+                )
+            continue
+        if not isinstance(item, dict):
+            continue
+        text = " ".join(str(item.get("text", "")).split()).strip()
+        if not text:
+            continue
+        supported_by = item.get("supported_by", [])
+        if isinstance(supported_by, dict):
+            supported_by = [supported_by]
+        evidence_rows = []
+        if isinstance(supported_by, list):
+            for evidence in supported_by:
+                if not isinstance(evidence, dict):
+                    continue
+                chunk_file = " ".join(
+                    str(evidence.get("chunk_file", "")).split()
+                ).strip()
+                quote = " ".join(str(evidence.get("quote", "")).split()).strip()
+                if chunk_file or quote:
+                    evidence_rows.append(
+                        {
+                            "chunk_file": chunk_file,
+                            "quote": quote,
+                        }
+                    )
+        item_id = (
+            " ".join(str(item.get("fact_id", "")).split()).strip()
+            or " ".join(str(item.get("boundary_id", "")).split()).strip()
+            or " ".join(str(item.get("item_id", "")).split()).strip()
+            or f"item-{index:03d}"
+        )
+        importance = " ".join(str(item.get("importance", "normal")).split()).strip()
+        normalized.append(
+            {
+                "item_id": item_id,
+                "text": text,
+                "importance": importance or "normal",
+                "supported_by": evidence_rows,
+            }
+        )
+    return normalized
+
+
 def load_completed_notes(run_dir: Path, batch_rows: list[dict]) -> dict[str, dict]:
     notes = {}
     for row in batch_rows:
@@ -70,13 +134,31 @@ def load_completed_notes(run_dir: Path, batch_rows: list[dict]) -> dict[str, dic
         lists = {
             field: normalize_list(payload.get(field, [])) for field in NOTE_LIST_FIELDS
         }
-        meaningful = summary or any(lists[field] for field in NOTE_LIST_FIELDS)
+        headings_seen = normalize_list(payload.get("headings_seen", []))
+        must_keep_facts = normalize_evidence_items(payload.get("must_keep_facts", []))
+        boundaries = normalize_evidence_items(
+            payload.get("boundaries_and_exceptions", [])
+        )
+        omission_risk = normalize_list(payload.get("omission_risk", []))
+        meaningful = (
+            summary
+            or any(lists[field] for field in NOTE_LIST_FIELDS)
+            or headings_seen
+            or must_keep_facts
+            or boundaries
+            or omission_risk
+        )
         if not meaningful or status != "completed":
             continue
         notes[row["batch_key"]] = {
             "summary": summary,
             "status": status,
             "batch_id": payload.get("batch_id", row.get("batch_id", row["batch_key"])),
+            "batch_key": row["batch_key"],
+            "headings_seen": headings_seen,
+            "must_keep_facts": must_keep_facts,
+            "boundaries_and_exceptions": boundaries,
+            "omission_risk": omission_risk,
             **lists,
         }
     return notes
@@ -106,6 +188,83 @@ def frontmatter_block(meta: dict) -> str:
         lines.append(f"{key}: {rendered}")
     lines.append("---")
     return "\n".join(lines)
+
+
+def evidence_support_rows(
+    claim_text: str, note: dict, chunk_files: list[str]
+) -> tuple[str, list[dict]]:
+    normalized_claim = " ".join(claim_text.split()).strip().lower()
+    direct_support = []
+    for field in ("must_keep_facts", "boundaries_and_exceptions"):
+        for item in note.get(field, []):
+            text = " ".join(str(item.get("text", "")).split()).strip()
+            if not text or text.lower() != normalized_claim:
+                continue
+            supported_by = item.get("supported_by", [])
+            for evidence in supported_by:
+                direct_support.append(
+                    {
+                        "batch_key": note["batch_key"],
+                        "item_id": item.get("item_id"),
+                        "chunk_file": evidence.get("chunk_file", ""),
+                        "quote": evidence.get("quote", ""),
+                    }
+                )
+    if direct_support:
+        return "supported", direct_support
+    if claim_text in note.get("key_claims", []):
+        fallback_chunk = chunk_files[0] if chunk_files else ""
+        return (
+            "weakly-supported",
+            [
+                {
+                    "batch_key": note["batch_key"],
+                    "item_id": None,
+                    "chunk_file": fallback_chunk,
+                    "quote": "",
+                }
+            ],
+        )
+    return "unsupported", []
+
+
+def relative_link_issues(candidate_pages_dir: Path) -> tuple[int, int]:
+    link_pattern = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+    dead_links = 0
+    missing_frontmatter = 0
+    for page in candidate_pages_dir.glob("*.md"):
+        text = page.read_text(encoding="utf-8")
+        if not text.startswith("---\n"):
+            missing_frontmatter += 1
+        for target in link_pattern.findall(text):
+            if target.startswith(("http://", "https://", "mailto:", "#", "data:")):
+                continue
+            target = target.split("#", 1)[0]
+            if not target:
+                continue
+            resolved = (page.parent / target).resolve()
+            if not resolved.exists():
+                dead_links += 1
+    return dead_links, missing_frontmatter
+
+
+def final_gate_status(
+    *,
+    expected_batches: int,
+    completed_notes: int,
+    weak_batches: list[str],
+    unsupported_claims: int,
+    inferred_claims: int,
+    dead_links: int,
+    missing_frontmatter: int,
+) -> str:
+    if completed_notes < expected_batches or weak_batches:
+        return "partial"
+    if unsupported_claims or inferred_claims:
+        return "coverage-complete"
+    if dead_links or missing_frontmatter:
+        return "evidence-complete"
+    return "ready-to-promote"
 
 
 def build_page_frontmatter(
@@ -153,6 +312,7 @@ def build_synthesis(
 ) -> dict:
     plan = read_json(run_dir / "batch-plan.json")
     batches = plan["batches"]
+    batch_lookup = {row["batch_key"]: row for row in batches}
     notes = load_completed_notes(run_dir, batches)
 
     concept_counter: Counter[str] = Counter()
@@ -161,6 +321,9 @@ def build_synthesis(
     question_counter: Counter[str] = Counter()
     claim_counter: Counter[str] = Counter()
     procedure_counter: Counter[str] = Counter()
+    must_keep_counter: Counter[str] = Counter()
+    boundary_counter: Counter[str] = Counter()
+    weak_batches: list[str] = []
     chapter_rows: dict[str, dict] = defaultdict(
         lambda: {
             "batches": [],
@@ -169,6 +332,8 @@ def build_synthesis(
             "procedures": [],
             "topics": [],
             "cross_refs": [],
+            "fact_items": [],
+            "boundary_items": [],
         }
     )
     topic_to_chapters: dict[str, set[str]] = defaultdict(set)
@@ -185,12 +350,27 @@ def build_synthesis(
         chapter_rows[chapter]["procedures"].extend(note["procedures"])
         chapter_rows[chapter]["topics"].extend(note["candidate_topics"])
         chapter_rows[chapter]["cross_refs"].extend(note["cross_refs"])
+        chapter_rows[chapter]["fact_items"].extend(note["must_keep_facts"])
+        chapter_rows[chapter]["boundary_items"].extend(
+            note["boundaries_and_exceptions"]
+        )
         concept_counter.update(note["concepts"])
         entity_counter.update(note["entities"])
         topic_counter.update(note["candidate_topics"])
         question_counter.update(note["open_questions"])
         claim_counter.update(note["key_claims"])
         procedure_counter.update(note["procedures"])
+        must_keep_counter.update(item["text"] for item in note["must_keep_facts"])
+        boundary_counter.update(
+            item["text"] for item in note["boundaries_and_exceptions"]
+        )
+        if not note["headings_seen"] or (
+            not note["must_keep_facts"]
+            and not note["boundaries_and_exceptions"]
+            and not note["procedures"]
+            and not note["omission_risk"]
+        ):
+            weak_batches.append(row["batch_key"])
         for topic in note["candidate_topics"]:
             topic_to_chapters[topic].add(chapter)
 
@@ -318,6 +498,20 @@ def build_synthesis(
                 lines.append(f"- {summary}")
         else:
             lines.append("- pending")
+        lines.extend(["", "## Must-keep facts", ""])
+        if payload["fact_items"]:
+            for item in dedupe([fact["text"] for fact in payload["fact_items"]])[:10]:
+                lines.append(f"- {item}")
+        else:
+            lines.append("- none yet")
+        lines.extend(["", "## Boundaries and exceptions", ""])
+        if payload["boundary_items"]:
+            for item in dedupe(
+                [boundary["text"] for boundary in payload["boundary_items"]]
+            )[:10]:
+                lines.append(f"- {item}")
+        else:
+            lines.append("- none yet")
         lines.extend(["", "## Related topic candidates", ""])
         if topic_names:
             for topic in topic_names:
@@ -523,6 +717,188 @@ def build_synthesis(
         link_map_lines.append("")
     write_text(out_dir / "candidate-link-map.md", "\n".join(link_map_lines) + "\n")
 
+    claim_map_pages = []
+    evidence_status_counter: Counter[str] = Counter()
+    for chapter in chapter_list:
+        page_claims = []
+        for claim in dedupe(chapter_rows[chapter]["claims"]):
+            supporting_rows = []
+            claim_status = "unsupported"
+            for batch_key, note in notes.items():
+                if claim not in note["key_claims"]:
+                    continue
+                row = batch_lookup.get(batch_key, {})
+                batch_status, rows = evidence_support_rows(
+                    claim, note, row.get("chunk_files", [])
+                )
+                if batch_status == "supported":
+                    claim_status = "supported"
+                elif batch_status == "weakly-supported" and claim_status != "supported":
+                    claim_status = "weakly-supported"
+                supporting_rows.extend(rows)
+            if not supporting_rows and claim_status == "unsupported":
+                claim_status = "inferred"
+            evidence_status_counter.update([claim_status])
+            page_claims.append(
+                {
+                    "claim_id": f"{slugify(chapter)}-{slugify(claim)[:24]}",
+                    "text": claim,
+                    "claim_kind": "chapter-claim",
+                    "status": claim_status,
+                    "supported_by": supporting_rows,
+                }
+            )
+        claim_map_pages.append(
+            {
+                "page_file": f"candidate-pages/{chapter_candidates[chapter].name}",
+                "page_type": "knowledge",
+                "claims": page_claims,
+            }
+        )
+
+    for topic, path in topic_candidates.items():
+        topic_claims = []
+        for batch_key, note in notes.items():
+            if topic not in note["candidate_topics"] and topic not in note["concepts"]:
+                continue
+            row = batch_lookup.get(batch_key, {})
+            for item in note["must_keep_facts"][:4]:
+                claim_status = (
+                    "supported" if item.get("supported_by") else "weakly-supported"
+                )
+                evidence_status_counter.update([claim_status])
+                topic_claims.append(
+                    {
+                        "claim_id": f"{slugify(topic)}-{item['item_id']}",
+                        "text": item["text"],
+                        "claim_kind": "topic-fact",
+                        "status": claim_status,
+                        "supported_by": [
+                            {
+                                "batch_key": batch_key,
+                                "item_id": item.get("item_id"),
+                                "chunk_file": evidence.get("chunk_file", ""),
+                                "quote": evidence.get("quote", ""),
+                            }
+                            for evidence in item.get("supported_by", [])
+                        ]
+                        or [
+                            {
+                                "batch_key": batch_key,
+                                "item_id": item.get("item_id"),
+                                "chunk_file": (
+                                    row.get("chunk_files", [""])[0]
+                                    if row.get("chunk_files")
+                                    else ""
+                                ),
+                                "quote": "",
+                            }
+                        ],
+                    }
+                )
+        claim_map_pages.append(
+            {
+                "page_file": f"candidate-pages/{path.name}",
+                "page_type": "knowledge",
+                "claims": topic_claims,
+            }
+        )
+
+    claim_map = {
+        "generated_at": generated_at,
+        "run_name": run_dir.name,
+        "source_title": source_title,
+        "pages": claim_map_pages,
+    }
+    write_text(
+        out_dir / "claim-map.json",
+        json.dumps(claim_map, ensure_ascii=False, indent=2) + "\n",
+    )
+
+    dead_links, missing_frontmatter = relative_link_issues(candidate_pages_dir)
+    unsupported_claims = evidence_status_counter["unsupported"]
+    inferred_claims = evidence_status_counter["inferred"]
+    weakly_supported_claims = evidence_status_counter["weakly-supported"]
+    supported_claims = evidence_status_counter["supported"]
+    final_status = final_gate_status(
+        expected_batches=len(batches),
+        completed_notes=len(notes),
+        weak_batches=weak_batches,
+        unsupported_claims=unsupported_claims,
+        inferred_claims=inferred_claims,
+        dead_links=dead_links,
+        missing_frontmatter=missing_frontmatter,
+    )
+    delivery_gate = {
+        "generated_at": generated_at,
+        "run_name": run_dir.name,
+        "coverage_check": {
+            "status": "pass" if len(notes) == len(batches) else "pending",
+            "manifest_entries": sum(len(row["chunk_files"]) for row in batches),
+            "coverage_rows": len(batches),
+            "unread_chunks": sum(
+                len(row["chunk_files"])
+                for row in batches
+                if row["batch_key"] not in notes
+            ),
+            "blocked_chunks": 0,
+        },
+        "extractive_check": {
+            "status": (
+                "pass" if not weak_batches and len(notes) == len(batches) else "pending"
+            ),
+            "expected_batches": len(batches),
+            "completed_notes": len(notes),
+            "missing_notes": [
+                row["batch_key"] for row in batches if row["batch_key"] not in notes
+            ],
+            "weak_batches": weak_batches,
+        },
+        "evidence_check": {
+            "status": (
+                "pass" if not unsupported_claims and not inferred_claims else "pending"
+            ),
+            "total_claims": sum(len(page["claims"]) for page in claim_map_pages),
+            "supported_claims": supported_claims,
+            "weakly_supported_claims": weakly_supported_claims,
+            "inferred_claims": inferred_claims,
+            "unsupported_claims": unsupported_claims,
+        },
+        "integrity_check": {
+            "status": (
+                "pass" if dead_links == 0 and missing_frontmatter == 0 else "pending"
+            ),
+            "candidate_pages_exist": bool(list(candidate_pages_dir.glob("*.md"))),
+            "dead_links": dead_links,
+            "missing_frontmatter": missing_frontmatter,
+            "unregistered_pages": 0,
+        },
+        "final_status": final_status,
+    }
+    write_text(
+        out_dir / "delivery-gate.json",
+        json.dumps(delivery_gate, ensure_ascii=False, indent=2) + "\n",
+    )
+
+    gap_lines = ["# Gap Report", ""]
+    if weak_batches:
+        gap_lines.append("## Weak extractive batches")
+        for batch_key in weak_batches:
+            gap_lines.append(f"- {batch_key}")
+        gap_lines.append("")
+    if unsupported_claims or inferred_claims:
+        gap_lines.append("## Claims not safe to overclaim yet")
+        for page in claim_map_pages:
+            for claim in page["claims"]:
+                if claim["status"] in {"unsupported", "inferred"}:
+                    gap_lines.append(
+                        f"- {page['page_file']}: {claim['text']} ({claim['status']})"
+                    )
+        gap_lines.append("")
+    if not weak_batches and not unsupported_claims and not inferred_claims:
+        gap_lines.append("- No major evidence gaps detected.")
+    write_text(out_dir / "gap-report.md", "\n".join(gap_lines) + "\n")
+
     report = {
         "generated_at": generated_at,
         "source_title": source_title,
@@ -538,6 +914,14 @@ def build_synthesis(
             "overview": overview_candidate.name,
             "chapters": [path.name for path in chapter_candidates.values()],
             "topics": [path.name for path in topic_candidates.values()],
+        },
+        "evidence_gate": {
+            "final_status": final_status,
+            "weak_batches": weak_batches,
+            "supported_claims": supported_claims,
+            "weakly_supported_claims": weakly_supported_claims,
+            "inferred_claims": inferred_claims,
+            "unsupported_claims": unsupported_claims,
         },
         "top_concepts": [
             {"term": term, "count": count}
