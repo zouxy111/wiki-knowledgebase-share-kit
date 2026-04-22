@@ -251,14 +251,37 @@ PM 主线由这 3 个 skill 构成：
 > 只要你的 AI 平台支持类似 skills 目录结构，就可以安装。  
 > **重点：运行时只会读取它自己的 skills 目录，不会自动读取这个 Git 仓库里的 `skills/`。**
 
-推荐优先使用仓库自带安装脚本，而不是手工逐条复制：
+推荐优先使用统一 CLI，而不是手工逐条复制：
 
 ```bash
-# 安装到 Codex
-python3 scripts/install_skills.py --platform codex --force
+# 先看 CLI 检测到哪些平台
+./wiki-kit detect
 
-# 安装到 Claude Code
-python3 scripts/install_skills.py --platform claude --force
+# 直接从仓库运行（单平台环境可直接安装）
+./wiki-kit install
+
+# 多 runtime 共存时，显式指定平台更稳妥
+./wiki-kit install --platform codex --force
+
+# 安装后做结构校验
+./wiki-kit verify
+```
+
+如果 `./wiki-kit detect` 提示检测到了多个可用 skills 目录，CLI 会要求你显式传 `--platform <codex|claude|kimi|agents>` 或 `--target-dir`，避免装错运行时。
+
+如果你不想依赖可执行权限，也可以：
+
+```bash
+python3 -m wiki_knowledgebase_share_kit install
+python3 -m wiki_knowledgebase_share_kit verify
+```
+
+如果你想把命令全局装好，再直接执行 `wiki-kit`：
+
+```bash
+pipx install git+https://github.com/zouxy111/wiki-knowledgebase-share-kit.git
+wiki-kit install
+wiki-kit verify
 ```
 
 安装后一定要：
@@ -266,17 +289,16 @@ python3 scripts/install_skills.py --platform claude --force
 2. 确认 available skills 里真的出现目标 skill 名
 3. 如果还报 `Skill not found`，先看 [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)
 
-### 推荐：一键安装脚本
+### 兼容入口：旧脚本仍可用
 
 ```bash
-# 自动检测平台并安装（支持 Kimi CLI / Claude Code / Codex / 通用 agents）
+# 新入口
+./wiki-kit install
+
+# 旧入口现在都委托给同一套 CLI 后端
 bash install.sh
-
-# 预览安装内容
-bash install.sh --dry-run
-
-# 验证安装结果
-bash verify-installation.sh
+python3 scripts/install_skills.py --platform claude --force
+./wiki-kit verify
 ```
 
 ### 手动安装（备选）
@@ -335,8 +357,8 @@ cat START-HERE.md
 # 3. 复制模板并准备 profile
 cp templates/vault-profile-template.md ./my-vault-profile.md
 
-# 4. 把 10 个 skills 安装到你的运行时目录
-python3 scripts/install_skills.py --platform codex --force
+# 4. 把整包 skills 安装到你的运行时目录
+./wiki-kit install --platform codex --force
 ```
 
 如果你已经准备好平台和 skills 目录，再安装整包即可。  
@@ -356,7 +378,7 @@ A：能。你可以直接使用文档、模板和 checklist；AI 只是提高执
 A：能。建议先跑一次 audit，再逐步修结构、补导航、收敛页面边界。
 
 **Q：为什么 repo 里明明有 `knowledge-base-ingest`，运行时却说 `Skill not found`？**  
-A：通常不是 repo 缺 skill，而是**当前运行平台的 skills 目录没有安装/刷新**。先用 `python3 scripts/install_skills.py --platform <codex|claude> --force` 安装，再重开会话；详见 [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)。
+A：通常不是 repo 缺 skill，而是**当前运行平台的 skills 目录没有安装/刷新**。先用 `./wiki-kit install --platform <codex|claude|kimi|agents> --force` 安装，再重开会话；详见 [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)。
 
 **Q：怎么防止长文档只读前半部分就被误判为“已完整导入”？**  
 A：不要直接把超长 source 整篇塞给模型。先运行 `split_markdown.py` 生成 `manifest.json` 和 `coverage-map.md`，逐 chunk 处理，再用 `verify_ingest_coverage.py` 做完成态校验；详见 [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md)。

@@ -17,8 +17,9 @@
    - `skills/knowledge-base-delivery-audit`（交付完整性 / ready / greenlight）
    - `skills/knowledge-base-working-profile`（协作画像）
    - `skills/work-journal`（工作记录）
-   - 推荐直接运行：`python3 scripts/install_skills.py --platform codex --force`
-   - 或：`python3 scripts/install_skills.py --platform claude --force`
+   - 先检查平台：`./wiki-kit detect`
+   - 单平台环境可直接运行：`./wiki-kit install`
+   - 多 runtime 并存时推荐显式指定：`./wiki-kit install --platform codex --force`
    - 安装后记得重开会话，否则 runtime 可能继续显示旧的 available skills
 6. 第一次落地时：
    - 如果完全新手：先用 `knowledge-base-orchestrator` 一键完成环境配置

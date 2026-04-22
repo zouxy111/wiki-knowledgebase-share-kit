@@ -251,14 +251,37 @@ Start with the general rule:
 > If your AI platform supports a similar skills-directory structure, you can install it.  
 > **Important:** a runtime only reads its own skills directory. It does not automatically read the `skills/` folder inside this Git repository.
 
-Prefer the bundled installer over copying folders one by one:
+Prefer the unified CLI over copying folders one by one:
 
 ```bash
-# Install into Codex
-python3 scripts/install_skills.py --platform codex --force
+# Inspect which runtimes the CLI can see
+./wiki-kit detect
 
-# Install into Claude Code
-python3 scripts/install_skills.py --platform claude --force
+# Run from the cloned repository (best when only one runtime is present)
+./wiki-kit install
+
+# Pick an explicit runtime when multiple runtimes coexist
+./wiki-kit install --platform codex --force
+
+# Verify the target skills directory afterwards
+./wiki-kit verify
+```
+
+If `./wiki-kit detect` reports multiple available skills directories, the CLI now asks you to choose `--platform <codex|claude|kimi|agents>` or `--target-dir` explicitly so it does not install into the wrong runtime by accident.
+
+You can also invoke the same CLI without executable permissions:
+
+```bash
+python3 -m wiki_knowledgebase_share_kit install
+python3 -m wiki_knowledgebase_share_kit verify
+```
+
+If you want a globally installed command:
+
+```bash
+pipx install git+https://github.com/zouxy111/wiki-knowledgebase-share-kit.git
+wiki-kit install
+wiki-kit verify
 ```
 
 After installing:
@@ -266,17 +289,14 @@ After installing:
 2. confirm the runtime now lists the expected skill names
 3. if it still says `Skill not found`, read [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md)
 
-### One-command installer
+### Compatibility entrypoints
 
 ```bash
-# Auto-detect platform and install (Kimi CLI / Claude Code / Codex / generic agents)
+# Legacy wrappers now delegate to the same CLI backend
+./wiki-kit install
 bash install.sh
-
-# Preview installation
-bash install.sh --dry-run
-
-# Verify installation
-bash verify-installation.sh
+python3 scripts/install_skills.py --platform claude --force
+./wiki-kit verify
 ```
 
 ### Manual install example
@@ -335,8 +355,8 @@ cat START-HERE.md
 # 3. Copy the template and prepare your profile
 cp templates/vault-profile-template.md ./my-vault-profile.md
 
-# 4. Install the 10 skills into your runtime directory
-python3 scripts/install_skills.py --platform codex --force
+# 4. Install the bundled skills into your runtime directory
+./wiki-kit install --platform codex --force
 ```
 
 If you do not need the PM mainline yet, you do not have to configure the `project-management` area on day one.
@@ -355,7 +375,7 @@ A: Yes. The docs, templates, and checklists are still useful manually; the skill
 A: Yes. Start with an audit, then repair structure, navigation, and boundaries incrementally.
 
 **Q: Why does the runtime say `Skill not found` even though `knowledge-base-ingest` exists in the repo?**  
-A: Usually the repo is fine; the runtime's actual skills directory was not installed or reloaded. Run `python3 scripts/install_skills.py --platform <codex|claude> --force`, then reopen the session. See [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md).
+A: Usually the repo is fine; the runtime's actual skills directory was not installed or reloaded. Run `./wiki-kit install --platform <codex|claude|kimi|agents> --force`, then reopen the session. See [`docs/skill-installation-troubleshooting.md`](./docs/skill-installation-troubleshooting.md).
 
 **Q: How do I prevent a huge source from being only half-read and still being reported as “fully imported”?**  
 A: Do not feed the whole giant source directly to the model. First generate `manifest.json` and `coverage-map.md` with `split_markdown.py`, process the source chunk by chunk, then gate completion with `verify_ingest_coverage.py`. See [`docs/ingest-completeness-guardrails.md`](./docs/ingest-completeness-guardrails.md).

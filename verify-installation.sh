@@ -1,21 +1,13 @@
 #!/bin/bash
 
-# Wiki Knowledge Base Share Kit — 安装验证脚本
-# Verify that all 10 skills are correctly installed
-
 set -euo pipefail
 
-# 颜色定义
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-log_info()  { echo -e "${BLUE}ℹ️  $1${NC}"; }
-log_ok()    { echo -e "${GREEN}✅ $1${NC}"; }
-log_warn()  { echo -e "${YELLOW}⚠️  $1${NC}"; }
-log_error() { echo -e "${RED}❌ $1${NC}"; }
+export PYTHONPATH="${SCRIPT_DIR}${PYTHONPATH:+:${PYTHONPATH}}"
+
+python3 -m wiki_knowledgebase_share_kit verify "$@"
+
 
 SKILLS=(
     knowledge-base-kit-guide

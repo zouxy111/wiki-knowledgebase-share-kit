@@ -1781,8 +1781,8 @@
               <span data-i18n="heroMini1Copy">Keep project, knowledge, ops, task, and overview pages from drifting into each other.</span>
             </article>
             <article class="hero-mini-card">
-              <strong data-i18n="heroMini2Title">One-command install path</strong>
-              <span data-i18n="heroMini2Copy">Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.</span>
+              <strong data-i18n="heroMini2Title">Unified CLI install</strong>
+              <span data-i18n="heroMini2Copy">Clone the repo and run ./wiki-kit install. If you keep multiple runtimes on the same machine, run ./wiki-kit detect first and then choose --platform explicitly.</span>
             </article>
             <article class="hero-mini-card">
               <strong data-i18n="heroMini3Title">Default lane, optional PM lane</strong>
@@ -1871,11 +1871,11 @@
           <div class="clone-card reveal" style="--delay: 270ms;">
             <div class="clone-head">
               <div class="role-label" data-i18n="cloneLabel">Quick start</div>
-              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh">Copy install</button>
+              <button type="button" class="copy-btn" data-copy-command="git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; ./wiki-kit install">Copy install</button>
             </div>
-            <h3 data-i18n="cloneTitle">Clone and install</h3>
-            <p class="muted" data-i18n="cloneCopy">Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.</p>
-            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; bash install.sh</code></pre>
+            <h3 data-i18n="cloneTitle">Clone and run the CLI</h3>
+            <p class="muted" data-i18n="cloneCopy">Recommended path: clone the repository, enter it, and run the unified CLI instead of manually copying skill folders one by one. When several runtimes coexist, let detect tell you which target to pick.</p>
+            <pre><code data-clone-command>git clone https://github.com/zouxy111/wiki-knowledgebase-share-kit.git &amp;&amp; cd wiki-knowledgebase-share-kit &amp;&amp; ./wiki-kit install</code></pre>
           </div>
         </aside>
       </div>
@@ -2276,8 +2276,8 @@
           </article>
           <article class="flow-step reveal" style="--delay: 100ms;">
             <small>02</small>
-            <h3 data-i18n="flow2Title">Run install.sh</h3>
-            <p data-i18n="flow2Copy">Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.</p>
+            <h3 data-i18n="flow2Title">Run wiki-kit install</h3>
+            <p data-i18n="flow2Copy">Use the unified CLI for Codex, Claude Code, Kimi CLI, or compatible agents platforms. If more than one skills directory is present, choose --platform explicitly. Manual folder copy is only the fallback path.</p>
           </article>
           <article class="flow-step reveal" style="--delay: 130ms;">
             <small>03</small>
@@ -2335,7 +2335,9 @@
           <h3 data-i18n="nextTitle">Open these next</h3>
           <ul data-i18n-html="nextList">
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md">START-HERE.md</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/wiki-kit">wiki-kit</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh">install.sh</a></li>
+            <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/setup.py">setup.py</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md">docs/skill-installation-troubleshooting.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md">GLOSSARY.md</a></li>
             <li><a href="https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md">docs/project-management-workflow.md</a></li>
@@ -2382,8 +2384,8 @@
         heroNote: "The fixed page-role model stays stable. <code>work-journal</code> remains a separate workflow rather than a sixth page role.",
         heroMini1Title: "Role-stable structure",
         heroMini1Copy: "Keep project, knowledge, ops, task, and overview pages from drifting into each other.",
-        heroMini2Title: "One-command install path",
-        heroMini2Copy: "Clone the repo and run install.sh to auto-detect Codex, Claude Code, Kimi CLI, or a compatible agents platform.",
+        heroMini2Title: "Unified CLI install",
+        heroMini2Copy: "Clone the repo and run ./wiki-kit install. If you keep multiple runtimes on the same machine, run ./wiki-kit detect first and then choose --platform explicitly.",
         heroMini3Title: "Default lane, optional PM lane",
         heroMini3Copy: "Stay narrow for ingest, maintenance, and audit, then add project-management, team coordination, and delivery audit only when the work actually needs them.",
         statsSkillsLabel: "Installable skills",
@@ -2391,8 +2393,8 @@
         statsTracksLabel: "Workflow tracks",
         statsTracksCopy: "onboarding, ingest, maintenance, audit, project management, team coordination, delivery audit, working profile, work journal",
         cloneLabel: "Quick start",
-        cloneTitle: "Clone and install",
-        cloneCopy: "Recommended path: clone the repository, enter it, and run the auto-detect install script instead of manually copying skill folders one by one.",
+        cloneTitle: "Clone and run the CLI",
+        cloneCopy: "Recommended path: clone the repository, enter it, and run the unified CLI instead of manually copying skill folders one by one. When several runtimes coexist, let detect tell you which target to pick.",
         copyCloneIdle: "Copy install",
         copyCloneDone: "Copied",
         copyCloneFail: "Copy failed",
@@ -2534,8 +2536,8 @@
         flowSub: "Get the repo locally, run the installer, stabilize the profile contract, then stay on the default loops until PM workflows are actually needed.",
         flow1Title: "Get the repo",
         flow1Copy: "Clone the repository or download a release archive so the package contents are local.",
-        flow2Title: "Run install.sh",
-        flow2Copy: "Use the auto-detect installer for Codex, Claude Code, Kimi CLI, or compatible agents platforms. Manual folder copy is only the fallback path.",
+        flow2Title: "Run wiki-kit install",
+        flow2Copy: "Use the unified CLI for Codex, Claude Code, Kimi CLI, or compatible agents platforms. If more than one skills directory is present, choose --platform explicitly. Manual folder copy is only the fallback path.",
         flow3Title: "Choose onboarding",
         flow3Copy: "Use Orchestrator for a low-friction start or Kit Guide for an explanation-first path.",
         flow4Title: "Prepare profile",
@@ -2555,7 +2557,7 @@
         ctaStart: "Go to START-HERE",
         nextLabel: "Next surfaces",
         nextTitle: "Open these next",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/wiki-kit\">wiki-kit</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/setup.py\">setup.py</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">Latest release</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
         footerCopy: "Open source under MIT · Built by 邹星宇, 杨琦, and 张陈祎",
         footerRepo: "GitHub repo",
         footerReleases: "Releases",
@@ -2577,8 +2579,8 @@
         heroNote: "固定的 page-role model 会保持稳定。<code>work-journal</code> 是独立工作流，不是第六种页面角色。",
         heroMini1Title: "结构角色稳定",
         heroMini1Copy: "让 project、knowledge、ops、task、overview 不再互相串位、互相污染。",
-        heroMini2Title: "一条命令安装",
-        heroMini2Copy: "拉取仓库后直接运行 install.sh，自动识别 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。",
+        heroMini2Title: "统一 CLI 安装",
+        heroMini2Copy: "拉取仓库后可以直接运行 ./wiki-kit install；如果这台机器同时装了多个 runtime，先跑 ./wiki-kit detect，再显式加 --platform 更稳妥。",
         heroMini3Title: "默认主线，按需 PM 主线",
         heroMini3Copy: "先窄后稳地做 ingest、maintenance、audit，真的需要时再加载 project-management、team coordination 和 delivery audit。",
         statsSkillsLabel: "可安装 skills",
@@ -2586,8 +2588,8 @@
         statsTracksLabel: "工作流轨道",
         statsTracksCopy: "onboarding、ingest、maintenance、audit、project management、team coordination、delivery audit、working profile、work journal",
         cloneLabel: "快速安装",
-        cloneTitle: "拉仓库并安装",
-        cloneCopy: "推荐路径是先拉取仓库、进入目录，再运行自动检测安装脚本，而不是手动一个个复制 skill 文件夹。",
+        cloneTitle: "拉仓库并运行 CLI",
+        cloneCopy: "推荐路径是先拉取仓库、进入目录，再运行统一 CLI，而不是手动一个个复制 skill 文件夹。如果机器上有多个 runtime，就先让 detect 告诉你该选哪个目标。",
         copyCloneIdle: "复制安装命令",
         copyCloneDone: "已复制",
         copyCloneFail: "复制失败",
@@ -2729,8 +2731,8 @@
         flowSub: "先把仓库拿到本地并完成安装，再稳定 profile 合约，随后优先走默认主线，等 PM 工作流真的需要时再加载。",
         flow1Title: "先拿到仓库",
         flow1Copy: "先 clone 仓库，或者下载 release 压缩包，把包内容放到本地。",
-        flow2Title: "运行 install.sh",
-        flow2Copy: "优先使用自动检测安装脚本，适配 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。手动复制文件夹只是兜底路径。",
+        flow2Title: "运行 wiki-kit install",
+        flow2Copy: "优先使用统一 CLI，适配 Codex、Claude Code、Kimi CLI 或兼容 agents 平台。如果发现不止一个 skills 目录，请显式传 --platform。手动复制文件夹只是兜底路径。",
         flow3Title: "选择 onboarding 入口",
         flow3Copy: "想低门槛启动就用 Orchestrator；想先理解方法再上手就用 Kit Guide。",
         flow4Title: "准备 profile",
@@ -2750,7 +2752,7 @@
         ctaStart: "前往 START-HERE",
         nextLabel: "下一步入口",
         nextTitle: "建议接着打开这些",
-        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
+        nextList: "<li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/START-HERE.md\">START-HERE.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/wiki-kit\">wiki-kit</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/install.sh\">install.sh</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/setup.py\">setup.py</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/skill-installation-troubleshooting.md\">docs/skill-installation-troubleshooting.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/GLOSSARY.md\">GLOSSARY.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/project-management-workflow.md\">docs/project-management-workflow.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/templates/project-management/README.md\">templates/project-management/README.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/agent-runtime-writeback-patterns.md\">docs/agent-runtime-writeback-patterns.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/blob/main/docs/example-prompts.md\">docs/example-prompts.md</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/releases/latest\">最新版本</a></li><li><a href=\"https://github.com/zouxy111/wiki-knowledgebase-share-kit/issues\">Issues</a></li>",
         footerCopy: "MIT 开源 · 开发者：邹星宇、杨琦、张陈祎",
         footerRepo: "GitHub 仓库",
         footerReleases: "版本发布",
