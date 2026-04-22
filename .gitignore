@@ -1,3 +1,24 @@
+# OS / editor noise
 .DS_Store
 Thumbs.db
+
+# Build artifacts
 *.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
