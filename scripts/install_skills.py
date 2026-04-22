@@ -22,8 +22,10 @@ DEFAULT_SKILLS = [
     "knowledge-base-ingest",
     "knowledge-base-maintenance",
     "knowledge-base-audit",
-    "knowledge-base-working-profile",
+    "knowledge-base-project-management",
     "knowledge-base-team-coordination",
+    "knowledge-base-delivery-audit",
+    "knowledge-base-working-profile",
     "work-journal",
 ]
 
@@ -143,7 +145,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--skills",
         nargs="+",
-        help="Optional subset of skills to install. Defaults to the full 8-skill package.",
+        help="Optional subset of skills to install. Defaults to the full 10-skill package.",
     )
     return parser
 

@@ -7,7 +7,7 @@ scripts_dir = Path(__file__).parent.parent / "scripts"
 sys.path.insert(0, str(scripts_dir))
 
 import pytest
-from install_skills import InstallError, install_selected_skills, resolve_skill_names
+from install_skills import DEFAULT_SKILLS, InstallError, install_selected_skills, resolve_skill_names
 
 
 @pytest.fixture()
@@ -36,6 +36,11 @@ def test_resolve_skill_names_defaults_to_requested_subset(fake_repo):
 def test_resolve_skill_names_rejects_unknown(fake_repo):
     with pytest.raises(InstallError):
         resolve_skill_names(fake_repo, ["missing-skill"])
+
+
+def test_default_skill_list_includes_pm_and_delivery_audit():
+    assert "knowledge-base-project-management" in DEFAULT_SKILLS
+    assert "knowledge-base-delivery-audit" in DEFAULT_SKILLS
 
 
 def test_install_selected_skills_copy_mode(fake_repo, tmp_path):

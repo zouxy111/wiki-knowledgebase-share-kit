@@ -270,6 +270,10 @@ def make_manifest_entry(
     }
 
 
+def escape_markdown_table_cell(value: str) -> str:
+    return value.replace("\\", "\\\\").replace("|", "\\|").replace("\n", " ").strip()
+
+
 def write_preamble(lines: List[str], output_dir: Path) -> dict | None:
     if not "".join(lines).strip():
         return None
@@ -329,8 +333,10 @@ def write_coverage_map(manifest: list[dict], output_dir: Path) -> None:
     ]
     for item in manifest:
         line_span = f"{item['start_line']}-{item['end_line']}"
+        file_cell = escape_markdown_table_cell(str(item["file"]))
+        title_cell = escape_markdown_table_cell(str(item["title"]))
         lines.append(
-            f"| {item['index']:03d} | {item['file']} | {item['title']} | {line_span} | {item['word_count']} | unread |  |  |"
+            f"| {item['index']:03d} | {file_cell} | {title_cell} | {line_span} | {item['word_count']} | unread |  |  |"
         )
     (output_dir / "coverage-map.md").write_text(
         "\n".join(lines) + "\n", encoding="utf-8"

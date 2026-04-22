@@ -8,8 +8,10 @@ description: This skill should be used when the user asks to coordinate a shared
 这个 skill 负责 **2 人及以上** 的共享项目目录协同。
 
 它不替代：
+- `knowledge-base-project-management`
 - `knowledge-base-maintenance`
 - `knowledge-base-audit`
+- `knowledge-base-delivery-audit`
 
 它的职责是：
 - 读取共享项目目录中的项目 brief、成员 roster、资料和已有回答
@@ -27,6 +29,12 @@ description: This skill should be used when the user asks to coordinate a shared
 - 用户要先对齐目标和颗粒度，再派任务
 - 用户要把决策蒸馏、协作边界和人物画像沉淀下来
 - 用户要跑 QC 多人协同，但又不想把产品做成 QC 专用工具
+
+## Position in the PM mainline
+在 10-skill 核心包里，它是 PM 主线中的**多人 specialist**：
+- `knowledge-base-project-management` 负责 owner 视角的 intake / milestone / blocker / next action
+- 本 skill 负责 shared project directory 上的多人问卷、alignment、assignment、follow-up、distill
+- `knowledge-base-delivery-audit` 负责 closeout / ready / greenlight 审计
 
 ## Required input
 默认先读取共享项目目录。

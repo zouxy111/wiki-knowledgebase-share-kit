@@ -16,7 +16,7 @@
 ### Skill（技能包）
 一个可以被 AI 助手调用的工具包，包含特定功能的说明和脚本。
 - **类比**：就像给 AI 安装一个"插件"
-- **本项目当前提供 8 个 skills**：kit-guide、orchestrator、ingest、maintenance、audit、working-profile、team-coordination、work-journal
+- **本项目当前提供 10 个 skills**：kit-guide、orchestrator、ingest、maintenance、audit、project-management、team-coordination、delivery-audit、working-profile、work-journal
 
 ### Vault Profile（知识库配置文件）
 描述你的知识库结构的配置文件，告诉工具：

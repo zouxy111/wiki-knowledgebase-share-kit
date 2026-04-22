@@ -6,13 +6,15 @@
 2. 再读 `docs/customization-guide.md`
 3. 复制 `templates/vault-profile-template.md`
 4. 填好你自己的 vault 路径、areas、root pages、frontmatter 规则
-5. 安装所有 8 个 skills：
+5. 安装所有 10 个 skills：
    - `skills/knowledge-base-kit-guide`（使用指南）
    - `skills/knowledge-base-orchestrator`（总控/一键式）
    - `skills/knowledge-base-ingest`（长文档导入）
    - `skills/knowledge-base-maintenance`（知识库维护）
    - `skills/knowledge-base-audit`（结构审计）
+   - `skills/knowledge-base-project-management`（项目 owner / 里程碑 / blocker）
    - `skills/knowledge-base-team-coordination`（团队协调）
+   - `skills/knowledge-base-delivery-audit`（交付完整性 / ready / greenlight）
    - `skills/knowledge-base-working-profile`（协作画像）
    - `skills/work-journal`（工作记录）
    - 推荐直接运行：`python3 scripts/install_skills.py --platform codex --force`
@@ -44,6 +46,8 @@
 | 导入长文档/书籍 | `knowledge-base-ingest` |
 | 沉淀任务结果到知识库 | `knowledge-base-maintenance` |
 | 检查知识库健康度 | `knowledge-base-audit` |
+| 项目 intake / 周计划 / milestone / blocker | `knowledge-base-project-management` |
 | 多人协作项目 | `knowledge-base-team-coordination` |
+| 交付闭环 / ready / greenlight 审计 | `knowledge-base-delivery-audit` |
 | 记录协作习惯/决策偏好 | `knowledge-base-working-profile` |
 | 写日报/会议纪要 | `work-journal` |

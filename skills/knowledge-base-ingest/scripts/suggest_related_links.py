@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -36,6 +37,13 @@ STOPWORDS = {
     "以及",
     "使用",
     "导入",
+    "概述",
+    "总结",
+    "结论",
+    "附录",
+    "目录",
+    "参考文献",
+    "术语表",
 }
 
 
@@ -87,10 +95,22 @@ def main() -> int:
     parser.add_argument(
         "--min-score", type=float, default=0.08, help="Minimum score threshold"
     )
+    parser.add_argument(
+        "--max-pages",
+        type=int,
+        default=800,
+        help="Safety limit for page count before pairwise suggestion generation is refused (default: 800)",
+    )
     args = parser.parse_args()
 
     directory = Path(args.directory)
     pages = load_pages(directory)
+    if len(pages) > args.max_pages:
+        print(
+            f"Refusing to score {len(pages)} pages pairwise; narrow the directory or raise --max-pages.",
+            file=sys.stderr,
+        )
+        return 1
     suggestions = defaultdict(list)
 
     for i, a in enumerate(pages):

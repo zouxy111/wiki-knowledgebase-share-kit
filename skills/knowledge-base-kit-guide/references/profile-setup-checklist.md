@@ -18,6 +18,7 @@
 - 是否启用 knowledge-base-first mode
 - 是否启用 milestone-only log
 - 是否启用 `ops` 四段式写法
+- 如果你要启用 PM 主线：是否新增 `project-management` area
 
 ## 常见卡点
 
@@ -31,3 +32,7 @@
 - 要写内容：maintenance
 - 要体检结构：audit
 - 大改之后：先 maintenance，再 audit
+
+### 4. 不知道何时启用 PM 主线
+- 只是维护知识库：先不用
+- 出现项目 owner / 周计划 / 里程碑 / blocker / handoff / ready 检查：再启用 `project-management`
