@@ -28,7 +28,7 @@ Thank you for considering a contribution. This repository is a reusable kit for 
 
 ## Recommended validation
 Before submitting, please check:
-- the three skill directories still contain `SKILL.md`, `references/`, and `agents/openai.yaml`
+- all skill directories under `skills/` still contain `SKILL.md`, `references/`, and `agents/openai.yaml`
 - the example prompts still match the current skill names
 - the template docs do not accidentally reintroduce personal local paths
 - examples remain examples and do not leak into the reusable template wording
