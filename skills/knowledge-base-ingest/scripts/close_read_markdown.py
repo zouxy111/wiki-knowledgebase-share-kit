@@ -5,11 +5,16 @@ import argparse
 import hashlib
 import json
 import shutil
+import sys
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
 from split_markdown import (
     choose_level,
@@ -57,6 +62,10 @@ class CompletedNote:
     candidate_topics: list[str]
     status: str
     note_path: str
+
+
+class ChunkPreparationError(ValueError):
+    pass
 
 
 def now_iso() -> str:
@@ -158,7 +167,9 @@ def prepare_chunks(
     lines = source_text.splitlines(keepends=True)
     headings = find_headings(lines)
     if not headings:
-        raise SystemExit("No markdown headings found; add headings or split manually.")
+        raise ChunkPreparationError(
+            "No markdown headings found; add headings or split manually."
+        )
 
     effective_level = choose_level(headings, level)
     chunks = split_range(
@@ -693,17 +704,21 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    state = prepare_run(
-        source=Path(args.source),
-        out_dir=Path(args.out),
-        level=args.level,
-        max_chunk_words=args.max_chunk_words,
-        max_chunk_lines=args.max_chunk_lines,
-        max_batch_words=args.max_batch_words,
-        max_chunks_per_batch=args.max_chunks_per_batch,
-        prefix=args.prefix,
-        force_resplit=args.force_resplit,
-    )
+    try:
+        state = prepare_run(
+            source=Path(args.source),
+            out_dir=Path(args.out),
+            level=args.level,
+            max_chunk_words=args.max_chunk_words,
+            max_chunk_lines=args.max_chunk_lines,
+            max_batch_words=args.max_batch_words,
+            max_chunks_per_batch=args.max_chunks_per_batch,
+            prefix=args.prefix,
+            force_resplit=args.force_resplit,
+        )
+    except ChunkPreparationError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
     print(json.dumps(state, ensure_ascii=False))
     return 0
 

@@ -3,12 +3,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 FINAL_STATUSES = {"covered", "merged", "index-only", "intentionally-omitted"}
 INCOMPLETE_STATUSES = {"", "unread", "blocked"}
 ALL_STATUSES = FINAL_STATUSES | INCOMPLETE_STATUSES
 REQUIRES_TARGET_PAGES = {"covered", "merged", "index-only"}
+TABLE_SEPARATOR_RE = re.compile(r"^:?-{3,}:?$")
 
 
 def load_manifest(path: Path) -> list[dict]:
@@ -18,13 +20,46 @@ def load_manifest(path: Path) -> list[dict]:
     return data
 
 
+def split_markdown_table_row(line: str) -> list[str] | None:
+    stripped = line.strip()
+    if not stripped.startswith("|"):
+        return None
+    body = stripped[1:-1] if stripped.endswith("|") else stripped[1:]
+    cells: list[str] = []
+    current: list[str] = []
+    escaped = False
+    for char in body:
+        if escaped:
+            current.append(char)
+            escaped = False
+            continue
+        if char == "\\":
+            escaped = True
+            continue
+        if char == "|":
+            cells.append("".join(current).strip())
+            current = []
+            continue
+        current.append(char)
+    if escaped:
+        current.append("\\")
+    cells.append("".join(current).strip())
+    return cells
+
+
+def is_separator_row(cells: list[str]) -> bool:
+    return bool(cells) and all(TABLE_SEPARATOR_RE.fullmatch(cell) for cell in cells)
+
+
 def parse_coverage_table(path: Path) -> list[dict[str, str]]:
     lines = path.read_text(encoding="utf-8").splitlines()
     header_index = next(
         (
             idx
             for idx, line in enumerate(lines)
-            if line.strip().lower().startswith("| index |")
+            if (cells := split_markdown_table_row(line))
+            and [cell.lower() for cell in cells][:8]
+            == ["index", "file", "title", "lines", "words", "status", "target pages", "notes"]
         ),
         None,
     )
@@ -33,18 +68,19 @@ def parse_coverage_table(path: Path) -> list[dict[str, str]]:
             "coverage-map.md is missing the expected markdown table header"
         )
 
-    headers = [
-        cell.strip().lower()
-        for cell in lines[header_index].strip().strip("|").split("|")
-    ]
+    header_cells = split_markdown_table_row(lines[header_index])
+    if not header_cells:
+        raise ValueError("coverage-map.md header row could not be parsed")
+    headers = [cell.strip().lower() for cell in header_cells]
     rows: list[dict[str, str]] = []
-    data_start_index = header_index + 2
-    for line in lines[data_start_index:]:
-        if not line.strip().startswith("|"):
+    for line in lines[header_index + 1 :]:
+        cells = split_markdown_table_row(line)
+        if cells is None:
             if rows:
                 break
             continue
-        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if is_separator_row(cells):
+            continue
         if len(cells) != len(headers):
             raise ValueError(f"Malformed coverage row: {line}")
         rows.append(dict(zip(headers, cells)))
