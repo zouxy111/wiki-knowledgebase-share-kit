@@ -18,6 +18,10 @@
 - 文件布局
 - frontmatter 约束
 
+如果你需要项目 owner / milestone / blocker / delivery gate 主线，还可以**按需**新增：
+- `project-management` area
+- `templates/project-management/` 模板族
+
 ---
 
 ## 第 1 步：先填写 vault profile
@@ -40,6 +44,10 @@
 
 如果这些没填，maintenance 和 audit 都无法稳定落地。
 
+如果你暂时不做项目管理主线：
+- 不必现在就加 `project-management`
+- 先把默认知识库主线跑通
+
 ---
 
 ## 第 2 步：定义你的 root pages
@@ -56,6 +64,9 @@ root page 是你的知识库主线入口。
 - 技术运维主线
 - 研究资料主线
 - 协作任务主线
+
+如果你要启用 PM 主线，还可以补一个：
+- `project-management` 管理层入口
 
 不要求你沿用任何特定命名，但必须在 profile 里写清楚映射关系。
 
@@ -138,6 +149,16 @@ Read the vault profile first, keep only durable conclusions or reusable troubles
 ```text
 Use $knowledge-base-audit to inspect my wiki vault.
 Read the vault profile first, then check metadata completeness, dead links, orphan pages, root page coverage, page-boundary drift, noise regression, and stray markdown files at the vault root.
+```
+
+### Project management（按需启用）
+当你真的需要项目 owner 主线时，可以这样说：
+
+```text
+Use $knowledge-base-project-management to help me run this project.
+Read my vault profile, the relevant brief, recent journal, and current blockers first.
+Generate a concise project summary, milestones, risks, dependencies, and a personal execution board.
+Only suggest the optional project-management area if PM workflows are actually needed.
 ```
 
 ---

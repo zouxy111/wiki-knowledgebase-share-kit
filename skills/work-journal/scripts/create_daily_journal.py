@@ -7,8 +7,13 @@
 from __future__ import annotations
 
 import argparse
+import json
 from datetime import datetime, date
 from pathlib import Path
+
+
+def yaml_quote(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
 
 
 def create_journal_file(
@@ -25,7 +30,7 @@ def create_journal_file(
         return filepath
 
     date_str = target_date.strftime("%Y-%m-%d")
-    projects_line = f'projects: ["{project}"]' if project else "projects: []"
+    projects_line = f"projects: [{yaml_quote(project)}]" if project else "projects: []"
 
     content = f"""---
 title: "{date_str} 工作记录"

@@ -1,63 +1,41 @@
-#!/usr/bin/env python3
-"""Tests for close_read_markdown.py script."""
+from __future__ import annotations
 
-import json
-import sys
-import tempfile
-from pathlib import Path
+import pytest
 
-# Add scripts directory to path
-scripts_dir = (
-    Path(__file__).parent.parent / "skills" / "knowledge-base-ingest" / "scripts"
-)
-sys.path.insert(0, str(scripts_dir))
-
-from close_read_markdown import prepare_run  # noqa: E402
+from tests.helpers import load_module
 
 
-def make_source(path: Path, chapter_two_extra: str = "") -> None:
-    path.write_text(
-        f"""# Sample Handbook
-
-## Chapter 1
-
-Intro text. Intro text. Intro text.
-
-### Section 1.1
-
-Alpha beta gamma. Alpha beta gamma. Alpha beta gamma.
-
-### Section 1.2
-
-Delta epsilon zeta. Delta epsilon zeta. Delta epsilon zeta.
-
-## Chapter 2
-
-Bridge text. {chapter_two_extra}
-
-### Section 2.1
-
-Theta iota kappa. Theta iota kappa. Theta iota kappa.
-""",
-        encoding="utf-8",
+def test_ingest_scripts_import_without_cwd_hacks():
+    close_read = load_module(
+        "test_close_read_markdown_module",
+        "skills/knowledge-base-ingest/scripts/close_read_markdown.py",
+    )
+    synthesize = load_module(
+        "test_synthesize_knowledge_module",
+        "skills/knowledge-base-ingest/scripts/synthesize_knowledge.py",
     )
 
+    assert hasattr(close_read, "prepare_chunks")
+    assert hasattr(synthesize, "build_synthesis")
 
-def test_prepare_run_creates_packets_state_and_links():
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp = Path(tmpdir)
-        source = tmp / "source.md"
-        out = tmp / "run"
-        make_source(source)
 
-        state = prepare_run(
+def test_prepare_chunks_raises_catchable_error_without_headings(tmp_path):
+    close_read = load_module(
+        "test_close_read_markdown_prepare_chunks",
+        "skills/knowledge-base-ingest/scripts/close_read_markdown.py",
+    )
+    source = tmp_path / "headingless.md"
+    source.write_text("plain text only\nstill no headings\n", encoding="utf-8")
+
+    with pytest.raises(close_read.ChunkPreparationError):
+        close_read.prepare_chunks(
             source=source,
-            out_dir=out,
+            chunks_dir=tmp_path / "chunks",
             level=2,
-            max_chunk_words=80,
-            max_batch_words=60,
-            max_chunks_per_batch=2,
-            prefix="book-",
+            max_chunk_words=100,
+            max_chunk_lines=40,
+            prefix="",
+            force_resplit=False,
         )
 
         assert state["batch_count"] >= 2
@@ -73,6 +51,10 @@ def test_prepare_run_creates_packets_state_and_links():
         assert note_payload["status"] == "pending"
         assert note_payload["batch_key"] == "sample-handbook-chapter-1-b01"
         assert note_payload["batch_hash"]
+        assert note_payload["headings_seen"] == []
+        assert note_payload["must_keep_facts"] == []
+        assert note_payload["boundaries_and_exceptions"] == []
+        assert note_payload["omission_risk"] == []
 
         packet_text = packet.read_text(encoding="utf-8")
         assert "../batch-notes/sample-handbook-chapter-1-b01.json" in packet_text
@@ -104,6 +86,19 @@ def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
             {
                 "status": "completed",
                 "summary": "The first batch defines Alpha as the core concept.",
+                "headings_seen": ["## Chapter 1", "### Section 1.1"],
+                "must_keep_facts": [
+                    {
+                        "fact_id": "fact-001",
+                        "text": "Alpha is the core concept.",
+                        "supported_by": [
+                            {
+                                "chunk_file": "001-book-chapter-1.md",
+                                "quote": "Alpha beta gamma.",
+                            }
+                        ],
+                    }
+                ],
                 "concepts": ["Alpha"],
                 "candidate_topics": ["Alpha"],
             }
@@ -112,6 +107,19 @@ def test_prepare_run_preserves_unchanged_batches_and_resets_changed_ones():
             {
                 "status": "completed",
                 "summary": "The second batch defines Gamma as a later topic.",
+                "headings_seen": ["## Chapter 2", "### Section 2.1"],
+                "must_keep_facts": [
+                    {
+                        "fact_id": "fact-002",
+                        "text": "Gamma is a later topic.",
+                        "supported_by": [
+                            {
+                                "chunk_file": "002-book-chapter-2.md",
+                                "quote": "Theta iota kappa.",
+                            }
+                        ],
+                    }
+                ],
                 "concepts": ["Gamma"],
                 "candidate_topics": ["Gamma"],
             }

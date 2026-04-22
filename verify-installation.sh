@@ -1,24 +1,27 @@
 #!/bin/bash
 
-# Wiki Knowledge Base Share Kit — 安装验证脚本
-# Verify that all 8 skills are correctly installed
-
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS="$(python3 "${SCRIPT_DIR}/scripts/skill_catalog.py" list-names)"
 
-# 颜色定义
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+export PYTHONPATH="${SCRIPT_DIR}${PYTHONPATH:+:${PYTHONPATH}}"
 
-log_info()  { echo -e "${BLUE}ℹ️  $1${NC}"; }
-log_ok()    { echo -e "${GREEN}✅ $1${NC}"; }
-log_warn()  { echo -e "${YELLOW}⚠️  $1${NC}"; }
-log_error() { echo -e "${RED}❌ $1${NC}"; }
+python3 -m wiki_knowledgebase_share_kit verify "$@"
+
+
+SKILLS=(
+    knowledge-base-kit-guide
+    knowledge-base-orchestrator
+    knowledge-base-ingest
+    knowledge-base-maintenance
+    knowledge-base-audit
+    knowledge-base-project-management
+    knowledge-base-team-coordination
+    knowledge-base-delivery-audit
+    knowledge-base-working-profile
+    work-journal
+)
+SKILL_COUNT=${#SKILLS[@]}
 
 TARGET_DIR=""
 VERBOSE=false
@@ -27,7 +30,7 @@ usage() {
     cat << EOF
 Usage: $0 [OPTIONS] [SKILLS_DIR]
 
-Verify that the 8-skill wiki-knowledgebase-share-kit is correctly installed.
+Verify that the 10-skill wiki-knowledgebase-share-kit is correctly installed.
 
 OPTIONS:
     -v, --verbose      Show detailed output for each skill
@@ -171,7 +174,7 @@ conflicts=()
 for skill_name in $SKILLS; do
     skill_dir="${TARGET_DIR}/${skill_name}"
     if [ -d "$skill_dir" ]; then
-        # 检查是否真的是本项目的 skill（通过检查 SKILL.md 内容特征）
+        # 检查是否真的是本项目的 skill（通过检查 SKILL.md frontmatter 中的 name 字段）
         if [ -f "${skill_dir}/SKILL.md" ]; then
             if ! grep -Eq "^name:[[:space:]]*${skill_name}[[:space:]]*$" "${skill_dir}/SKILL.md" 2>/dev/null; then
                 conflicts+=("$skill_name")

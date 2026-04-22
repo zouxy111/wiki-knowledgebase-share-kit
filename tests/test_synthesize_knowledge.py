@@ -68,13 +68,39 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
             )["batch_hash"],
             "status": "completed",
             "summary": "Chapter A introduces Alpha and Beta.",
+            "headings_seen": ["## Chapter A", "### Topic A1", "### Topic A2"],
             "key_claims": ["Alpha and Beta are paired concepts."],
+            "must_keep_facts": [
+                {
+                    "fact_id": "fact-001",
+                    "text": "Alpha and Beta are paired concepts.",
+                    "supported_by": [
+                        {
+                            "chunk_file": "001-guide-chapter-a.md",
+                            "quote": "Alpha flow. Beta flow.",
+                        }
+                    ],
+                }
+            ],
+            "boundaries_and_exceptions": [
+                {
+                    "boundary_id": "boundary-001",
+                    "text": "Do not separate Topic A2 from the earlier Alpha context.",
+                    "supported_by": [
+                        {
+                            "chunk_file": "001-guide-chapter-a.md",
+                            "quote": "Beta flow.",
+                        }
+                    ],
+                }
+            ],
             "concepts": ["Alpha", "Beta"],
             "procedures": ["Review Topic A1 before Topic A2"],
             "entities": ["Giant Guide"],
             "open_questions": ["How is Gamma related?"],
             "cross_refs": ["guide-topic-b1.md"],
             "candidate_topics": ["Alpha", "Beta"],
+            "omission_risk": [],
         }
         note2 = {
             "batch_id": "batch-002",
@@ -86,13 +112,27 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
             )["batch_hash"],
             "status": "completed",
             "summary": "Chapter B introduces Gamma as a follow-up topic.",
+            "headings_seen": ["## Chapter B", "### Topic B1"],
             "key_claims": ["Gamma extends the earlier flow."],
+            "must_keep_facts": [
+                {
+                    "fact_id": "fact-002",
+                    "text": "Gamma extends the earlier flow.",
+                    "supported_by": [
+                        {
+                            "chunk_file": "002-guide-chapter-b.md",
+                            "quote": "Gamma flow.",
+                        }
+                    ],
+                }
+            ],
             "concepts": ["Gamma", "Alpha"],
             "procedures": ["Compare Gamma with Alpha"],
             "entities": ["Giant Guide"],
             "open_questions": [],
             "cross_refs": ["guide-topic-a1.md"],
             "candidate_topics": ["Gamma", "Alpha"],
+            "omission_risk": [],
         }
         (run_dir / "batch-notes" / "giant-guide-chapter-a-b01.json").write_text(
             json.dumps(note1, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -113,6 +153,9 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
         assert (out_dir / "unresolved-questions.md").exists()
         assert (out_dir / "candidate-link-map.md").exists()
         assert (out_dir / "candidate-link-map.json").exists()
+        assert (out_dir / "claim-map.json").exists()
+        assert (out_dir / "delivery-gate.json").exists()
+        assert (out_dir / "gap-report.md").exists()
         assert (out_dir / "candidate-pages" / "overview-giant-guide.md").exists()
         assert (
             out_dir / "candidate-pages" / "knowledge-giant-guide-chapter-a.md"
@@ -132,6 +175,10 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
         link_map = json.loads(
             (out_dir / "candidate-link-map.json").read_text(encoding="utf-8")
         )
+        claim_map = json.loads((out_dir / "claim-map.json").read_text(encoding="utf-8"))
+        delivery_gate = json.loads(
+            (out_dir / "delivery-gate.json").read_text(encoding="utf-8")
+        )
 
         assert "candidate-pages/overview-giant-guide.md" in overview
         assert 'type: "overview"' in overview_page
@@ -148,12 +195,25 @@ def test_build_synthesis_outputs_candidate_pages_and_link_map():
             in link_map["pages"]["knowledge-giant-guide-chapter-a.md"]["links"]
         )
         assert report["candidate_metadata"]["default_area"] == "learning"
+        chapter_claims = {
+            page["page_file"]: page["claims"] for page in claim_map["pages"]
+        }
+        assert (
+            chapter_claims["candidate-pages/knowledge-giant-guide-chapter-a.md"][0][
+                "status"
+            ]
+            == "supported"
+        )
+        assert delivery_gate["final_status"] == "ready-to-promote"
+        assert delivery_gate["evidence_check"]["supported_claims"] >= 2
 
         # Re-run synthesis with Gamma removed and ensure stale candidate pages are cleaned up.
         note2["status"] = "pending"
         note2["summary"] = ""
+        note2["headings_seen"] = []
         note2["concepts"] = []
         note2["candidate_topics"] = []
+        note2["must_keep_facts"] = []
         (run_dir / "batch-notes" / "giant-guide-chapter-b-b01.json").write_text(
             json.dumps(note2, ensure_ascii=False, indent=2), encoding="utf-8"
         )
