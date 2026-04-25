@@ -16,16 +16,20 @@
 
 ## 本项目包含的 10 个 skills
 
-1. `knowledge-base-kit-guide` — 使用说明、profile 配置、技能分流
-2. `knowledge-base-orchestrator` — 零门槛初始化入口
-3. `knowledge-base-ingest` — 长文档 / 书籍 / 教程导入
-4. `knowledge-base-maintenance` — 任务结果写回知识库
-5. `knowledge-base-audit` — 结构审计与健康检查
-6. `knowledge-base-project-management` — 项目 intake / milestone / blocker / owner 执行板
-7. `knowledge-base-team-coordination` — 多人共享项目协调
-8. `knowledge-base-delivery-audit` — 交付完整性 / ready / blocked / greenlight 审计
-9. `knowledge-base-working-profile` — 协作画像沉淀
-10. `work-journal` — 工作记录 / 会议纪要 / 周报沉淀
+<!-- skill-catalog:zh:start -->
+| # | Skill | 能力线 | 主要职责 |
+|---|---|---|---|
+| 1 | `knowledge-base-kit-guide` | Onboarding / Orchestration | 使用说明、profile 配置、技能分流 |
+| 2 | `knowledge-base-orchestrator` | Onboarding / Orchestration | 零门槛初始化入口 |
+| 3 | `knowledge-base-ingest` | Ingest | 长文档导入与结构化重组 |
+| 4 | `knowledge-base-maintenance` | Maintenance | 任务结果与会议结论沉淀 |
+| 5 | `knowledge-base-audit` | Audit | 结构审计与知识库健康检查 |
+| 6 | `knowledge-base-project-management` | Project management | 项目 intake / milestone / blocker / owner 执行板 |
+| 7 | `knowledge-base-team-coordination` | Team coordination | 共享项目协调与角色化问卷 |
+| 8 | `knowledge-base-delivery-audit` | Delivery audit | 交付完整性 / ready / blocked / greenlight 审计 |
+| 9 | `knowledge-base-working-profile` | Working profile | 协作画像提炼与维护 |
+| 10 | `work-journal` | Work journal | 工作记录、会议纪要与周期沉淀 |
+<!-- skill-catalog:zh:end -->
 
 ---
 

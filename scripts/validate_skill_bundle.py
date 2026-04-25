@@ -11,7 +11,13 @@ from pathlib import Path
 from skill_catalog import render_capability_areas, render_skill_table, skill_entries
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-ALLOWED_FRONTMATTER_KEYS = {"name", "description", "license", "allowed-tools", "metadata"}
+ALLOWED_FRONTMATTER_KEYS = {
+    "name",
+    "description",
+    "license",
+    "allowed-tools",
+    "metadata",
+}
 
 
 @dataclass(frozen=True)
@@ -95,7 +101,9 @@ def validate_repository(root: Path, write_doc_sync: bool = False) -> list[str]:
         if missing:
             errors.append("catalog paths missing from skills/: " + ", ".join(missing))
         if extra:
-            errors.append("skills/ directories missing from catalog: " + ", ".join(extra))
+            errors.append(
+                "skills/ directories missing from catalog: " + ", ".join(extra)
+            )
 
     for entry in entries:
         skill_dir = root / entry.path
@@ -127,7 +135,9 @@ def validate_repository(root: Path, write_doc_sync: bool = False) -> list[str]:
         if not frontmatter.get("description"):
             errors.append(f"{entry.path}/SKILL.md: description is missing or empty")
         if skill_dir.name != entry.name:
-            errors.append(f"{entry.path}: directory name does not match skill name '{entry.name}'")
+            errors.append(
+                f"{entry.path}: directory name does not match skill name '{entry.name}'"
+            )
 
         if not references_dir.exists():
             errors.append(f"{entry.path}: missing references/")

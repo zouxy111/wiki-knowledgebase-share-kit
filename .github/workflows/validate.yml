@@ -79,7 +79,7 @@ jobs:
 
       - name: Run Flake8 (linting)
         run: |
-          flake8 --max-line-length=120 --ignore=E501,W503 scripts/ tests/ skills/
+          flake8 --max-line-length=120 --ignore=E203,E501,W503 scripts/ tests/ skills/
 
       - name: Check script executability
         run: |

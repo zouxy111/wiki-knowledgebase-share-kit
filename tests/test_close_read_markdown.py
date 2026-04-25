@@ -1,8 +1,48 @@
 from __future__ import annotations
 
+import json
+import sys
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from tests.helpers import load_module
+
+scripts_dir = (
+    Path(__file__).parent.parent / "skills" / "knowledge-base-ingest" / "scripts"
+)
+sys.path.insert(0, str(scripts_dir))
+
+from close_read_markdown import prepare_run  # noqa: E402
+
+
+def make_source(path: Path, chapter_two_extra: str = "") -> None:
+    path.write_text(
+        f"""# Sample Handbook
+
+## Chapter 1
+
+Intro text. Intro text. Intro text.
+
+### Section 1.1
+
+Alpha beta gamma. Alpha beta gamma. Alpha beta gamma.
+
+### Section 1.2
+
+Delta epsilon zeta. Delta epsilon zeta. Delta epsilon zeta.
+
+## Chapter 2
+
+Bridge text. {chapter_two_extra}
+
+### Section 2.1
+
+Theta iota kappa. Theta iota kappa. Theta iota kappa.
+""",
+        encoding="utf-8",
+    )
 
 
 def test_ingest_scripts_import_without_cwd_hacks():
@@ -36,6 +76,24 @@ def test_prepare_chunks_raises_catchable_error_without_headings(tmp_path):
             max_chunk_lines=40,
             prefix="",
             force_resplit=False,
+        )
+
+
+def test_prepare_run_creates_packets_state_and_links():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp = Path(tmpdir)
+        source = tmp / "source.md"
+        out = tmp / "run"
+        make_source(source)
+
+        state = prepare_run(
+            source=source,
+            out_dir=out,
+            level=2,
+            max_chunk_words=80,
+            max_batch_words=60,
+            max_chunks_per_batch=2,
+            prefix="book-",
         )
 
         assert state["batch_count"] >= 2

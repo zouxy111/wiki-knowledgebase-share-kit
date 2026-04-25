@@ -46,11 +46,11 @@ role_en = "structural audit and vault health checks"
 
 [[skills]]
 order = 6
-name = "knowledge-base-working-profile"
-path = "skills/knowledge-base-working-profile"
-area = "Working profile"
-role = "协作画像提炼与维护"
-role_en = "collaboration profile extraction and maintenance"
+name = "knowledge-base-project-management"
+path = "skills/knowledge-base-project-management"
+area = "Project management"
+role = "项目 intake / milestone / blocker / owner 执行板"
+role_en = "project intake, milestones, blockers, and owner execution boards"
 
 [[skills]]
 order = 7
@@ -62,6 +62,22 @@ role_en = "shared project coordination and role-aware questionnaires"
 
 [[skills]]
 order = 8
+name = "knowledge-base-delivery-audit"
+path = "skills/knowledge-base-delivery-audit"
+area = "Delivery audit"
+role = "交付完整性 / ready / blocked / greenlight 审计"
+role_en = "delivery completeness, ready/blocked states, and greenlight audits"
+
+[[skills]]
+order = 9
+name = "knowledge-base-working-profile"
+path = "skills/knowledge-base-working-profile"
+area = "Working profile"
+role = "协作画像提炼与维护"
+role_en = "collaboration profile extraction and maintenance"
+
+[[skills]]
+order = 10
 name = "work-journal"
 path = "skills/work-journal"
 area = "Work journal"

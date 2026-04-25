@@ -21,7 +21,9 @@ class SkillEntry:
     role_en: str
 
 
-def load_catalog(catalog_path: Path = CATALOG_PATH) -> tuple[dict[str, str], list[SkillEntry]]:
+def load_catalog(
+    catalog_path: Path = CATALOG_PATH,
+) -> tuple[dict[str, str], list[SkillEntry]]:
     raw = parse_catalog(catalog_path.read_text(encoding="utf-8"))
     package = raw.get("package", {})
     skills = [SkillEntry(**entry) for entry in raw.get("skills", [])]
@@ -65,7 +67,9 @@ def parse_catalog(text: str) -> dict[str, object]:
         elif section is None:
             root_fields[key] = parsed_value
         else:
-            raise ValueError(f"Key/value pair outside of a recognized section: {raw_line}")
+            raise ValueError(
+                f"Key/value pair outside of a recognized section: {raw_line}"
+            )
 
     return {"package": package, "skills": skills, **root_fields}
 
@@ -111,7 +115,9 @@ def render_capability_areas(catalog_path: Path = CATALOG_PATH) -> str:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Read or render the canonical skill catalog.")
+    parser = argparse.ArgumentParser(
+        description="Read or render the canonical skill catalog."
+    )
     parser.add_argument(
         "command",
         choices=("list-names", "render-table", "render-areas"),

@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Tests for split_markdown.py script."""
+
 import sys
 from pathlib import Path
 
 # Add scripts directory to path
-scripts_dir = Path(__file__).parent.parent / "skills" / "knowledge-base-ingest" / "scripts"
+scripts_dir = (
+    Path(__file__).parent.parent / "skills" / "knowledge-base-ingest" / "scripts"
+)
 sys.path.insert(0, str(scripts_dir))
 
-from split_markdown import (
+from split_markdown import (  # noqa: E402
     Chunk,
     Heading,
     choose_level,

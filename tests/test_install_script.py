@@ -8,14 +8,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 INSTALL_SCRIPT = REPO_ROOT / "install.sh"
 VERIFY_SCRIPT = REPO_ROOT / "verify-installation.sh"
 INSTALL_PY = REPO_ROOT / "scripts" / "install_skills.py"
 
 
-def run_command(*args: str, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def run_command(
+    *args: str, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
     merged_env = os.environ.copy()
     if env:
         merged_env.update(env)

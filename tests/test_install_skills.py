@@ -59,7 +59,9 @@ def test_install_skills_copy_mode(fake_bundle: Path, tmp_path: Path) -> None:
     assert (target_dir / "knowledge-base-ingest" / "agents" / "openai.yaml").exists()
 
 
-def test_install_skills_dry_run_leaves_target_missing(fake_bundle: Path, tmp_path: Path) -> None:
+def test_install_skills_dry_run_leaves_target_missing(
+    fake_bundle: Path, tmp_path: Path
+) -> None:
     target_dir = tmp_path / "runtime-skills"
 
     result = core.install_skills(
@@ -140,5 +142,7 @@ def test_resolve_target_rejects_ambiguous_platforms_without_hint(
     monkeypatch.delenv("CLAUDE_HOME", raising=False)
     monkeypatch.delenv("CLAUDE_PROJECT_DIR", raising=False)
 
-    with pytest.raises(core.WikiKitError, match="Multiple supported skills directories were detected"):
+    with pytest.raises(
+        core.WikiKitError, match="Multiple supported skills directories were detected"
+    ):
         core.resolve_target("auto", None)
