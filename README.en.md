@@ -73,9 +73,11 @@ The canonical registry also lives in [`skills/catalog.toml`](./skills/catalog.to
 | 3 | `knowledge-base-ingest` | Ingest | long-form source import and structural reorganization |
 | 4 | `knowledge-base-maintenance` | Maintenance | durable task-result and meeting write-back |
 | 5 | `knowledge-base-audit` | Audit | structural audit and vault health checks |
-| 6 | `knowledge-base-working-profile` | Working profile | collaboration profile extraction and maintenance |
+| 6 | `knowledge-base-project-management` | Project management | project intake, milestones, blockers, and owner execution boards |
 | 7 | `knowledge-base-team-coordination` | Team coordination | shared project coordination and role-aware questionnaires |
-| 8 | `work-journal` | Work journal | work logs, meeting notes, and periodic distillation |
+| 8 | `knowledge-base-delivery-audit` | Delivery audit | delivery completeness, ready/blocked states, and greenlight audits |
+| 9 | `knowledge-base-working-profile` | Working profile | collaboration profile extraction and maintenance |
+| 10 | `work-journal` | Work journal | work logs, meeting notes, and periodic distillation |
 <!-- skill-catalog:en:end -->
 
 Together they cover 9 capability tracks:

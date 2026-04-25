@@ -59,7 +59,16 @@ def parse_coverage_table(path: Path) -> list[dict[str, str]]:
             for idx, line in enumerate(lines)
             if (cells := split_markdown_table_row(line))
             and [cell.lower() for cell in cells][:8]
-            == ["index", "file", "title", "lines", "words", "status", "target pages", "notes"]
+            == [
+                "index",
+                "file",
+                "title",
+                "lines",
+                "words",
+                "status",
+                "target pages",
+                "notes",
+            ]
         ),
         None,
     )

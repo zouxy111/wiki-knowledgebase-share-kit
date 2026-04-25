@@ -7,7 +7,7 @@ from pathlib import Path
 scripts_dir = Path(__file__).parent.parent / "scripts"
 sys.path.insert(0, str(scripts_dir))
 
-from validate_skill_bundle import validate_repository
+from validate_skill_bundle import validate_repository  # noqa: E402
 
 
 def _write_skill(skill_dir: Path, name: str) -> None:
@@ -95,8 +95,12 @@ def _write_repo(tmp_path: Path) -> Path:
         f"# README EN\n\n{synced_table_en}\n\n{synced_areas}\n",
         encoding="utf-8",
     )
-    (repo / "START-HERE.md").write_text(f"# START\n\n{synced_table}\n", encoding="utf-8")
-    (repo / "docs" / "README.md").write_text(f"# DOCS\n\n{synced_table}\n", encoding="utf-8")
+    (repo / "START-HERE.md").write_text(
+        f"# START\n\n{synced_table}\n", encoding="utf-8"
+    )
+    (repo / "docs" / "README.md").write_text(
+        f"# DOCS\n\n{synced_table}\n", encoding="utf-8"
+    )
     return repo
 
 
@@ -113,7 +117,10 @@ def test_validate_repository_flags_out_of_sync_docs(tmp_path):
         encoding="utf-8",
     )
     errors = validate_repository(repo)
-    assert any("README.md: marker 'skill-catalog:zh' is out of sync" in error for error in errors)
+    assert any(
+        "README.md: marker 'skill-catalog:zh' is out of sync" in error
+        for error in errors
+    )
 
 
 def test_validate_repository_can_rewrite_synced_docs(tmp_path):
